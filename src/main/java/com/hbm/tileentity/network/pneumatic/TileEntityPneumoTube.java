@@ -10,6 +10,8 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PneumaticNetwork;
@@ -57,7 +59,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		super(15);
 		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
 	}
-
+	
 	@Override
 	public String getName() {
 		return "container.pneumoTube";

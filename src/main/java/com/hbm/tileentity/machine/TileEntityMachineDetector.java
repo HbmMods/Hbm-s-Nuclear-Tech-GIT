@@ -1,20 +1,26 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineDetector extends TileEntityLoadedBase implements IEnergyReceiverMK2 {
 	
 	long power;
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
-			this.updateConnections();
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 			
 			int meta = this.getBlockMetadata();
 			int state = 0;
@@ -29,12 +35,6 @@ public class TileEntityMachineDetector extends TileEntityLoadedBase implements I
 				this.markDirty();
 			}
 		}
-	}
-	
-	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

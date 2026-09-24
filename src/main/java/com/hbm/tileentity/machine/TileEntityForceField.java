@@ -15,6 +15,8 @@ import com.hbm.packet.toclient.TEFFPacket;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -100,6 +102,9 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	public TileEntityForceField() {
 		slots = new ItemStack[3];
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public int getSizeInventory() {
@@ -288,8 +293,10 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			updateConnections();
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 
 			int rStack = 0;
 			int hStack = 0;
@@ -506,14 +513,6 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
-	}
-
-	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
 
 	@Override

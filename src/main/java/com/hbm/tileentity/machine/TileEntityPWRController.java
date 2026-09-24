@@ -27,6 +27,7 @@ import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -83,7 +84,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	private AudioWrapper audio;
 
-	protected List<BlockPos> ports = new ArrayList();
+	public PortDef[] ports = new PortDef[0];
 	protected List<BlockPos> rods = new ArrayList();
 
 	public TileEntityPWRController() {
@@ -104,8 +105,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		channelCount = 0;
 		heatsinkCount = 0;
 		sourceCount = 0;
-		ports.clear();
 		rods.clear();
+		List<PortDef> portList = new ArrayList();
 
 		int connectionsDouble = 0;
 		int connectionsControlledDouble = 0;
@@ -118,7 +119,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			if(block == ModBlocks.pwr_channel) channelCount++;
 			if(block == ModBlocks.pwr_heatsink) heatsinkCount++;
 			if(block == ModBlocks.pwr_neutron_source) sourceCount++;
-			if(block == ModBlocks.pwr_port) ports.add(entry.getKey());
+			if(block == ModBlocks.pwr_port) portList.add(PortDef.make(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ(), ForgeDirection.VALID_DIRECTIONS));
 		}
 
 		for(Entry<BlockPos, Block> entry : rodMap.entrySet()) {
@@ -154,6 +155,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 				}
 			}
 		}
+		
+		this.ports = portList.toArray(new PortDef[0]);
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
@@ -191,14 +194,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 
 			if(this.assembled) {
-				for(BlockPos pos : ports) {
-					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-						BlockPos portPos = pos.offset(dir);
-
-						if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
-						this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
-					}
-				}
+				this.setupAllPorts(ports);
+				this.updatePortFIFO();
 
 				//only perform fission if the area has been loaded for 40 ticks or more
 				if(this.unloadDelay <= 0) {
@@ -292,6 +289,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					this.hullHeat = 0;
 					this.coreHeat = 0;
 				}
+			} else {
+				this.destroyAllPorts();
 			}
 
 			this.networkPackNT(150);
@@ -518,11 +517,11 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.sourceCount = nbt.getInteger("sourceCount");
 		this.heatsinkCount = nbt.getInteger("heatsinkCount");
 
-		ports.clear();
 		int portCount = nbt.getInteger("portCount");
+		this.ports = new PortDef[portCount];
 		for(int i = 0; i < portCount; i++) {
 			int[] port = nbt.getIntArray("p" + i);
-			ports.add(new BlockPos(port[0], port[1], port[2]));
+			ports[i] = PortDef.make(port[0], port[1], port[2], ForgeDirection.VALID_DIRECTIONS);
 		}
 
 		rods.clear();
@@ -562,10 +561,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("sourceCount", sourceCount);
 		nbt.setInteger("heatsinkCount", heatsinkCount);
 
-		nbt.setInteger("portCount", ports.size());
-		for(int i = 0; i < ports.size(); i++) {
-			BlockPos pos = ports.get(i);
-			nbt.setIntArray("p" + i, new int[] { pos.getX(), pos.getY(), pos.getZ() });
+		nbt.setInteger("portCount", ports.length);
+		for(int i = 0; i < ports.length; i++) {
+			PortDef port = ports[i];
+			nbt.setIntArray("p" + i, new int[] { port.portPositions[0].getX(), port.portPositions[0].getY(), port.portPositions[0].getZ() });
 		}
 
 		nbt.setInteger("rodCount", rods.size());

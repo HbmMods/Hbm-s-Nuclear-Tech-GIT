@@ -12,6 +12,7 @@ import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.KlystronNetwork;
@@ -66,6 +67,22 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 
 		compair = new FluidTank(Fluids.AIR, AIR_CONSUMPTION * 60);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -76,16 +93,12 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			this.maxPower = Math.max(1_000_000L, this.outputTarget * 100L);
-
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				this.trySubscribe(compair.getTankType(), worldObj, pos);
-			}
-
 			this.output = 0;
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(maxPower, power);
@@ -195,17 +208,6 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 		}
 		
 		return connected;
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, dir),
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
-		};
 	}
 
 	@Override

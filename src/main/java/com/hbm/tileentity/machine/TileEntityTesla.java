@@ -10,6 +10,8 @@ import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ArmorUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -26,7 +28,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTesla extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 	
@@ -41,6 +42,9 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyRec
 	public TileEntityTesla() {
 		super(0);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -52,7 +56,9 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyRec
 		
 		if(!worldObj.isRemote) {
 			
-			this.updateConnections();
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 			
 			this.targets.clear();
 			
@@ -73,12 +79,6 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyRec
 		}
 	}
 	
-	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-	}
-	
 	public static List<double[]> zap(World worldObj, double x, double y, double z, double radius, Entity source) {
 
 		List<double[]> ret = new ArrayList();
@@ -87,16 +87,11 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyRec
 		
 		for(EntityLivingBase e : targets) {
 			
-			if(e instanceof EntityOcelot || e == source)
-				continue;
+			if(e instanceof EntityOcelot || e == source) continue;
 			
 			Vec3 vec = Vec3.createVectorHelper(e.posX - x, e.posY + e.height / 2 - y, e.posZ - z);
-			
-			if(vec.lengthVector() > range)
-				continue;
-
-			if(Library.isObstructed(worldObj, x, y, z, e.posX, e.posY + e.height / 2, e.posZ))
-				continue;
+			if(vec.lengthVector() > range) continue;
+			if(Library.isObstructed(worldObj, x, y, z, e.posX, e.posY + e.height / 2, e.posZ)) continue;
 			
 			if(e instanceof EntityTaintCrab) {
 				ret.add(new double[] {e.posX, e.posY + 1.25, e.posZ});

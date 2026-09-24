@@ -8,6 +8,8 @@ import com.hbm.inventory.container.ContainerRadiobox;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -19,7 +21,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyReceiverMK2, IGUIProvider {
 	
@@ -27,11 +28,17 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyR
 	public static long maxPower = 500000;
 	public boolean infinite = false;
 	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
+	
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote)
-			this.updateConnections();
+		if(!worldObj.isRemote) {
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
+		}
 
 		if(!worldObj.isRemote && this.getBlockMetadata() > 5 && (power >= 25000 || infinite)) {
 			
@@ -51,12 +58,6 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyR
 				((Entity)entity).attackEntityFrom(ModDamageSource.enervation, 20.0F);
 			}
 		}
-	}
-	
-	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 	
 	@Override

@@ -27,7 +27,6 @@ import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
@@ -52,7 +51,7 @@ import net.minecraft.world.World;
 public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable, IRORInteractive, IRORValueProvider {
 
 	public long power;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 100_000;
 	public FluidTank tank;
 	public boolean isOn = false;
 	public boolean doesBurn = false;
@@ -120,11 +119,6 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 			this.fluidUsed = 0;
 			this.output = 0;
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 
 			tank.setType(3, slots);
 			tank.loadTank(1, 2, slots);
@@ -262,15 +256,6 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	
 	@Override public int getFloorCount() { return 2 * 2; }
 	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor3x3(index); }
-
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
-		};
-	}
 
 	@Override
 	public void serialize(ByteBuf buf) {

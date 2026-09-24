@@ -38,6 +38,7 @@ public class TilePort {
 	// hijack ports will only wrap around existing nodes, and cannot create their own or destroy any nodes
 	protected boolean isHijackPort = false;
 	protected boolean needsRebuild = false;
+	protected boolean isEnabled = true;
 	protected int timeSinceNetworkChange = 0;
 	// usually a tile entity, can be a delegate/proxy type object too
 	protected Object owner;
@@ -144,7 +145,7 @@ public class TilePort {
 		}
 	}
 	
-	public void checkSubscribe() {
+	public void checkSubscribe(World world) {
 		if(this.node == null) return;
 		
 		if(timeSinceNetworkChange < 2) {
@@ -194,9 +195,13 @@ public class TilePort {
 	public void forceRebuild() {
 		this.needsRebuild = true;
 	}
+
+	public void enable() { if(!isEnabled) { isEnabled = true; this.forceRebuild(); } }
+	public void disable() { if(isEnabled) { isEnabled = false; this.forceRebuild(); } }
 	
 	/** The port node is considered active if the netprov is not null and not the NONE fluid */
 	protected boolean isEnabled() {
+		if(!isEnabled) return false;
 		if(type == null) return false;
 		if(type == Fluids.NONE.getNetworkProvider()) return false;
 		return true;

@@ -25,6 +25,7 @@ import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort;
 import com.hbm.tileentity.TileEntityProxyDyn.IProxyDelegateProvider;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -52,6 +53,9 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
+	
+	public TilePort coolantInPort;
+	public TilePort coolantOutPort;
 	
 	public FluidTank water;
 	public FluidTank lps;
@@ -208,7 +212,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			this.networkPackNT(100);
 		} else {
 			
-			if((didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]) && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+			if((didProcess[0] || didProcess[1] || didProcess[2] || didProcess[3]) && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();
@@ -226,7 +230,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				}
 			}
 			
-			for(TragicYuri animation : animations) animation.update(didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]);
+			for(TragicYuri animation : animations) animation.update(didProcess[0] || didProcess[1] || didProcess[2] || didProcess[3]);
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);

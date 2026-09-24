@@ -23,6 +23,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -180,11 +181,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			updateTypes();
-
-			if(worldObj.getTotalWorldTime() % 20 == 0)
-				this.updateConnections();
 
 			tanks[0].loadTank(2, 6, slots);
 			tanks[1].loadTank(3, 7, slots);
@@ -256,22 +257,47 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
+	
+	protected PortDef[] cachedPorts;
 
-	private void updateConnections() {
-
-		for(int i = -4; i <= 4; i++) {
-			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord + 5, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
-			this.trySubscribe(worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
-
-			for(int j = 0; j < 2; j++) {
-				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + i, yCoord, zCoord + 5, Library.POS_Z);
-				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
-				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
-				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
-			}
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 4, yCoord, zCoord + 4, Library.POS_X, Library.POS_Z),
+					PortDef.make(xCoord + 4, yCoord, zCoord + 3, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord + 2, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord + 1, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord + 0, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord - 1, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord - 2, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord - 3, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord - 4, Library.POS_X, Library.NEG_Z),
+					PortDef.make(xCoord + 3, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord + 1, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord - 1, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord - 3, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord - 4, yCoord, zCoord - 4, Library.NEG_X, Library.NEG_Z),
+					PortDef.make(xCoord - 4, yCoord, zCoord - 3, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord - 2, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord - 1, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 0, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 1, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 2, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 3, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 4, Library.NEG_X, Library.POS_Z),
+					PortDef.make(xCoord - 3, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord - 1, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord + 1, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord + 3, yCoord, zCoord + 4, Library.POS_Z),
+			};
 		}
+		return cachedPorts;
 	}
 
 	public boolean canLaunch() {

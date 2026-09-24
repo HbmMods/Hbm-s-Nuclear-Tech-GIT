@@ -30,6 +30,8 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.turret.TileEntityTurretRadarCommandBase;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.Vec3NT;
@@ -147,14 +149,12 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(this.map == null || this.map.length != 40_000) this.map = new byte[40_000];
 
 		if(!worldObj.isRemote) {
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : getConPos()) {
-					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.jammed = false;
@@ -162,7 +162,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 			if(this.lastPower != getRedPower()) {
 				this.markChanged();
-				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+				for(PortDef port : this.getPorts()) for(DirPos pos : port.portConnections) this.updateRedstoneConnection(pos);
 			}
 			lastPower = getRedPower();
 
@@ -257,15 +257,9 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 		}
 	}
-
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-		};
-	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void serialize(ByteBuf buf) {
