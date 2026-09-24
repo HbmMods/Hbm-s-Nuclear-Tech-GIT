@@ -1403,6 +1403,10 @@ public class ResourceManager {
 	public static final ResourceLocation missileStealth_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_stealth.png");
 	public static final ResourceLocation missileStrong_HE_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_strong.png");
 	public static final ResourceLocation missileStrong_EMP_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_strong_emp.png");
+	public static final ResourceLocation missileFluid_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_fluid.png");
+	public static final ResourceLocation missileFluid_overlay_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_overlay_fluid.png");
+	public static final ResourceLocation missileFluid_cluster_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_fluid_cluster.png");
+	public static final ResourceLocation missileFluid_cluster_overlay_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_fluid_overlay_cluster.png");
 	public static final ResourceLocation missileStrong_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_strong_inc.png");
 	public static final ResourceLocation missileStrong_CL_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_strong_cl.png");
 	public static final ResourceLocation missileStrong_BU_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_strong_bu.png");

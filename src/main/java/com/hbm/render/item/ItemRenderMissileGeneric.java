@@ -3,6 +3,14 @@ package com.hbm.render.item;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import com.hbm.inventory.fluid.FluidType;
+
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.weapon.ItemMissileFluid;
+
+import com.hbm.render.util.CurvedDiamondPronter;
+import com.hbm.render.util.DiamondPronter;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -108,6 +116,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		renderer.accept(Minecraft.getMinecraft().renderEngine);
+		renderFluidMissileOverlay(Minecraft.getMinecraft().renderEngine, item);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();
@@ -154,11 +163,13 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_cluster_strong), generateLarge(ResourceManager.missileStrong_CL_tex, ResourceManager.missileStrong));
 		renderers.put(new ComparableStack(ModItems.missile_buster_strong), generateLarge(ResourceManager.missileStrong_BU_tex, ResourceManager.missileStrong));
 		renderers.put(new ComparableStack(ModItems.missile_emp_strong), generateLarge(ResourceManager.missileStrong_EMP_tex, ResourceManager.missileStrong));
+		renderers.put(new ComparableStack(ModItems.missile_fluid), generateLarge(ResourceManager.missileFluid_tex, ResourceManager.missileStrong));
 		
 		renderers.put(new ComparableStack(ModItems.missile_burst), generateStandard(ResourceManager.missileHuge_HE_tex, ResourceManager.missileHuge));
 		renderers.put(new ComparableStack(ModItems.missile_inferno), generateStandard(ResourceManager.missileHuge_IN_tex, ResourceManager.missileHuge));
 		renderers.put(new ComparableStack(ModItems.missile_rain), generateStandard(ResourceManager.missileHuge_CL_tex, ResourceManager.missileHuge));
 		renderers.put(new ComparableStack(ModItems.missile_drill), generateStandard(ResourceManager.missileHuge_BU_tex, ResourceManager.missileHuge));
+		renderers.put(new ComparableStack(ModItems.missile_fluid_cluster), generateStandard(ResourceManager.missileFluid_cluster_tex, ResourceManager.missileHuge));
 
 		renderers.put(new ComparableStack(ModItems.missile_nuclear), generateStandard(ResourceManager.missileNuclear_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_nuclear_cluster), generateStandard(ResourceManager.missileThermo_tex, ResourceManager.missileNuclear));
@@ -167,5 +178,49 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_doomsday_rusted), generateStandard(ResourceManager.missileDoomsdayRusted_tex, ResourceManager.missileNuclear));
 
 		renderers.put(new ComparableStack(ModItems.missile_shuttle), generateStandard(ResourceManager.missileShuttle_tex, ResourceManager.missileShuttle));
+	}
+	
+	public static void renderColorOverlay(TextureManager tex, IModelCustom model, ResourceLocation overlay, int color) {
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor3f(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		tex.bindTexture(overlay);
+		model.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glColor3f(1f, 1f, 1f);
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	public static void renderFluidMissileOverlay(TextureManager tex, ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof ItemMissileFluid)) return;
+		FluidType type = ((ItemMissileFluid) stack.getItem()).getFirstFluidType(stack);
+		if(type == Fluids.NONE) return;
+		
+		if(stack.getItem() == ModItems.missile_fluid) {
+			renderColorOverlay(tex, ResourceManager.missileStrong, ResourceManager.missileFluid_overlay_tex, type.getColor());
+			renderFluidDiamonds(type, 0.64, 1, 4.5, 0.75f);
+		}
+		if(stack.getItem() == ModItems.missile_fluid_cluster) {
+			renderColorOverlay(tex, ResourceManager.missileHuge, ResourceManager.missileFluid_cluster_overlay_tex, type.getColor());
+			renderFluidDiamonds(type, 1.01, 1, 9, 1f);
+		}
+	}
+
+	public static void renderFluidDiamonds(FluidType type, double missileRadius, double radius, double y, float size) {
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glColor3f(1F, 1F, 1F);
+
+		for(int i = 0; i < 4; i++) {
+			GL11.glPushMatrix();
+			GL11.glRotatef(90F * i, 0F, 1F, 0F);
+			GL11.glTranslated(missileRadius, y, 0D);
+			GL11.glScalef(1F, size, size);
+			CurvedDiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol, radius, size);
+			GL11.glPopMatrix();
+		}
+
+		GL11.glPopAttrib();
 	}
 }

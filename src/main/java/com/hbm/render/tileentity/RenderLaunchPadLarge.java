@@ -95,7 +95,10 @@ public class RenderLaunchPadLarge extends TileEntitySpecialRenderer implements I
 			if(pad.toRender != null && (pad.erected || pad.readyToLoad)) {
 				GL11.glTranslated(0, 2, 0);
 				Consumer<TextureManager> renderer = ItemRenderMissileGeneric.renderers.get(new ComparableStack(pad.toRender).makeSingular());
-				if(renderer != null) renderer.accept(this.field_147501_a.field_147553_e);
+				if(renderer != null) {
+					renderer.accept(this.field_147501_a.field_147553_e);
+					ItemRenderMissileGeneric.renderFluidMissileOverlay(this.field_147501_a.field_147553_e, pad.toRender);
+				}
 			}
 			GL11.glPopMatrix();
 		}

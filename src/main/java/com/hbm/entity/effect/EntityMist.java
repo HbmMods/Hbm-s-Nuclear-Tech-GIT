@@ -56,6 +56,8 @@ public class EntityMist extends Entity {
 		this.dataWatcher.addObject(10, new Integer(0));
 		this.dataWatcher.addObject(11, new Float(0));
 		this.dataWatcher.addObject(12, new Float(0));
+		this.dataWatcher.addObject(13, new Float(1));
+		this.dataWatcher.addObject(14, new Integer(50));
 	}
 	
 	public EntityMist setType(FluidType fluid) {
@@ -66,6 +68,20 @@ public class EntityMist extends Entity {
 	public FluidType getType() {
 		return Fluids.fromID(this.dataWatcher.getWatchableObjectInt(10));
 	}
+	
+	public EntityMist setDensity(float density) {
+		this.dataWatcher.updateObject(13, density);
+		return this;
+	}
+	
+	public float getDensity() { return this.dataWatcher.getWatchableObjectFloat(13); }
+	
+	public EntityMist setParticleLife(int particleLife) {
+		this.dataWatcher.updateObject(14, particleLife);
+		return this;
+	}
+	
+	public int getParticleLife() { return this.dataWatcher.getWatchableObjectInt(14); }
 
 	@Override
 	public void onEntityUpdate() {
@@ -104,7 +120,9 @@ public class EntityMist extends Entity {
 			}
 		} else {
 			
-			for(int i = 0; i < 2; i++) {
+			float density = this.dataWatcher.getWatchableObjectFloat(13);
+			int count = Math.max(1, Math.round(2 * density));
+			for(int i = 0; i < count; i++) {
 				double x = this.boundingBox.minX + (rand.nextDouble() - 0.5) * (this.boundingBox.maxX - this.boundingBox.minX);
 				double y = this.boundingBox.minY + rand.nextDouble() * (this.boundingBox.maxY - this.boundingBox.minY);
 				double z = this.boundingBox.minZ + (rand.nextDouble() - 0.5) * (this.boundingBox.maxZ - this.boundingBox.minZ);
@@ -114,7 +132,7 @@ public class EntityMist extends Entity {
 				fx.setFloat("lift", 0.5F);
 				fx.setFloat("base", 0.75F);
 				fx.setFloat("max", 2F);
-				fx.setInteger("life", 50 + worldObj.rand.nextInt(10));
+				fx.setInteger("life", this.getParticleLife() + worldObj.rand.nextInt(10));
 				fx.setInteger("color",this.getType().getColor());
 				fx.setDouble("posX", x);
 				fx.setDouble("posY", y);

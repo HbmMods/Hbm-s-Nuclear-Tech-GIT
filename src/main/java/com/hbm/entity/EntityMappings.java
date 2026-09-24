@@ -105,6 +105,8 @@ public class EntityMappings {
 		addEntity(EntityFogFX.class, "entity_nuclear_fog", 1000);
 		addEntity(EntityDuchessGambit.class, "entity_duchessgambit", 1000);
 		addEntity(EntityMissileEMPStrong.class, "entity_missile_emp_strong", 1000);
+		addEntity(EntityMissileFluid.class, "entity_missile_fluid", 1000);
+		addEntity(EntityMissileFluidCluster.class, "entity_missile_fluid_cluster", 1000);
 		addEntity(EntityEMP.class, "entity_emp_logic", 1000);
 		addEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 1000);
 		addEntity(EntityMissileCustom.class, "entity_custom_missile", 1000);
@@ -143,6 +145,7 @@ public class EntityMappings {
 		addEntity(EntityMinecartPowder.class, "entity_ntm_cart_powder", 250, false);
 		addEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 250, false);
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);
+		addEntity(EntityFluidMirv.class, "entity_fluid_mirv", 1000);
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
