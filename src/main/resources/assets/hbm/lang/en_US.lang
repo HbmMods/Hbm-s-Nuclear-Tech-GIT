@@ -1006,6 +1006,8 @@ desc.gui.zirnox.coolant=§3Coolant§r$CO2 transfers heat from the core to the wa
 desc.gui.zirnox.pressure=§6Pressure§r$Pressure can be reduced by venting CO2.$However, too low a pressure, and cooling$efficiency and steam production will be reduced.$Look out for meltdowns!
 desc.gui.zirnox.warning1=§cError:§r Water is required for$the reactor to function properly!
 desc.gui.zirnox.warning2=§cError:§r CO2 is required for$the reactor to function properly!
+desc.gui.turret_mob_filter.import=Import
+desc.gui.turret_mob_filter.export=Export
 
 desc.item.ammo.con_accuracy2=- Highly decreased accuracy
 desc.item.ammo.con_damage=- Highly decreased damage
@@ -4685,6 +4687,7 @@ item.turret_light_ammo.name=Light MG Turret Ammo Box
 item.turret_rocket_ammo.name=Rocket Turret 2x4 Ammunition
 item.turret_spitfire_ammo.name=AA-Shell
 item.turret_tau_ammo.name=Tau Turret Uranium Ammo
+item.turret_mob_filter.name=Turret Mob Filter
 item.twinkie.name=Twinkie
 item.twinkie.desc=Expired 600 years ago!
 item.ullapool_caber.name=Ullapool Caber

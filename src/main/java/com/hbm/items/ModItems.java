@@ -2084,6 +2084,7 @@ public class ModItems {
 	public static Item memory;
 
 	public static Item conveyor_wand;
+	public static Item turret_mob_filter;
 
 	public static void initializeItem() {
 
@@ -4382,6 +4383,8 @@ public class ModItems {
 
 		conveyor_wand = new ItemConveyorWand().setUnlocalizedName("conveyor_wand").setCreativeTab(MainRegistry.machineTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
 
+		turret_mob_filter = new ItemTurretMobFilter().setUnlocalizedName("turret_mob_filter").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_mob_filter");
+		
 		if (Loader.isModLoaded("OpenComputers")) {
 			rtty_card = new ItemRTTYCard().setUnlocalizedName("rtty_card").setMaxStackSize(1).setCreativeTab(MainRegistry.machineTab).setTextureName(RefStrings.MODID + ":rtty_card");
 		}
@@ -6478,6 +6481,8 @@ public class ModItems {
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
 		GameRegistry.registerItem(broken_item, broken_item.getUnlocalizedName());
+		
+		GameRegistry.registerItem(turret_mob_filter, turret_mob_filter.getUnlocalizedName());
 
 		if (Loader.isModLoaded("OpenComputers")) {
 			GameRegistry.registerItem(rtty_card, rtty_card.getUnlocalizedName());
