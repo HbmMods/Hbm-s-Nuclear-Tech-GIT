@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
 import api.hbm.fluidmk2.FluidNode;
-import api.hbm.fluidmk2.IFluidPipeMK2;
+import api.hbm.fluidmk2.IFluidPipeSingle;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IFluidCopiable;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluidPipeMK2, IFluidCopiable {
+public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluidPipeSingle, IFluidCopiable {
 
 	protected FluidNode node;
 	protected FluidType type = Fluids.NONE;
