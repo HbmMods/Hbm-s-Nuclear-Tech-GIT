@@ -128,8 +128,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	
 	public PortDef[] getSmokePorts() {
 		if(smokePortDef == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 			smokePortDef = new PortDef[] {
-					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+					PortDef.make(xCoord + rot.offsetX, yCoord + 4, zCoord + rot.offsetZ, Library.POS_Y),
 			};
 		}
 		return smokePortDef;

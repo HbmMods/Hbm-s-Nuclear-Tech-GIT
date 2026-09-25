@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine.storage;
 
-import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -11,19 +10,15 @@ import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
-import com.hbm.inventory.gui.GUIMachineFluidTank;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -35,7 +30,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -48,14 +42,18 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityBarrel implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineFluidTank extends TileEntityBarrel implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public boolean hasExploded = false;
 	public boolean onFire = false;
 	public Explosion lastExplosion = null;
 
-	@Override public long getReceiverSpeed(FluidType type, int pressure) { return (mode == 0 || mode == 1) ? Math.max(500, (tank.getMaxFill() - tank.getFill()) / 100) : 0; }
-	@Override public long getProviderSpeed(FluidType type, int pressure) { return (mode == 1 || mode == 2) ? Math.max(500, tank.getFill() / 100) : 0; }
+	public TileEntityMachineFluidTank() {
+		super(256_000);
+	}
+
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return this.hasExploded ? 0 : (mode == 0 || mode == 1) ? Math.max(500, (tank.getMaxFill() - tank.getFill()) / 100) : 0; }
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return this.hasExploded ? 0 : (mode == 1 || mode == 2) ? Math.max(500, tank.getFill() / 100) : 0; }
 
 	@Override
 	public String getName() {
@@ -118,17 +116,13 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeShort(mode);
 		buf.writeBoolean(hasExploded);
-		tank.serialize(buf);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		mode = buf.readShort();
 		hasExploded = buf.readBoolean();
-		tank.deserialize(buf);
 	}
 
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
@@ -208,24 +202,9 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 			this.markChanged();
 		}
 	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
-		};
-	}
-
-	public void handleButtonPacket(int value, int meta) {
-		mode = (short) ((mode + 1) % modes);
-		this.markChanged();
-	}
+	
+	@Override
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	AxisAlignedBB bb = null;
 
@@ -256,8 +235,6 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		mode = nbt.getShort("mode");
-		tank.readFromNBT(nbt, "tank");
 		hasExploded = nbt.getBoolean("exploded");
 		onFire = nbt.getBoolean("onFire");
 	}
@@ -266,29 +243,8 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setShort("mode", mode);
-		tank.writeToNBT(nbt, "tank");
 		nbt.setBoolean("exploded", hasExploded);
 		nbt.setBoolean("onFire", onFire);
-	}
-
-	@Override
-	public long transferFluid(FluidType type, int pressure, long fluid) {
-		long toTransfer = Math.min(getDemand(type, pressure), fluid);
-		tank.setFill(tank.getFill() + (int) toTransfer);
-		return fluid - toTransfer;
-	}
-
-	@Override
-	public long getDemand(FluidType type, int pressure) {
-		if(this.mode == 2 || this.mode == 3) return 0;
-		if(tank.getPressure() != pressure) return 0;
-		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
 	}
 
 	@Override
@@ -312,44 +268,6 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 	}
 
 	@Override public boolean canConnect(FluidType fluid, ForgeDirection dir) { return true; }
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		if(this.hasExploded) return new FluidTank[0];
-		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		if(this.hasExploded) return new FluidTank[0];
-		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public ConnectionPriority getFluidPriority() {
-		return mode == 1 ? ConnectionPriority.LOW : ConnectionPriority.NORMAL;
-	}
-
-	@Override
-	public int[] getFluidIDToCopy() {
-		return new int[] {tank.getTankType().getID()};
-	}
-
-	@Override
-	public FluidTank getTankToPaste() {
-		return tank;
-	}
-
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
-	}
 
 	@Override
 	public boolean isDamaged() {

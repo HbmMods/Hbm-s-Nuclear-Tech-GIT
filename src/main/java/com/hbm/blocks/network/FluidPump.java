@@ -141,7 +141,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 		public PortDef getOutPort() {
 			if(cachedOutPort == null) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
-				cachedOutPort = PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
+				cachedOutPort = PortDef.make(xCoord, yCoord, zCoord, dir);
 			}
 			return cachedOutPort;
 		}

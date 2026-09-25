@@ -88,7 +88,7 @@ public class ModulePortManFluidAdaptive {
 				for(int i = 0; i < outPorts.length; i++) {
 					TilePort port = outPorts[i];
 					if(port != null) port.disableIfPresent(owner.getWorldObj());
-					outPorts[i] = new TilePort().setupOwner(owner).setupType(inTanks[i].getTankType().getNetworkProvider())
+					outPorts[i] = new TilePort().setupOwner(owner).setupType(outTanks[i].getTankType().getNetworkProvider())
 							.setupPositions(unified.portPositions).setupConnections(unified.portConnections);
 				}
 			}

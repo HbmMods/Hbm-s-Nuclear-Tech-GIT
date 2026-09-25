@@ -101,7 +101,46 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	}
 	
 	protected PortDef[] powerPorts;
-	public PortDef[] getPowerPorts() { if(powerPorts == null) powerPorts = TilePortShapes.purex(xCoord, yCoord, zCoord); return powerPorts; }
+	public PortDef[] getPowerPorts() {
+		if(powerPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			powerPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord - rot.offsetX + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 2, Library.POS_X, Library.POS_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 2, Library.NEG_X, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 2, Library.NEG_X, Library.NEG_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord - 2, Library.POS_X, Library.NEG_Z),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 0 + rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 0 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+			};
+		}
+		return powerPorts;
+	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
@@ -279,10 +318,10 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			coolantPort = PortDef.combine(
-					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
-					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
-					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
-					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
+					PortDef.make(xCoord + rot.offsetX + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord - rot.offsetX + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite())
 			);
 		}
 		return coolantPort;
@@ -295,10 +334,10 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			fluidPorts = new PortDef[] {
-					PortDef.make(xCoord + rot.offsetX + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 2, dir),
-					PortDef.make(xCoord - rot.offsetX + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 2, dir),
-					PortDef.make(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
-					PortDef.make(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
 					PortDef.make(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
 					PortDef.make(xCoord + 2, yCoord, zCoord + 2, Library.POS_X, Library.POS_Z),
 					PortDef.make(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
