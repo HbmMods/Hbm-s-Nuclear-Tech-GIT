@@ -714,9 +714,9 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		RadarEntry e = entries.get(index);
 		int type = e.blipLevel;
 		if(e.blipLevel == IRadarDetectableNT.PLAYER) {
-			return new Object[]{true, e.posX, e.posY, e.posZ, type, e.unlocalizedName};
+			return new Object[]{true, e.posX, e.posY, e.posZ, type, e.unlocalizedName, e.entityID};
 		}
-		return new Object[]{false, e.posX, e.posY, e.posZ, type};
+		return new Object[]{false, e.posX, e.posY, e.posZ, type, e.entityID};
 	}
 
 	@Callback(direct = true)
