@@ -6,12 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.ThreeInts;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.tool.ItemToolAbility;
+import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -150,8 +154,10 @@ public interface IToolAreaAbility extends IBaseAbility {
 			Block ref = world.getBlock(refX, refY, refZ);
 			int meta = world.getBlockMetadata(x, y, z);
 			int refMeta = world.getBlockMetadata(refX, refY, refZ);
+			TileEntity te1 = world.getTileEntity(refX, refY, refZ);
+			TileEntity te2 = world.getTileEntity(x, y, z);
 
-			if(!isSameBlock(b, ref))
+			if(!isSameBlock(b, ref, te1, te2))
 				return;
 
 			if(meta != refMeta)
@@ -165,7 +171,17 @@ public interface IToolAreaAbility extends IBaseAbility {
 			recurse(world, x, y, z, refX, refY, refZ, player, tool, depth, radius);
 		}
 
-		private boolean isSameBlock(Block b1, Block b2) {
+		private boolean isSameBlock(Block b1, Block b2, TileEntity te1, TileEntity te2) {
+
+			if (te1 instanceof TileEntityPipeBaseNT && te2 instanceof TileEntityPipeBaseNT){
+				FluidType type1 = ((TileEntityPipeBaseNT) te1).getType();
+				FluidType type2 = ((TileEntityPipeBaseNT) te2).getType();
+				//This check literally just prevents you from being able to break boxducts and fluidducts at the same time,
+				// if you want all fluid ducts to break in reference to type and not block as well, delete this line
+				if(b1 == b2)
+					return type1 == type2;
+			}
+			
 			if(b1 == b2)
 				return true;
 			if((b1 == Blocks.redstone_ore && b2 == Blocks.lit_redstone_ore) || (b1 == Blocks.lit_redstone_ore && b2 == Blocks.redstone_ore))
