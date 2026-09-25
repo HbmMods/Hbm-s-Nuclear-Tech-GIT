@@ -83,7 +83,11 @@ public class EntityMappings {
 		addEntity(EntityRagingVortex.class, "entity_raging_vortex", 250);
 		addEntity(EntityMissileBHole.class, "entity_missile_blackhole", 1000);
 		addEntity(EntityMissileSchrabidium.class, "entity_missile_schrabidium", 1000);
+		addEntity(EntityMissileAntimatter.class, "entity_missile_antimatter", 1000);
 		addEntity(EntityMissileEMP.class, "entity_missile_emp", 1000);
+		addEntity(EntityMissileEndo.class, "entity_missile_endo", 1000);
+		addEntity(EntityMissileExo.class, "entity_missile_exo", 1000);
+		addEntity(EntityMissileFloat.class, "entity_missile_float", 1000);
 		addEntity(EntityChlorineFX.class, "entity_chlorine_fx", 1000);
 		addEntity(EntityPinkCloudFX.class, "entity_pink_cloud_fx", 1000);
 		addEntity(EntityCloudFX.class, "entity_cloud_fx", 1000);
@@ -104,6 +108,8 @@ public class EntityMappings {
 		addEntity(EntityFogFX.class, "entity_nuclear_fog", 1000);
 		addEntity(EntityDuchessGambit.class, "entity_duchessgambit", 1000);
 		addEntity(EntityMissileEMPStrong.class, "entity_missile_emp_strong", 1000);
+		addEntity(EntityMissileFluid.class, "entity_missile_fluid", 1000);
+		addEntity(EntityMissileFluidCluster.class, "entity_missile_fluid_cluster", 1000);
 		addEntity(EntityEMP.class, "entity_emp_logic", 1000);
 		addEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 1000);
 		addEntity(EntityMissileCustom.class, "entity_custom_missile", 1000);
@@ -142,6 +148,7 @@ public class EntityMappings {
 		addEntity(EntityMinecartPowder.class, "entity_ntm_cart_powder", 250, false);
 		addEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 250, false);
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);
+		addEntity(EntityFluidMirv.class, "entity_fluid_mirv", 1000);
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);

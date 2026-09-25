@@ -1,5 +1,11 @@
 package com.hbm.render.entity.rocket;
 
+import com.hbm.inventory.fluid.FluidType;
+
+import com.hbm.inventory.fluid.Fluids;
+
+import com.hbm.render.item.ItemRenderMissileGeneric;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.missile.EntityMissileBaseNT;
@@ -35,8 +41,14 @@ public class RenderMissileHuge extends Render {
 		if(entity instanceof EntityMissileInferno) bindTexture(ResourceManager.missileHuge_IN_tex);
 		if(entity instanceof EntityMissileRain) bindTexture(ResourceManager.missileHuge_CL_tex);
 		if(entity instanceof EntityMissileDrill) bindTexture(ResourceManager.missileHuge_BU_tex);
+		if(entity instanceof EntityMissileFluidCluster) bindTexture(ResourceManager.missileFluid_cluster_tex);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.missileHuge.renderAll();
+		if(entity instanceof EntityMissileFluidCluster) {
+			FluidType type = ((EntityMissileFluidCluster) entity).getFluidType();
+			ItemRenderMissileGeneric.renderColorOverlay(this.renderManager.renderEngine, ResourceManager.missileHuge, ResourceManager.missileFluid_cluster_overlay_tex, type.getColor());
+			ItemRenderMissileGeneric.renderFluidDiamonds(type, 1.01, 1, 9, 1f);
+		}
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}

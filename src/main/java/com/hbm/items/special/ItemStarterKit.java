@@ -364,6 +364,12 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_bhole, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_schrabidium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_emp, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_antimatter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_float, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_fluid, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_fluid_cluster, 1));
 		}
 		
 		if(this == ModItems.stealth_boy)

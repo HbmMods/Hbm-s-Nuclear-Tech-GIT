@@ -120,6 +120,7 @@ public class GUILaunchPadLarge extends GuiInfoContainer {
 				
 				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				renderer.accept(Minecraft.getMinecraft().getTextureManager());
+				ItemRenderMissileGeneric.renderFluidMissileOverlay(Minecraft.getMinecraft().getTextureManager(), launchpad.slots[0]);
 				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				GL11.glPopMatrix();
 			}

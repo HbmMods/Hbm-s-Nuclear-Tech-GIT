@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hbm.handler.CompatHandler;
+import com.hbm.interfaces.IFluidMissile;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.weapon.ItemMissileFluid;
 import com.hbm.tileentity.IFluidCopiable;
+
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -67,9 +72,13 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		missiles.put(new ComparableStack(ModItems.missile_test), EntityMissileTest.class);
 		missiles.put(new ComparableStack(ModItems.missile_micro), EntityMissileMicro.class);
 		missiles.put(new ComparableStack(ModItems.missile_schrabidium), EntityMissileSchrabidium.class);
+		missiles.put(new ComparableStack(ModItems.missile_antimatter), EntityMissileAntimatter.class);
 		missiles.put(new ComparableStack(ModItems.missile_bhole), EntityMissileBHole.class);
 		missiles.put(new ComparableStack(ModItems.missile_taint), EntityMissileTaint.class);
 		missiles.put(new ComparableStack(ModItems.missile_emp), EntityMissileEMP.class);
+		missiles.put(new ComparableStack(ModItems.missile_endo), EntityMissileEndo.class);
+		missiles.put(new ComparableStack(ModItems.missile_exo), EntityMissileExo.class);
+		missiles.put(new ComparableStack(ModItems.missile_float), EntityMissileFloat.class);
 		//Tier 1
 		missiles.put(new ComparableStack(ModItems.missile_generic), EntityMissileGeneric.class);
 		missiles.put(new ComparableStack(ModItems.missile_decoy), EntityMissileDecoy.class);
@@ -82,12 +91,14 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		missiles.put(new ComparableStack(ModItems.missile_cluster_strong), EntityMissileClusterStrong.class);
 		missiles.put(new ComparableStack(ModItems.missile_buster_strong), EntityMissileBusterStrong.class);
 		missiles.put(new ComparableStack(ModItems.missile_emp_strong), EntityMissileEMPStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_fluid), EntityMissileFluid.class);
 		//Tier 3
 		missiles.put(new ComparableStack(ModItems.missile_burst), EntityMissileBurst.class);
 		missiles.put(new ComparableStack(ModItems.missile_inferno), EntityMissileInferno.class);
 		missiles.put(new ComparableStack(ModItems.missile_rain), EntityMissileRain.class);
 		missiles.put(new ComparableStack(ModItems.missile_drill), EntityMissileDrill.class);
 		missiles.put(new ComparableStack(ModItems.missile_shuttle), EntityMissileShuttle.class);
+		missiles.put(new ComparableStack(ModItems.missile_fluid_cluster), EntityMissileFluidCluster.class);
 		//Tier 4
 		missiles.put(new ComparableStack(ModItems.missile_nuclear), EntityMissileNuclear.class);
 		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
@@ -185,6 +196,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			buf.writeBoolean(true);
 			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
 			buf.writeShort((short) slots[0].getItemDamage());
+			if(slots[0].getItem() instanceof ItemMissileFluid) buf.writeInt(((ItemMissileFluid) slots[0].getItem()).getFirstFluidType(slots[0]).getID());
 		} else {
 			buf.writeBoolean(false);
 		}
@@ -201,6 +213,9 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		
 		if(buf.readBoolean()) {
 			this.toRender = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readShort());
+			if(this.toRender.getItem() instanceof ItemMissileFluid) {
+				((ItemMissileFluid) this.toRender.getItem()).setFluid(this.toRender, Fluids.fromID(buf.readInt()), 1);
+			}
 		} else {
 			this.toRender = null;
 		}
@@ -338,6 +353,12 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + (float) getLaunchOffset() /* Position arguments need to be floats, jackass */, zCoord + 0.5F, targetX, targetZ);
 				if(GeneralConfig.enableExtendedLogging) MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + xCoord + " / " + yCoord + " / " + zCoord + " to " + xCoord + " / " + zCoord + "!");
 				missile.getDataWatcher().updateObject(3, (byte) MathHelper.clamp_int(this.getBlockMetadata() - 10, 2, 5));
+				
+				// Fill Fluid Missiles
+				if(missile instanceof IFluidMissile && slots[0].getItem() instanceof ItemMissileFluid) {
+					ItemMissileFluid item = (ItemMissileFluid) slots[0].getItem(); 
+					((IFluidMissile) missile).setFluid(item.getFirstFluidType(slots[0]), item.getFill(slots[0]));
+				}
 				return missile;
 			} catch(Exception e) { }
 		}

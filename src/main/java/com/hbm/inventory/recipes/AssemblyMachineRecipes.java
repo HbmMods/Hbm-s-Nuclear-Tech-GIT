@@ -809,6 +809,10 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.warhead_generic_medium, 1), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 4)));
 		this.register(new GenericRecipe("ass.warheadbb3").setup(400, 100).outputItems(new ItemStack(ModItems.warhead_buster_large, 1))
 				.inputItems(new ComparableStack(ModItems.warhead_generic_large, 1), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 8)));
+		this.register(new GenericRecipe("ass.warheadfluid").setup(200, 100).outputItems(new ItemStack(ModItems.warhead_fluid, 1))
+			.inputItems(new ComparableStack(ModItems.warhead_generic_medium, 1), new ComparableStack(ModItems.fluid_tank_lead_empty, 32)));
+		this.register(new GenericRecipe("ass.warheadfluid_cluster").setup(200, 100).outputItems(new ItemStack(ModItems.warhead_fluid_cluster, 1))
+			.inputItems(new ComparableStack(ModItems.warhead_generic_large, 1), new ComparableStack(ModItems.fluid_tank_lead_empty, 64), new ComparableStack(ModItems.fluid_tank_lead_empty, 64), new ComparableStack(ModItems.fluid_tank_lead_empty, 64), new ComparableStack(ModItems.fluid_tank_lead_empty, 64), new ComparableStack(ModBlocks.det_cord, 8)));
 		this.register(new GenericRecipe("ass.warheadnuke").setup(400, 100).outputItems(new ItemStack(ModItems.warhead_nuclear, 1))
 				.inputItems(new OreDictStack(TI.plateCast(), 12), new OreDictStack(PB.plateCast(), 6), new OreDictStack(U235.billet(), 6), new ComparableStack(ModItems.cordite, 12), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER))
 				.setPools528(GenericRecipes.POOL_PREFIX_528 + "controller"));

@@ -40,16 +40,24 @@ public class RenderMissileTaint extends Render {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		if(p_110775_1_ instanceof EntityMissileTaint)
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		if(entity instanceof EntityMissileTaint)
 			return ResourceManager.missileMicroTaint_tex;
-		if(p_110775_1_ instanceof EntityMissileBHole)
+		if(entity instanceof EntityMissileBHole)
 			return ResourceManager.missileMicroBHole_tex;
-		if(p_110775_1_ instanceof EntityMissileSchrabidium)
+		if(entity instanceof EntityMissileSchrabidium)
 			return ResourceManager.missileMicroSchrab_tex;
-		if(p_110775_1_ instanceof EntityMissileEMP)
+		if(entity instanceof EntityMissileAntimatter)
+			return ResourceManager.missileMicroAMat_tex;
+		if(entity instanceof EntityMissileEMP)
 			return ResourceManager.missileMicroEMP_tex;
-		if(p_110775_1_ instanceof EntityMissileTest)
+		if(entity instanceof EntityMissileEndo)
+			return ResourceManager.missileMicroEndo_tex;
+		if(entity instanceof EntityMissileExo)
+			return ResourceManager.missileMicroExo_tex;
+		if(entity instanceof EntityMissileFloat)
+			return ResourceManager.missileMicroFloat_tex;
+		if(entity instanceof EntityMissileTest)
 			return ResourceManager.missileMicroTest_tex;
 		
 		return ResourceManager.missileMicro_tex;

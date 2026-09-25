@@ -40,7 +40,10 @@ public class RenderLaunchPad extends TileEntitySpecialRenderer {
 			if(toRender != null) {
 				GL11.glTranslated(0, 1, 0);
 				Consumer<TextureManager> renderer = ItemRenderMissileGeneric.renderers.get(new ComparableStack(toRender).makeSingular());
-				if(renderer != null) renderer.accept(this.field_147501_a.field_147553_e);
+				if(renderer != null) { 
+					renderer.accept(this.field_147501_a.field_147553_e);
+					ItemRenderMissileGeneric.renderFluidMissileOverlay(this.field_147501_a.field_147553_e, toRender);
+				}
 			}
 		}
 

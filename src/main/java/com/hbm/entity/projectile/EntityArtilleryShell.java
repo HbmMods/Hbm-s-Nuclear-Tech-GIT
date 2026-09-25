@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
 import com.hbm.main.MainRegistry;
@@ -49,6 +51,9 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	private boolean didWhistle = false;
 	
 	private ItemStack cargo = null;
+
+	private FluidType fluidType = Fluids.NONE;
+	private int fluidFill = 0;
 	
 	public int health = 50;
 	
@@ -125,6 +130,14 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	public boolean didWhistle() {
 		return this.didWhistle;
 	}
+
+	public EntityArtilleryShell setFluid(FluidType type, int fill) {
+		this.fluidType = type;
+		this.fluidFill = fill;
+		return this;
+	}
+	public FluidType getFluidType() { return fluidType; }
+	public int getFluidFill() { return fluidFill; }
 	
 	@Override
 	public void onUpdate() {
@@ -253,6 +266,10 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 		if(this.cargo != null)
 			nbt.setTag("cargo", this.cargo.writeToNBT(new NBTTagCompound()));
+		if(this.fluidType != Fluids.NONE && this.fluidFill > 0) {
+			nbt.setInteger("fluid", fluidType.getID());
+			nbt.setInteger("fill", fluidFill);
+		}
 	}
 
 	@Override
@@ -268,6 +285,9 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 		NBTTagCompound compound = nbt.getCompoundTag("cargo");
 		this.setCargo(ItemStack.loadItemStackFromNBT(compound));
+
+		this.fluidType = Fluids.fromID(nbt.getInteger("fluid"));
+		this.fluidFill = nbt.getInteger("fill");
 	}
 
 	@Override

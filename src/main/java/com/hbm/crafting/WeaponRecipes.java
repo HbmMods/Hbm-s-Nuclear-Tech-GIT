@@ -15,6 +15,7 @@ import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunB92Cell;
+import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
@@ -25,6 +26,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModGeneric;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModSpecial;
 import com.hbm.main.CraftingManager;
 
+import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -173,7 +175,11 @@ public class WeaponRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_micro, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_bhole, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.black_hole, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.QUANTUM) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_antimatter, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.pellet_antimatter, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_emp, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.emp_bomb });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_endo, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.therm_endo });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_exo, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.therm_exo });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_float, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.float_bomb });
 		
 		//Missile fins
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mp_stability_10_flat, 1), new Object[] { "PSP", "P P", 'P', STEEL.plate(), 'S', ModBlocks.steel_scaffold });
@@ -245,6 +251,8 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 6), new Object[] { "DSD", "SCS", "DSD", 'D', ModItems.neutron_reflector, 'S', new ItemStack(ModItems.ammo_arty, 1, 3), 'C', ModBlocks.det_cord });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_arty, 1, 4), new Object[] { new ItemStack(ModItems.ammo_arty, 1, 2), ModItems.boy_bullet, ModItems.boy_target, ModItems.boy_shielding, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER), ModItems.ducttape });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, 8), new Object[] { " I ", " S ", "CCC", 'C', ModItems.cordite, 'I', ModItems.sphere_steel, 'S', CU.shell() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, ItemAmmoArty.FLUID), new Object[] { "TTT", "TST", "TTT", 'T', ModItems.fluid_tank_lead_empty, 'S', new ItemStack(ModItems.ammo_arty, 1, ItemAmmoArty.NORMAL) });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_arty, 1, ItemAmmoArty.FLUID_MULTI), new Object[] { "TST", "SCS", "TST", 'T', ModItems.fluid_tank_lead_empty, 'S', new ItemStack(ModItems.ammo_arty, 1, ItemAmmoArty.FLUID), 'C', ModBlocks.det_cord });
 
 		//Fire Extingusisher Tanks
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_fireext, 1), new Object[] { " P ", "BDB", " P ", 'P', STEEL.plate(), 'B', STEEL.bolt(), 'D', new ItemStack(ModItems.fluid_tank_full, 1, Fluids.WATER.getID()) });

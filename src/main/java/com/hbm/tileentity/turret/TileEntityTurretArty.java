@@ -198,6 +198,10 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
 		EntityArtilleryShell proj = new EntityArtilleryShell(worldObj);
+		if(ItemAmmoArty.isShellType(type, ItemAmmoArty.FLUID) || ItemAmmoArty.isShellType(type, ItemAmmoArty.FLUID_MULTI)) {
+			ItemAmmoArty shell = (ItemAmmoArty) type.getItem();
+			proj.setFluid(shell.getFirstFluidType(type), shell.getFill(type));
+		}
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, (float) getV0(), 0.0F);
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);

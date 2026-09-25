@@ -4,6 +4,8 @@ import java.util.HashSet;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
+import com.hbm.entity.missile.EntityMissileTier2;
+import com.hbm.entity.missile.EntityMissileTier3;
 import com.hbm.handler.BucketHandler;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
@@ -623,6 +625,8 @@ public class ModItems {
 	public static Item warhead_nuclear;
 	public static Item warhead_mirv;
 	public static Item warhead_volcano;
+	public static Item warhead_fluid;
+	public static Item warhead_fluid_cluster;
 
 	public static Item fuel_tank_small;
 	public static Item fuel_tank_medium;
@@ -1185,9 +1189,15 @@ public class ModItems {
 	public static Item missile_micro;
 	public static Item missile_bhole;
 	public static Item missile_schrabidium;
+	public static Item missile_antimatter;
 	public static Item missile_emp;
+	public static Item missile_endo;
+	public static Item missile_exo;
+	public static Item missile_float;
 	public static Item missile_shuttle;
 	public static Item missile_stealth;
+	public static Item missile_fluid;
+	public static Item missile_fluid_cluster;
 	public static Item missile_test;
 
 	public static Item mp_thruster_10_kerosene;
@@ -2608,6 +2618,8 @@ public class ModItems {
 		warhead_nuclear = new Item().setUnlocalizedName("warhead_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_nuclear");
 		warhead_mirv = new Item().setUnlocalizedName("warhead_mirv").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_mirv");
 		warhead_volcano = new Item().setUnlocalizedName("warhead_volcano").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_volcano");
+		warhead_fluid = new Item().setUnlocalizedName("warhead_fluid").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_fluid");
+		warhead_fluid_cluster = new Item().setUnlocalizedName("warhead_fluid_cluster").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_fluid_cluster");
 
 		fuel_tank_small = new Item().setUnlocalizedName("fuel_tank_small").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fuel_tank_small");
 		fuel_tank_medium = new Item().setUnlocalizedName("fuel_tank_medium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fuel_tank_medium");
@@ -3410,9 +3422,15 @@ public class ModItems {
 		missile_micro = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_micro").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_bhole = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_bhole").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_bhole");
 		missile_schrabidium = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_schrabidium");
+		missile_antimatter = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_antimatter").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_antimatter");
 		missile_emp = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_emp");
+		missile_endo = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_endo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_endo");
+		missile_exo = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_exo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_exo");
+		missile_float = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_float").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_float");
 		missile_shuttle = new ItemMissile(MissileFormFactor.OTHER, MissileTier.TIER3, MissileFuel.KEROSENE_PEROXIDE).setUnlocalizedName("missile_shuttle").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_shuttle");
 		missile_stealth = new ItemMissile(MissileFormFactor.STRONG, MissileTier.TIER1).setUnlocalizedName("missile_stealth").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_stealth");
+		missile_fluid = new ItemMissileFluid(MissileFormFactor.STRONG, MissileTier.TIER2, EntityMissileTier2.EntityMissileFluid.CAPACITY).setUnlocalizedName("missile_fluid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_fluid");
+		missile_fluid_cluster = new ItemMissileFluid(MissileFormFactor.HUGE, MissileTier.TIER3, 8_000 * EntityMissileTier3.EntityMissileFluidCluster.MIRV_COUNT).setUnlocalizedName("missile_fluid_cluster").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_fluid_cluster");
 		missile_test = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_test").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_soyuz = new ItemSoyuz().setUnlocalizedName("missile_soyuz").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz");
 		missile_soyuz_lander = new ItemCustomLore().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
@@ -4982,6 +5000,8 @@ public class ModItems {
 		GameRegistry.registerItem(warhead_nuclear, warhead_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_mirv, warhead_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_volcano, warhead_volcano.getUnlocalizedName());
+		GameRegistry.registerItem(warhead_fluid, warhead_fluid.getUnlocalizedName());
+		GameRegistry.registerItem(warhead_fluid_cluster, warhead_fluid_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(fuel_tank_small, fuel_tank_small.getUnlocalizedName());
 		GameRegistry.registerItem(fuel_tank_medium, fuel_tank_medium.getUnlocalizedName());
 		GameRegistry.registerItem(fuel_tank_large, fuel_tank_large.getUnlocalizedName());
@@ -5538,7 +5558,11 @@ public class ModItems {
 		GameRegistry.registerItem(missile_micro, missile_micro.getUnlocalizedName());
 		GameRegistry.registerItem(missile_bhole, missile_bhole.getUnlocalizedName());
 		GameRegistry.registerItem(missile_schrabidium, missile_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(missile_antimatter, missile_antimatter.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
+		GameRegistry.registerItem(missile_endo, missile_endo.getUnlocalizedName());
+		GameRegistry.registerItem(missile_exo, missile_exo.getUnlocalizedName());
+		GameRegistry.registerItem(missile_float, missile_float.getUnlocalizedName());
 		//Tier 1
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
@@ -5553,12 +5577,14 @@ public class ModItems {
 		GameRegistry.registerItem(missile_cluster_strong, missile_cluster_strong.getUnlocalizedName());
 		GameRegistry.registerItem(missile_buster_strong, missile_buster_strong.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp_strong, missile_emp_strong.getUnlocalizedName());
+		GameRegistry.registerItem(missile_fluid, missile_fluid.getUnlocalizedName());
 		//Tier 3
 		GameRegistry.registerItem(missile_burst, missile_burst.getUnlocalizedName());
 		GameRegistry.registerItem(missile_inferno, missile_inferno.getUnlocalizedName());
 		GameRegistry.registerItem(missile_rain, missile_rain.getUnlocalizedName());
 		GameRegistry.registerItem(missile_drill, missile_drill.getUnlocalizedName());
 		GameRegistry.registerItem(missile_shuttle, missile_shuttle.getUnlocalizedName());
+		GameRegistry.registerItem(missile_fluid_cluster, missile_fluid_cluster.getUnlocalizedName());
 		//Tier 4
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear_cluster, missile_nuclear_cluster.getUnlocalizedName());

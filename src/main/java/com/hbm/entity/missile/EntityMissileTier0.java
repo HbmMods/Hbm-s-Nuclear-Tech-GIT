@@ -9,8 +9,11 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.explosion.ExplosionThermo;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
@@ -21,6 +24,7 @@ import com.hbm.world.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -105,6 +109,28 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_schrabidium); }
 	}
 	
+	public static class EntityMissileAntimatter extends EntityMissileTier0 {
+		public EntityMissileAntimatter(World world) { super(world); }
+		public EntityMissileAntimatter(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			float radius = 20F;
+			List<EntityBlackHole> holes = worldObj.getEntitiesWithinAABB(EntityBlackHole.class,
+				AxisAlignedBB.getBoundingBox(
+					this.posX - radius / 2, this.posY - radius / 2, this.posZ - radius / 2,
+					this.posX + radius / 2, this.posY + radius / 2, this.posZ + radius / 2
+				));
+			if(!holes.isEmpty()) {
+				for(EntityBlackHole hole : holes) {
+					if(hole.isDead) continue;
+					hole.setDead();
+				}
+			}
+			new ExplosionVNT(worldObj, this.posX, this.posY, this.posZ, radius).makeAmat().explode();
+		}
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.pellet_antimatter, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_antimatter); }
+	}
+	
 	public static class EntityMissileBHole extends EntityMissileTier0 {
 		public EntityMissileBHole(World world) { super(world); }
 		public EntityMissileBHole(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
@@ -152,5 +178,53 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModBlocks.emp_bomb, 1); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_emp); }
+	}
+	
+	public static class EntityMissileEndo extends EntityMissileTier0 {
+		public EntityMissileEndo(World world) {
+			super(world);
+		}
+		public EntityMissileEndo(World world, float x, float y, float z, int a, int b) {
+			super(world, x, y, z, a, b);
+		}
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			ExplosionThermo.freeze(worldObj, (int)posX, (int)posY, (int)posZ, 15);
+			ExplosionThermo.freezer(worldObj, (int)posX, (int)posY, (int)posZ, 20);
+			worldObj.createExplosion(null, posX, posY, posZ, 5.0F, true);
+		}
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_endo, 1); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModBlocks.therm_endo); }
+	}
+
+	public static class EntityMissileExo extends EntityMissileTier0 {
+		public EntityMissileExo(World world) {
+			super(world);
+		}
+		public EntityMissileExo(World world, float x, float y, float z, int a, int b) {
+			super(world, x, y, z, a, b);
+		}
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			ExplosionThermo.scorch(worldObj, (int)posX, (int)posY, (int)posZ, 15);
+			ExplosionThermo.setEntitiesOnFire(worldObj, (int)posX, (int)posY, (int)posZ, 20);
+			worldObj.createExplosion(null, posX, posY, posZ, 5.0F, true);
+		}
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_exo, 1); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModBlocks.therm_exo); }
+	}
+
+	public static class EntityMissileFloat extends EntityMissileTier0 {
+		public EntityMissileFloat(World world) {
+			super(world);
+		}
+		public EntityMissileFloat(World world, float x, float y, float z, int a, int b) {
+			super(world, x, y, z, a, b);
+		}
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.sparkShoot", 5.0f, worldObj.rand.nextFloat() * 0.2F + 0.9F);
+			ExplosionChaos.floater(worldObj, (int)posX, (int)posY, (int)posZ, 15, 50);
+			ExplosionChaos.move(worldObj, (int)posX, (int)posY, (int)posZ, 15, 0, 50, 0);
+		}
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_float, 1); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModBlocks.float_bomb); }
 	}
 }

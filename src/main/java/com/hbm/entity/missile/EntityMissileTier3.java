@@ -3,15 +3,20 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.projectile.EntityFluidMirv;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.interfaces.IFluidMissile;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.particle.helper.ExplosionCreator;
 
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -107,5 +112,53 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_buster_large); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_drill); }
+	}
+	
+	public static class EntityMissileFluidCluster extends EntityMissileTier3 implements IFluidMissile {
+		public int fluidFill = 0;
+		public static final int MIRV_COUNT = 32;
+		
+		public EntityMissileFluidCluster(World world) { super(world); this.isCluster = true; }
+		public EntityMissileFluidCluster(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); this.isCluster = true; }
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			worldObj.createExplosion(this, posX, posY, posZ, 5f, false);
+			if(getFluidType() == Fluids.NONE || fluidFill <= 0) return;
+			
+			for(int i = 0; i < MIRV_COUNT; i++) {
+				EntityFluidMirv mirv = new EntityFluidMirv(worldObj);
+				mirv.setPosition(posX, posY, posZ);
+				mirv.setFluid(getFluidType(), fluidFill / MIRV_COUNT);
+				mirv.motionX = motionX * 0.75 + rand.nextGaussian() * 0.25;
+				mirv.motionY = motionY * 0.75 + rand.nextGaussian() * 0.2;
+				mirv.motionZ = motionZ * 0.75 + rand.nextGaussian() * 0.25;
+				mirv.rotation();
+				worldObj.spawnEntityInWorld(mirv);
+			}
+		}
+		@Override public void cluster() { onMissileImpact(null); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_fluid_cluster); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_fluid_cluster); }
+
+		@Override protected void entityInit() {
+			super.entityInit();
+			this.dataWatcher.addObject(12, new Integer(0));
+		}
+		@Override public void writeEntityToNBT(NBTTagCompound nbt) {
+			super.writeEntityToNBT(nbt);
+			nbt.setInteger("fluid", this.dataWatcher.getWatchableObjectInt(12));
+			nbt.setInteger("fill", fluidFill);
+		}
+		@Override public void readEntityFromNBT(NBTTagCompound nbt) {
+			super.readEntityFromNBT(nbt);
+			this.dataWatcher.updateObject(12, nbt.getInteger("fluid"));
+			fluidFill = nbt.getInteger("fill");
+		}
+		@Override
+		public void setFluid(FluidType type, int fill) {
+			this.dataWatcher.updateObject(12, type.getID());
+			this.fluidFill = fill;
+		}
+		@Override public FluidType getFluidType() { return Fluids.fromID(this.dataWatcher.getWatchableObjectInt(12)); }
+		@Override public int getFluidFill() { return fluidFill; }
 	}
 }
