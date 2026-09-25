@@ -5,6 +5,8 @@ import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.interfaces.NotableComments;
+import com.hbm.lib.Library;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -58,6 +60,17 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	public boolean isLidRemovable() {
 		return false;
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y)
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -70,7 +83,9 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 			this.hasPower = true;
 			
 			if(this.isPowered()) {
-				this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
+				this.setupPowerPorts(getPorts());
+				this.updateAllPorts();
+				this.receivePower();
 				if(this.power < consumption) this.hasPower = false;
 			}
 

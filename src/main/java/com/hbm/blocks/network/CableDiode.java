@@ -152,10 +152,10 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 		public void updateEntity() {
 
 			if(!worldObj.isRemote) {
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				/*for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 					if(dir == getDir()) continue;
 					this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-				}
+				}*/ // TODO: redo this crap entirely
 
 				pulses = 0;
 				this.setPower(0); //tick is over, reset our allowed transfer

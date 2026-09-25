@@ -15,9 +15,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKBoiler;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.tileentity.TilePort;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.CompatEnergyControl;
@@ -46,11 +47,15 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	protected int output;
 	protected int ventDelay;
 	
+	protected ModulePortManFluidAdaptive ports;
+	
 	public TileEntityRBMKBoiler() {
 		super(0);
 
 		feed = new FluidTank(Fluids.WATER, 10000);
 		steam = new FluidTank(Fluids.STEAM, 1000000);
+		
+		ports = new ModulePortManFluidAdaptive(this).setInputTanks(feed).setOutputTanks(steam);
 	}
 
 	@Override
@@ -62,6 +67,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			ports.update(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader ? this.getPortsClassicLoader() :
+				worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader ? this.getPortsCloseLoader() : this.getPortsNoLoader());
 
 			this.consumption = 0;
 			this.output = 0;
@@ -111,11 +119,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 				
 				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}
-			
-			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
-			for(DirPos pos : getOutputPos()) {
-				if(this.steam.getFill() > 0) this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 		}
 		
 		super.updateEntity();
@@ -135,33 +138,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(type == Fluids.SUPERHOTSTEAM) return 100D;
 		if(type == Fluids.ULTRAHOTSTEAM) return 1000D;
 		return 0D;
-	}
-	
-	protected DirPos[] getOutputPos() {
-		
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
-					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
-					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
-					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
-					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord - 1, Library.NEG_Z),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord, Library.NEG_Y)
-			};
-		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
-					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
-					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord - 1, Library.NEG_Z),
-					new DirPos(this.xCoord, this.yCoord - 3, this.zCoord, Library.NEG_Y)
-			};
-		} else {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
-			};
-		}
 	}
 	
 	@Override
@@ -229,9 +205,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			spawnDebris(DebrisType.BLANK);
 		}
 		
-		if(RBMKDials.getOverpressure(worldObj)) {
-			for(DirPos pos : getOutputPos()) {
-				FluidNode node = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType().getNetworkProvider());
+		if(RBMKDials.getOverpressure(worldObj) && ports.outPorts != null) {
+			for(TilePort port : ports.outPorts) if(port != null) for(DirPos con : port.connections) {
+				FluidNode node = (FluidNode) UniNodespace.getNode(worldObj, con.getX(), con.getY(), con.getZ(), steam.getTankType().getNetworkProvider());
 				if(node != null && node.hasValidNet()) {
 					this.pipes.add(node.net);
 				}

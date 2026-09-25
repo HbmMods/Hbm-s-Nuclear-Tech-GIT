@@ -32,8 +32,8 @@ public class TilePort {
 	// for checking if the network has changed and managing subscribes
 	protected NodeNet prevNet;
 	protected INetworkProvider type;
-	protected BlockPos[] positions;
-	protected DirPos[] connections;
+	public BlockPos[] positions;
+	public DirPos[] connections;
 
 	// hijack ports will only wrap around existing nodes, and cannot create their own or destroy any nodes
 	protected boolean isHijackPort = false;
@@ -114,7 +114,7 @@ public class TilePort {
 		}
 	}
 	
-	protected void enableIfMissing(World world) {
+	public void enableIfMissing(World world) {
 		if(this.node == null || this.node.expired) {
 			BlockPos pos = positions[0];
 			this.node = UniNodespace.getNode(world, pos.getX(), pos.getY(), pos.getZ(), type);
@@ -124,7 +124,7 @@ public class TilePort {
 		}
 	}
 	
-	protected void disableIfPresent(World world) {
+	public void disableIfPresent(World world) {
 		if(this.node != null) {
 			if(!this.isHijackPort) UniNodespace.destroyNode(world, node);
 			this.node = null;

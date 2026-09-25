@@ -14,9 +14,8 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKOutgasser;
 import com.hbm.inventory.recipes.OutgasserRecipes;
 import com.hbm.inventory.recipes.OutgasserRecipes.OutgasserRecipe;
-import com.hbm.lib.Library;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,10 +36,14 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public FluidTank gas;
 	public double progress;
 	public static final int duration = 10000;
+	
+	protected ModulePortManFluidAdaptive ports;
 
 	public TileEntityRBMKOutgasser() {
 		super(2);
 		gas = new FluidTank(Fluids.TRITIUM, 64000);
+		
+		ports = new ModulePortManFluidAdaptive(this).setOutputTanks(gas);
 	}
 
 	@Override
@@ -52,40 +55,14 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			ports.update(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader ? this.getPortsClassicLoader() :
+				worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader ? this.getPortsCloseLoader() : this.getPortsNoLoader());
 
 			if(!canProcess()) this.progress = 0;
-			for(DirPos pos : getOutputPos()) if(this.gas.getFill() > 0) this.tryProvide(gas, worldObj, pos);
 		}
 
 		super.updateEntity();
-	}
-
-	protected DirPos[] getOutputPos() {
-
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
-					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
-					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
-					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
-					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord - 1, Library.NEG_Z),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord, Library.NEG_Y)
-			};
-		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
-					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
-					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
-					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord - 1, Library.NEG_Z),
-					new DirPos(this.xCoord, this.yCoord - 3, this.zCoord, Library.NEG_Y)
-			};
-		} else {
-			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
-					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord, Library.NEG_Y)
-			};
-		}
 	}
 
 	@Override

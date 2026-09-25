@@ -12,10 +12,12 @@ import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
@@ -605,5 +607,39 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 17, zCoord + 1);
+	}
+
+	protected PortDef[] portShapeNoLoader;
+	public PortDef[] getPortsNoLoader() {
+		if(portShapeNoLoader == null) {
+			portShapeNoLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+			};
+		}
+		return portShapeNoLoader;
+	}
+	
+	protected PortDef[] portShapeCloseLoader;
+	public PortDef[] getPortsCloseLoader() {
+		if(portShapeCloseLoader == null) {
+			portShapeCloseLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord - 1, zCoord, ForgeDirection.VALID_DIRECTIONS),
+			};
+		}
+		return portShapeCloseLoader;
+	}
+	
+	protected PortDef[] portShapeClassicLoader;
+	public PortDef[] getPortsClassicLoader() {
+		if(portShapeClassicLoader == null) {
+			portShapeClassicLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord - 2, zCoord, ForgeDirection.VALID_DIRECTIONS),
+			};
+		}
+		return portShapeClassicLoader;
 	}
 }

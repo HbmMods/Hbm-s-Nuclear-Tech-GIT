@@ -22,12 +22,12 @@ import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.ModuleBurnTime;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.*;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -59,6 +59,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 	public int anim;
 	public int lastAnim;
+	
+	protected ModulePortManFluidAdaptive moduleSteamPorts;
+	protected ModulePortManFluidAdaptive moduleFluidPorts;
+	protected ModulePortManFluidAdaptive moduleSmokePorts;
 
 	/**Given this has no heat, the heat mod instead affects the progress per fuel **/
 	public static ModuleBurnTime burnModule = new ModuleBurnTime()
@@ -77,6 +81,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		tanks[0] = new FluidTank(Fluids.NONE, 16_000);
 		tanks[1] = new FluidTank(Fluids.STEAM, 12_000);
 		tanks[2] = new FluidTank(Fluids.SPENTSTEAM, 120);
+
+		moduleSteamPorts = new ModulePortManFluidAdaptive(this).setInputTanks(tanks[1]).setOutputTanks(tanks[2]);
+		moduleFluidPorts = new ModulePortManFluidAdaptive(this).setInputTanks(tanks[0]);
+		moduleSmokePorts = new ModulePortManFluidAdaptive(this).setOutputTanks(smoke, smoke_leaded, smoke_poison);
 	}
 
 	@Override
@@ -85,11 +93,12 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	}
 
 	public TilePort[] steamPorts;
-	public TilePort fluidTilePort;
+	public TilePort[] fluidPorts;
 	public TilePort[] smokePorts;
 	
 	protected PortDef[] steamPortDef;
 	protected PortDef[] fluidPortDef;
+	protected PortDef[] smokePortDef;
 
 	public PortDef[] getSteamPorts() {
 		if(steamPortDef == null) {
@@ -116,6 +125,15 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		}
 		return fluidPortDef;
 	}
+	
+	public PortDef[] getSmokePorts() {
+		if(smokePortDef == null) {
+			smokePortDef = new PortDef[] {
+					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+			};
+		}
+		return smokePortDef;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -124,18 +142,12 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		if(!worldObj.isRemote) {
+
+			this.moduleSteamPorts.update(getSteamPorts());
+			this.moduleFluidPorts.update(getFluidPorts());
+			this.moduleSmokePorts.update(getSmokePorts());
 			
 			tanks[0].setType(3, slots);
-
-			for(DirPos pos : getSteamPos()) {
-				this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-			if(tanks[0].getTankType() != Fluids.NONE) for(DirPos pos : getFluidPos()) {
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
-			if(smoke.getFill() > 0) this.tryProvide(smoke, worldObj, xCoord + rot.offsetX, yCoord + 5, zCoord + rot.offsetZ, Library.POS_Y);
 
 			if(this.output != null) {
 

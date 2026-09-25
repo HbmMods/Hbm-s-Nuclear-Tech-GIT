@@ -76,6 +76,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		
 		return false;
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
@@ -100,16 +103,17 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 				}
 			}
 			
+			if(this.isCompressor()) {
+				this.setupFluidPorts(getPorts());
+				this.updatePortFIFO();
+			} else {
+				this.destroyAllPorts();
+			}
+			
 			if(this.isCompressor() && (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ this.redstone)) {
 				
 				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
-				
-				if(worldObj.getTotalWorldTime() % 10 == 0) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					if(dir != this.insertionDir && dir != this.ejectionDir) {
-						this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-					}
-				}
-				
+								
 				if(randTime % 5 == 0 && this.node != null && !this.node.expired && this.node.net != null && this.compair.getFill() >= 50) {
 					TileEntity sendFrom = Compat.getTileStandard(worldObj, xCoord + insertionDir.offsetX, yCoord + insertionDir.offsetY, zCoord + insertionDir.offsetZ);
 					
