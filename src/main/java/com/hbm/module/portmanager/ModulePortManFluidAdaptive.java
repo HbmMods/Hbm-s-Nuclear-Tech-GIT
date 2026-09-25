@@ -79,7 +79,7 @@ public class ModulePortManFluidAdaptive {
 			if(inPorts != null) {
 				for(int i = 0; i < inPorts.length; i++) {
 					TilePort port = inPorts[i];
-					port.disableIfPresent(owner.getWorldObj());
+					if(port != null) port.disableIfPresent(owner.getWorldObj());
 					inPorts[i] = new TilePort().setupOwner(owner).setupType(inTanks[i].getTankType().getNetworkProvider())
 							.setupPositions(unified.portPositions).setupConnections(unified.portConnections);
 				}
@@ -87,7 +87,7 @@ public class ModulePortManFluidAdaptive {
 			if(outPorts != null) {
 				for(int i = 0; i < outPorts.length; i++) {
 					TilePort port = outPorts[i];
-					port.disableIfPresent(owner.getWorldObj());
+					if(port != null) port.disableIfPresent(owner.getWorldObj());
 					outPorts[i] = new TilePort().setupOwner(owner).setupType(inTanks[i].getTankType().getNetworkProvider())
 							.setupPositions(unified.portPositions).setupConnections(unified.portConnections);
 				}
@@ -97,6 +97,7 @@ public class ModulePortManFluidAdaptive {
 		if(inPorts != null) {
 			for(int i = 0; i < inPorts.length; i++) {
 				TilePort port = inPorts[i];
+				if(port == null) continue;
 				port.setupType(inTanks[i].getTankType().getNetworkProvider());
 				if(inEnabled[i]) port.enable(); else port.disable();
 				port.update(world);
@@ -107,6 +108,7 @@ public class ModulePortManFluidAdaptive {
 		if(outPorts != null) {
 			for(int i = 0; i < outPorts.length; i++) {
 				TilePort port = outPorts[i];
+				if(port == null) continue;
 				port.setupType(outTanks[i].getTankType().getNetworkProvider());
 				if(outEnabled[i]) port.enable(); else port.disable();
 				port.update(world);
