@@ -16,6 +16,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -59,6 +60,19 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyRecei
 	public TileEntityFEL() {
 		super(2);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * -4, yCoord + 1, zCoord + dir.offsetZ  * -4, dir.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -72,8 +86,11 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyRecei
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
+			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir.getOpposite());
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(this.isOn && !(this.slots[1] == null)) {

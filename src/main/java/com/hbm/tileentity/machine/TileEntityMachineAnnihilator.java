@@ -19,8 +19,8 @@ import com.hbm.saveddata.AnnihilatorSavedData;
 import com.hbm.saveddata.AnnihilatorSavedData.AnnihilatorPool;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ParticleUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -49,6 +49,22 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 		
 		this.tank = new FluidTank(Fluids.NONE, 2_500_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 4, yCoord, zCoord + dir.offsetZ * 4, dir),
+					PortDef.make(xCoord + dir.offsetX * 3 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ, rot),
+					PortDef.make(xCoord + dir.offsetX * 3 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -60,13 +76,12 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+			
 			this.tank.setType(1, slots);
 			
 			if(this.pool != null && !this.pool.isEmpty()) {
-				
-				for(DirPos pos : getConPos()) {
-					if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
-				}
 				
 				AnnihilatorSavedData data = AnnihilatorSavedData.getData(worldObj);
 				boolean didSomething = false;
@@ -131,17 +146,6 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 			ChunkRadiationManager.proxy.incrementRad(worldObj, this.xCoord - dir.offsetX * 3, this.yCoord + 9, this.zCoord - dir.offsetZ * 3, Math.min(radiation * 5F, 1_000F));
 		}
-	}
-	
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, dir),
-				new DirPos(xCoord + dir.offsetX * 3 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ * 2, rot.getOpposite())
-		};
 	}
 	
 	public void monitor(AnnihilatorSavedData data, Object type) {

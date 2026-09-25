@@ -14,7 +14,6 @@ import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -154,25 +153,6 @@ public class ItemRenderLibrary {
 				GL11.glColor3f(1F, 1F, 1F);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fensu), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glRotated(90, 0, 1, 0);
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
-			}
-			public void renderCommon() {
-		        GL11.glShadeModel(GL11.GL_SMOOTH);
-		        bindTexture(ResourceManager.fensu_tex); ResourceManager.fensu.renderPart("Base"); ResourceManager.fensu.renderPart("Disc");
-		        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-		        GL11.glDisable(GL11.GL_LIGHTING);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
-		        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-		        ResourceManager.fensu.renderPart("Lights");
-		        GL11.glEnable(GL11.GL_LIGHTING);
-		        GL11.glPopAttrib();
-		        GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_well), new ItemRenderBase() {
