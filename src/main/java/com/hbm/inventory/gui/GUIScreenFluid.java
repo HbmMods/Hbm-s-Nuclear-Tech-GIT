@@ -30,7 +30,7 @@ public class GUIScreenFluid extends GuiScreen {
 	
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fluid.png");
 	protected int xSize = 176;
-	protected int ySize = 54;
+	protected int ySize = 72;
 	protected int guiLeft;
 	protected int guiTop;
 	private GuiTextField search;
@@ -38,7 +38,7 @@ public class GUIScreenFluid extends GuiScreen {
 	private final EntityPlayer player;
 	private FluidType primary = Fluids.NONE;
 	private FluidType secondary = Fluids.NONE;
-	private FluidType[] searchArray = new FluidType[9];
+	private FluidType[] searchArray = new FluidType[18];
 	private Bookmarks<FluidType> bookmarks = new Bookmarks<>(searchArray.length);
 
 	public GUIScreenFluid(EntityPlayer player) {
@@ -98,7 +98,7 @@ public class GUIScreenFluid extends GuiScreen {
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j) {
+			if(guiLeft + 7 + (k % 9) * 18 <= i && guiLeft + 7 + (k % 9) * 18 + 18 > i && guiTop + 29 + (k / 9 * 18) < j && guiTop + 29 + (k / 9 * 18) + 18 >= j) {
 				if(button == 0) {
 					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 					this.primary = this.searchArray[k];
@@ -130,7 +130,7 @@ public class GUIScreenFluid extends GuiScreen {
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j) {
+			if(guiLeft + 7 + (k % 9) * 18 <= i && guiLeft + 7 + (k % 9) * 18 + 18 > i && guiTop + 29 + (k / 9 * 18) < j && guiTop + 29 + (k / 9 * 18) + 18 >= j) {
 				List<String> tooltip = new ArrayList();
 				tooltip.add(this.searchArray[k].getLocalizedName());
 				this.searchArray[k].addInfo(tooltip);
@@ -145,7 +145,7 @@ public class GUIScreenFluid extends GuiScreen {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		if(this.search.isFocused())
-			drawTexturedModalRect(guiLeft + 43, guiTop + 7, 166, 54, 90, 18);
+			drawTexturedModalRect(guiLeft + 43, guiTop + 7, 166, 72, 90, 18);
 		
 		for(int k = 0; k < this.searchArray.length; k++) {
 			FluidType type = this.searchArray[k];
@@ -155,15 +155,15 @@ public class GUIScreenFluid extends GuiScreen {
 			
 			Color color = new Color(type.getColor());
 			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-			drawTexturedModalRect(guiLeft + 12 + k * 18, guiTop + 31, 12 + k * 18, 56, 8, 14);
+			drawTexturedModalRect(guiLeft + 12 + (k % 9) * 18, guiTop + 31 + (k / 9 * 18), 12 + (k % 9) * 18, 74, 8, 14);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			
 			if(type == this.primary && type == this.secondary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 36, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 36, 18, 18);
 			} else if(type == this.primary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 0, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 0, 18, 18);
 			} else if(type == this.secondary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 18, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 18, 18, 18);
 			}
 		}
 	}
