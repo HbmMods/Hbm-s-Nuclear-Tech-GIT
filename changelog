@@ -126,13 +126,15 @@
   * Made in the ammo press with a slightly more expensive recipe
   * Updated texture to match the new ammo color scheme
 * Gun base damage values are now configurable
-  * The use the Server Config system, which means they can be edited with `/ntmserver`
+  * The use the ServerConfig system, which means they can be edited with `/ntmserver`
   * Damage values apply to guns themselves, with two separate values for akimbo guns and separate values for attachments like bayonets
 * Increased the legendary laser pistol's pathetic damage to match that of the B-side variant while increasing the DT negation values further
 * Increased the piercing values of a powerful directed explosion weapon from "really, really high" to "yes"
 * AUTOCAL max buffer size and max stack size are now configurable via `/ntmserver` (stack size does not update automatically, requires AUTOCAL units to be replaced)
 * Updated compact compressor model
-  * Finally has a distinct mmodel from the powered condenser
+  * Finally has a distinct model from the powered condenser
+* Fluid IDs now have nine slots for saving favorites (can be toggled with middle mouse button)
+* Breaking pipes with vein miner on now limits to pipes of the same fluid type instead of the same shape of pipe
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
