@@ -24,6 +24,8 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> ENABLE_MKU =					new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> STRUCTURE_DEBUG =				new ConfigWrapper(false);
 	public static ConfigWrapper<Integer> AUTOCAL_MAX_CLOCK =			new ConfigWrapper(20);
+	public static ConfigWrapper<Integer> MAX_BUFFER_LENGTH =			new ConfigWrapper(256);
+	public static ConfigWrapper<Integer> MAX_STACK_SIZE =				new ConfigWrapper(256);
 	public static ConfigWrapper<Integer> CONVEYOR_CRAM_MAX =			new ConfigWrapper(25);
 	public static ConfigWrapper<Boolean> CONVEYOR_CRAM_EXPLODE =		new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> ULTRA_LARP_MODE =				new ConfigWrapper(false);
@@ -43,6 +45,8 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("ENABLE_MKU", ENABLE_MKU);
 		configMap.put("STRUCTURE_DEBUG", STRUCTURE_DEBUG);
 		configMap.put("AUTOCAL_MAX_CLOCK", AUTOCAL_MAX_CLOCK);
+		configMap.put("MAX_BUFFER_LENGTH", MAX_BUFFER_LENGTH);
+		configMap.put("MAX_STACK_SIZE", MAX_STACK_SIZE);
 		configMap.put("CONVEYOR_CRAM_MAX", CONVEYOR_CRAM_MAX);
 		configMap.put("CONVEYOR_CRAM_EXPLODE", CONVEYOR_CRAM_EXPLODE);
 		configMap.put("ULTRA_LARP_MODE", ULTRA_LARP_MODE);

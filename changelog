@@ -130,6 +130,9 @@
   * Damage values apply to guns themselves, with two separate values for akimbo guns and separate values for attachments like bayonets
 * Increased the legendary laser pistol's pathetic damage to match that of the B-side variant while increasing the DT negation values further
 * Increased the piercing values of a powerful directed explosion weapon from "really, really high" to "yes"
+* AUTOCAL max buffer size and max stack size are now configurable via `/ntmserver` (stack size does not update automatically, requires AUTOCAL units to be replaced)
+* Updated compact compressor model
+  * Finally has a distinct mmodel from the powered condenser
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
@@ -167,3 +170,4 @@
 * Fixed crashes caused by incorrect use of the turret AI chip's whitelist
 * Fixed potential crashes caused by the structure system if structure .nbt files are missing or do not match the expected size
 * Fixed Mr. Friendly turret dealing the same damage as Chekhov's Gun, defeating the entire point of having a less powerful turret
+* Fixed vertical sliding blast door being able to destroy eny block when placed

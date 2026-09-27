@@ -2,6 +2,8 @@ package com.hbm.module;
 
 import java.util.HashMap;
 
+import com.hbm.config.ServerConfig;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -15,11 +17,8 @@ public interface IParse {
 		public NBTTagCompound variables = new NBTTagCompound();
 		public HashMap<String, Integer> jmp = new HashMap();
 
-		public static final int MAX_BUFFER_LENGTH = 256;
-		public static final int MAX_STACK_SIZE = 256;
-
 		private String buffer = "";
-		private String[] stack = new String[MAX_STACK_SIZE];
+		private String[] stack = new String[ServerConfig.MAX_STACK_SIZE.get()];
 		private int stackSize = 0;
 		public String splitString = ";";
 		public int clockSpeed = 1;
@@ -28,7 +27,7 @@ public interface IParse {
 		public ParseContext(World world) {
 			this.world = world;
 			
-			for(int i = 0; i < MAX_STACK_SIZE; i++) stack[i] = "";
+			for(int i = 0; i < stack.length; i++) stack[i] = "";
 		}
 		
 		public String readBuffer() {
@@ -38,8 +37,8 @@ public interface IParse {
 		/** Sets the buffer and imposes length restrictions. Returns true if successful, and false if truncation has taken place. */
 		public boolean writeBuffer(String buffer) {
 
-			if(buffer.length() > MAX_BUFFER_LENGTH) {
-				this.buffer = buffer.substring(0, MAX_BUFFER_LENGTH);
+			if(buffer.length() > ServerConfig.MAX_BUFFER_LENGTH.get()) {
+				this.buffer = buffer.substring(0, ServerConfig.MAX_BUFFER_LENGTH.get());
 				return false;
 			}
 			
@@ -48,8 +47,8 @@ public interface IParse {
 		}
 		
 		public boolean push(String line) {
-			if(stackSize >= MAX_STACK_SIZE) return false;
-			if(line.length() > MAX_BUFFER_LENGTH) line = line.substring(0, MAX_BUFFER_LENGTH);
+			if(stackSize >= stack.length) return false;
+			if(line.length() > ServerConfig.MAX_BUFFER_LENGTH.get()) line = line.substring(0, ServerConfig.MAX_BUFFER_LENGTH.get());
 			stack[stackSize] = line;
 			stackSize++;
 			return true;
@@ -57,7 +56,7 @@ public interface IParse {
 		
 		public String pop() {
 			if(stackSize <= 0) return null;
-			if(stackSize > MAX_STACK_SIZE) stackSize = MAX_STACK_SIZE;
+			if(stackSize > stack.length) stackSize = stack.length;
 			String ret = stack[stackSize - 1];
 			stack[stackSize - 1] = "";
 			stackSize--;
@@ -66,7 +65,7 @@ public interface IParse {
 		
 		public String peek() {
 			if(stackSize <= 0) return null;
-			if(stackSize > MAX_STACK_SIZE) stackSize = MAX_STACK_SIZE;
+			if(stackSize > stack.length) stackSize = stack.length;
 			return stack[stackSize - 1];
 		}
 		
@@ -86,7 +85,7 @@ public interface IParse {
 			variables = nbt.getCompoundTag("variables");
 			
 			stackSize = nbt.getInteger("stackSize");
-			for(int i = 0; i < MAX_STACK_SIZE; i++) stack[i] = nbt.getString("st" + i);
+			for(int i = 0; i < stack.length; i++) stack[i] = nbt.getString("st" + i);
 			for(int i = 0; i < script.length; i++) parser.generateJumpPoints(this, script[i], i);
 		}
 		
@@ -98,7 +97,7 @@ public interface IParse {
 			nbt.setTag("variables", variables);
 			
 			nbt.setInteger("stackSize", stackSize);
-			for(int i = 0; i < MAX_STACK_SIZE; i++) nbt.setString("st" + i, stack[i]);
+			for(int i = 0; i < stack.length; i++) nbt.setString("st" + i, stack[i]);
 		}
 	}
 	
