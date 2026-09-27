@@ -150,6 +150,10 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}
 

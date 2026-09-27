@@ -39,7 +39,7 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 
 	public PortDef[] getPorts() {
 		if(cachedPorts == null) {
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.DOWN);
 
 			cachedPorts = new PortDef[] {
 					PortDef.make(xCoord + dir.offsetX * 3, yCoord + 1, zCoord + dir.offsetZ * 3, Library.POS_Y),
@@ -94,9 +94,9 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			this.setupFluidPorts(getPorts());
-			this.updatePortFIFO();
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}

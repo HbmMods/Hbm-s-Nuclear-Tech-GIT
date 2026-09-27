@@ -62,7 +62,6 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	
 	protected ModulePortManFluidAdaptive moduleSteamPorts;
 	protected ModulePortManFluidAdaptive moduleFluidPorts;
-	protected ModulePortManFluidAdaptive moduleSmokePorts;
 
 	/**Given this has no heat, the heat mod instead affects the progress per fuel **/
 	public static ModuleBurnTime burnModule = new ModuleBurnTime()
@@ -84,7 +83,6 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 		moduleSteamPorts = new ModulePortManFluidAdaptive(this).setInputTanks(tanks[1]).setOutputTanks(tanks[2]);
 		moduleFluidPorts = new ModulePortManFluidAdaptive(this).setInputTanks(tanks[0]);
-		moduleSmokePorts = new ModulePortManFluidAdaptive(this).setOutputTanks(smoke, smoke_leaded, smoke_poison);
 	}
 
 	@Override

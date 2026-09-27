@@ -2,9 +2,12 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockPedestal.TileEntityPedestal;
+import com.hbm.config.GeneralConfig;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsRedRoom;
 import com.hbm.items.ModItems;
@@ -67,6 +70,10 @@ public class BlockKeyhole extends BlockStone {
 				ItemModDoor.placeDoorBlock(world, x, y - 1, z, b, ModBlocks.door_red);
 				world.playSoundAtEntity(player, "hbm:block.lockOpen", 1.0F, 1.0F);
 				player.triggerAchievement(MainRegistry.achRedRoom);
+
+				if(GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.log(Level.INFO, "[RED ROOM] Opened red room at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
+				
 				return true;
 			}
 		}

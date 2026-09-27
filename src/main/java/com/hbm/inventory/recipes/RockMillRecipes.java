@@ -126,5 +126,9 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(KEY_SAND, 2))
 				.inputFluids(new FluidStack(Fluids.COLLOID, 2_500))
 				.outputItems(new ItemStack(Items.clay_ball, 4)));
+		
+		this.register(new GenericRecipe("rock.colloid").setup(duraShort, consumption)
+				.inputFluids(new FluidStack(Fluids.COLLOID, 1_000))
+				.outputItems(new ItemStack(Blocks.sand)));
 	}
 }

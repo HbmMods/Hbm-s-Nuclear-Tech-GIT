@@ -116,6 +116,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			
 			if(this.structureOK){
 				this.setupAllPorts(ports);
+				this.moduleSmokePorts.update(ports);
 				if(config.generatorMode) {
 					this.updatePortPIFIFO();
 				} else {

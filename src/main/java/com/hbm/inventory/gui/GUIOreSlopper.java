@@ -28,7 +28,7 @@ public class GUIOreSlopper extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		slopper.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 18, 34, 52);
+		slopper.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 18, 16, 52);
 		slopper.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 18, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, slopper.power, slopper.maxPower);
 	}

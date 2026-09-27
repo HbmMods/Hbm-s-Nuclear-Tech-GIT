@@ -36,18 +36,16 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	@Deprecated public TilePort[] fluidInPorts;
 	@Deprecated public TilePort[] fluidOutPorts;
 	
-	public static final boolean particleDebug = true;
-	
 	/// PORTS START ///
 	
 	/** Sets up power, fluid in (if valid) and fluid out (if valid) ports */
-	public void setupAllPorts(PortDef[] ports) {
+	@Deprecated public void setupAllPorts(PortDef[] ports) {
 		this.setupPowerPorts(ports);
 		this.setupFluidPorts(ports);
 	}
 	
 	/** Sets up only the power ports with M2M port rules (i.e. no passthrough, all ports are separate) */
-	public void setupPowerPorts(PortDef[] ports) {
+	@Deprecated public void setupPowerPorts(PortDef[] ports) {
 		if(powerPorts != null) return;
 		powerPorts = TilePort.manyToMany(this, ports);
 		for(TilePort port : powerPorts) {
@@ -56,12 +54,12 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	}
 
 	/** Sets up  fluid in (if valid) and fluid out (if valid) ports */
-	public void setupFluidPorts(PortDef[] ports) {
+	@Deprecated public void setupFluidPorts(PortDef[] ports) {
 		if(this instanceof IFluidStandardReceiverMK2) this.setupFluidInPorts(((IFluidStandardReceiverMK2) this).getReceivingTanks(), PortDef.combine(ports));
 		if(this instanceof IFluidStandardSenderMK2) this.setupFluidOutPorts(((IFluidStandardSenderMK2) this).getSendingTanks(), PortDef.combine(ports));
 	}
 	
-	public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
+	@Deprecated public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
 		if(fluidInPorts != null) return;
 		fluidInPorts = TilePort.oneToMany(this, tanks.length, ports);
 		for(int i = 0; i < fluidInPorts.length; i++) {
@@ -70,11 +68,11 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	}
 	
 	/** Sets up input ports and marks them as hijack */
-	public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef ports) {
+	@Deprecated public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef ports) {
 		setupFluidInPorts(tanks, ports);
 		if(fluidInPorts != null) for(int i = 0; i < fluidInPorts.length; i++) fluidInPorts[i].setHijack();
 	}
-	public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef[] ports) {
+	@Deprecated public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef[] ports) {
 		if(fluidInPorts != null) return;
 		fluidInPorts = TilePort.manyToMany(this, ports);
 		for(int i = 0; i < fluidInPorts.length; i++) {
@@ -83,7 +81,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		for(int i = 0; i < fluidInPorts.length; i++) fluidInPorts[i].setHijack();
 	}
 	
-	public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
+	@Deprecated public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
 		if(fluidOutPorts != null) return;
 		fluidOutPorts = TilePort.oneToMany(this, tanks.length, ports);
 		for(int i = 0; i < fluidOutPorts.length; i++) {
@@ -91,29 +89,29 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 	
-	public void updateAllPorts() {
+	@Deprecated public void updateAllPorts() {
 		if(powerPorts != null) for(TilePort port : powerPorts) port.update(worldObj);
 		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.update(worldObj);
 		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.update(worldObj);
 	}
 	
 	/** Fluid in, fluid out */
-	public void updatePortFIFO() {
+	@Deprecated public void updatePortFIFO() {
 		this.updateAllPorts();
 		if(this instanceof IFluidStandardReceiverMK2) this.receiveFluid(((IFluidStandardReceiverMK2) this).getReceivingTanks());
 		if(this instanceof IFluidStandardSenderMK2) this.provideFluid(((IFluidStandardSenderMK2) this).getSendingTanks());
 	}
 	
 	/** Power in, fluid in, fluid out */
-	public void updatePortPIFIFO() { this.updatePortFIFO(); this.receivePower(); }
+	@Deprecated public void updatePortPIFIFO() { this.updatePortFIFO(); this.receivePower(); }
 	/** Power out, fluid in, fluid out */
-	public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
+	@Deprecated public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
 	
-	public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
-	public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(worldObj); }
+	@Deprecated public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
+	@Deprecated public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(worldObj); }
 
-	public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
-	public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
+	@Deprecated public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
+	@Deprecated public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
 		if(ports == null || ports.length != tanks.length) return;
 		
 		for(int i = 0; i < ports.length; i++) {
@@ -122,8 +120,8 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 
-	public void receiveFluid(FluidTank[] tanks) { receiveFluid(tanks, this.fluidInPorts); }
-	public void receiveFluid(FluidTank[] tanks, TilePort[] ports) {
+	@Deprecated public void receiveFluid(FluidTank[] tanks) { receiveFluid(tanks, this.fluidInPorts); }
+	@Deprecated public void receiveFluid(FluidTank[] tanks, TilePort[] ports) {
 		if(ports == null || ports.length != tanks.length) return;
 		
 		for(int i = 0; i < ports.length; i++) {
@@ -132,7 +130,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 	
-	public void destroyAllPorts() {
+	@Deprecated public void destroyAllPorts() {
 		if(powerPorts != null) for(int i = 0; i < powerPorts.length; i++) { powerPorts[i].disableIfPresent(worldObj); powerPorts[i] = null; }
 		if(fluidInPorts != null) for(int i = 0; i < fluidInPorts.length; i++) { fluidInPorts[i].disableIfPresent(worldObj); fluidInPorts[i] = null; }
 		if(fluidOutPorts != null) for(int i = 0; i < fluidOutPorts.length; i++) { fluidOutPorts[i].disableIfPresent(worldObj); fluidOutPorts[i] = null; }

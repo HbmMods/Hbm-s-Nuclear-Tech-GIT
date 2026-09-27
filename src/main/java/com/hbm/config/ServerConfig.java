@@ -27,6 +27,7 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Integer> CONVEYOR_CRAM_MAX =			new ConfigWrapper(25);
 	public static ConfigWrapper<Boolean> CONVEYOR_CRAM_EXPLODE =		new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> ULTRA_LARP_MODE =				new ConfigWrapper(false);
+	public static ConfigWrapper<Boolean> DEBUG_PORT_VIEW =				new ConfigWrapper(false);
 
 	private static void initDefaults() {
 		configMap.put("DAMAGE_COMPATIBILITY_MODE", DAMAGE_COMPATIBILITY_MODE);
@@ -45,6 +46,7 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("CONVEYOR_CRAM_MAX", CONVEYOR_CRAM_MAX);
 		configMap.put("CONVEYOR_CRAM_EXPLODE", CONVEYOR_CRAM_EXPLODE);
 		configMap.put("ULTRA_LARP_MODE", ULTRA_LARP_MODE);
+		configMap.put("DEBUG_PORT_VIEW", DEBUG_PORT_VIEW);
 		
 		GunValues.initDefaults();
 	}

@@ -14,9 +14,12 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
+import com.hbm.module.portmanager.ModulePortManPower;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.Vec3NT;
 
@@ -74,6 +77,9 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	
 	private AudioWrapper[] audios;
 
+	protected ModulePortManFluidAdaptive moduleFluidPorts;
+	protected ModulePortManPower modulePowerPorts;
+
 	public TileEntityLaunchpadSoyuz() {
 		super(27);
 		tanks = new FluidTank[2];
@@ -81,6 +87,36 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
 		
 		this.audios = new AudioWrapper[3];
+
+		moduleFluidPorts = new ModulePortManFluidAdaptive(this).setInputTanks(getReceivingTanks());
+		modulePowerPorts = new ModulePortManPower(this);
+	}
+
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 1, yCoord + 1, zCoord + dir.offsetZ * 2 + rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 1, yCoord + 1, zCoord + dir.offsetZ * 2 - rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 7, yCoord + 1, zCoord + dir.offsetZ * 2 - rot.offsetZ * 7, dir),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 9, yCoord + 1, zCoord + dir.offsetZ * 2 - rot.offsetZ * 9, dir),
+					PortDef.make(xCoord - dir.offsetX * 10 + rot.offsetX * 1, yCoord + 1, zCoord - dir.offsetZ * 10 + rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 10 - rot.offsetX * 1, yCoord + 1, zCoord - dir.offsetZ * 10 - rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 10 - rot.offsetX * 7, yCoord + 1, zCoord - dir.offsetZ * 10 - rot.offsetZ * 7, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 10 - rot.offsetX * 9, yCoord + 1, zCoord - dir.offsetZ * 10 - rot.offsetZ * 9, dir.getOpposite()),
+
+					PortDef.make(xCoord + dir.offsetX * 1 - rot.offsetX * 10, yCoord + 1, zCoord + dir.offsetZ * 1 - rot.offsetZ * 10, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 10, yCoord + 1, zCoord - dir.offsetZ * 1 - rot.offsetZ * 10, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 7 - rot.offsetX * 10, yCoord + 1, zCoord - dir.offsetZ * 7 - rot.offsetZ * 10, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 9 - rot.offsetX * 10, yCoord + 1, zCoord - dir.offsetZ * 9 - rot.offsetZ * 10, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override
@@ -92,6 +128,9 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			moduleFluidPorts.update(getPorts());
+			modulePowerPorts.update(getPorts());
 			
 			this.power = Library.chargeTEFromItems(slots, 8, power, maxPower);
 			
@@ -155,7 +194,8 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX;
 			double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
 			
-			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.READY || this.soyuzStatus == SoyuzStatus.LAUNCHING) && this.hasOxidizer()) {
+			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.READY || this.soyuzStatus == SoyuzStatus.LAUNCHING) &&
+					this.hasOxidizer() && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2, zCoord + 0.5) <= 100 * 100) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -591,6 +631,47 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				this.turnProgress = 3;
 			}
 		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		if(!nbt.hasKey("power")) return;
+		this.power = nbt.getLong("power");
+		tanks[0].readFromNBT(nbt, "tank0");
+		tanks[1].readFromNBT(nbt, "tank1");
+		for(int i = 0; i < 8; i++) {
+			positions[i] = nbt.getFloat("p" + i);
+			speed[i] = nbt.getFloat("s" + i);
+			target[i] = nbt.getFloat("t" + i);
+		}
+		soyuzStatus = EnumUtil.grabEnumSafely(SoyuzStatus.class, nbt.getInteger("soyuzStatus"));
+		strutStatus = EnumUtil.grabEnumSafely(ComponentStatus.class, nbt.getInteger("strutStatus"));
+		carriageStatus = EnumUtil.grabEnumSafely(ComponentStatus.class, nbt.getInteger("carriageStatus"));
+		rotorStatus = EnumUtil.grabEnumSafely(ComponentStatus.class, nbt.getInteger("rotorStatus"));
+		cargoMode = nbt.getBoolean("cargoMode");
+		fuelCountdown = nbt.getInteger("fuelCountdown");
+		countdown = nbt.getInteger("countdown");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+		tanks[0].writeToNBT(nbt, "tank0");
+		tanks[1].writeToNBT(nbt, "tank1");
+		for(int i = 0; i < 5; i++) {
+			nbt.setFloat("p" + i, positions[i]);
+			nbt.setFloat("s" + i, speed[i]);
+			nbt.setFloat("t" + i, target[i]);
+		}
+		nbt.setInteger("soyuzStatus", soyuzStatus.ordinal());
+		nbt.setInteger("strutStatus", strutStatus.ordinal());
+		nbt.setInteger("carriageStatus", carriageStatus.ordinal());
+		nbt.setInteger("rotorStatus", rotorStatus.ordinal());
+		nbt.setBoolean("cargoMode", cargoMode);
+		nbt.setInteger("fuelCountdown", fuelCountdown);
+		nbt.setInteger("countdown", countdown);
 	}
 
 	@Override public long getPower() { return this.power; }

@@ -4,9 +4,6 @@ A TODO list because this update is starting to get out of hand
   - Soyuz laucher save to NBT
   - Add rocket assembler
 
-- AutoPort
-  - PortDef system
-
 - Copy tool
   - Completely replace the entire system
   - New HUD elements instead of reusing the info panel system

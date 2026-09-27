@@ -11,6 +11,7 @@ import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.main.NTMSounds;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -22,12 +23,16 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 	public FluidTank smoke;
 	public FluidTank smoke_leaded;
 	public FluidTank smoke_poison;
+	
+	protected ModulePortManFluidAdaptive moduleSmokePorts;
 
 	public TileEntityMachinePolluting(int scount, int buffer) {
 		super(scount);
 		smoke = new FluidTank(Fluids.SMOKE, buffer);
 		smoke_leaded = new FluidTank(Fluids.SMOKE_LEADED, buffer);
 		smoke_poison = new FluidTank(Fluids.SMOKE_POISON, buffer);
+		
+		moduleSmokePorts = new ModulePortManFluidAdaptive(this).setOutputTanks(smoke, smoke_leaded, smoke_poison);
 	}
 	
 	public void pollute(PollutionType type, float amount) {

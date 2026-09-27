@@ -64,9 +64,8 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.setupFluidPorts(getPorts());
-			this.updatePortFIFO();
+
+			this.moduleSmokePorts.update(getPorts());
 			
 			wasOn = false;
 			

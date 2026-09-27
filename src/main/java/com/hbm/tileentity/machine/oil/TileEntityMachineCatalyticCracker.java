@@ -129,9 +129,9 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 					PortDef.make(xCoord + dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ * 2, dir),
 					PortDef.make(xCoord - dir.offsetX * 3 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ * 1, dir.getOpposite()),
 					PortDef.make(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * 2, dir.getOpposite()),
-					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
-					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, rot),
-					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, rot),
 					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite()),
 			};
 		}
