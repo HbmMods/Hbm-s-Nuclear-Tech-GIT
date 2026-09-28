@@ -135,6 +135,10 @@
   * Finally has a distinct model from the powered condenser
 * Fluid IDs now have nine slots for saving favorites (can be toggled with middle mouse button)
 * Breaking pipes with vein miner on now limits to pipes of the same fluid type instead of the same shape of pipe
+* Gerald now uses the new crystal circuit boards
+* Stellar fusion now only requires 5mB/t at max speed instead of 10
+* Updated the FEL's model and texture
+* Overhauled most of the lategame expensive mode recipes
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
