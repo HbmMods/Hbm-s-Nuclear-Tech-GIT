@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -149,9 +148,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				break;
 			}
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
 			powerBeforeNet = Math.min(this.power, maxPower);
 
 			//do net/battery deductions first...
@@ -199,7 +195,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			cachedPowerPorts = new PortDef[] {
-					PortDef.make(xCoord - dir.offsetZ * 4, yCoord + 1, zCoord + dir.offsetX * 4, dir),
+					PortDef.make(xCoord - rot.offsetX * 4, yCoord + 1, zCoord + rot.offsetZ * 4, rot),
 			};
 		}
 		return cachedPowerPorts;
@@ -216,7 +212,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ, dir),
 					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * -4, dir.getOpposite()),
 					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -4, dir),
-					PortDef.make(xCoord + dir.offsetZ * 5, yCoord + 1, zCoord - dir.offsetX * 5, dir.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX * 5, yCoord + 1, zCoord - rot.offsetZ * 5, rot.getOpposite()),
 			};
 		}
 		return cachedPorts;

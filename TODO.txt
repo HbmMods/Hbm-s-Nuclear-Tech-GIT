@@ -1,11 +1,12 @@
 A TODO list because this update is starting to get out of hand
 
-- Satellite stuff
-  - Soyuz laucher save to NBT
-  - Add rocket assembler
+- Ports
+  - Fix flow control pump
+  - Completely redo the power diode
+  - Fix any remaining broken ports
 
-- AutoPort
-  - PortDef system
+- Satellite stuff
+  - Add rocket assembler
 
 - Copy tool
   - Completely replace the entire system

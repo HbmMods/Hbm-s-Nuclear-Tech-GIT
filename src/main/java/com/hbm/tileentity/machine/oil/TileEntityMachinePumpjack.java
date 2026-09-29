@@ -163,9 +163,9 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 			
 			cachedPorts = new PortDef[] {
 					PortDef.make(xCoord + rot.offsetX * 2 + dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 2 + dir.offsetZ * 1, dir),
-					PortDef.make(xCoord + rot.offsetX * 2 + dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 4 - dir.offsetZ * 1, dir.getOpposite()),
-					PortDef.make(xCoord + rot.offsetX * 4 - dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 4 + dir.offsetZ * 1, dir),
-					PortDef.make(xCoord + rot.offsetX * 4 - dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX * 2 - dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX * 4 + dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 4 + dir.offsetZ * 1, dir),
+					PortDef.make(xCoord + rot.offsetX * 4 - dir.offsetX * 1, yCoord, zCoord + rot.offsetZ * 4 - dir.offsetZ * 1, dir.getOpposite()),
 			};
 		}
 		return cachedPorts;

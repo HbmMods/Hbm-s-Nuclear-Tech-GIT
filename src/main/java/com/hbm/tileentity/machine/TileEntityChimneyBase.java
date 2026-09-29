@@ -5,22 +5,35 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.tileentity.TilePort;
 import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TilePort.PortDef;
 
-import api.hbm.fluidmk2.IFluidReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidReceiverMK2, IBufPacketReceiver {
+public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidStandardReceiverMK2, IBufPacketReceiver {
 
 	public long ashTick = 0;
 	public long sootTick = 0;
 	public int onTicks;
+	
+	public FluidTank[] tanks;
+	
+	protected ModulePortManFluidAdaptive moduleSmokePorts;
+	
+	public TileEntityChimneyBase() {
+		tanks = new FluidTank[3];
+		tanks[0] = new FluidTank(Fluids.SMOKE, 1_000_000);
+		tanks[1] = new FluidTank(Fluids.SMOKE_LEADED, 1_000_000);
+		tanks[2] = new FluidTank(Fluids.SMOKE_POISON, 1_000_000);
+		
+		moduleSmokePorts = new ModulePortManFluidAdaptive(this).setInputTanks(tanks);
+	}
 	
 	protected PortDef[] cachedPorts;
 	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.flare(xCoord, yCoord, zCoord); return cachedPorts; }
@@ -30,14 +43,7 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 
 		if(!worldObj.isRemote) {
 			
-			if(fluidInPorts == null) {
-				fluidInPorts = TilePort.oneToMany(this, 3, PortDef.combine(getPorts()));
-				fluidInPorts[0].setupType(Fluids.SMOKE.getNetworkProvider());
-				fluidInPorts[1].setupType(Fluids.SMOKE_LEADED.getNetworkProvider());
-				fluidInPorts[2].setupType(Fluids.SMOKE_POISON.getNetworkProvider());
-			}
-			
-			this.updatePortFIFO();
+			moduleSmokePorts.update(getPorts());
 
 			if(ashTick > 0 || sootTick > 0) {
 
@@ -86,7 +92,7 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 
 	@Override
 	public long transferFluid(FluidType type, int pressure, long fluid) {
-
+		
 		if(type != Fluids.SMOKE && type != Fluids.SMOKE_LEADED && type != Fluids.SMOKE_POISON) return fluid;
 
 		onTicks = 20;
@@ -110,8 +116,6 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 		return 1_000_000;
 	}
 
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] {};
-	}
+	@Override public FluidTank[] getAllTanks() { return tanks; }
+	@Override public FluidTank[] getReceivingTanks() { return tanks; }
 }

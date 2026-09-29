@@ -83,6 +83,20 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		return cachedPorts;
 	}
 
+	protected PortDef[] smokePorts;
+
+	public PortDef[] getSmokePorts() {
+		if(smokePorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+			
+			smokePorts = new PortDef[] {
+					PortDef.make(xCoord - rot.offsetX, yCoord + 2, zCoord - rot.offsetZ, Library.POS_Y),
+			};
+		}
+		return smokePorts;
+	}
+
 	@Override
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
@@ -101,7 +115,8 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+
+			this.moduleSmokePorts.update(getSmokePorts());
 			this.setupAllPorts(getPorts());
 			this.updatePortPIFIFO();
 

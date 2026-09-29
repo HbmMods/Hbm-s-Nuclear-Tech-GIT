@@ -1870,7 +1870,7 @@ public class ClientProxy extends ServerProxy {
 				int color = data.getInteger("color");
 				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
 			}
-			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+			if(debug != null) Minecraft.getMinecraft().effectRenderer.addEffect(debug);
 		}
 
 		if("gasfire".equals(type)) {

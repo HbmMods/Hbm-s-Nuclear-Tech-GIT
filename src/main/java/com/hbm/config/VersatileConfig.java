@@ -2,19 +2,12 @@ package com.hbm.config;
 
 import java.util.ArrayList;
 
-import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 
 public class VersatileConfig {
-	
-	public static Item getTransmutatorItem() {
-		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMFullSchrab) return ModItems.ingot_schrabidium;
-		return ModItems.ingot_schraranium;
-	}
 	
 	public static int getSchrabOreChance() {
 		if(GeneralConfig.enableLBSM) return GeneralConfig.schrabRate;

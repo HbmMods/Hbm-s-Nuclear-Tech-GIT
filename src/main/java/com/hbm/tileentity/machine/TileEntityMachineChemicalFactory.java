@@ -24,7 +24,6 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort;
-import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TileEntityProxyDyn.IProxyDelegateProvider;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
@@ -133,10 +132,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 					PortDef.make(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
 					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
 					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 2, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
-					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
-					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
-					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
-					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
 			};
 		}
 		return powerPorts;

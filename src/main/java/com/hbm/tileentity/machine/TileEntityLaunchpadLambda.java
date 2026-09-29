@@ -162,8 +162,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				}
 			}
 			
-			if(this.erected && this.hasOxidizer()) {
-
+			if(this.erected && this.hasOxidizer() && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2, zCoord + 0.5) <= 100 * 100) {
+				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 0F);
@@ -203,15 +203,18 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				this.setTarget(INDEX_ERECTOR, 25F, 2F, 60);
 			} else if(this.erectorCenter() && this.rotorUp() && this.doorsClosed()) {
 				this.erected = true;
+				this.markChanged();
 			} else {
 				// oops, we've gone off-script, just run everything back
 				this.erecting = false;
+				this.markChanged();
 			}
 		}
 		
 		// return erector when countdown hits T-1
 		if(this.erected && this.countdown <= 20 && this.countdown > 0) {
 			this.erecting = false;
+			this.markChanged();
 		}
 		
 		// return erector post launch
@@ -232,6 +235,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				
 				if(this.hasRocketLoaded()) {
 					this.erecting = true;
+					this.markChanged();
 				}
 			}
 		}
@@ -240,6 +244,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 			this.countdown--;
 			
 			if(this.countdown <= 0) {
+				this.markChanged();
 				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
 				this.liftOff();
 			}
@@ -314,6 +319,45 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				this.turnProgress = 3;
 			}
 		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		if(!nbt.hasKey("power")) return;
+		this.power = nbt.getLong("power");
+		tanks[0].readFromNBT(nbt, "tank0");
+		tanks[1].readFromNBT(nbt, "tank1");
+		for(int i = 0; i < 5; i++) {
+			positions[i] = nbt.getFloat("p" + i);
+			speed[i] = nbt.getFloat("s" + i);
+			target[i] = nbt.getFloat("t" + i);
+		}
+		erected = nbt.getBoolean("erected");
+		erecting = nbt.getBoolean("erecting");
+		animationProgress = nbt.getInteger("animationProgress");
+		animationDelay = nbt.getInteger("animationDelay");
+		autolaunch = nbt.getBoolean("autolaunch");
+		countdown = nbt.getInteger("countdown");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+		tanks[0].writeToNBT(nbt, "tank0");
+		tanks[1].writeToNBT(nbt, "tank1");
+		for(int i = 0; i < 5; i++) {
+			nbt.setFloat("p" + i, positions[i]);
+			nbt.setFloat("s" + i, speed[i]);
+			nbt.setFloat("t" + i, target[i]);
+		}
+		nbt.setBoolean("erected", erected);
+		nbt.setBoolean("erecting", erecting);
+		nbt.setInteger("animationProgress", animationProgress);
+		nbt.setInteger("animationDelay", animationDelay);
+		nbt.setBoolean("autolaunch", autolaunch);
+		nbt.setInteger("countdown", countdown);
 	}
 	
 	public void setTarget(int index, float target, float span, int duration) {

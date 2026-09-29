@@ -67,7 +67,6 @@ public class GeneralConfig {
 	}
 
 	public static boolean enableLBSM = false;
-	public static boolean enableLBSMFullSchrab = true;
 	public static boolean enableLBSMShorterDecay = true;
 	public static boolean enableLBSMSimpleArmorRecipes = true;
 	public static boolean enableLBSMSimpleToolRecipes = true;
@@ -158,7 +157,6 @@ public class GeneralConfig {
 				+ "Progression-braking recipes are usually not too severe, so the mode is generally server-friendly!");
 
 		enableLBSM = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "enableLessBullshitMode", "The central toggle for LBS mode. Forced OFF when 528 is enabled!", false);
-		enableLBSMFullSchrab = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_fullSchrab", "When enabled, this will replace schraranium with full schrabidium ingots in the transmutator's output", true);
 		enableLBSMShorterDecay = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_shortDecay", "When enabled, this will highly accelerate the speed at which nuclear waste disposal drums decay their contents. 60x faster than 528 mode and 5-12x faster than on normal mode.", true);
 		enableLBSMSimpleArmorRecipes = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleArmor", "When enabled, simplifies the recipe for armor sets like starmetal or schrabidium.", true);
 		enableLBSMSimpleToolRecipes = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleTool", "When enabled, simplifies the recipe for tool sets like starmetal or scrhabidium", true);
