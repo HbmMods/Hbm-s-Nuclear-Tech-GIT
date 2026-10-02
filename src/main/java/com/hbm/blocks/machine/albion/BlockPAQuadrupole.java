@@ -39,15 +39,29 @@ public class BlockPAQuadrupole extends BlockDummyable implements ITooltipProvide
 	@Override public int[] getDimensions() { return new int[] {1, 1, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 0; }
 	@Override public int getHeightOffset() { return 1; }
-
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return new int[][] {
+			{dir.offsetX, 0, dir.offsetZ, dir.ordinal()},
+			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
+			{0, 1, 0, ForgeDirection.UP.ordinal()},
+			{0, -1, 0, ForgeDirection.DOWN.ordinal()}
+		};
+	}
+	
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0.9, 0.1, -0.4, 0.4,  1.5,  1.5},
+			{0.9, 0.1, -0.4, 0.4, -1.5, -1.5}
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ);
-		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
-		this.makeExtra(world, x, y + 1, z);
-		this.makeExtra(world, x, y - 1, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

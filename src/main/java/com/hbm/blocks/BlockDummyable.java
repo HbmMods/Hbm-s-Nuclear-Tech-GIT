@@ -584,7 +584,12 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	public double[][] getAABBExtras() {
 		return new double[0][0];
 	}
-	
+	//You do not want to know how many sacrifices were needed to make this section work 
+	// (in total not just 3 lines)
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return new int[0][0];
+	}
+
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
@@ -833,6 +838,38 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				tess.addVertex(x1, y0, z0); tess.addVertex(x1, y1, z0);
 				tess.addVertex(x0, y0, z1); tess.addVertex(x0, y1, z1);
 				tess.addVertex(x1, y0, z1); tess.addVertex(x1, y1, z1);
+			}
+			//rainbow yellow!
+			tess.setColorRGBA(color, color, 0, 255);
+
+			for(int[] port : getAllPorts(facing)) {
+				//IM RUNNING OUT OF LETTERS TO NOT MAKE EVERYTHING THE SAME VAR NAME (for readability)
+				double jX = MathHelper.floor_double(originX) + port[0] - dX;
+				double jY = MathHelper.floor_double(originY) + port[1] - dY;
+				double jZ = MathHelper.floor_double(originZ) + port[2] - dZ;
+
+				double s = 0.3;
+				ForgeDirection dir = ForgeDirection.getOrientation(port[3]);
+				//Yo wheres the port face
+				if(dir == ForgeDirection.UP || dir == ForgeDirection.DOWN) {
+					double fy = jY + (dir.offsetY > 0 ? 1 : 0);
+					tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 - s); tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 - s);
+					tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 - s); tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 + s);
+					tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 + s); tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 + s);
+					tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 + s); tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 - s);
+				} else if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+					double fx = jX + (dir.offsetX > 0 ? 1 : 0);
+					tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 - s); tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 - s);
+					tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 - s); tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 + s);
+					tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 + s); tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 + s);
+					tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 + s); tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 - s);
+				} else {
+					double fz = jZ + (dir.offsetZ > 0 ? 1 : 0);
+					tess.addVertex(jX + 0.5 - s, jY + 0.5 - s, fz); tess.addVertex(jX + 0.5 + s, jY + 0.5 - s, fz);
+					tess.addVertex(jX + 0.5 + s, jY + 0.5 - s, fz); tess.addVertex(jX + 0.5 + s, jY + 0.5 + s, fz);
+					tess.addVertex(jX + 0.5 + s, jY + 0.5 + s, fz); tess.addVertex(jX + 0.5 - s, jY + 0.5 + s, fz);
+					tess.addVertex(jX + 0.5 - s, jY + 0.5 + s, fz); tess.addVertex(jX + 0.5 - s, jY + 0.5 - s, fz);
+				}
 			}
 
 			tess.draw();
