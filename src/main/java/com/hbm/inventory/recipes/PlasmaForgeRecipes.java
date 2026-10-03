@@ -260,8 +260,8 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CONTROLLER_QUANTUM),
-						new ComparableStack(ModItems.drive, 16, EnumDriveType.DISK_ORBITDATA_PROCESSED),
-						new ComparableStack(ModItems.coin_ufo, 1))
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.CRYSTAL),
+						new ComparableStack(ModItems.drive, 16, EnumDriveType.DISK_ORBITDATA_PROCESSED))
 				.inputItemsEx(new OreDictStack(SBD.plateCast(), 64),
 						new OreDictStack(BSCCO.wireDense(), 64),
 						new ComparableStack(ModBlocks.det_nuke, 64),
@@ -271,9 +271,9 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CONTROLLER_QUANTUM),
+						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CRYSTAL),
 						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.COMPUTER),
-						new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_ORBITDATA_PROCESSED),
-						new ComparableStack(ModItems.coin_ufo, 1)));
+						new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_ORBITDATA_PROCESSED)));
 
 		// really, really boring fucking temp recipes
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.dfccore").setInputEnergy(50_000_000).setup(12_000, 100_000_000).outputItems(new ItemStack(ModBlocks.dfc_core)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 12_000))
