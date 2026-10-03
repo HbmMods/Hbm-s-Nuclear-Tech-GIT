@@ -766,7 +766,8 @@ public class ModBlocks {
 	public static Block fluid_valve;
 	public static Block fluid_switch;
 	public static Block fluid_counter_valve;
-	public static Block fluid_pump;
+	@Deprecated public static Block fluid_pump;
+	public static Block flow_control_pump;
 	public static Block machine_drain;
 	public static Block radio_torch_sender;
 	public static Block radio_torch_receiver;
@@ -1882,7 +1883,8 @@ public class ModBlocks {
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_switch = new FluidSwitch(Material.iron).setBlockName("fluid_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_counter_valve = new FluidCounterValve(Material.iron).setBlockName("fluid_counter_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		fluid_pump = new FluidPump(Material.iron).setBlockName("fluid_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fluid_pump = new FluidPump(Material.iron).setBlockName("fluid_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		flow_control_pump = new FlowControlPump().setBlockName("flow_control_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drain = new MachineDrain(Material.iron).setBlockName("machine_drain").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		radio_torch_receiver = new RadioTorchReceiver().setBlockName("radio_torch_receiver").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3166,6 +3168,7 @@ public class ModBlocks {
 		register(fluid_counter_valve);
 		register(fluid_switch);
 		register(fluid_pump);
+		register(flow_control_pump);
 		register(machine_drain);
 		register(radio_torch_sender);
 		register(radio_torch_receiver);

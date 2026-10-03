@@ -142,8 +142,10 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 
 			if(!worldObj.isRemote) {
 				
-				this.setupFluidInPortsHijack(getAllTanks(), getPorts());
-				this.updatePortFIFO();
+				// FIXME
+				
+				//this.setupFluidInPorts(getPorts());
+				//this.updatePortFIFO();
 
 				if(prevProgress != progress) {
 					worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);

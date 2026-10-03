@@ -139,6 +139,8 @@
 * Stellar fusion now only requires 5mB/t at max speed instead of 10
 * Updated the FEL's model and texture
 * Overhauled most of the lategame expensive mode recipes
+* The current version of flow control pumps has been deprecated and replaced with a 1x3 version
+  * Existing pumps will no longer work, instead they just act like regular pipes
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
