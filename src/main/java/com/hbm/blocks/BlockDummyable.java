@@ -800,11 +800,14 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 					}
 				}
 			}
-
-			tess.setColorRGBA(0, 0, color, 255);
 			
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
+				if(extra.length > 6 && extra[6] == 1) {
+					tess.setColorRGBA(255, 165, 0, 255);
+				} else {
+					tess.setColorRGBA(0, 0, color, 255);
+				}
 				ForgeDirection rot = facing.getRotation(ForgeDirection.UP);
 				double cX = MathHelper.floor_double(originX) - dX + 0.5;
 				double cY = MathHelper.floor_double(originY) - dY;

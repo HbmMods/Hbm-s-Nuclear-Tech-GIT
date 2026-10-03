@@ -48,11 +48,25 @@ public class HeaterElectric extends BlockDummyable implements ILookOverlay, IToo
 	public int getOffset() {
 		return 2;
 	}
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return new int[][] {
+			{dir.offsetX * 2, 0, dir.offsetZ * 2, dir.ordinal()}
+		};
+	}
 
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1, 1, 0.7, -0.5, 0.6, -0.6, 1}
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		this.makeExtra(world, x, y, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override
