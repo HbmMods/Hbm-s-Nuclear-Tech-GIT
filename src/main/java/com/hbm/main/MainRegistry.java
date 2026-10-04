@@ -514,6 +514,9 @@ public class MainRegistry {
 				proxy.handleNHNEICompat();
 			}
 		}
+
+		// Load compatibility for OC.
+		CompatHandler.init();
 	}
 
 	@EventHandler
@@ -580,7 +583,7 @@ public class MainRegistry {
 		proxy.registerMissileItems();
 
 		// Load compatibility for OC.
-		CompatHandler.init();
+		CompatHandler.postInit();
 
 		// Load compatibility for AE2.
 		AE2CompatHandler.init();
