@@ -1,8 +1,5 @@
 package com.hbm.blocks.network;
 
-import com.hbm.handler.CompatHandler;
-import li.cil.oc.api.network.SimpleComponent;
-
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -59,7 +56,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable 
 	}
 
 	@Deprecated
-	public static class TileEntityFluidPump extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
+	public static class TileEntityFluidPump extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IControlReceiver {
 
 		public int bufferSize = 100;
 		public FluidTank[] tank;

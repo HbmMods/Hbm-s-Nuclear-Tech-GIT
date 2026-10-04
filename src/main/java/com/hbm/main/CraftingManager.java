@@ -234,8 +234,8 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModBlocks.oc_cable_paintable, 16), new Object[] { "WRW", "RIR", "WRW", 'W', STEEL.plate(), 'I', REDSTONE.dust(), 'R', MINGRADE.wireFine() });
 		addRecipeAuto(new ItemStack(ModBlocks.cable_switch, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.red_wire_coated });
 		addRecipeAuto(new ItemStack(ModBlocks.cable_detector, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.red_wire_coated });
-		addRecipeAuto(new ItemStack(ModBlocks.cable_diode, 1), new Object[] { " Q ", "CAC", " Q ", 'Q', SI.nugget(), 'C', ModBlocks.red_cable, 'A', AL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_detector, 1), new Object[] { "IRI", "CTC", "IRI", 'I', ModItems.plate_polymer, 'R', REDSTONE.dust(), 'C', MINGRADE.wireFine(), 'T', ModItems.coil_tungsten });
+		addRecipeAuto(new ItemStack(ModBlocks.network_separator, 1), new Object[] { "SCS", "DTD", "SCS", 'S', STEEL.plate(), 'D', ModItems.coil_copper, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'T', ModBlocks.machine_transformer });
 		addRecipeAuto(new ItemStack(ModBlocks.red_cable, 16), new Object[] { " W ", "RRR", " W ", 'W', ModItems.plate_polymer, 'R', MINGRADE.wireFine() });
 		addShapelessAuto(new ItemStack(ModBlocks.red_cable_classic, 1), new Object[] { ModBlocks.red_cable });
 		addShapelessAuto(new ItemStack(ModBlocks.red_cable, 1), new Object[] { ModBlocks.red_cable_classic });
@@ -574,7 +574,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_valve, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.fluid_duct_paintable });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_switch, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.fluid_duct_paintable });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_counter_valve, 1), new Object[] { "S", "W", 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), 'W', ModBlocks.fluid_switch });
-		addRecipeAuto(new ItemStack(ModBlocks.flow_control_pump, 1), new Object[] { "S", "G", "M", 'S', STEEL.shell(), 'G', GRAPHITE.ingot(), 'M', ModItems.motor });
+		addRecipeAuto(new ItemStack(ModBlocks.flow_control_pump, 1), new Object[] { " G ", "SMS", " G ", 'S', STEEL.shell(), 'G', GRAPHITE.ingot(), 'M', ModItems.motor });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 8), new Object[] { "CRC", 'C', CU.plateCast(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 24), new Object[] { "CRC", 'C', CU.plateWelded(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube_paintable, 4), new Object[] { "SAS", "A A", "SAS", 'S', STEEL.plate(), 'A', ModBlocks.pneumatic_tube});

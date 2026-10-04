@@ -14,6 +14,7 @@ import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.blocks.network.BlockNetworkSeparator.TileEntityNetworkSeparator;
 import com.hbm.blocks.network.FlowControlPump.TileEntityFlowControlPump;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.config.GeneralConfig;
@@ -377,6 +378,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineWoodBurner.class, new RenderWoodBurner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPump.class, new RenderFluidPump());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlowControlPump.class, new RenderFlowControlPump());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNetworkSeparator.class, new RenderNetworkSeparator());
 		//Foundry
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryBasin.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryMold.class, new RenderFoundry());

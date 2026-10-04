@@ -36,6 +36,7 @@ import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.BlockCableGauge.TileEntityCableGauge;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
+import com.hbm.blocks.network.BlockNetworkSeparator.TileEntityNetworkSeparator;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.CranePartitioner.TileEntityCranePartitioner;
 import com.hbm.blocks.network.FlowControlPump.TileEntityFlowControlPump;
@@ -447,6 +448,7 @@ public class TileMappings {
 		put(TileEntityCableGauge.class, "tileentity_cable_gauge");
 		put(TileEntityCableSwitch.class, "tileentity_cable_switch");
 		put(TileEntityDiode.class, "tileentity_cable_diode");
+		put(TileEntityNetworkSeparator.class, "tileentity_network_separator");
 
 		put(TileEntityConnector.class, "tileentity_connector_redwire");
 		put(TileEntityConnectorSuper.class, "tileentity_connector_redwire_super");
