@@ -36,8 +36,10 @@ import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.BlockCableGauge.TileEntityCableGauge;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
+import com.hbm.blocks.network.BlockNetworkSeparator.TileEntityNetworkSeparator;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.CranePartitioner.TileEntityCranePartitioner;
+import com.hbm.blocks.network.FlowControlPump.TileEntityFlowControlPump;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhaustPaintable;
@@ -446,6 +448,7 @@ public class TileMappings {
 		put(TileEntityCableGauge.class, "tileentity_cable_gauge");
 		put(TileEntityCableSwitch.class, "tileentity_cable_switch");
 		put(TileEntityDiode.class, "tileentity_cable_diode");
+		put(TileEntityNetworkSeparator.class, "tileentity_network_separator");
 
 		put(TileEntityConnector.class, "tileentity_connector_redwire");
 		put(TileEntityConnectorSuper.class, "tileentity_connector_redwire_super");
@@ -462,6 +465,7 @@ public class TileMappings {
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityFluidCounterValve.class, "tileentity_pipe_counter_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
+		put(TileEntityFlowControlPump.class, "tileentity_flow_control_pump");
 
 		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
 

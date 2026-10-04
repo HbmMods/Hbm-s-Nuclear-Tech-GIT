@@ -2,7 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.input.Keyboard;
 
-import com.hbm.blocks.network.CableDiode.TileEntityDiode;
+import com.hbm.blocks.network.BlockNetworkSeparator.TileEntityNetworkSeparator;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.util.EnumUtil;
@@ -20,13 +20,13 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GUIDiode extends GuiScreen {
 
-	protected final TileEntityDiode diode;
+	protected final TileEntityNetworkSeparator diode;
 
 	private GuiTextField textThroughput;
 	private GuiButton buttonPriority;
 	private int priority;
 
-	public GUIDiode(TileEntityDiode diode) {
+	public GUIDiode(TileEntityNetworkSeparator diode) {
 		this.diode = diode;
 		this.priority = diode.priority.ordinal();
 	}
@@ -36,7 +36,7 @@ public class GUIDiode extends GuiScreen {
 		Keyboard.enableRepeatEvents(true);
 
 		textThroughput = new GuiTextField(fontRendererObj, this.width / 2 - 150, 100, 90, 20);
-		textThroughput.setText("" + diode.limit);
+		textThroughput.setText("" + diode.configuredLimit);
 		textThroughput.setMaxStringLength(11);
 
 		buttonPriority = new GuiButton(0, this.width / 2 + 20, 100, 90, 20, diode.priority.name());

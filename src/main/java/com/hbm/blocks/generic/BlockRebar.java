@@ -21,7 +21,7 @@ import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.tileentity.TilePort.PortDef;
+import com.hbm.tileentity.TilePort;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -121,20 +121,9 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			return this;
 		}
 
-		protected PortDef[] cachedPorts;
-		
-		public PortDef[] getPorts() {
-			if(cachedPorts == null) {
-				cachedPorts = new PortDef[] {
-						PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
-						PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-						PortDef.make(xCoord, yCoord + 1, zCoord, Library.POS_Y),
-						PortDef.make(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-						PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-						PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-				};
-			}
-			return cachedPorts;
+		@Override
+		public boolean canConnect(FluidType type, ForgeDirection dir) {
+			return dir == ForgeDirection.UP && type == Fluids.CONCRETE;
 		}
 
 		@Override
@@ -142,9 +131,21 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 
 			if(!worldObj.isRemote) {
 				
-				this.setupFluidInPortsHijack(getAllTanks(), getPorts());
-				this.updatePortFIFO();
-
+				if(this.hasConnection) {
+					if(this.fluidInPorts == null) {
+						fluidInPorts = new TilePort[1];
+						fluidInPorts[0] = new TilePort().setupOwner(this).setupType(Fluids.CONCRETE.getNetworkProvider())
+								.setupPositions(new BlockPos(xCoord, yCoord, zCoord)).setupConnections(new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y));
+					}
+					fluidInPorts[0].update(worldObj);
+					fluidInPorts[0].checkSubscribe(worldObj);
+				} else {
+					if(this.fluidInPorts != null) {
+						fluidInPorts[0].disableIfPresent(worldObj);
+						this.fluidInPorts = null;
+					}
+				}
+				
 				if(prevProgress != progress) {
 					worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
 					prevProgress = progress;
@@ -176,6 +177,8 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 		@Override
 		public void invalidate() {
 			super.invalidate();
+			
+			if(this.fluidInPorts != null) fluidInPorts[0].disable();
 
 			if(!worldObj.isRemote) {
 				if(this.node != null) {

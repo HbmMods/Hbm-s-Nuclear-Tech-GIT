@@ -674,6 +674,20 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		nbt.setInteger("countdown", countdown);
 	}
 
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
+	}
+
 	@Override public long getPower() { return this.power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
