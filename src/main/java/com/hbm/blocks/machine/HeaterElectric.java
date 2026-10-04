@@ -58,7 +58,7 @@ public class HeaterElectric extends BlockDummyable implements ILookOverlay, IToo
 	@Override
 	public double[][] getAABBExtras() {
 		return new double[][] {
-			{1, 1, 0.7, -0.5, 0.6, -0.6, 1}
+			{1, 1, 0.74, -0.06, 0.4, -0.4, 1}
 		};
 	}
 	@Override

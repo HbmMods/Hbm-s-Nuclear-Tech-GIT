@@ -58,19 +58,30 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
 	public int getOffset() {
 		return 1;
 	}
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{2, 2, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
+
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new int[][] {
+			{rot.offsetX, 0, rot.offsetZ, rot.ordinal()},
+			{-rot.offsetX, 0, -rot.offsetZ, rot.getOpposite().ordinal()},
+			{dir.offsetX, 0, dir.offsetZ, dir.ordinal()},
+			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
+		};
+	}
 
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		this.makeExtra(world, x + 1, y, z);
-		this.makeExtra(world, x - 1, y, z);
-		this.makeExtra(world, x, y, z + 1);
-		this.makeExtra(world, x, y, z - 1);
-		this.makeExtra(world, x, y + 1, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

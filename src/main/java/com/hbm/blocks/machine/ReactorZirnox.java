@@ -72,6 +72,17 @@ public class ReactorZirnox extends BlockDummyable {
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new int[][] {
+			{rot.offsetX * 2, 1, rot.offsetZ * 2, rot.ordinal()},
+			{rot.offsetX * 2, 3, rot.offsetZ * 2, rot.ordinal()},
+			{rot.offsetX * -2, 1, rot.offsetZ * -2, rot.getOpposite().ordinal()},
+			{rot.offsetX * -2, 3, rot.offsetZ * -2, rot.getOpposite().ordinal()},
+			{0, 4, 0, ForgeDirection.UP.ordinal()}
+		};
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 1, 1, 1, 1}, x, y, z, dir) &&
@@ -87,13 +98,9 @@ public class ReactorZirnox extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 0, 0, 2, -2}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 0, 0, -2, 2}, this, dir);
 
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 1, z + dir.offsetZ * o + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 3, z + dir.offsetZ * o + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 1, z + dir.offsetZ * o + rot.offsetZ * -2);
-		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 3, z + dir.offsetZ * o + rot.offsetZ * -2);
-		//i still don't know why the ports were such an issue all those months ago
-		this.makeExtra(world, x + dir.offsetX * o, y + 4, z + dir.offsetZ * o);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

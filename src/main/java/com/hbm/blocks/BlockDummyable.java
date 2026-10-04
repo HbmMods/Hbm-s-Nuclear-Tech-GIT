@@ -803,6 +803,8 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
+				//Slight modification to handle heat ports without adding a whole new function.
+				//Nothing stays blue, adding a 1 makes it orange
 				if(extra.length > 6 && extra[6] == 1) {
 					tess.setColorRGBA(255, 165, 0, 255);
 				} else {
