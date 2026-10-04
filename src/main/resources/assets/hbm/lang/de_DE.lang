@@ -4660,6 +4660,7 @@ tile.moon_turf.name=Mondgestein
 tile.mud_block.name=Giftiger Schlamm
 tile.muffler.name=Schalldämpfer
 tile.mush.name=Leuchtender Pilz
+tile.network_separator.name=Netzwerk-Trenner
 tile.nospawn=Mobs können nicht auf diesem Block spawnen!
 tile.ntm_dirt.name=Erde
 tile.nuke_boy.name=Little Boy

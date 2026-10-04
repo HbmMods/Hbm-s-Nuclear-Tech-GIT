@@ -432,6 +432,7 @@ public class ResourceManager {
 	public static final IModelCustom pipe_anchor = new HFRWavefrontObject("models/network/pipe_anchor.obj").asVBO();
 	public static final IModelCustom fluid_pump = new HFRWavefrontObject("models/network/fluid_diode.obj").asVBO();
 	public static final IModelCustom flow_control_pump = new HFRWavefrontObject("models/network/flow_control_pump.obj").asVBO();
+	public static final IModelCustom network_separator = new HFRWavefrontObject("models/network/network_separator.obj").asVBO();
 
 	//Radiolysis
 	public static final IModelCustom radiolysis = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/radiolysis.obj"));
@@ -887,6 +888,7 @@ public class ResourceManager {
 	public static final ResourceLocation substation_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/substation.png");
 	public static final ResourceLocation wire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/wire.png");
 	public static final ResourceLocation wire_greyscale_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/wire_greyscale.png");
+	public static final ResourceLocation network_separator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/network_separator.png");
 
 	//Pipes
 	public static final ResourceLocation pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor.png");

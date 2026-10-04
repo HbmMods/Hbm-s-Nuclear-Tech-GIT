@@ -83,6 +83,14 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	}
 
 	@Override
+	public long getFluidAvailable(FluidType type, int pressure) {
+		if(this.tilted) return 0;
+		if(this.mode == 0 || this.mode == 3) return 0;
+		if(tank.getPressure() != pressure) return 0;
+		return type == tank.getTankType() ? tank.getFill() : 0;
+	}
+
+	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {

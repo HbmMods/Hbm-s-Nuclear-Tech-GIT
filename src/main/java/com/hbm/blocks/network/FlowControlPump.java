@@ -101,6 +101,7 @@ public class FlowControlPump extends BlockDummyable implements ILookOverlay, IGU
 		List<String> text = new ArrayList();
 		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + pump.tank[0].getTankType().getLocalizedName() + " (" + pump.tank[0].getPressure() + " PU): " + BobMathUtil.format(pump.bufferSize) + "mB/t" + EnumChatFormatting.RED + " ->");
 		text.add("Priority: " + EnumChatFormatting.YELLOW + pump.priority.name());
+		if(pump.redstone) text.add(EnumChatFormatting.RED + "Disabled by redstone");
 		if(pump.tank[0].getFill() > 0) text.add(BobMathUtil.format(pump.tank[0].getFill()) + "mB buffered");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
@@ -237,6 +238,7 @@ public class FlowControlPump extends BlockDummyable implements ILookOverlay, IGU
 			tank[0].serialize(buf);
 			buf.writeByte((byte) priority.ordinal());
 			buf.writeInt(bufferSize);
+			buf.writeBoolean(redstone);
 			buf.writeBoolean(isWorking);
 		}
 
@@ -246,6 +248,7 @@ public class FlowControlPump extends BlockDummyable implements ILookOverlay, IGU
 			tank[0].deserialize(buf);
 			priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, buf.readByte());
 			bufferSize = buf.readInt();
+			redstone = buf.readBoolean();
 			isWorking = buf.readBoolean();
 		}
 

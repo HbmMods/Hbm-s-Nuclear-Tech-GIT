@@ -141,6 +141,13 @@
 * Overhauled most of the lategame expensive mode recipes
 * The current version of flow control pumps has been deprecated and replaced with a 1x3 version
   * Existing pumps will no longer work, instead they just act like regular pipes
+* The current version of diodes has been deprecated and replaced with a 1x2x3 connector called network separator
+  * Existing diodes will no longer work and instead act like regular cables
+  * Network separators also work like gauges, except they only log the power they themselves give off
+  * Network separators can also cut power via redstone signal, with the bottom three blocks being able to accept a signal
+  * RoR configurable and readable
+* Gauges no longer display the total amount transferred in the network, rather they display the change in supply, giving a more accurate picture of the amount of energy/liquid moved
+  * This should fix a long standing issue where multiple buffers would cause "sloshing" or "pingponing", causing transfer numbers to be huge even if no actual transfers are taking place
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
