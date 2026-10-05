@@ -41,15 +41,14 @@ public class BlockPARFC extends BlockDummyable implements ITooltipProvider {
 	@Override public int getHeightOffset() { return 1; }
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{rot.offsetX * 3, 1, rot.offsetZ * 3, ForgeDirection.UP.ordinal()},
-			{-rot.offsetX * 3, 1, -rot.offsetZ * 3, ForgeDirection.UP.ordinal()},
+		return rotatePorts(new int[][] {
+			{3, 1, 0, ForgeDirection.UP.ordinal()},
+			{-3, 1, 0, ForgeDirection.UP.ordinal()},
 			{0, 1, 0, ForgeDirection.UP.ordinal()},
-			{rot.offsetX * 3, -1, rot.offsetZ * 3, ForgeDirection.DOWN.ordinal()},
-			{-rot.offsetX * 3, -1, -rot.offsetZ * 3, ForgeDirection.DOWN.ordinal()},
+			{3, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{-3, -1, 0, ForgeDirection.DOWN.ordinal()},
 			{0, -1, 0, ForgeDirection.DOWN.ordinal()}
-		};
+		}, dir);
 	}
 	@Override
 	public double[][] getAABBExtras() {

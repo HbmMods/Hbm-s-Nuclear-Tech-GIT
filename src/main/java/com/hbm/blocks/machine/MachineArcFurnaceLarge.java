@@ -39,7 +39,17 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 1, ForgeDirection.EAST.ordinal()},
+			{2, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		if(!super.checkRequirement(world, x, y, z, dir, o)) return false;
@@ -52,16 +62,9 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 		super.fillSpace(world, x, y, z, dir, o);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y, z + dir.offsetZ * o, new int[] {4, 0, 3, -2, 1, 1}, this, dir);
 
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-
-		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX, y, z + dir.offsetZ * 2 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX, y, z + dir.offsetZ * 2 - rot.offsetZ);
-		this.makeExtra(world, x + rot.offsetX * 2 + dir.offsetX, y, z + rot.offsetZ * 2 + dir.offsetZ);
-		this.makeExtra(world, x + rot.offsetX * 2 - dir.offsetX, y, z + rot.offsetZ * 2 - dir.offsetZ);
-		this.makeExtra(world, x - rot.offsetX * 2 + dir.offsetX, y, z - rot.offsetZ * 2 + dir.offsetZ);
-		this.makeExtra(world, x - rot.offsetX * 2 - dir.offsetX, y, z - rot.offsetZ * 2 - dir.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

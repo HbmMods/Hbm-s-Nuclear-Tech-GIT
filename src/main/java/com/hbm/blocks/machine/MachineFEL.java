@@ -39,7 +39,18 @@ public class MachineFEL extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 1, -5, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
+	}
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.9, 1.1, 2.5, 2.5, 0.4, -0.4}
+		};
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -62,6 +73,8 @@ public class MachineFEL extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		this.makeExtra(world, x + dir.offsetX * (o - 4), y + 1, z + dir.offsetZ * (o - 4));
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

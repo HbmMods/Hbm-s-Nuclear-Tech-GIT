@@ -51,12 +51,11 @@ public class MachineFusionKlystron extends BlockDummyable implements ITooltipPro
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{dir.offsetX * 3, 2, dir.offsetZ * 3, dir.ordinal()},
-			{rot.offsetX * 2, 0, rot.offsetZ * 2, rot.ordinal()},
-			{-rot.offsetX * 2, 0, -rot.offsetZ * 2, rot.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{0, 2, 3, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
 	}
 
 	@Override

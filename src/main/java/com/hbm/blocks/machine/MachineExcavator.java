@@ -54,6 +54,15 @@ public class MachineExcavator extends BlockDummyable {
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 1, 3, ForgeDirection.SOUTH.ordinal()},
+			{-1, 1, 3, ForgeDirection.SOUTH.ordinal()},
+			{3, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-3, 1, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		x += dir.offsetX * o;
 		y += dir.offsetY * o;
@@ -76,10 +85,8 @@ public class MachineExcavator extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX, y + 1, z + dir.offsetZ * 3 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y + 1, z + dir.offsetZ * 3 - rot.offsetZ);
-		this.makeExtra(world, x + rot.offsetX * 3, y + 1, z + rot.offsetZ * 3);
-		this.makeExtra(world, x - rot.offsetX * 3, y + 1, z - rot.offsetZ * 3);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

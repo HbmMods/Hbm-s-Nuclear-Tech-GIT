@@ -50,9 +50,9 @@ public class HeaterElectric extends BlockDummyable implements ILookOverlay, IToo
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		return new int[][] {
-			{dir.offsetX * 2, 0, dir.offsetZ * 2, dir.ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{0, 0, 2, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
 	}
 
 	@Override

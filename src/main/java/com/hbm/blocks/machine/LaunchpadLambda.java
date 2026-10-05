@@ -39,14 +39,13 @@ public class LaunchpadLambda extends BlockDummyable {
 	@Override public int getOffset() { return 7; }
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{dir.offsetX * 7 - rot.offsetX * 2, 1, dir.offsetZ * 7 - rot.offsetZ * 2, dir.ordinal()},
-			{dir.offsetX * 7 - rot.offsetX * 3, 1, dir.offsetZ * 7 - rot.offsetZ * 3, dir.ordinal()},
-			{dir.offsetX * 7 - rot.offsetX * 4, 1, dir.offsetZ * 7 - rot.offsetZ * 4, dir.ordinal()},
-			{dir.offsetX * 7 - rot.offsetX * 5, 1, dir.offsetZ * 7 - rot.offsetZ * 5, dir.ordinal()},
-			{dir.offsetX * 7 - rot.offsetX * 6, 1, dir.offsetZ * 7 - rot.offsetZ * 6, dir.ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{-2, 1, 7, ForgeDirection.SOUTH.ordinal()},
+			{-3, 1, 7, ForgeDirection.SOUTH.ordinal()},
+			{-4, 1, 7, ForgeDirection.SOUTH.ordinal()},
+			{-5, 1, 7, ForgeDirection.SOUTH.ordinal()},
+			{-6, 1, 7, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
 	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

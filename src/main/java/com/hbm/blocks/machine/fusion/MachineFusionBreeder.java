@@ -45,15 +45,14 @@ public class MachineFusionBreeder extends BlockDummyable implements ITooltipProv
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-    ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-    return new int[][] {
-        {rot.offsetX, 0, rot.offsetZ, rot.ordinal()},
-        {-rot.offsetX, 0, -rot.offsetZ, rot.getOpposite().ordinal()},
-        {dir.offsetX + rot.offsetX, 0, dir.offsetZ + rot.offsetZ, rot.ordinal()},
-        {dir.offsetX - rot.offsetX, 0, dir.offsetZ - rot.offsetZ, rot.getOpposite().ordinal()},
-        {dir.offsetX * 2, 2,  dir.offsetZ * 2, dir.ordinal()}
-    };
-}
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{1, 0, 1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 1, ForgeDirection.WEST.ordinal()},
+			{0, 2, 2, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return super.standardOpenBehavior(world, x, y, z, player, 0);

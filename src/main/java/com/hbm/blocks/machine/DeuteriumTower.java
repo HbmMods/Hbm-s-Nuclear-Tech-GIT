@@ -46,17 +46,16 @@ public class DeuteriumTower extends BlockDummyable implements ILookOverlay {
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection dr2 = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{0, 0, 0, dir.ordinal()},
-			{-dr2.offsetX, 0, -dr2.offsetZ, dir.ordinal()},
-			{-dir.offsetX - dr2.offsetX, 0, -dir.offsetZ - dr2.offsetZ, dir.getOpposite().ordinal()},
-			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
-			{0, 0, 0, dr2.ordinal()},
-			{-dir.offsetX, 0, -dir.offsetZ, dr2.ordinal()},
-			{-dr2.offsetX, 0, -dr2.offsetZ, dr2.getOpposite().ordinal()},
-			{-dir.offsetX - dr2.offsetX, 0, -dir.offsetZ - dr2.offsetZ, dr2.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{0, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 0, ForgeDirection.EAST.ordinal()},
+			{0, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()}
+		}, dir);
 	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {

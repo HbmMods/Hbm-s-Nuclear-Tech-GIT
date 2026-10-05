@@ -39,13 +39,14 @@ public class BlockPAQuadrupole extends BlockDummyable implements ITooltipProvide
 	@Override public int[] getDimensions() { return new int[] {1, 1, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 0; }
 	@Override public int getHeightOffset() { return 1; }
+	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		return new int[][] {
-			{dir.offsetX, 0, dir.offsetZ, dir.ordinal()},
-			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
+		return rotatePorts(new int[][] {
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
 			{0, 1, 0, ForgeDirection.UP.ordinal()},
 			{0, -1, 0, ForgeDirection.DOWN.ordinal()}
-		};
+		}, dir);
 	}
 	
 	@Override

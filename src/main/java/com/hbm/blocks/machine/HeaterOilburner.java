@@ -67,13 +67,12 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
 
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{rot.offsetX, 0, rot.offsetZ, rot.ordinal()},
-			{-rot.offsetX, 0, -rot.offsetZ, rot.getOpposite().ordinal()},
-			{dir.offsetX, 0, dir.offsetZ, dir.ordinal()},
-			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
-		};
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
 	}
 
 	@Override

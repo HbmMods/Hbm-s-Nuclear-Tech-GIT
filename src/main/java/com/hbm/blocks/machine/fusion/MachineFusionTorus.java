@@ -122,9 +122,17 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		return new int[][] {
+		return rotatePorts(new int[][] {
 			{0, 4, 0, ForgeDirection.UP.ordinal()},
 			{0, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{2, 0, 6, ForgeDirection.DOWN.ordinal()},
+			{2, 4, 6, ForgeDirection.UP.ordinal()},
+			{2, 0, -6, ForgeDirection.DOWN.ordinal()},
+			{2, 4, -6, ForgeDirection.UP.ordinal()},
+			{-2, 0, 6, ForgeDirection.DOWN.ordinal()},
+			{-2, 4, 6, ForgeDirection.UP.ordinal()},
+			{-2, 0, -6, ForgeDirection.DOWN.ordinal()},
+			{-2, 4, -6, ForgeDirection.UP.ordinal()},
 			{6, 0, 0, ForgeDirection.DOWN.ordinal()},
 			{6, 4, 0, ForgeDirection.UP.ordinal()},
 			{6, 0, 2, ForgeDirection.DOWN.ordinal()},
@@ -139,17 +147,9 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 			{-6, 4, -2, ForgeDirection.UP.ordinal()},
 			{0, 0, 6, ForgeDirection.DOWN.ordinal()},
 			{0, 4, 6, ForgeDirection.UP.ordinal()},
-			{2, 0, 6, ForgeDirection.DOWN.ordinal()},
-			{2, 4, 6, ForgeDirection.UP.ordinal()},
-			{-2, 0, 6, ForgeDirection.DOWN.ordinal()},
-			{-2, 4, 6, ForgeDirection.UP.ordinal()},
 			{0, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{0, 4, -6, ForgeDirection.UP.ordinal()},
-			{2, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{2, 4, -6, ForgeDirection.UP.ordinal()},
-			{-2, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{-2, 4, -6, ForgeDirection.UP.ordinal()}
-		};
+			{0, 4, -6, ForgeDirection.UP.ordinal()}
+		}, dir);
 	}
 
 	@Override

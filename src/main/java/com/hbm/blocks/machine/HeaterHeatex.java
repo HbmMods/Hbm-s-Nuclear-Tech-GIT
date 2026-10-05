@@ -58,13 +58,12 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{dir.offsetX + rot.offsetX, 0, dir.offsetZ + rot.offsetZ, dir.ordinal()},
-			{dir.offsetX - rot.offsetX, 0, dir.offsetZ - rot.offsetZ, dir.ordinal()},
-			{-dir.offsetX + rot.offsetX, 0, -dir.offsetZ + rot.offsetZ, dir.getOpposite().ordinal()},
-			{-dir.offsetX - rot.offsetX, 0, -dir.offsetZ - rot.offsetZ, dir.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
 	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

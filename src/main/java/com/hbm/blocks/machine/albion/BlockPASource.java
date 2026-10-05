@@ -41,19 +41,18 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
 	@Override public int getHeightOffset() { return 1; }
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{rot.offsetX * 4, 0, rot.offsetZ * 4, rot.ordinal()},
-			{dir.offsetX, 0, dir.offsetZ, dir.ordinal()},
-			{dir.offsetX + rot.offsetX * 2, 0, dir.offsetZ + rot.offsetZ * 2, dir.ordinal()},
-			{dir.offsetX - rot.offsetX * 2, 0, dir.offsetZ - rot.offsetZ * 2, dir.ordinal()},
-			{-dir.offsetX, 0, -dir.offsetZ, dir.getOpposite().ordinal()},
-			{-dir.offsetX + rot.offsetX * 2, 0, -dir.offsetZ + rot.offsetZ * 2, dir.getOpposite().ordinal()},
-			{-dir.offsetX - rot.offsetX * 2, 0, -dir.offsetZ - rot.offsetZ * 2, dir.getOpposite().ordinal()},
+		return rotatePorts(new int[][] {
+			{4, 0, 0, ForgeDirection.EAST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-2, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-2, 0, -1, ForgeDirection.NORTH.ordinal()},
 			{0, -1, 0, ForgeDirection.DOWN.ordinal()},
-			{rot.offsetX * 2, -1, rot.offsetZ * 2, ForgeDirection.DOWN.ordinal()},
-			{-rot.offsetX * 2, -1, -rot.offsetZ * 2, ForgeDirection.DOWN.ordinal()}
-		};
+			{2, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{-2, -1, 0, ForgeDirection.DOWN.ordinal()}
+		}, dir);
 	}
 	@Override
 	public double[][] getAABBExtras() {

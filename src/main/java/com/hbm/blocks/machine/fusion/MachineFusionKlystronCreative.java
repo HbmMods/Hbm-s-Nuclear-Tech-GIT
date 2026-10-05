@@ -43,15 +43,6 @@ public class MachineFusionKlystronCreative extends BlockDummyable implements ITo
 		};
 	}
 	@Override
-	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{dir.offsetX * 3, 2, dir.offsetZ * 3, dir.ordinal()},
-			{rot.offsetX * 2, 0, rot.offsetZ * 2, rot.ordinal()},
-			{-rot.offsetX * 2, 0, -rot.offsetZ * 2, rot.getOpposite().ordinal()}
-		};
-	}
-	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -3, 4, 3, 1, 1}, x, y, z, dir);

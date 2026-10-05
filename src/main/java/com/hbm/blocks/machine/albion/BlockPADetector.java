@@ -41,14 +41,13 @@ public class BlockPADetector extends BlockDummyable implements ITooltipProvider 
 	@Override public int getHeightOffset() { return 2; }
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{-rot.offsetX * 4, 0, -rot.offsetZ * 4, rot.getOpposite().ordinal()},
-			{-rot.offsetX * 4, 1, -rot.offsetZ * 4, rot.getOpposite().ordinal()},
-			{-rot.offsetX * 4, -1, -rot.offsetZ * 4, rot.getOpposite().ordinal()},
-			{-rot.offsetX * 4 + dir.offsetX, 0, -rot.offsetZ * 4 + dir.offsetZ, rot.getOpposite().ordinal()},
-			{-rot.offsetX * 4 - dir.offsetX, 0, -rot.offsetZ * 4 - dir.offsetZ, rot.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{-5, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-5, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-5, -1, 0, ForgeDirection.EAST.ordinal()},
+			{-5, 0, 1, ForgeDirection.EAST.ordinal()},
+			{-5, 0, -1, ForgeDirection.EAST.ordinal()}
+		}, dir);
 	}
 	@Override
 	public double[][] getAABBExtras() {

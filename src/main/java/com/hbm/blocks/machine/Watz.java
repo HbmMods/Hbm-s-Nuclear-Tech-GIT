@@ -65,19 +65,18 @@ public class Watz extends BlockDummyable {
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{rot.offsetX * 2, 0, rot.offsetZ * 2, ForgeDirection.DOWN.ordinal()},
-			{-rot.offsetX * 2, 0, -rot.offsetZ * 2, ForgeDirection.DOWN.ordinal()},
-			{dir.offsetX * 2, 0, dir.offsetZ * 2, ForgeDirection.DOWN.ordinal()},
-			{-dir.offsetX * 2, 0, -dir.offsetZ * 2, ForgeDirection.DOWN.ordinal()},
-			{rot.offsetX * 2, 2, rot.offsetZ * 2, ForgeDirection.UP.ordinal()},
-			{-rot.offsetX * 2, 2, -rot.offsetZ * 2, ForgeDirection.UP.ordinal()},
-			{dir.offsetX * 2, 2, dir.offsetZ * 2, ForgeDirection.UP.ordinal()},
-			{-dir.offsetX * 2, 2, -dir.offsetZ * 2, ForgeDirection.UP.ordinal()},
+		return rotatePorts(new int[][] {
+			{2, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{-2, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{0, 0, 2, ForgeDirection.DOWN.ordinal()},
+			{0, 0, -2, ForgeDirection.DOWN.ordinal()},
+			{2, 2, 0, ForgeDirection.UP.ordinal()},
+			{-2, 2, 0, ForgeDirection.UP.ordinal()},
+			{0, 2, 2, ForgeDirection.UP.ordinal()},
+			{0, 2, -2, ForgeDirection.UP.ordinal()},
 			{0, 2, 0, ForgeDirection.UP.ordinal()},
 			{0, 0, 0, ForgeDirection.DOWN.ordinal()}
-		};
+		}, dir);
 	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

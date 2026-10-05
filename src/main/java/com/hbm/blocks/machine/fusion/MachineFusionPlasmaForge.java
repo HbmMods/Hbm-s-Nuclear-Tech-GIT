@@ -57,19 +57,18 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{dir.offsetX * 5 + rot.offsetX * -2, 0, dir.offsetZ * 5 + rot.offsetZ * -2, dir.ordinal()},
-			{dir.offsetX * 5 + rot.offsetX * -1, 0, dir.offsetZ * 5 + rot.offsetZ * -1, dir.ordinal()},
-			{dir.offsetX * 5, 0, dir.offsetZ * 5, dir.ordinal()},
-			{dir.offsetX * 5 + rot.offsetX * 1, 0, dir.offsetZ * 5 + rot.offsetZ * 1, dir.ordinal()},
-			{dir.offsetX * 5 + rot.offsetX * 2, 0, dir.offsetZ * 5 + rot.offsetZ * 2, dir.ordinal()},
-			{-dir.offsetX * 5 + rot.offsetX * -2, 0, -dir.offsetZ * 5 + rot.offsetZ * -2, dir.getOpposite().ordinal()},
-			{-dir.offsetX * 5 + rot.offsetX * -1, 0, -dir.offsetZ * 5 + rot.offsetZ * -1, dir.getOpposite().ordinal()},
-			{-dir.offsetX * 5, 0, -dir.offsetZ * 5, dir.getOpposite().ordinal()},
-			{-dir.offsetX * 5 + rot.offsetX * 1, 0, -dir.offsetZ * 5 + rot.offsetZ * 1, dir.getOpposite().ordinal()},
-			{-dir.offsetX * 5 + rot.offsetX * 2, 0, -dir.offsetZ * 5 + rot.offsetZ * 2, dir.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{-2, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{-2, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -5, ForgeDirection.NORTH.ordinal()}
+		}, dir);
 	}
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

@@ -39,6 +39,14 @@ public class MachineAnnihilator extends BlockDummyable {
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 3, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 3, ForgeDirection.WEST.ordinal()},
+			{0, 0, 4, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) && 
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * (o - 3), y, z + dir.offsetZ * (o - 3), new int[] {8, -2, 1, 1, 1, 1}, x, y, z, dir);
@@ -48,14 +56,8 @@ public class MachineAnnihilator extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * (o - 3), y, z + dir.offsetZ * (o - 3), new int[] {8, -2, 1, 1, 1, 1}, this, dir);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX, y, z + dir.offsetZ * 3 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y, z + dir.offsetZ * 3 - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 4, y, z + dir.offsetZ * 4);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

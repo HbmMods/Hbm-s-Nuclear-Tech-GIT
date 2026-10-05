@@ -30,16 +30,29 @@ public class MachineAssemblyMachine extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {2, 0, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 1; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-1, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{1, 0, 1, ForgeDirection.EAST.ordinal()},
+			{1, 0, 1, ForgeDirection.SOUTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x -= dir.offsetX;
-		z -= dir.offsetZ;
-		
-		for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) {
-			if(i != 0 || j != 0) this.makeExtra(world, x + i, y, z + j);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 }

@@ -73,14 +73,13 @@ public class ReactorZirnox extends BlockDummyable {
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{rot.offsetX * 2, 1, rot.offsetZ * 2, rot.ordinal()},
-			{rot.offsetX * 2, 3, rot.offsetZ * 2, rot.ordinal()},
-			{rot.offsetX * -2, 1, rot.offsetZ * -2, rot.getOpposite().ordinal()},
-			{rot.offsetX * -2, 3, rot.offsetZ * -2, rot.getOpposite().ordinal()},
+		return rotatePorts(new int[][] {
+			{2, 1, 0, ForgeDirection.EAST.ordinal()},
+			{2, 3, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 1, 0, ForgeDirection.WEST.ordinal()},
+			{-2, 3, 0, ForgeDirection.WEST.ordinal()},
 			{0, 4, 0, ForgeDirection.UP.ordinal()}
-		};
+		}, dir);
 	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

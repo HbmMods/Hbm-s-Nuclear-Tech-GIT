@@ -52,13 +52,12 @@ public class MachineFusionBoiler extends BlockDummyable implements ILookOverlay,
 	}
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new int[][] {
-			{-dir.offsetX + rot.offsetX, 0, -dir.offsetZ + rot.offsetZ, rot.ordinal()},
-			{-dir.offsetX - rot.offsetX, 0, -dir.offsetZ - rot.offsetZ, rot.getOpposite().ordinal()},
-			{dir.offsetX * 2 + rot.offsetX, 0, dir.offsetZ * 2 + rot.offsetZ, rot.ordinal()},
-			{dir.offsetX * 2 - rot.offsetX, 0, dir.offsetZ * 2 - rot.offsetZ, rot.getOpposite().ordinal()}
-		};
+		return rotatePorts(new int[][] {
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+			{1, 0, 2, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 2, ForgeDirection.WEST.ordinal()}
+		}, dir);
 	}
 
 	@Override

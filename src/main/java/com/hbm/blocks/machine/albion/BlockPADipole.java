@@ -41,7 +41,7 @@ public class BlockPADipole extends BlockDummyable implements ITooltipProvider {
 	@Override public int getHeightOffset() { return 1; }
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
-		return new int[][] {
+		return rotatePorts(new int[][] {
 			{1, -1, 0, ForgeDirection.DOWN.ordinal()},
 			{-1, -1, 0, ForgeDirection.DOWN.ordinal()},
 			{0, -1, 1, ForgeDirection.DOWN.ordinal()},
@@ -49,8 +49,8 @@ public class BlockPADipole extends BlockDummyable implements ITooltipProvider {
 			{1, 1, 0, ForgeDirection.UP.ordinal()},
 			{-1, 1, 0, ForgeDirection.UP.ordinal()},
 			{0, 1, 1, ForgeDirection.UP.ordinal()},
-			{0, 1, -1, ForgeDirection.UP.ordinal()},
-		};
+			{0, 1, -1, ForgeDirection.UP.ordinal()}
+		}, dir);
 	}
 	@Override
 	public double[][] getAABBExtras() {

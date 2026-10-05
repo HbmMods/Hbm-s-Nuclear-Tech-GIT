@@ -589,7 +589,40 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return new int[0][0];
 	}
+	//Fancy thingy (it just rotates the ports using North as refernce)
+	//(due to how it works, for east and west you type the opposite, 
+	//yes I have tried to figure it out, no I did not succeed, yes I gave up)
+	//
+	//(yes this is stupid, Im tired boss)
+	public static int[][] rotatePorts(int[][] ports, ForgeDirection facing) {
+		ForgeDirection rot = facing.getRotation(ForgeDirection.UP);
+		int[][] result = new int[ports.length][4];
+		for(int i = 0; i < ports.length; i++) {
+			int nx = ports[i][0];
+			int ny = ports[i][1];
+			int nz = ports[i][2];
+			ForgeDirection face = ForgeDirection.getOrientation(ports[i][3]);
 
+			result[i][0] = nx * rot.offsetX + nz * facing.offsetX;
+			result[i][1] = ny;
+			result[i][2] = nx * rot.offsetZ + nz * facing.offsetZ;
+
+			int fx = face.offsetX * rot.offsetX + face.offsetZ * facing.offsetX;
+			int fz = face.offsetX * rot.offsetZ + face.offsetZ * facing.offsetZ;
+			int fy = face.offsetY;
+
+			ForgeDirection rotatedFace = ForgeDirection.UNKNOWN;
+			//Forge deadass made a thing to see if it is up down nesw T_T
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(dir.offsetX == fx && dir.offsetY == fy && dir.offsetZ == fz) {
+					rotatedFace = dir;
+					break;
+				}
+			}
+			result[i][3] = rotatedFace.ordinal();
+		}
+		return result;
+	}
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);

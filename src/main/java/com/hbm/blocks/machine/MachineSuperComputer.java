@@ -48,7 +48,16 @@ public class MachineSuperComputer extends BlockDummyable {
 		for(int[] dim : this.getAllDimensions()) if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, dim, x, y, z, dir)) return false;
 		return true;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 8, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 7, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 7, ForgeDirection.WEST.ordinal()},
+			{1, 0, 5, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 5, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
@@ -61,13 +70,9 @@ public class MachineSuperComputer extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {7, -7, 1, 1, 1, 1}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {2, 0, -3, 8, 1, 1}, this, dir);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 8, y, z + dir.offsetZ * 8);
-		this.makeExtra(world, x + dir.offsetX * 7 + rot.offsetX, y, z + dir.offsetZ * 7 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 7 - rot.offsetX, y, z + dir.offsetZ * 7 - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 5 + rot.offsetX, y, z + dir.offsetZ * 5 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 5 - rot.offsetX, y, z + dir.offsetZ * 5 - rot.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 		
 	}
 }
