@@ -148,6 +148,13 @@
   * RoR configurable and readable
 * Gauges no longer display the total amount transferred in the network, rather they display the change in supply, giving a more accurate picture of the amount of energy/liquid moved
   * This should fix a long standing issue where multiple buffers would cause "sloshing" or "pingponing", causing transfer numbers to be huge even if no actual transfers are taking place
+* Bedrock ore densities are no longer per individual coordinates but rather per chunk
+  * Having values for coordinates where bedrock ore was impossible to generate anyway didn't really make much sense
+  * This removes ambiguity for bedrock ore patches where the individual blocks got wildly different values
+* The survey scanner now omits bedrock ore from its standard scan
+  * Instead, a second scan is performed, always at the center of the current chunk where bedrock ore can spawn
+  * Bedrock ore that's detected is highlighted
+* The survey scanner now also highlights bedrock oil, making it way easier to hit with the fracking tower
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount

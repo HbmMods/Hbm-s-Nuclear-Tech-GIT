@@ -16,7 +16,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Vec3NT;
 
-import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -98,6 +97,25 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	@Override
 	public String getName() {
 		return "container.launchpadLambda";
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot == 0) return stack.getItem() == ModItems.missile_lambda;
+		if(slot == 1) return stack.getItem() instanceof ISatChip && !TileEntityLaunchpadSoyuz.needsOrbiter(stack);
+		if(slot == 2) return this.isFluidContainer(stack, tanks[0]);
+		if(slot == 3) return false;
+		if(slot == 4) return this.isFluidContainer(stack, tanks[1]);
+		if(slot == 5) return false;
+		if(slot == 6) return this.isBattery(stack);
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {
+			0, 1,	// lambda, satellite
+		};
 	}
 
 	@Override
@@ -464,14 +482,6 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 
 	public boolean hasJetFuel() { return this.tanks[0].getFill() >= 24_000; }
 	public boolean hasOxidizer() { return this.tanks[1].getFill() >= 24_000; }
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot == 0) return stack.getItem() == ModItems.missile_lambda;
-		if(slot == 1) return stack.getItem() instanceof ISatChip ;
-		if(slot == 6) return stack.getItem() instanceof IBatteryItem ;
-		return true;
-	}
 
 	@Override public long getPower() { return this.power; }
 	@Override public void setPower(long power) { this.power = power; }

@@ -1037,6 +1037,10 @@ public class Fluids {
 
 		return all;
 	}
+	
+	public static boolean isSmoke(FluidType type) {
+		return type == Fluids.SMOKE || type == Fluids.SMOKE_POISON || type == Fluids.SMOKE_LEADED;
+	}
 
 	public static class CD_Canister {
 		public int color;

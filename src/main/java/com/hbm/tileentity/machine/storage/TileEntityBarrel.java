@@ -101,7 +101,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
 			if(comp != this.lastRedstone) {
 				this.markDirty();
-				for(PortDef port : getPorts()) for(DirPos pos : port.portConnections) this.updateRedstoneConnection(pos);
+				for(PortDef port : getPorts()) for(DirPos pos : port.portConnections) this.triggerNeighborUpdate(pos);
 			}
 			this.lastRedstone = comp;
 

@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.main.NTMSounds;
@@ -268,6 +269,6 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && Fluids.isSmoke(type);
 	}
 }

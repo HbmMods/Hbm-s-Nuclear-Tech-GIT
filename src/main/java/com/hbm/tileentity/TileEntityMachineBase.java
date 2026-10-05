@@ -1,7 +1,12 @@
 package com.hbm.tileentity;
 
+import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ModItems;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.fluidmk2.IFillableItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -9,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTank;
 
 public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory {
 
@@ -133,10 +137,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		return new int[] { };
 	}
 
-	public int getGaugeScaled(int i, FluidTank tank) {
-		return tank.getFluidAmount() * i / tank.getCapacity();
-	}
-
 	//abstracting this method forces child classes to implement it
 	//so i don't have to remember the fucking method name
 	//was it update? onUpdate? updateTile? did it have any args?
@@ -151,17 +151,13 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-
-		for(int i = 0; i < list.tagCount(); i++)
-		{
+		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
+			if(b0 >= 0 && b0 < slots.length) {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-
 		customName = nbt.getString("name");
 	}
 
@@ -169,25 +165,21 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
-
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
 		}
 		nbt.setTag("items", list);
-		
-		if (customName != null) {
+		if(customName != null) {
 			nbt.setString("name", customName);
 		}
 	}
 
-	public void updateRedstoneConnection(DirPos pos) {
+	public void triggerNeighborUpdate(DirPos pos) {
 
 		int x = pos.getX();
 		int y = pos.getY();
@@ -208,5 +200,18 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 				block2.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
 			}
 		}
+	}
+	
+	public boolean isBattery(ItemStack stack) {
+		if(stack == null) return false;
+		if(stack.getItem() == ModItems.battery_creative) return true;
+		return stack.getItem() instanceof IBatteryItem;
+	}
+	
+	public boolean isFluidContainer(ItemStack stack, FluidTank tank) {
+		if(stack == null) return false;
+		if(stack.getItem() == ModItems.fluid_barrel_infinite) return true;
+		if(FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0) return true;
+		return stack.getItem() instanceof IFillableItem && ((IFillableItem) stack.getItem()).providesFluid(tank.getTankType(), stack);
 	}
 }
