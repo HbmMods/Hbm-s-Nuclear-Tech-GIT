@@ -31,7 +31,13 @@ public class BlockPABeamline extends BlockDummyable implements ITooltipProvider,
 
 	@Override public int[] getDimensions() { return new int[] {0, 0, 0, 0, 1, 1}; }
 	@Override public int getOffset() { return 0; }
-
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0.9, 0.1, -0.4, 0.4,  1.5,  1.5},
+			{0.9, 0.1, -0.4, 0.4, -1.5, -1.5}
+		};
+	}
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		addStandardInfo(stack, player, list, ext);

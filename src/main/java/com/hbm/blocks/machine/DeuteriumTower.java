@@ -44,19 +44,26 @@ public class DeuteriumTower extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 0;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 0, ForgeDirection.EAST.ordinal()},
+			{0, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		ForgeDirection dr2 = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x - dir.offsetX - dr2.offsetX, y, z - dir.offsetZ - dr2.offsetZ);
-		this.makeExtra(world, x, y, z - dir.offsetZ - dr2.offsetZ);
-		this.makeExtra(world, x - dir.offsetX - dr2.offsetX, y, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

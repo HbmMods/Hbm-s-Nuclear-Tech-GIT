@@ -43,20 +43,32 @@ public class MachineTowerLarge extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 4;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{4, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-4, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, -4, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 4, ForgeDirection.SOUTH.ordinal()},
+			{3, 0, -4, ForgeDirection.NORTH.ordinal()},
+			{-3, 0, -4, ForgeDirection.NORTH.ordinal()},
+			{3, 0, 4, ForgeDirection.SOUTH.ordinal()},
+			{-3, 0, 4, ForgeDirection.SOUTH.ordinal()},
+			{4, 0, 3, ForgeDirection.EAST.ordinal()},
+			{4, 0, -3, ForgeDirection.EAST.ordinal()},
+			{-4, 0, 3, ForgeDirection.WEST.ordinal()},
+			{-4, 0, -3, ForgeDirection.WEST.ordinal()},
+			{0, 0, -4, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 4, ForgeDirection.SOUTH.ordinal()},
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
 		
-		for(int i = 2; i <= 6; i++) {
-			ForgeDirection dr2 = ForgeDirection.getOrientation(i);
-			ForgeDirection rot = dr2.getRotation(ForgeDirection.UP);
-			this.makeExtra(world, x + dr2.offsetX * 4, y, z + dr2.offsetZ * 4);
-			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * 3, y, z + dr2.offsetZ * 4 + rot.offsetZ * 3);
-			this.makeExtra(world, x + dr2.offsetX * 4 + rot.offsetX * -3, y, z + dr2.offsetZ * 4 + rot.offsetZ * -3);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 

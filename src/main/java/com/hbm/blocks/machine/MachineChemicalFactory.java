@@ -41,22 +41,47 @@ public class MachineChemicalFactory extends BlockDummyable implements ITooltipPr
 
 	@Override public int[] getDimensions() { return new int[] {2, 0, 2, 2, 2, 2}; }
 	@Override public int getOffset() { return 2; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{-2, 0, -2, ForgeDirection.WEST.ordinal()},
+			{-2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -2, ForgeDirection.EAST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
+			{2, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{2, 0, 1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 2, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 2, ForgeDirection.EAST.ordinal()},
+			{-2, 2, -2, ForgeDirection.UP.ordinal()},
+			{-2, 2, -1, ForgeDirection.UP.ordinal()},
+			{-2, 2, 0, ForgeDirection.UP.ordinal()},
+			{-2, 2, 1, ForgeDirection.UP.ordinal()},
+			{-2, 2, 2, ForgeDirection.UP.ordinal()},
+			{2, 2, -2, ForgeDirection.UP.ordinal()},
+			{2, 2, -1, ForgeDirection.UP.ordinal()},
+			{2, 2, 0, ForgeDirection.UP.ordinal()},
+			{2, 2, 1, ForgeDirection.UP.ordinal()},
+			{2, 2, 2, ForgeDirection.UP.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		x -= dir.offsetX * 2;
-		z -= dir.offsetZ * 2;
-		
-		for(int i = -2; i <= 2; i++) for(int j = -2; j <= 2; j++) {
-			if(Math.abs(i) == 2 || Math.abs(j) == 2) this.makeExtra(world, x + i, y, z + j);
-		}
 
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		for(int i = -2; i <= 2; i++) {
-			this.makeExtra(world, x + dir.offsetX * i + rot.offsetX * 2, y + 2, z + dir.offsetZ * i + rot.offsetZ * 2);
-			this.makeExtra(world, x + dir.offsetX * i - rot.offsetX * 2, y + 2, z + dir.offsetZ * i - rot.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 

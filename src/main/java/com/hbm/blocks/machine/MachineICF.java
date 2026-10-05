@@ -41,22 +41,24 @@ public class MachineICF extends BlockDummyable {
 			new int[] {1, 1, 2, -1, 8, 8, 0, 3, 0},
 		};
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 5, 2, ForgeDirection.UP.ordinal()},
+			{6, 3, 2, ForgeDirection.SOUTH.ordinal()},
+			{-6, 3, 2, ForgeDirection.SOUTH.ordinal()},
+			{6, 3, -1, ForgeDirection.NORTH.ordinal()},
+			{-6, 3, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {1, 1, -1, 2, 8, 8}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {1, 1, 2, -1, 8, 8}, this, dir);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		this.makeExtra(world, x , y + 5, z);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX * 6 , y + 3, z + dir.offsetZ * 2 + rot.offsetZ * 6);
-		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX * 6 , y + 3, z + dir.offsetZ * 2 - rot.offsetZ * 6);
-		this.makeExtra(world, x - dir.offsetX * 2 + rot.offsetX * 6 , y + 3, z - dir.offsetZ * 2 + rot.offsetZ * 6);
-		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * 6 , y + 3, z - dir.offsetZ * 2 - rot.offsetZ * 6);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

@@ -37,7 +37,21 @@ public class MachineSILEX extends BlockDummyable {
 	public int getOffset() {
 		return 1;
 	}
-	
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.9, 1.1, 1.5, 1.5, 0.4, -0.4},
+			{1.9, 1.1, -1.5, -1.5, 0.4, -0.4}
+		};
+	}
+
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 1, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
@@ -59,15 +73,8 @@ public class MachineSILEX extends BlockDummyable {
 	
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			this.makeExtra(world, x + dir.offsetX * o + 1, y + 1, z + dir.offsetZ * o);
-			this.makeExtra(world, x + dir.offsetX * o - 1, y + 1, z + dir.offsetZ * o);
-		}
-		
-		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			this.makeExtra(world, x + dir.offsetX * o, y + 1, z + dir.offsetZ * o + 1);
-			this.makeExtra(world, x + dir.offsetX * o, y + 1, z + dir.offsetZ * o - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 }

@@ -43,12 +43,23 @@ public class MachineBatterySocket extends BlockDummyable implements ITooltipProv
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
-		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX + rot.offsetX, y, z - dir.offsetZ + rot.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{0, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, -1, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		addStandardInfo(stack, player, list, ext);

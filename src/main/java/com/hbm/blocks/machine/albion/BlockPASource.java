@@ -39,23 +39,34 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
 	@Override public int[] getDimensions() { return new int[] {1, 1, 1, 1, 4, 4}; }
 	@Override public int getOffset() { return 0; }
 	@Override public int getHeightOffset() { return 1; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{4, 0, 0, ForgeDirection.EAST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-2, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-2, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{2, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{-2, -1, 0, ForgeDirection.DOWN.ordinal()}
+		}, dir);
+	}
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0.9, 0.1, -0.4, 0.4, -4.5, -4.5}
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + rot.offsetX * 4, y, z + rot.offsetZ * 4);
-		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ);
-		this.makeExtra(world, x + dir.offsetX + rot.offsetX * 2, y, z + dir.offsetZ + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX - rot.offsetX * 2, y, z + dir.offsetZ - rot.offsetZ * 2);
-		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
-		this.makeExtra(world, x - dir.offsetX + rot.offsetX * 2, y, z - dir.offsetZ + rot.offsetZ * 2);
-		this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y, z - dir.offsetZ - rot.offsetZ * 2);
-		
-		this.makeExtra(world, x, y - 1, z);
-		this.makeExtra(world, x + rot.offsetX * 2,  y - 1, z + rot.offsetZ * 2);
-		this.makeExtra(world, x - rot.offsetX * 2, y - 1, z - rot.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

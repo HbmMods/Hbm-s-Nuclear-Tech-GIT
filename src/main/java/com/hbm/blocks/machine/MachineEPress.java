@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineEPress extends BlockDummyable implements IToolable {
 
@@ -34,7 +35,16 @@ public class MachineEPress extends BlockDummyable implements IToolable {
 	public int getOffset() {
 		return 0;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 0, ForgeDirection.EAST.ordinal()},
+			{0, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 0, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 0, ForgeDirection.DOWN.ordinal()}
+		}, dir);
+	}
 	@Override
 	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);

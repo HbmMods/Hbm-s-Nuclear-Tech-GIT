@@ -55,6 +55,25 @@ public class MachineCoker extends BlockDummyable implements ITooltipProvider {
 		};
 	}
 	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0, 0, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 1, ForgeDirection.EAST.ordinal()},
+			{1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		if(super.checkRequirement(world, x, y, z, dir, o)) {
 
@@ -84,10 +103,9 @@ public class MachineCoker extends BlockDummyable implements ITooltipProvider {
 		MultiblockHandlerXR.fillSpace(world, x - 2, y + 1, z + 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
 		MultiblockHandlerXR.fillSpace(world, x - 2, y + 1, z - 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
 
-		this.makeExtra(world, x + 1, y, z + 1);
-		this.makeExtra(world, x + 1, y, z - 1);
-		this.makeExtra(world, x - 1, y, z + 1);
-		this.makeExtra(world, x - 1, y, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override
