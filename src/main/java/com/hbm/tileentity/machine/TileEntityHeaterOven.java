@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.container.ContainerFirebox;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIFirebox;
 import com.hbm.lib.RefStrings;
 import com.hbm.module.ModuleBurnTime;
@@ -18,6 +20,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConfigurableMachine {
 
@@ -88,6 +91,11 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 	@Override
 	public int getMaxHeat() {
 		return maxHeatEnergy;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return type == Fluids.SMOKE; //|| Fluids.SMOKE_LEADED || Fluids.SMOKE_POISON; - This is not necessary because it is technically impossible to obtain other types of smokes
 	}
 
 	@Override
