@@ -195,7 +195,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			cachedPowerPorts = new PortDef[] {
-					PortDef.make(xCoord - rot.offsetX * 4, yCoord + 1, zCoord + rot.offsetZ * 4, rot),
+					PortDef.make(xCoord - dir.offsetZ * 4, yCoord + 1, zCoord + dir.offsetX * 4, rot),
 			};
 		}
 		return cachedPowerPorts;
@@ -212,7 +212,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ, dir),
 					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * -4, dir.getOpposite()),
 					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -4, dir),
-					PortDef.make(xCoord + rot.offsetX * 5, yCoord + 1, zCoord - rot.offsetZ * 5, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetZ * 5, yCoord + 1, zCoord - dir.offsetX * 5, rot.getOpposite()),
 			};
 		}
 		return cachedPorts;
