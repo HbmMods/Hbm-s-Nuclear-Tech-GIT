@@ -666,7 +666,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "tank0");
 		tanks[1].writeToNBT(nbt, "tank1");
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 8; i++) {
 			nbt.setFloat("p" + i, positions[i]);
 			nbt.setFloat("s" + i, speed[i]);
 			nbt.setFloat("t" + i, target[i]);
