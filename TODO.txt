@@ -1,10 +1,5 @@
 A TODO list because this update is starting to get out of hand
 
-- Ports
-  - Fix flow control pump
-  - Completely redo the power diode
-  - Fix any remaining broken ports
-
 - Satellite stuff
   - Add rocket assembler
 
@@ -27,3 +22,5 @@ A TODO list because this update is starting to get out of hand
 - Other
   - Extend QMAW GUI screen and adjust scale
   - Change red pill effect
+  - Jetpack rework
+  - Force field rework
