@@ -623,6 +623,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		}
 		return result;
 	}
+	
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
@@ -836,10 +837,14 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
-				//Slight modification to handle heat ports without adding a whole new function.
-				//Nothing stays blue, adding a 1 makes it orange
-				if(extra.length > 6 && extra[6] == 1) {
-					tess.setColorRGBA(255, 165, 0, 255);
+				if(extra.length > 6) {
+					if(extra[6] == 1) {
+						// backwards compatibility for heat ports, a color of "1" just defaults to orange
+						tess.setColorRGBA(255, 165, 0, 255);
+					} else {
+						// ...otherwise, cast to int and use that as the hex value
+						tess.setColorOpaque_I((int) Math.round(extra[6]));
+					}
 				} else {
 					tess.setColorRGBA(0, 0, color, 255);
 				}

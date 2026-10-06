@@ -122,6 +122,10 @@ public class PyroOvenRecipes extends SerializableRecipe {
 		recipes.add(new PyroOvenRecipe(60)
 				.in(new FluidStack(Fluids.GAS, 12_000))
 				.out(new FluidStack(Fluids.HYDROGEN, 8_000)).out(new ItemStack(ModItems.ingot_graphite, 1)));
+		//ilmenite/TiCl4 processing
+		recipes.add(new PyroOvenRecipe(60)
+				.in(new FluidStack(Fluids.TITANIUM_TETRACHLORIDE, 1_000))
+				.out(new FluidStack(Fluids.CHLORINE, 125)).out(new ItemStack(ModItems.ingot_titanium, 5)));
 	}
 
 	public static void registerSFAuto(FluidType fluid) {

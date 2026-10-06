@@ -2,10 +2,11 @@ package com.hbm.blocks.machine.fusion;
 
 import java.util.List;
 
+import static com.hbm.lib.Library.*;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 
 import net.minecraft.block.material.Material;
@@ -123,32 +124,32 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
-			{0, 4, 0, ForgeDirection.UP.ordinal()},
-			{0, 0, 0, ForgeDirection.DOWN.ordinal()},
-			{2, 0, 6, ForgeDirection.DOWN.ordinal()},
-			{2, 4, 6, ForgeDirection.UP.ordinal()},
-			{2, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{2, 4, -6, ForgeDirection.UP.ordinal()},
-			{-2, 0, 6, ForgeDirection.DOWN.ordinal()},
-			{-2, 4, 6, ForgeDirection.UP.ordinal()},
-			{-2, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{-2, 4, -6, ForgeDirection.UP.ordinal()},
-			{6, 0, 0, ForgeDirection.DOWN.ordinal()},
-			{6, 4, 0, ForgeDirection.UP.ordinal()},
-			{6, 0, 2, ForgeDirection.DOWN.ordinal()},
-			{6, 4, 2, ForgeDirection.UP.ordinal()},
-			{6, 0, -2, ForgeDirection.DOWN.ordinal()},
-			{6, 4, -2, ForgeDirection.UP.ordinal()},
-			{-6, 0, 0, ForgeDirection.DOWN.ordinal()},
-			{-6, 4, 0, ForgeDirection.UP.ordinal()},
-			{-6, 0, 2, ForgeDirection.DOWN.ordinal()},
-			{-6, 4, 2, ForgeDirection.UP.ordinal()},
-			{-6, 0, -2, ForgeDirection.DOWN.ordinal()},
-			{-6, 4, -2, ForgeDirection.UP.ordinal()},
-			{0, 0, 6, ForgeDirection.DOWN.ordinal()},
-			{0, 4, 6, ForgeDirection.UP.ordinal()},
-			{0, 0, -6, ForgeDirection.DOWN.ordinal()},
-			{0, 4, -6, ForgeDirection.UP.ordinal()}
+			{0, 4, 0, ORD_UP},
+			{0, 0, 0, ORD_DOWN},
+			{2, 0, 6, ORD_DOWN},
+			{2, 4, 6, ORD_UP},
+			{2, 0, -6, ORD_DOWN},
+			{2, 4, -6, ORD_UP},
+			{-2, 0, 6, ORD_DOWN},
+			{-2, 4, 6, ORD_UP},
+			{-2, 0, -6, ORD_DOWN},
+			{-2, 4, -6, ORD_UP},
+			{6, 0, 0, ORD_DOWN},
+			{6, 4, 0, ORD_UP},
+			{6, 0, 2, ORD_DOWN},
+			{6, 4, 2, ORD_UP},
+			{6, 0, -2, ORD_DOWN},
+			{6, 4, -2, ORD_UP},
+			{-6, 0, 0, ORD_DOWN},
+			{-6, 4, 0, ORD_UP},
+			{-6, 0, 2, ORD_DOWN},
+			{-6, 4, 2, ORD_UP},
+			{-6, 0, -2, ORD_DOWN},
+			{-6, 4, -2, ORD_UP},
+			{0, 0, 6, ORD_DOWN},
+			{0, 4, 6, ORD_UP},
+			{0, 0, -6, ORD_DOWN},
+			{0, 4, -6, ORD_UP}
 		}, dir);
 	}
 
@@ -201,15 +202,15 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 					int meta = 0;
 					
 					if(iy > 0) {
-						meta = ForgeDirection.UP.ordinal();
+						meta = ORD_UP;
 					} else if(ex < 0) {
-						meta = ForgeDirection.WEST.ordinal();
+						meta = ORD_WEST;
 					} else if(ex > 0) {
-						meta = ForgeDirection.EAST.ordinal();
+						meta = ORD_EAST;
 					} else if(ez < 0) {
-						meta = ForgeDirection.NORTH.ordinal();
+						meta = ORD_NORTH;
 					} else if(ez > 0) {
-						meta = ForgeDirection.SOUTH.ordinal();
+						meta = ORD_SOUTH;
 					} else {
 						continue;
 					}
