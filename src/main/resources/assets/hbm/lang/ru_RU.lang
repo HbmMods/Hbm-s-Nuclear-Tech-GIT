@@ -6262,14 +6262,6 @@ weapon.ability.radiation=Радиоактивные лезвия
 weapon.ability.phosphorus=Фосфорный наконечник
 weapon.ability.stun=Оглушение
 weapon.ability.vampire=Вампир
-weapon.elecGun.modeChange=Режим стрельбы:
-weapon.elecGun.glass_cannon.radio=Радиоволны
-weapon.elecGun.glass_cannon.micro=Микроволны
-weapon.elecGun.glass_cannon.ir=Инфракрасное излучение
-weapon.elecGun.glass_cannon.visible=Видимый свет
-weapon.elecGun.glass_cannon.uv=Ультрафиолет
-weapon.elecGun.glass_cannon.xray=Рентген
-weapon.elecGun.glass_cannon.gamma=Гамма-лучи
 
 desc.gui.upgrade=§lПринимаемые улучшения:§r
 desc.gui.upgrade.afterburner= * §dФорсаж§r: Стакается до 3-х уровней
