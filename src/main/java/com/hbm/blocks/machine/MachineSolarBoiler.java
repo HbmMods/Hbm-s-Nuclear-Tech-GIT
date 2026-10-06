@@ -40,15 +40,19 @@ public class MachineSolarBoiler extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 2, 0, ForgeDirection.UP.ordinal()},
+			{0, 0, 0, ForgeDirection.DOWN.ordinal()},
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		this.makeExtra(world, x, y + 2, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

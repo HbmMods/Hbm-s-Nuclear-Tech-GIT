@@ -2,12 +2,16 @@ package com.hbm.items.tool;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -41,18 +45,46 @@ public class ItemSurveyScanner extends Item {
 						//wow, this sucks!
 						if(block == ModBlocks.ore_oil) hasOil = true;
 						else if(block == ModBlocks.ore_coltan) hasColtan = true;
-						else if(block == ModBlocks.ore_bedrock_oil) hasBedrockOil = true;
 						else if(block == ModBlocks.stone_depth) hasDepth = true;
 						else if(block == ModBlocks.stone_depth_nether) hasDepth = true;
 						else if(block == ModBlocks.stone_gneiss) hasSchist = true;
 						else if(block == ModBlocks.ore_australium) hasAussie = true;
+						else if(block == ModBlocks.ore_bedrock_oil) {
+							hasBedrockOil = true;
+							
+							NBTTagCompound data = new NBTTagCompound();
+							data.setString("type", "marker");
+							data.setInteger("color", 0x000000);
+							data.setInteger("expires", 15_000);
+							data.setDouble("dist", 300D);
+							data.setString("label", "Bedrock Oil");
+							PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, x + a * 5, i, z + b * 5), (EntityPlayerMP) player);
+							
+							break;
+						}
 					}
+				}
+			}
+			
+			int cX = ((x >> 4) << 4) + 8;
+			int cZ = ((z >> 4) << 4) + 8;
+			
+			for(int i = -2; i <= 2; i++) for(int j = -2; j <= 2; j++) {
+				Block center = world.getBlock(cX + i, 0, cZ + j);
+				
+				System.out.println(cX + " " + cZ);
+				
+				if(center == ModBlocks.ore_bedrock) {
 					
-					Block block = world.getBlock(x + a * 2, 0, z + b * 2);
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "marker");
+					data.setInteger("color", 0xff0000);
+					data.setInteger("expires", 15_000);
+					data.setDouble("dist", 300D);
+					data.setString("label", "Bedrock Ore");
+					PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, cX + i, 0, cZ + j), (EntityPlayerMP) player);
 					
-					if(block == ModBlocks.ore_bedrock) {
-						tile = (TileEntityBedrockOre) world.getTileEntity(x + a * 2, 0, z + b * 2);
-					}
+					tile = (TileEntityBedrockOre) world.getTileEntity(cX + i, 0, cZ + j);
 				}
 			}
 

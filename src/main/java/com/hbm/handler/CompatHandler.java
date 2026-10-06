@@ -176,21 +176,31 @@ public class CompatHandler {
     // Where all disks are stored with their name and `FloppyDisk` class.
     public static HashMap<String, FloppyDisk> disks = new HashMap<>();
 
-    /**
-     * Called in the FML PostLoad stage, after the OC API loads.
-     * <br>
-     * Loads various parts of OC compatibility.
-     */
     public static void init() {
         if(Loader.isModLoaded("OpenComputers")) {
             doInit();
         }
     }
+    
+    /**
+     * Called in the FML PostLoad stage, after the OC API loads.
+     * <br>
+     * Loads various parts of OC compatibility.
+     */
+    public static void postInit() {
+        if(Loader.isModLoaded("OpenComputers")) {
+            doPostInit();
+        }
+    }
 
     @Optional.Method(modid = "OpenComputers")
     private static void doInit() {
-        Driver.add(new ItemRTTYCard.Driver(ModItems.rtty_card));
+    	// Drivers must be registered before OC's FMLPostInitializationEvent
+    	Driver.add(new ItemRTTYCard.Driver(ModItems.rtty_card));
+    }
 
+    @Optional.Method(modid = "OpenComputers")
+    private static void doPostInit() {
         /*
         For anyone wanting to add their own floppy disks,
         read the README found in assets.hbm.disks.

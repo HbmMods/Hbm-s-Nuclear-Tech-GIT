@@ -99,6 +99,15 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider, 
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 2, 4, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, getOffset() - 12, ForgeDirection.NORTH.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
+	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -4, 0, 3, 1, 1}, this, dir);
@@ -106,11 +115,9 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider, 
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 10, -7, 1, 1}, this, dir);
 		world.setBlock(x + dir.offsetX, y + 2, z + dir.offsetZ, this, dir.ordinal(), 3);
 
-		this.makeExtra(world, x + dir.offsetX, y + 2, z + dir.offsetZ); //front connector
-		this.makeExtra(world, x + dir.offsetX * (o - 10), y, z + dir.offsetZ * (o - 10)); //back connector
-		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * o + side.offsetX * 2 , y, z + dir.offsetZ * o + side.offsetZ * 2); //side connectors
-		this.makeExtra(world, x + dir.offsetX * o - side.offsetX * 2 , y, z + dir.offsetZ * o - side.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

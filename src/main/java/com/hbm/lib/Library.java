@@ -47,16 +47,20 @@ public class Library {
 	public static final ForgeDirection POS_Z = ForgeDirection.SOUTH;
 	public static final ForgeDirection NEG_Z = ForgeDirection.NORTH;
 
+	public static final int ORD_UP = ForgeDirection.UP.ordinal();
+	public static final int ORD_DOWN = ForgeDirection.DOWN.ordinal();
+	public static final int ORD_NORTH = ForgeDirection.NORTH.ordinal();
+	public static final int ORD_SOUTH = ForgeDirection.SOUTH.ordinal();
+	public static final int ORD_EAST = ForgeDirection.EAST.ordinal();
+	public static final int ORD_WEST = ForgeDirection.WEST.ordinal();
+
 	/*
 	 * Is putting this into this trash can a good idea? No. Do I have a better idea? Not currently.
 	 */
 	public static boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir /* cable's connecting side */) {
-
-		if(y > 255 || y < 0)
-			return false;
+		if(y > 255 || y < 0) return false;
 
 		Block b = world.getBlock(x, y, z);
-
 		if(b instanceof IEnergyConnectorBlock) {
 			IEnergyConnectorBlock con = (IEnergyConnectorBlock) b;
 
@@ -65,7 +69,6 @@ public class Library {
 		}
 
 		TileEntity te = world.getTileEntity(x, y, z);
-
 		if(te instanceof IEnergyConnectorMK2) {
 			IEnergyConnectorMK2 con = (IEnergyConnectorMK2) te;
 
@@ -78,12 +81,9 @@ public class Library {
 
 	/** dir is the direction along the fluid duct entering the block */
 	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir /* duct's connecting side */, FluidType type) {
-
-		if(y > 255 || y < 0)
-			return false;
+		if(y > 255 || y < 0) return false;
 
 		Block b = world.getBlock(x, y, z);
-
 		if(b instanceof IFluidConnectorBlockMK2) {
 			IFluidConnectorBlockMK2 con = (IFluidConnectorBlockMK2) b;
 
@@ -92,7 +92,6 @@ public class Library {
 		}
 
 		TileEntity te = world.getTileEntity(x, y, z);
-
 		if(te instanceof IFluidConnectorMK2) {
 			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
 

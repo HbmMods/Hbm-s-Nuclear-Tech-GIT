@@ -50,7 +50,21 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 	public int getOffset() {
 		return 1;
 	}
-	
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1, 1, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
@@ -107,13 +121,9 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-
-		this.makeExtra(world, x + 1, y, z + 1);
-		this.makeExtra(world, x + 1, y, z - 1);
-		this.makeExtra(world, x - 1, y, z + 1);
-		this.makeExtra(world, x - 1, y, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

@@ -56,6 +56,13 @@ public class MachineBigAssTank extends BlockDummyable implements IPersistentInfo
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 6, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -6, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
+	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		x += dir.offsetX * o;
@@ -67,8 +74,9 @@ public class MachineBigAssTank extends BlockDummyable implements IPersistentInfo
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, 6, -5, 0, 0}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, -5, 6, 0, 0}, this, dir);
 
-		this.makeExtra(world, x + dir.offsetX * 6, y, z + dir.offsetZ * o);
-		this.makeExtra(world, x - dir.offsetX * 6, y, z - dir.offsetZ * o);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

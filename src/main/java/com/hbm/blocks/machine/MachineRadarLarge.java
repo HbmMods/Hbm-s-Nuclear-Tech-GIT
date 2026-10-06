@@ -29,7 +29,15 @@ public class MachineRadarLarge extends BlockDummyable {
 		if(meta >= 6) return new TileEntityProxyCombo().power();
 		return null;
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
@@ -64,12 +72,9 @@ public class MachineRadarLarge extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		this.makeExtra(world, x + 1, y, z);
-		this.makeExtra(world, x - 1, y, z);
-		this.makeExtra(world, x, y, z + 1);
-		this.makeExtra(world, x, y, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 	
 	@Override

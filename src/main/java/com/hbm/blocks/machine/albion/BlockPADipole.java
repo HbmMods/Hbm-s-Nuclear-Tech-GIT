@@ -39,19 +39,35 @@ public class BlockPADipole extends BlockDummyable implements ITooltipProvider {
 	@Override public int[] getDimensions() { return new int[] {1, 1, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 0; }
 	@Override public int getHeightOffset() { return 1; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{-1, -1, 0, ForgeDirection.DOWN.ordinal()},
+			{0, -1, 1, ForgeDirection.DOWN.ordinal()},
+			{0, -1, -1, ForgeDirection.DOWN.ordinal()},
+			{1, 1, 0, ForgeDirection.UP.ordinal()},
+			{-1, 1, 0, ForgeDirection.UP.ordinal()},
+			{0, 1, 1, ForgeDirection.UP.ordinal()},
+			{0, 1, -1, ForgeDirection.UP.ordinal()}
+		}, dir);
+	}
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0.9, 0.1, -0.4, 0.4, 1.5, 1.5},
+			{0.9, 0.1, -0.4, 0.4, -1.5, -1.5},
+			{0.9, 0.1, 1.5, 1.5, -0.4, 0.4},
+			{0.9, 0.1, -1.5, -1.5, -0.4, 0.4}
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		this.makeExtra(world, x + 1, y - 1, z);
-		this.makeExtra(world, x - 1, y - 1, z);
-		this.makeExtra(world, x, y - 1, z + 1);
-		this.makeExtra(world, x, y - 1, z - 1);
-		this.makeExtra(world, x + 1, y + 1, z);
-		this.makeExtra(world, x - 1, y + 1, z);
-		this.makeExtra(world, x, y + 1, z + 1);
-		this.makeExtra(world, x, y + 1, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

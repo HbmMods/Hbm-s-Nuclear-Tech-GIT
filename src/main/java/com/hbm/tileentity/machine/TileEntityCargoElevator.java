@@ -142,21 +142,11 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-
 		// workaround for angelica, extend AABB to build height by default instead of dynamically scaling
 		int h = Compat.isModLoaded(Compat.MOD_ANG) ? 256 - yCoord : 1 + this.height;
-
 		if(bb == null || bb.maxY - bb.minY < h) {
-			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 1,
-					yCoord,
-					zCoord - 1,
-					xCoord + 2,
-					yCoord + h,
-					zCoord + 2
-					);
+			bb = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + h, zCoord + 2);
 		}
-
 		return bb;
 	}
 
@@ -180,7 +170,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 	public String[] getFunctionInfo() {
 		return new String[]{
 			PREFIX_VALUE + "extension",
-			PREFIX_FUNCTION + "setextension"
+			PREFIX_FUNCTION + "setextension" + NAME_SEPARATOR + "amount",
 		};
 	}
 }

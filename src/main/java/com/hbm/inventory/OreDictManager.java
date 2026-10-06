@@ -239,6 +239,7 @@ public class OreDictManager {
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
 	public static final DictFrame HEMATITE = new DictFrame("Hematite");
 	public static final DictFrame MALACHITE = new DictFrame("Malachite");
+	public static final DictFrame ILMENITE = new DictFrame("Ilmenite");
 	public static final DictFrame LIMESTONE = new DictFrame("Limestone");
 	public static final DictFrame SLAG = new DictFrame("Slag");
 	public static final DictFrame BAUXITE = new DictFrame("Bauxite");
@@ -440,6 +441,7 @@ public class OreDictManager {
 		VOLCANIC						.gem(gem_volcanic)																				.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.GEM));
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE						.ingot(DictFrame.fromOne(chunk_ore, EnumChunkType.MALACHITE))									.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
+		ILMENITE						.ingot(DictFrame.fromOne(chunk_ore, EnumChunkType.ILMENITE));
 		LIMESTONE																		.dust(powder_limestone)							.ore(fromOne(stone_resource, EnumStoneType.LIMESTONE));
 		BAUXITE																															.ore(fromOne(stone_resource, EnumStoneType.BAUXITE));
 		CRYOLITE	.crystal(fromOne(chunk_ore, EnumChunkType.CRYOLITE));

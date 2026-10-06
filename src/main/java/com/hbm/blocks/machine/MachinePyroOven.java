@@ -37,19 +37,23 @@ public class MachinePyroOven extends BlockDummyable {
 	public int getOffset() {
 		return 3;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{-2, 0, -2, ForgeDirection.WEST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 2, ForgeDirection.WEST.ordinal()},
+			{1, 2, 0, ForgeDirection.UP.ordinal()}
+		}, dir);
+	}
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-		
-		for(int i = -2; i <= 2; i++) {
-			this.makeExtra(world, x + dir.offsetX * i + rot.offsetX * 2, y, z + dir.offsetZ * i + rot.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
-		
-		this.makeExtra(world, x - rot.offsetX, y + 2, z - rot.offsetZ);
 	}
 }

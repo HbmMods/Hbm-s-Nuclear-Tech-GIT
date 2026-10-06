@@ -95,7 +95,12 @@ public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0, 0, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
 		
