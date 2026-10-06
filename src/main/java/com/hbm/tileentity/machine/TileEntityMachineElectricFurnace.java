@@ -26,20 +26,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
 
 	// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
 	// thanks Martin, vaer and Bob for the help
 	public int progress;
 	public long power;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 100_000;
 	public int maxProgress = 100;
 	public int consumption = 50;
 	private int cooldown = 0;
@@ -78,6 +77,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
 		nbt.setLong("power", power);
 		nbt.setInteger("progress", progress);
 	}
@@ -94,17 +94,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	public int getProgressScaled(int i) { return (progress * i) / maxProgress; }
 
-	public long getPowerScaled(long i) {
-		return (power * i) / maxPower;
-	}
-
-	public boolean hasPower() {
-		return power >= consumption;
-	}
-
-	public boolean isProcessing() {
-		return this.progress > 0;
-	}
+	public long getPowerScaled(long i) { return (power * i) / maxPower; }
+	public boolean hasPower() { return power >= consumption; }
+	public boolean isProcessing() { return this.progress > 0; }
 
 	public boolean canProcess() {
 		if(slots[1] == null || cooldown > 0) return false;
@@ -146,7 +138,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		if(!worldObj.isRemote) {
 
 			this.setupPowerPorts(getPorts());
-			this.updatePortPIFIFO();
+			this.updateAllPorts();
+			this.receivePower();
 
 			if(cooldown > 0) {
 				cooldown--;
