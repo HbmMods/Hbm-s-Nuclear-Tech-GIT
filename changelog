@@ -161,6 +161,10 @@
   * Bedrock ore that's detected is highlighted
 * The survey scanner now also highlights bedrock oil, making it way easier to hit with the fracking tower
 * Light metal bedrock ore treated with sulfuric acid no longer yields elemental titanium, rather it produces ilmenite
+* Simplified the electrolyzer's recipe
+  * It now uses a graphite electrode instead of several red copper coils and it no longer requires titanium shells
+* The power grid tool now displays the network's current flow rate
+* The satellite frequency range has been increased from 100k to 10M to prevent the entire range from being brute-forcable in a short period of time
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
