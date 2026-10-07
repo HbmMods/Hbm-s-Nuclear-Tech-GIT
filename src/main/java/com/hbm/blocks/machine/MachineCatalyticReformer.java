@@ -49,8 +49,8 @@ public class MachineCatalyticReformer extends BlockDummyable implements IPersist
 			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
 			{1, 0, 1, ForgeDirection.SOUTH.ordinal()},
 			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
-			{1, 0, -2, ForgeDirection.SOUTH.ordinal()},
-			{-1, 0, -2, ForgeDirection.SOUTH.ordinal()}
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()}
 		}, dir);
 	}
 	@Override

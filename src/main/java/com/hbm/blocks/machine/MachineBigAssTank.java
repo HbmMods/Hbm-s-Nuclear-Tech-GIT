@@ -65,14 +65,14 @@ public class MachineBigAssTank extends BlockDummyable implements IPersistentInfo
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, 5, -4, 2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, -4, 5, 2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, 2, 2, 5, -4}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, 2, 2, -4, 5}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, 6, -5, 0, 0}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, -5, 6, 0, 0}, this, dir);
+		int cx = x + dir.offsetX * o;
+		int cz = z + dir.offsetZ * o;
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {4, 0, 5, -4, 2, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {4, 0, -4, 5, 2, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {4, 0, 2, 2, 5, -4}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {4, 0, 2, 2, -4, 5}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {3, 0, 6, -5, 0, 0}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {3, 0, -5, 6, 0, 0}, this, dir);
 
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);

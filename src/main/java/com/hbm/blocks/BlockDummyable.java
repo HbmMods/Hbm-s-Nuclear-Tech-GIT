@@ -621,6 +621,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			}
 			result[i][3] = rotatedFace.ordinal();
 		}
+		//Solution to literally the entire problem....
 		for(int[] port : result) {
 			port[0] += facing.offsetX * -getOffset();
 			port[2] += facing.offsetZ * -getOffset();

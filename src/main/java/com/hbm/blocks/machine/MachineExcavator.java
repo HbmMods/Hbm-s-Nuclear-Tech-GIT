@@ -76,14 +76,14 @@ public class MachineExcavator extends BlockDummyable {
 
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		x += dir.offsetX * o;
-		y += dir.offsetY * o;
-		z += dir.offsetZ * o;
 
-		MultiblockHandlerXR.fillSpace(world, x, y, z, getDimensions(), this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, 3, -2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
+		int cx = x + dir.offsetX * o;
+		int cy = y + dir.offsetY * o;
+		int cz = z + dir.offsetZ * o;
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, getDimensions(), this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, 3, -2, 3, -2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
 		
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
