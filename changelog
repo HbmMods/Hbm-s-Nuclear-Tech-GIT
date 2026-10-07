@@ -165,6 +165,7 @@
   * It now uses a graphite electrode instead of several red copper coils and it no longer requires titanium shells
 * The power grid tool now displays the network's current flow rate
 * The satellite frequency range has been increased from 100k to 10M to prevent the entire range from being brute-forcable in a short period of time
+* Artillery rockets should now disable their guidance once reaching their target, preventing rockets from floating
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount

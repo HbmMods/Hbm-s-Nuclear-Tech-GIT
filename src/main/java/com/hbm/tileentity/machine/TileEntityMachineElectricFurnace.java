@@ -52,7 +52,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 	
 	protected PortDef[] cachedPorts;
-	public PortDef[] getPorts() { if(cachedPorts == null) return TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -93,7 +93,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public int getProgressScaled(int i) { return (progress * i) / maxProgress; }
-
 	public long getPowerScaled(long i) { return (power * i) / maxPower; }
 	public boolean hasPower() { return power >= consumption; }
 	public boolean isProcessing() { return this.progress > 0; }
@@ -133,14 +132,16 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public void updateEntity() {
-		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {
+			
+			boolean wasBurning = this.getBlockType() == ModBlocks.machine_electric_furnace_on;
+			boolean markDirty = false;
 
 			this.setupPowerPorts(getPorts());
 			this.updateAllPorts();
 			this.receivePower();
-
+			
 			if(cooldown > 0) {
 				cooldown--;
 			}
@@ -179,16 +180,15 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			} else {
 				progress = 0;
 			}
+			
+			boolean canBurn = this.progress > 0 || (hasPower() && this.canProcess());
 
-			boolean trigger = true;
-
-			if(hasPower() && canProcess() && this.progress == 0) {
-				trigger = false;
-			}
-
-			if(trigger) {
+			if(canBurn != wasBurning) {
 				markDirty = true;
-				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				destroyPortsOnInvalidate = false;
+				MachineElectricFurnace.updateBlockState(canBurn, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				destroyPortsOnInvalidate = true;
+				this.blockType = null;
 			}
 
 			this.networkPackNT(50);

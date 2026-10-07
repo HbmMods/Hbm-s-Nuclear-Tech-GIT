@@ -336,6 +336,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		slots[0] = null;
 		slots[1] = null;
 		
+		this.erected = false;
+		
 		this.markChanged();
 	}
 

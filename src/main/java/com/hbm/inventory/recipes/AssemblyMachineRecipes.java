@@ -1002,7 +1002,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.QUANTUM),
 						new ComparableStack(ModItems.part_generic, 1, EnumPartType.LDE)));
 		this.register(new GenericRecipe("ass.0gassembler").setup(600, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE_ASSEMBLER.ordinal()))
-				.inputItems(new OreDictStack(WEAPONSTEEL.shell(), 4),
+				.inputItems(new OreDictStack(AL.shell(), 4),
 						new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
 						new OreDictStack(PURG.billet(), 16),
 						new ComparableStack(ModItems.motor_bismuth, 4),
