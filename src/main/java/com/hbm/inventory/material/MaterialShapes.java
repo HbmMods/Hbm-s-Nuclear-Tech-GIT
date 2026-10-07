@@ -134,16 +134,16 @@ public class MaterialShapes {
 			writer.setIndent("  ");
 			writer.beginObject();
 
-				writer.name("gear").beginObject();
-					writer.name("quantity").value(9);
-					writer.name("mold").value(true);
-					writer.name("moldSize").value("S");
-					writer.name("materials").beginArray();
-						writer.value("Iron");
-						writer.value("Steel");
-						writer.value("Bronze");
-					writer.endArray();
-				writer.endObject();
+			writer.name("gear").beginObject();
+			writer.name("quantity").value(9);
+			writer.name("mold").value(true);
+			writer.name("moldSize").value("S"); // TODO: one mold per shape is a weird limit, make mold selection into an array
+			writer.name("materials").beginArray(); {
+				writer.value("Iron");
+				writer.value("Steel");
+				writer.value("Bronze");
+			} writer.endArray();
+			writer.endObject();
 
 			writer.endObject();
 			writer.close();
@@ -163,22 +163,26 @@ public class MaterialShapes {
 
 				String name = entry.getKey();
 				int quantity = obj.get("quantity").getAsInt();
-				MaterialShapes shape = new MaterialShapes(quantity,name);
+				MaterialShapes shape = new MaterialShapes(quantity, name);
 				customShapes.add(shape);
 				JsonElement mold = obj.get("mold");
-				if(mold != null && mold.getAsBoolean()){
+				if(mold != null && mold.getAsBoolean()) {
 					JsonElement moldSize = obj.get("moldSize");
-					if(moldSize != null){
-						if(Objects.equals(moldSize.getAsString(), "S")){S_moldShapes.add(shape);}
-						else{L_moldShapes.add(shape);}
+					if(moldSize != null) {
+						if(Objects.equals(moldSize.getAsString(), "S")) {
+							S_moldShapes.add(shape);
+						} else {
+							L_moldShapes.add(shape);
+						}
 					}
 				}
 				JsonElement materialsElem = obj.get("materials");
-				if(materialsElem != null && materialsElem.isJsonArray()){
+				if(materialsElem != null && materialsElem.isJsonArray()) {
 					JsonArray materials = materialsElem.getAsJsonArray();
-					for(JsonElement material : materials){
+					for(JsonElement material : materials) {
 						NTMMaterial mt = Mats.matByName.get(material.getAsString());
-						if(mt != null) mt.setAutogen(shape);
+						if(mt != null)
+							mt.setAutogen(shape);
 					}
 				}
 			}

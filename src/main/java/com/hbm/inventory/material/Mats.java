@@ -303,25 +303,26 @@ public class Mats {
 		try {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
 			writer.setIndent("  ");
-			writer.beginObject();
-
-				writer.name("Bronze").beginObject();
+			writer.beginObject(); {
+				writer.name("Bronze").beginObject(); {
 					writer.name("id").value(20006);
 					writer.name("solidColorLight").value(0xFDCA88);
 					writer.name("solidColorDark").value(0x601E0D);
 					writer.name("moltenColor").value(0xC18336);
-					writer.name("SmeltingBehavior").value("SMELTABLE");
-					writer.name("MatTraits").value("METAL");
-					writer.name("shapes").beginArray();
-						writer.value("dust");writer.value("plate");
-						writer.value("wireDense");writer.value("plateTriple");
-						writer.value("plateSextuple");writer.value("shell");
-						writer.value("ntmpipe");writer.value("block");
-					writer.endArray();
-
-				writer.endObject();
-
-			writer.endObject();
+					writer.name("smeltingBehavior").value("SMELTABLE");
+					writer.name("matTraits").value("METAL");
+					writer.name("shapes").beginArray(); {
+						writer.value("dust");
+						writer.value("plate");
+						writer.value("wireDense");
+						writer.value("plateTriple");
+						writer.value("plateSextuple");
+						writer.value("shell");
+						writer.value("ntmpipe");
+						writer.value("block");
+					} writer.endArray();
+				} writer.endObject();
+			} writer.endObject();
 			writer.close();
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -332,54 +333,45 @@ public class Mats {
 
 		try {
 			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8), JsonObject.class);
-			
 			for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
-
-				
 
 				JsonObject obj = (JsonObject) entry.getValue();
 				int id = obj.get("id").getAsInt();
-				
+
 				if(id > Short.MAX_VALUE) {
-					MainRegistry.logger.error("Too many custom materials in hbmMats.json! Material '" + entry.getKey() + "' and any after it could not be registered: material IDs must fit in a short (max " + Short.MAX_VALUE + ").");
+					MainRegistry.logger.error("Too many custom materials in hbmMats.json! Material '" + entry.getKey()
+							+ "' and any after it could not be registered: material IDs must fit in a short (max " + Short.MAX_VALUE + ").");
 					break;
 				}
-				if(matById.containsKey(id)){
+				if(matById.containsKey(id)) {
 					MainRegistry.logger.warn(entry.getKey() + "'s ID has already been taken.");
 					break;
 				}
-				
+
 				String name = entry.getKey();
 				DictFrame dict = df(name);
 				int solidColorLight = obj.get("solidColorLight").getAsInt();
 				int solidColorDark = obj.get("solidColorDark").getAsInt();
 				int moltenColor = obj.get("moltenColor").getAsInt();
-				SmeltingBehavior Behavior = SmeltingBehavior.valueOf(obj.get("SmeltingBehavior").getAsString());
+				SmeltingBehavior behavior = SmeltingBehavior.valueOf(obj.get("smeltingBehavior").getAsString());
 				NTMMaterial mat;
-				switch (Behavior){
-					case SMELTABLE:
-						mat = makeSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
-						break;
-					case NOT_SMELTABLE:
-						mat = makeNonSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
-						break;
-					case ADDITIVE:
-						mat = makeAdditive(id, dict, solidColorLight, solidColorDark, moltenColor);
-						break;
-					default:
-						mat = make(id, dict);
-						break;
+				switch(behavior) {
+				case SMELTABLE: mat = makeSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor); break;
+				case NOT_SMELTABLE: mat = makeNonSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor); break;
+				case ADDITIVE: mat = makeAdditive(id, dict, solidColorLight, solidColorDark, moltenColor); break;
+				default: mat = make(id, dict); break;
 				}
-				NTMMaterial.MatTraits Trait = NTMMaterial.MatTraits.valueOf(obj.get("MatTraits").getAsString());
-				if(Trait == NTMMaterial.MatTraits.NONMETAL){
+				NTMMaterial.MatTraits trait = NTMMaterial.MatTraits.valueOf(obj.get("matTraits").getAsString());
+				if(trait == NTMMaterial.MatTraits.NONMETAL) {
 					mat.n();
 				} else {
 					mat.m();
 				}
 				JsonArray shapes = obj.get("shapes").getAsJsonArray();
-				for(JsonElement shape : shapes){
+				for(JsonElement shape : shapes) {
 					MaterialShapes MaterialShape = prefixByName.get(shape.getAsString());
-					if(MaterialShape != null ) mat.setAutogen(MaterialShape);
+					if(MaterialShape != null)
+						mat.setAutogen(MaterialShape);
 				}
 			}
 

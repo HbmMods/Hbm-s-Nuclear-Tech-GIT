@@ -560,8 +560,8 @@ public class OreDictManager {
 			if(mat.autogen.contains(MaterialShapes.MECHANISM)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.MECHANISM.name() + name, new ItemStack(ModItems.part_mechanism, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.STOCK)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.STOCK.name() + name, new ItemStack(ModItems.part_stock, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.GRIP)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.GRIP.name() + name, new ItemStack(ModItems.part_grip, 1, mat.id));
-			for(Item custom : MaterialShapes.customShapesItem){
-				MaterialShapes customShape = ((ItemAutogen)custom).getShape();
+			for(Item custom : MaterialShapes.customShapesItem) {
+				MaterialShapes customShape = ((ItemAutogen) custom).getShape();
 				if(mat.autogen.contains(customShape)) for(String name : mat.names) OreDictionary.registerOre(customShape.name() + name, new ItemStack(custom, 1, mat.id));
 			}
 		}
