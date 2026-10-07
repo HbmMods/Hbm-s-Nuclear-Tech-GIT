@@ -124,10 +124,15 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 					this.targeting = null;
 					this.steering = null;
 				}
-				delta.normalizeSelf();
-				motionX = delta.xCoord * momentum / motionMult();
-				motionY = delta.yCoord * momentum / motionMult();
-				motionZ = delta.zCoord * momentum / motionMult();
+				if(motionX * delta.xCoord + motionY * delta.yCoord + motionZ * delta.zCoord <= 0D) {
+					this.targeting = null;
+					this.steering = null;
+				} else {
+					delta.normalizeSelf();
+					motionX = delta.xCoord * momentum / motionMult();
+					motionY = delta.yCoord * momentum / motionMult();
+					motionZ = delta.zCoord * momentum / motionMult();
+				}
 			} else {
 				if(this.targeting != null && this.targetEntity != null) this.targeting.recalculateTargetPosition(this, this.targetEntity);
 				if(this.steering != null) this.steering.adjustCourse(this, 25D, 15D);
