@@ -1,19 +1,38 @@
 package com.hbm.inventory.material;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+
+import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
+import net.minecraft.item.Item;
+
 public class MaterialShapes {
-	
+
+	public static final Gson gson = new Gson();
 	public static final List<MaterialShapes> allShapes = new ArrayList();
-	
+	public static List<MaterialShapes> customShapes = new ArrayList();
+	public static List<Item> customShapesItem = new ArrayList();
+	public static final List<MaterialShapes> S_moldShapes = new ArrayList();
+	public static final List<MaterialShapes> L_moldShapes = new ArrayList();
+
 	public static final MaterialShapes ANY = new MaterialShapes(0, "any").noAutogen();
 	public static final MaterialShapes ONLY_ORE = new MaterialShapes(0, "ore").noAutogen();
 	public static final MaterialShapes ORE = new MaterialShapes(0, "ore", "oreNether").noAutogen();
 	public static final MaterialShapes ORENETHER = new MaterialShapes(0, "oreNether").noAutogen();
-	
+
 	public static final MaterialShapes QUANTUM = new MaterialShapes(1); // 1/72 of an ingot, allows the ingot to be divisible through 2, 4, 6, 8, 9, 12, 24 and 36
 	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget", "tiny");
 	public static final MaterialShapes TINY = new MaterialShapes(8, "tiny").noAutogen();
@@ -42,7 +61,7 @@ public class MaterialShapes {
 	public static final MaterialShapes MECHANISM =		new MaterialShapes(INGOT.quantity * 4, "gunMechanism");
 	public static final MaterialShapes STOCK =			new MaterialShapes(INGOT.quantity * 4, "stock");
 	public static final MaterialShapes GRIP =			new MaterialShapes(INGOT.quantity * 2, "grip");
-	
+
 	public static void registerCompatShapes() {
 
 		if(Compat.isModLoaded(Compat.MOD_GT6)) {
@@ -63,32 +82,39 @@ public class MaterialShapes {
 			new MaterialShapes(INGOT.q(12, 9), "dustRefined").noAutogen();
 		}
 	}
-	
+
+	public static void customShapesInit(){
+		File folder = MainRegistry.configHbmDir;
+		File customshapes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmShapes.json");
+		if (!customshapes.exists()) initDefaultShapes(customshapes);
+		readCustomShapes(customshapes);
+	}
+
 	public boolean noAutogen = false;
 	private int quantity;
 	public final String[] prefixes;
-	
+
 	private MaterialShapes(int quantity, String... prefixes) {
 		this.quantity = quantity;
 		this.prefixes = prefixes;
-		
+
 		for(String prefix : prefixes) {
 			Mats.prefixByName.put(prefix, this);
 		}
-		
+
 		allShapes.add(this);
 	}
-	
+
 	/** Disables recipe autogen for special cases like compatibility prefixes (TINY, ORENETHER), technical prefixes (ANY) or prefixes that have to be handled manually (ORE) */
 	public MaterialShapes noAutogen() {
 		this.noAutogen = true;
 		return this;
 	}
-	
+
 	public int q(int amount) {
 		return this.quantity * amount;
 	}
-	
+
 	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 iron ingots producing 16 individual rail blocks
 		return this.quantity * unitsUsed / itemsProduced;
 	}
@@ -96,8 +122,69 @@ public class MaterialShapes {
 	public String name() {
 		return (prefixes != null && prefixes.length > 0) ? prefixes[0] : "unknown";
 	}
-	
+
 	public String make(NTMMaterial mat) {
 		return this.name() + mat.names[0];
+	}
+
+	private static void initDefaultShapes(File file) {
+
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");
+			writer.beginObject();
+
+				writer.name("gear").beginObject();
+					writer.name("quantity").value(9);
+					writer.name("mold").value(true);
+					writer.name("moldSize").value("S");
+					writer.name("materials").beginArray();
+						writer.value("Iron");
+						writer.value("Steel");
+						writer.value("Bronze");
+					writer.endArray();
+				writer.endObject();
+
+			writer.endObject();
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void readCustomShapes(File file) {
+
+		try {
+			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8), JsonObject.class);
+
+			for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
+
+				JsonObject obj = (JsonObject) entry.getValue();
+
+				String name = entry.getKey();
+				int quantity = obj.get("quantity").getAsInt();
+				MaterialShapes shape = new MaterialShapes(quantity,name);
+				customShapes.add(shape);
+				JsonElement mold = obj.get("mold");
+				if(mold != null && mold.getAsBoolean()){
+					JsonElement moldSize = obj.get("moldSize");
+					if(moldSize != null){
+						if(Objects.equals(moldSize.getAsString(), "S")){S_moldShapes.add(shape);}
+						else{L_moldShapes.add(shape);}
+					}
+				}
+				JsonElement materialsElem = obj.get("materials");
+				if(materialsElem != null && materialsElem.isJsonArray()){
+					JsonArray materials = materialsElem.getAsJsonArray();
+					for(JsonElement material : materials){
+						NTMMaterial mt = Mats.matByName.get(material.getAsString());
+						if(mt != null) mt.setAutogen(shape);
+					}
+				}
+			}
+
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
