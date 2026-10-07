@@ -594,7 +594,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	//yes I have tried to figure it out, no I did not succeed, yes I gave up)
 	//
 	//(yes this is stupid, Im tired boss)
-	public static int[][] rotatePorts(int[][] ports, ForgeDirection facing) {
+	public int[][] rotatePorts(int[][] ports, ForgeDirection facing) {
 		ForgeDirection rot = facing.getRotation(ForgeDirection.UP);
 		int[][] result = new int[ports.length][4];
 		for(int i = 0; i < ports.length; i++) {
@@ -620,6 +620,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				}
 			}
 			result[i][3] = rotatedFace.ordinal();
+		}
+		for(int[] port : result) {
+			port[0] += facing.offsetX * -getOffset();
+			port[2] += facing.offsetZ * -getOffset();
 		}
 		return result;
 	}
@@ -887,9 +891,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 			for(int[] port : getAllPorts(facing)) {
 				//IM RUNNING OUT OF LETTERS TO NOT MAKE EVERYTHING THE SAME VAR NAME (for readability)
-				double jX = MathHelper.floor_double(originX) + port[0] - dX;
+				double jX = MathHelper.floor_double(originX) + port[0] - dX - facing.offsetX * o;
 				double jY = MathHelper.floor_double(originY) + port[1] - dY;
-				double jZ = MathHelper.floor_double(originZ) + port[2] - dZ;
+				double jZ = MathHelper.floor_double(originZ) + port[2] - dZ - facing.offsetZ * o;
 
 				double s = 0.3;
 				ForgeDirection dir = ForgeDirection.getOrientation(port[3]);
