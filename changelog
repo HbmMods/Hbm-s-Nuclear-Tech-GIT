@@ -38,6 +38,11 @@
 * Added new structures
   * Abandoned house with shelter (plains)
   * Military base (snowy biomes)
+* Ilmenite
+  * A raw ore chunk that can be extracted from titanium ore via centrifuging
+  * Can be processed into titanium tetrachloride in a chemical plant
+  * TiCl4 can either be processed in a rotary furnace using flux, or pyrolysis oven (latter option also recovers all used chlorine)
+  * Ilmenite can also be arc smelted directly for lower efficiency but faster output (liquid smelting mode also yields iron byproduct)
 
 ## Changed
 * Updated russian and ukrainian localization
@@ -139,6 +144,28 @@
 * Stellar fusion now only requires 5mB/t at max speed instead of 10
 * Updated the FEL's model and texture
 * Overhauled most of the lategame expensive mode recipes
+* The current version of flow control pumps has been deprecated and replaced with a 1x3 version
+  * Existing pumps will no longer work, instead they just act like regular pipes
+* The current version of diodes has been deprecated and replaced with a 1x2x3 connector called network separator
+  * Existing diodes will no longer work and instead act like regular cables
+  * Network separators also work like gauges, except they only log the power they themselves give off
+  * Network separators can also cut power via redstone signal, with the bottom three blocks being able to accept a signal
+  * RoR configurable and readable
+* Gauges no longer display the total amount transferred in the network, rather they display the change in supply, giving a more accurate picture of the amount of energy/liquid moved
+  * This should fix a long standing issue where multiple buffers would cause "sloshing" or "pingponing", causing transfer numbers to be huge even if no actual transfers are taking place
+* Bedrock ore densities are no longer per individual coordinates but rather per chunk
+  * Having values for coordinates where bedrock ore was impossible to generate anyway didn't really make much sense
+  * This removes ambiguity for bedrock ore patches where the individual blocks got wildly different values
+* The survey scanner now omits bedrock ore from its standard scan
+  * Instead, a second scan is performed, always at the center of the current chunk where bedrock ore can spawn
+  * Bedrock ore that's detected is highlighted
+* The survey scanner now also highlights bedrock oil, making it way easier to hit with the fracking tower
+* Light metal bedrock ore treated with sulfuric acid no longer yields elemental titanium, rather it produces ilmenite
+* Simplified the electrolyzer's recipe
+  * It now uses a graphite electrode instead of several red copper coils and it no longer requires titanium shells
+* The power grid tool now displays the network's current flow rate
+* The satellite frequency range has been increased from 100k to 10M to prevent the entire range from being brute-forcable in a short period of time
+* Artillery rockets should now disable their guidance once reaching their target, preventing rockets from floating
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount

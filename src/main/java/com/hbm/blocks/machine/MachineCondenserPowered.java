@@ -42,20 +42,23 @@ public class MachineCondenserPowered extends BlockDummyable implements ILookOver
 	}
 
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{3, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-3, 1, 0, ForgeDirection.WEST.ordinal()},
+			{1, 1, 1, ForgeDirection.SOUTH.ordinal()},
+			{-1, 1, 1, ForgeDirection.SOUTH.ordinal()},
+			{1, 1, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 1, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
+	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + rot.offsetX * 3, y + 1, z + rot.offsetZ * 3);
-		this.makeExtra(world, x - rot.offsetX * 3, y + 1, z - rot.offsetZ * 3);
-		this.makeExtra(world, x + dir.offsetX + rot.offsetX, y + 1, z + dir.offsetZ + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX - rot.offsetX, y + 1, z + dir.offsetZ - rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX + rot.offsetX, y + 1, z - dir.offsetZ + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX - rot.offsetX, y + 1, z - dir.offsetZ - rot.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

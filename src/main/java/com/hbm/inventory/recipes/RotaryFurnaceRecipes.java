@@ -50,6 +50,7 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_SATURN, INGOT.q(4)), 200, 300, new FluidStack(Fluids.REFORMGAS, 250), new OreDictStack(DURA.dust(), 4), new OreDictStack(CU.dust()), new OreDictStack(BORAX.dust())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(2)), 100, 400, new FluidStack(Fluids.SODIUM_ALUMINATE, 150)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(3)), 40, 200, new FluidStack(Fluids.SODIUM_ALUMINATE, 150), new ComparableStack(ModItems.powder_flux, 2)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_TITANIUM, INGOT.q(4)), 40, 100, new FluidStack(Fluids.TITANIUM_TETRACHLORIDE, 1_000), new ComparableStack(ModItems.powder_flux, 1)));
 	}
 
 	public static HashMap getRecipes() {

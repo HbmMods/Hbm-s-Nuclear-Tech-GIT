@@ -50,6 +50,15 @@ public class MachineFusionBoiler extends BlockDummyable implements ILookOverlay,
 			{1.5, 3.5, -4.5, -4.5, 1, -1}
 		};
 	}
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+			{1, 0, 2, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 2, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
@@ -63,13 +72,10 @@ public class MachineFusionBoiler extends BlockDummyable implements ILookOverlay,
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 		//this.makeExtra(world, x + dir.offsetX * 4, y + 2, z + dir.offsetZ * 4);
-		this.makeExtra(world, x - dir.offsetX * 1 + rot.offsetX, y, z - dir.offsetZ * 1 + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 1 - rot.offsetX, y, z - dir.offsetZ * 1 - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX, y, z + dir.offsetZ * 2 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX, y, z + dir.offsetZ * 2 - rot.offsetZ);
 	}
 
 	@Override

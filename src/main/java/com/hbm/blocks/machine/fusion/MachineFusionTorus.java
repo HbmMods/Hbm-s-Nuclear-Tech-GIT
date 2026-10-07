@@ -2,6 +2,8 @@ package com.hbm.blocks.machine.fusion;
 
 import java.util.List;
 
+import static com.hbm.lib.Library.*;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -120,6 +122,38 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 	}
 
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 4, 0, ORD_UP},
+			{0, 0, 0, ORD_DOWN},
+			{2, 0, 6, ORD_DOWN},
+			{2, 4, 6, ORD_UP},
+			{2, 0, -6, ORD_DOWN},
+			{2, 4, -6, ORD_UP},
+			{-2, 0, 6, ORD_DOWN},
+			{-2, 4, 6, ORD_UP},
+			{-2, 0, -6, ORD_DOWN},
+			{-2, 4, -6, ORD_UP},
+			{6, 0, 0, ORD_DOWN},
+			{6, 4, 0, ORD_UP},
+			{6, 0, 2, ORD_DOWN},
+			{6, 4, 2, ORD_UP},
+			{6, 0, -2, ORD_DOWN},
+			{6, 4, -2, ORD_UP},
+			{-6, 0, 0, ORD_DOWN},
+			{-6, 4, 0, ORD_UP},
+			{-6, 0, 2, ORD_DOWN},
+			{-6, 4, 2, ORD_UP},
+			{-6, 0, -2, ORD_DOWN},
+			{-6, 4, -2, ORD_UP},
+			{0, 0, 6, ORD_DOWN},
+			{0, 4, 6, ORD_UP},
+			{0, 0, -6, ORD_DOWN},
+			{0, 4, -6, ORD_UP}
+		}, dir);
+	}
+
+	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		
 		x = x + dir.offsetX * o;
@@ -168,15 +202,15 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 					int meta = 0;
 					
 					if(iy > 0) {
-						meta = ForgeDirection.UP.ordinal();
+						meta = ORD_UP;
 					} else if(ex < 0) {
-						meta = ForgeDirection.WEST.ordinal();
+						meta = ORD_WEST;
 					} else if(ex > 0) {
-						meta = ForgeDirection.EAST.ordinal();
+						meta = ORD_EAST;
 					} else if(ez < 0) {
-						meta = ForgeDirection.NORTH.ordinal();
+						meta = ORD_NORTH;
 					} else if(ez > 0) {
-						meta = ForgeDirection.SOUTH.ordinal();
+						meta = ORD_SOUTH;
 					} else {
 						continue;
 					}
@@ -186,37 +220,10 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 				}
 			}
 		}
-
 		// is that enough ports?
-		this.makeExtra(world, x, y + 4, z);
-
-		this.makeExtra(world, x + 6, y, z);
-		this.makeExtra(world, x + 6, y + 4, z);
-		this.makeExtra(world, x + 6, y, z + 2);
-		this.makeExtra(world, x + 6, y + 4, z + 2);
-		this.makeExtra(world, x + 6, y, z - 2);
-		this.makeExtra(world, x + 6, y + 4, z - 2);
-
-		this.makeExtra(world, x - 6, y, z);
-		this.makeExtra(world, x - 6, y + 4, z);
-		this.makeExtra(world, x - 6, y, z + 2);
-		this.makeExtra(world, x - 6, y + 4, z + 2);
-		this.makeExtra(world, x - 6, y, z - 2);
-		this.makeExtra(world, x - 6, y + 4, z - 2);
-
-		this.makeExtra(world, x, y, z + 6);
-		this.makeExtra(world, x, y + 4, z + 6);
-		this.makeExtra(world, x + 2, y, z + 6);
-		this.makeExtra(world, x + 2, y + 4, z + 6);
-		this.makeExtra(world, x - 2, y, z + 6);
-		this.makeExtra(world, x - 2, y + 4, z + 6);
-
-		this.makeExtra(world, x, y, z - 6);
-		this.makeExtra(world, x, y + 4, z - 6);
-		this.makeExtra(world, x + 2, y, z - 6);
-		this.makeExtra(world, x + 2, y + 4, z - 6);
-		this.makeExtra(world, x - 2, y, z - 6);
-		this.makeExtra(world, x - 2, y + 4, z - 6);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

@@ -56,6 +56,21 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 	}
 
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{-2, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{-2, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -5, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
+	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 3, -2, 4, 4}, x, y, z, dir) &&
@@ -80,14 +95,8 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, -2, 1, 1, 5, 5}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -3, 0, 0, 4, 4}, this, dir);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		for(int i = -2; i <= 2; i++) {
-			this.makeExtra(world, x + dir.offsetX * 5 + rot.offsetX * i, y, z + dir.offsetZ * 5 + rot.offsetZ * i);
-			this.makeExtra(world, x - dir.offsetX * 5 + rot.offsetX * i, y, z - dir.offsetZ * 5 + rot.offsetZ * i);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 }

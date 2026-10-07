@@ -20,15 +20,15 @@ public class ContainerLaunchpadSoyuz extends ContainerBase {
 		//Landing module
 		this.addSlotToContainer(new SlotNonRetarded(tedf, 3, 80, 26));
 		//Kerosene IN
-		this.addSlotToContainer(new Slot(tedf, 4, 152, 98));
+		this.addSlotToContainer(new SlotNonRetarded(tedf, 4, 152, 98));
 		//Kerosene OUT
-		this.addSlotToContainer(new Slot(tedf, 5, 152, 116));
+		this.addSlotToContainer(new SlotNonRetarded(tedf, 5, 152, 116));
 		//Oxyden IN
-		this.addSlotToContainer(new Slot(tedf, 6, 170, 98));
+		this.addSlotToContainer(new SlotNonRetarded(tedf, 6, 170, 98));
 		//Oxyden OUT
-		this.addSlotToContainer(new Slot(tedf, 7, 170, 116));
+		this.addSlotToContainer(new SlotNonRetarded(tedf, 7, 170, 116));
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 8, 134, 98));
+		this.addSlotToContainer(new SlotNonRetarded(tedf, 8, 134, 98));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 6; j++) {

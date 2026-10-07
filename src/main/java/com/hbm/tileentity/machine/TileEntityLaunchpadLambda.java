@@ -14,8 +14,8 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort.PortDef;
+import com.hbm.util.Vec3NT;
 
-import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -61,7 +61,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	
 	public boolean autolaunch = false;
 	
-	private AudioWrapper audio;
+	private AudioWrapper[] audios;
 
 	public static final int COUNTDOWN_DURATION = 200;
 	public int countdown;
@@ -71,6 +71,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.GASOLINE_LEADED, 64_000);
 		tanks[1] = new FluidTank(Fluids.PEROXIDE, 64_000);
+		
+		this.audios = new AudioWrapper[4];
 	}
 
 	protected PortDef[] cachedPorts;
@@ -95,6 +97,25 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	@Override
 	public String getName() {
 		return "container.launchpadLambda";
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot == 0) return stack.getItem() == ModItems.missile_lambda;
+		if(slot == 1) return stack.getItem() instanceof ISatChip && !TileEntityLaunchpadSoyuz.needsOrbiter(stack);
+		if(slot == 2) return this.isFluidContainer(stack, tanks[0]);
+		if(slot == 3) return false;
+		if(slot == 4) return this.isFluidContainer(stack, tanks[1]);
+		if(slot == 5) return false;
+		if(slot == 6) return this.isBattery(stack);
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {
+			0, 1,	// lambda, satellite
+		};
 	}
 
 	@Override
@@ -142,26 +163,6 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				}
 			}
 			
-			if(this.countdown > 0) {
-
-				
-				if(this.audio == null) {
-					this.audio = MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", xCoord + 0.5F, yCoord + 3F, zCoord + 0.5F, 10F, 50F, 1F, 20);
-					this.audio.startSound();
-				} else if(!this.audio.isPlaying()) {
-					this.audio.stopSound();
-					this.audio = MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", xCoord + 0.5F, yCoord + 3F, zCoord + 0.5F, 10F, 50F, 1F, 20);
-					this.audio.startSound();
-				}
-				this.audio.keepAlive();
-
-			} else {
-				if(this.audio != null) {
-					this.audio.stopSound();
-					this.audio = null;
-				}
-			}
-			
 			if(this.erected && this.hasOxidizer() && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2, zCoord + 0.5) <= 100 * 100) {
 				
 				NBTTagCompound data = new NBTTagCompound();
@@ -178,7 +179,73 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				data.setFloat("strafe", 0.075F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
+
+			handleSound(0, this.syncPositions[INDEX_DOORS] > 0F && this.syncPositions[INDEX_DOORS] < 3F);
+			handleSound(1, !this.finishedMoving(INDEX_ERECTOR) && this.wasMoving(INDEX_ERECTOR));
+			handleSound(2, this.syncPositions[INDEX_ROTOR] > 0F && this.syncPositions[INDEX_ROTOR] < 180F);
+			handleSound(3, this.countdown > 0);
+			
+			if(this.wasMoving(INDEX_CLAMPS) && this.syncPositions[INDEX_CLAMPS] == 90F)
+				MainRegistry.proxy.playSoundClient(xCoord + 0.5F, yCoord + 12, zCoord + 0.5F, "hbm:door.sliding_seal_stop", 25F, 0.75F);
 		}
+	}
+	
+	protected void handleSound(int index, boolean isRunning) {
+		
+		if(isRunning) {
+			
+			if(this.audios[index] == null) {
+				this.audios[index] = createSound(index);
+				this.audios[index].startSound();
+				
+			} else if(!this.audios[index].isPlaying()){
+				this.audios[index].stopSound();
+				this.audios[index] = createSound(index);
+				this.audios[index].startSound();
+			}
+
+			Vec3NT pos = getSoundPosition(index);
+			this.audios[index].keepAlive();
+			this.audios[index].updatePosition((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord);
+			
+		} else {
+			
+			if(this.audios[index] != null) {
+				this.audios[index].stopSound();
+				this.audios[index] = null;
+
+				Vec3NT pos = getSoundPosition(index);
+				if(index == 0) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.garage_stop", 35F, 1F);
+				if(index == 1 && this.target[INDEX_ERECTOR] == 25F) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 50F, 0.5F);
+				if(index == 1 && this.target[INDEX_ERECTOR] != 25F) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_stop", 25F, 1F);
+				if(index == 2) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 25F, 0.75F);
+			}
+		}
+	}
+	
+	protected AudioWrapper createSound(int index) {
+		
+		Vec3NT pos = getSoundPosition(index);
+		
+		if(index == 0) return MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 35F, 1.0F, 10);
+		if(index == 1) return MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 35F, 1.0F, 10);
+		if(index == 2) return MainRegistry.proxy.getLoopedSound("hbm:door.wgh_big_start", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 35F, 0.75F, 10);
+		if(index == 3) return MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 10F, 50F, 1F, 20);
+		
+		return null;
+	}
+	
+	protected Vec3NT getSoundPosition(int index) {
+
+		double x = xCoord + 0.5;
+		double y = yCoord + 3;
+		double z = zCoord + 0.5;
+		
+		if(index == 2) {
+			y += 12;
+		}
+		
+		return new Vec3NT(x, y, z);
 	}
 	
 	public void updateStates() {
@@ -269,6 +336,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		slots[0] = null;
 		slots[1] = null;
 		
+		this.erected = false;
+		
 		this.markChanged();
 	}
 
@@ -295,10 +364,9 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		buf.writeBoolean(erected);
 		buf.writeBoolean(autolaunch);
 		buf.writeInt(countdown);
-		
-		for(int i = 0; i < this.positions.length; i++) {
-			buf.writeFloat(this.positions[i]);
-		}
+
+		for(int i = 0; i < this.target.length; i++) buf.writeFloat(this.target[i]);
+		for(int i = 0; i < this.positions.length; i++) buf.writeFloat(this.positions[i]);
 	}
 
 	@Override
@@ -312,6 +380,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		this.autolaunch = buf.readBoolean();
 		this.countdown = buf.readInt();
 
+		for(int i = 0; i < this.target.length; i++) this.target[i] = buf.readFloat();
 		for(int i = 0; i < this.positions.length; i++) {
 			float newSync = buf.readFloat();
 			if(this.syncPositions[i] != newSync) {
@@ -398,6 +467,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 
 	public boolean hasRocketLoaded() { return slots[0] != null && slots[0].getItem() == ModItems.missile_lambda; }
 	public boolean finishedMoving(int index) { return this.positions[index] == this.target[index]; }
+	public boolean wasMoving(int index) { return this.positions[index] != this.prevPositions[index]; }
 	
 	public boolean finishedAllMoving() {
 		for(int i = 0; i < this.positions.length; i++) if(!finishedMoving(i)) return false;
@@ -414,14 +484,6 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 
 	public boolean hasJetFuel() { return this.tanks[0].getFill() >= 24_000; }
 	public boolean hasOxidizer() { return this.tanks[1].getFill() >= 24_000; }
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot == 0) return stack.getItem() == ModItems.missile_lambda;
-		if(slot == 1) return stack.getItem() instanceof ISatChip ;
-		if(slot == 6) return stack.getItem() instanceof IBatteryItem ;
-		return true;
-	}
 
 	@Override public long getPower() { return this.power; }
 	@Override public void setPower(long power) { this.power = power; }

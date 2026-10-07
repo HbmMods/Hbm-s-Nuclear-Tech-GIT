@@ -7,6 +7,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityLaunchpadLambda;
+import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,9 @@ public class GUILaunchpadLambda extends GuiInfoContainer {
 		launcher.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 107, guiTop + 26, 16, 52);
 		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 26, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 89, guiTop + 26, 16, 52, launcher.power, launcher.maxPower);
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 34, guiTop + 43, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("desc.gui.lambda.manual"));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 43, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("desc.gui.lambda.auto"));
 	}
 
 	@Override
@@ -108,6 +112,16 @@ public class GUILaunchpadLambda extends GuiInfoContainer {
 		
 		if(launcher.countdown > 0)
 			drawTexturedModalRect(guiLeft + 43, guiTop + 70, 210, 44, 18, 18);
+		
+		if(!launcher.hasRocketLoaded())
+			drawTexturedModalRect(guiLeft + 34, guiTop + 16, 210, 8, 18, 18);
+		else
+			drawTexturedModalRect(guiLeft + 34, guiTop + 16, 228, 8, 18, 18);
+		
+		if(launcher.slots[1] == null || TileEntityLaunchpadSoyuz.needsOrbiter(launcher.slots[1]))
+			drawTexturedModalRect(guiLeft + 52, guiTop + 16, 210, 8, 18, 18);
+		else
+			drawTexturedModalRect(guiLeft + 52, guiTop + 16, 228, 8, 18, 18);
 		
 		launcher.tanks[0].renderTank(guiLeft + 107, guiTop + 78, this.zLevel, 16, 52);
 		launcher.tanks[1].renderTank(guiLeft + 125, guiTop + 78, this.zLevel, 16, 52);

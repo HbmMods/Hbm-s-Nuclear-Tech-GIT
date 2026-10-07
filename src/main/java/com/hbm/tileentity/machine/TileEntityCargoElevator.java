@@ -234,15 +234,13 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 		nbt.setInteger("minX", minX); nbt.setInteger("maxX", maxX);
 		nbt.setInteger("minZ", minZ); nbt.setInteger("maxZ", maxZ);
 	}
-	
+
 	AxisAlignedBB bb = null;
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-
 		// workaround for angelica, extend AABB to build height by default instead of dynamically scaling
 		int h = Compat.isModLoaded(Compat.MOD_ANG) ? 256 - yCoord : 1 + this.height;
-		
 		if(bb == null || bb.maxY - bb.minY < h) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord + minX,
@@ -253,10 +251,9 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 					zCoord + maxZ + 1
 					);
 		}
-
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -277,7 +274,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 	public String[] getFunctionInfo() {
 		return new String[]{
 			PREFIX_VALUE + "extension",
-			PREFIX_FUNCTION + "setextension"
+			PREFIX_FUNCTION + "setextension" + NAME_SEPARATOR + "amount",
 		};
 	}
 }

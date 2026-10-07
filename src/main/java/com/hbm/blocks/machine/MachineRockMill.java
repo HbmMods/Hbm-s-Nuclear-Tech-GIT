@@ -30,21 +30,26 @@ public class MachineRockMill extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {2, 0, 2, 2, 2, 2}; }
 	@Override public int getOffset() { return 2; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{2, 0, 1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{2, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
+			{1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, -2, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
 
-		this.makeExtra(world, x + 2, y, z + 1);
-		this.makeExtra(world, x - 2, y, z + 1);
-		this.makeExtra(world, x + 2, y, z - 1);
-		this.makeExtra(world, x - 2, y, z - 1);
-		this.makeExtra(world, x + 1, y, z + 2);
-		this.makeExtra(world, x + 1, y, z - 2);
-		this.makeExtra(world, x - 1, y, z + 2);
-		this.makeExtra(world, x - 1, y, z - 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

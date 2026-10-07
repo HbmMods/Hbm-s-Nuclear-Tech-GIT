@@ -127,18 +127,15 @@ public class FluidContainerRegistry {
 
 	public static int getFluidContent(ItemStack stack, FluidType type) {
 
-		if(stack == null)
-			return 0;
+		if(stack == null) return 0;
 
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		if(!containerMap.containsKey(type))
-			return 0;
+		if(!containerMap.containsKey(type)) return 0;
 
 		for(FluidContainer container : containerMap.get(type)) {
-			if(container.fullContainer.isItemEqual(sta))
-				return container.content;
+			if(container.fullContainer.isItemEqual(sta)) return container.content;
 		}
 
 		return 0;

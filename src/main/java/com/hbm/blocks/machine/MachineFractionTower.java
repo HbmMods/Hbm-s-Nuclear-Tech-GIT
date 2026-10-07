@@ -84,18 +84,22 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
 			return true;
 		}
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		this.makeExtra(world, x + 1, y, z);
-		this.makeExtra(world, x - 1, y, z);
-		this.makeExtra(world, x, y, z + 1);
-		this.makeExtra(world, x, y, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

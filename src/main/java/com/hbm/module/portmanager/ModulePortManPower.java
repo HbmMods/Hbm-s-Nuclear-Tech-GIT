@@ -23,9 +23,27 @@ public class ModulePortManPower {
 	
 	public TilePort[] powerPorts;
 	public boolean enabled[];
+	public boolean input = true;
+	public boolean output = true;
 	
 	public ModulePortManPower(TileEntityLoadedBase owner) {
 		this.owner = owner;
+	}
+	
+	public ModulePortManPower onlyInput() {
+		this.input = true;
+		this.output = false;
+		return this;
+	}
+	
+	public ModulePortManPower onlyOutput() {
+		this.input = false;
+		this.output = true;
+		return this;
+	}
+	
+	public void destroy() {
+		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(owner.getWorldObj());
 	}
 
 	public void update(PortDef[] ports) {
@@ -40,7 +58,7 @@ public class ModulePortManPower {
 				if(port != null) port.disableIfPresent(world);
 			}
 			
-			this.powerPorts = TilePort.manyToMany(this, ports);
+			this.powerPorts = TilePort.manyToMany(owner, ports);
 			
 			for(TilePort port : this.powerPorts) {
 				port.setupType(Nodespace.THE_POWER_PROVIDER);
@@ -53,8 +71,8 @@ public class ModulePortManPower {
 				if(port == null) continue;
 				port.update(world);
 				// dynamic, there's basically almost no machine that's both
-				if(owner instanceof IEnergyReceiverMK2) port.checkSubscribe(world);
-				if(owner instanceof IEnergyProviderMK2) port.checkProvide(world);
+				if(input && owner instanceof IEnergyReceiverMK2) port.checkSubscribe(world);
+				if(output && owner instanceof IEnergyProviderMK2) port.checkProvide(world);
 			}
 		}
 	}

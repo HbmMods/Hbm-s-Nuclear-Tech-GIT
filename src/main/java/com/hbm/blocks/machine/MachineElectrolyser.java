@@ -54,7 +54,22 @@ public class MachineElectrolyser extends BlockDummyable {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, -1);
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -5, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 5, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -4, ForgeDirection.EAST.ordinal()},
+			{1, 0, -2, ForgeDirection.EAST.ordinal()},
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{1, 0, 2, ForgeDirection.EAST.ordinal()},
+			{1, 0, 4, ForgeDirection.EAST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
@@ -75,14 +90,9 @@ public class MachineElectrolyser extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 2, y + 3, z - dir.offsetZ * 2, new int[] {0, 0, 0, 0, -1, 2}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y + 3, z - dir.offsetZ * 4, new int[] {0, 0, 0, 0, -1, 2}, this, dir);
 
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x - dir.offsetX * 5, y, z - dir.offsetZ * 5);
-		this.makeExtra(world, x - dir.offsetX * 5 + rot.offsetX, y, z - dir.offsetZ * 5 + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 5 - rot.offsetX, y, z - dir.offsetZ * 5 - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 5, y, z + dir.offsetZ * 5);
-		this.makeExtra(world, x + dir.offsetX * 5 + rot.offsetX, y, z + dir.offsetZ * 5 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 5 - rot.offsetX, y, z + dir.offsetZ * 5 - rot.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

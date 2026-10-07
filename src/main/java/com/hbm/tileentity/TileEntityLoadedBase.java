@@ -10,6 +10,8 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardSenderMK2;
@@ -30,6 +32,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public boolean tilted = false;
 	public int tiltBlocksChecked = 0;
 	public int tiltBlocksValid = 0;
+	
+	// temporary crap solution for furnaces to not destroy networks on state change
+	public static boolean destroyPortsOnInvalidate = true;
 
 	// that did not last long at all
 	@Deprecated public TilePort[] powerPorts;
@@ -67,20 +72,6 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 	
-	/** Sets up input ports and marks them as hijack */
-	@Deprecated public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef ports) {
-		setupFluidInPorts(tanks, ports);
-		if(fluidInPorts != null) for(int i = 0; i < fluidInPorts.length; i++) fluidInPorts[i].setHijack();
-	}
-	@Deprecated public void setupFluidInPortsHijack(FluidTank[] tanks, PortDef[] ports) {
-		if(fluidInPorts != null) return;
-		fluidInPorts = TilePort.manyToMany(this, ports);
-		for(int i = 0; i < fluidInPorts.length; i++) {
-			fluidInPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
-		}
-		for(int i = 0; i < fluidInPorts.length; i++) fluidInPorts[i].setHijack();
-	}
-	
 	@Deprecated public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
 		if(fluidOutPorts != null) return;
 		fluidOutPorts = TilePort.oneToMany(this, tanks.length, ports);
@@ -107,8 +98,8 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	/** Power out, fluid in, fluid out */
 	@Deprecated public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
 	
-	@Deprecated public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
-	@Deprecated public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(worldObj); }
+	@Deprecated public void receivePower() { if(powerPorts == null) return; if(this instanceof IEnergyReceiverMK2) for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
+	@Deprecated public void providePower() { if(powerPorts == null) return; if(this instanceof IEnergyProviderMK2) for(TilePort port : powerPorts) port.checkProvide(worldObj); }
 
 	@Deprecated public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
 	@Deprecated public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
@@ -159,7 +150,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		
+		if(!destroyPortsOnInvalidate) return;
 		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(worldObj);
 		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.disableIfPresent(worldObj);
 		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.disableIfPresent(worldObj);
