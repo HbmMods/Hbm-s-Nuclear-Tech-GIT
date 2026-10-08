@@ -79,8 +79,6 @@ public class LaunchpadLambda extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {2, -2, 7, 7, 7, -6}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {2, -2, 7, 7, -6, 7}, this, dir);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}

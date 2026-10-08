@@ -100,7 +100,13 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 
 					for(EntityMovingItem item : items) {
 						if(item.isDead) continue;
+						
 						ItemStack stack = item.getItemStack();
+						if(stack.stackSize <= 0) {
+							item.setDead();
+							continue;
+						}
+						
 						boolean match = this.matchesFilter(stack);
 						if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
 
@@ -149,7 +155,14 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 						List<EntityMovingItem> items = worldObj.getEntitiesWithinAABB(EntityMovingItem.class, AxisAlignedBB.getBoundingBox(x + 0.1875D, y + 0.1875D, z + 0.1875D, x + 0.8125D, y + 0.8125D, z + 0.8125D));
 
 						for(EntityMovingItem item : items) {
+							if(item.isDead) continue;
+
 							ItemStack stack = item.getItemStack();
+							if(stack.stackSize <= 0) {
+								item.setDead();
+								continue;
+							}
+							
 							boolean match = this.matchesFilter(stack);
 							if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
 

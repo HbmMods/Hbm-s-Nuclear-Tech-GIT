@@ -36,6 +36,8 @@ public class RenderArtilleryRocket extends Render {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		if(fog) GL11.glEnable(GL11.GL_FOG);
 		
+		((EntityArtilleryRocket) entity).onRenderTick(f1); // this actually sucks wtf
+		
 		GL11.glPopMatrix();
 	}
 
