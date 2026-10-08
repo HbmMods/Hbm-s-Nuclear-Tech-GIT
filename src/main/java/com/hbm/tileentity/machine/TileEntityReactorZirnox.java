@@ -538,7 +538,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[i].getItemDamage());
 			return new Object[] { num.name(), ItemZirnoxRod.getLifeTime(slots[i]), num.maxLife };
 		}
-		return new Object[] { "", 0, 0, 0, false };
+		return new Object[] { "", 0, 0 };
 	}
 
 	@Callback(direct = true)
