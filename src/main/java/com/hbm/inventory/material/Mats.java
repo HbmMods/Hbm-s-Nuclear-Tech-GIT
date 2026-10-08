@@ -304,7 +304,10 @@ public class Mats {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
 			writer.setIndent("  ");
 			writer.beginObject(); {
-				writer.name("Bronze").beginObject(); {
+				
+				// demo is disabled for now, needs just a bit more cleanup
+				
+				/*writer.name("Bronze").beginObject(); {
 					writer.name("id").value(20006);
 					writer.name("solidColorLight").value(0xFDCA88);
 					writer.name("solidColorDark").value(0x601E0D);
@@ -321,7 +324,7 @@ public class Mats {
 						writer.value("ntmpipe");
 						writer.value("block");
 					} writer.endArray();
-				} writer.endObject();
+				} writer.endObject();*/
 			} writer.endObject();
 			writer.close();
 		} catch(IOException e) {

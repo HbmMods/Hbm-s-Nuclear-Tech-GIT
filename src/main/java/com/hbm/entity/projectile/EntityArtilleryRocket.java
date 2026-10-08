@@ -120,39 +120,51 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 			Vec3NT delta = new Vec3NT(this.lastTargetPos.xCoord - this.posX, this.lastTargetPos.yCoord - this.posY, this.lastTargetPos.zCoord - this.posZ);
 			double momentum = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ) * motionMult();
 			if(delta.lengthVector() <= momentum * 1.5) {
-				if(this.targetEntity == null || !this.targetEntity.isEntityAlive()) {
-					this.targeting = null;
-					this.steering = null;
-				}
-				delta.normalizeSelf();
-				motionX = delta.xCoord * momentum / motionMult();
-				motionY = delta.yCoord * momentum / motionMult();
-				motionZ = delta.zCoord * momentum / motionMult();
+				disableSteering(delta, momentum);
 			} else {
 				if(this.targeting != null && this.targetEntity != null) this.targeting.recalculateTargetPosition(this, this.targetEntity);
-				if(this.steering != null) this.steering.adjustCourse(this, 25D, 15D);
+				if(this.steering != null) this.steering.adjustCourse(this, 10D, 15D);
 			}
 
 			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
 			this.getType().onUpdate(this);
-		} else {
-
-			Vec3 v = Vec3.createVectorHelper(lastTickPosX - posX, lastTickPosY - posY, lastTickPosZ - posZ);
-			double velocity = v.lengthVector();
-			v = v.normalize();
-
-			int offset = 6;
-			if(velocity > 1) {
-				for (int i = offset; i < velocity + offset; i++) {
-					NBTTagCompound data = new NBTTagCompound();
-					data.setDouble("posX", posX + v.xCoord * i);
-					data.setDouble("posY", posY + v.yCoord * i);
-					data.setDouble("posZ", posZ + v.zCoord * i);
-					data.setString("type", "exKerosene");
-					MainRegistry.proxy.effectNT(data);
-				}
-			}
 		}
+	}
+
+	protected double lastRenderX = 0;
+	protected double lastRenderY = 0;
+	protected double lastRenderZ = 0;
+	protected Vec3NT delta = new Vec3NT(0, 0, 0);
+	protected double path = 0D;
+	
+	// this doesn't work as well as i was hoping it would
+	public void onRenderTick(float interp) {
+
+		double x = this.lastTickPosX + (this.posX - this.lastTickPosX) * interp;
+		double y = this.lastTickPosY + (this.posY - this.lastTickPosY) * interp;
+		double z = this.lastTickPosZ + (this.posZ - this.lastTickPosZ) * interp;
+
+		if(lastRenderX == 0) lastRenderX = x;
+		if(lastRenderY == 0) lastRenderY = y;
+		if(lastRenderZ == 0) lastRenderZ = z;
+		
+		delta.setComponents(lastRenderX - posX, lastRenderY - posY, lastRenderZ - posZ);
+		double stepSize = 4D;
+		path += delta.lengthVector();
+		delta.normalizeSelf();
+		
+		for(; path >= stepSize; path -= stepSize) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setDouble("posX", x - delta.xCoord * path);
+			data.setDouble("posY", y - delta.yCoord * path);
+			data.setDouble("posZ", z - delta.zCoord * path);
+			data.setString("type", "exKerosene");
+			MainRegistry.proxy.effectNT(data);
+		}
+
+		lastRenderX = x;
+		lastRenderY = y;
+		lastRenderZ = z;
 	}
 
 	@Override
@@ -248,5 +260,18 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	@Override
 	public int approachNum() {
 		return 0; //
+	}
+	
+	public void disableSteering(Vec3NT delta, double momentum) {
+		
+		if(this.steering != null || this.targeting != null) {
+			this.steering = null;
+			this.targeting = null;
+			
+			delta.normalizeSelf();
+			motionX = delta.xCoord * momentum / motionMult();
+			motionY = delta.yCoord * momentum / motionMult();
+			motionZ = delta.zCoord * momentum / motionMult();
+		}
 	}
 }

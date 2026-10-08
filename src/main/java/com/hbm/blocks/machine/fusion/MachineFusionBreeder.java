@@ -70,8 +70,6 @@ public class MachineFusionBreeder extends BlockDummyable implements ITooltipProv
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}

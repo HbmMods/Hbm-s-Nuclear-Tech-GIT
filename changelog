@@ -43,9 +43,10 @@
   * Can be processed into titanium tetrachloride in a chemical plant
   * TiCl4 can either be processed in a rotary furnace using flux, or pyrolysis oven (latter option also recovers all used chlorine)
   * Ilmenite can also be arc smelted directly for lower efficiency but faster output (liquid smelting mode also yields iron byproduct)
+* Pneumatic and exhaust pipe anchors
 
 ## Changed
-* Updated russian and ukrainian localization
+* Updated russian, japanese and ukrainian localization
 * The cargo elevator can now be controlled using RoR, allowing the platform to stop at certain heights
 * Updated the pepperbox textures
   * The wood now looks more like wood and less like plastic
@@ -203,4 +204,6 @@
 * Fixed crashes caused by incorrect use of the turret AI chip's whitelist
 * Fixed potential crashes caused by the structure system if structure .nbt files are missing or do not match the expected size
 * Fixed Mr. Friendly turret dealing the same damage as Chekhov's Gun, defeating the entire point of having a less powerful turret
-* Fixed vertical sliding blast door being able to destroy eny block when placed
+* Fixed vertical sliding blast door being able to destroy any block when placed
+* Fixed a potential issue where conveyor grabbers could pick up expired conveyor entities or stacks with a stacksize of 0
+* Hopefully fixed artillery rockets oscillating when the target is reached
