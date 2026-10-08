@@ -42,7 +42,7 @@ public class MachineFEL extends BlockDummyable {
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
-			{0, 1, -5, ForgeDirection.SOUTH.ordinal()}
+			{0, 1, -4, ForgeDirection.NORTH.ordinal()}
 		}, dir);
 	}
 	@Override

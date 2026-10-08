@@ -184,8 +184,8 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
+		int cx = x + dir.offsetX * o;
+		int cz = z + dir.offsetZ * o;
 		
 		for(int iy = 0; iy < 5; iy++) {
 			
@@ -216,7 +216,7 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 					}
 					
 					if(layout[l][ix][iz] > 0)
-						world.setBlock(x + ex, y + iy, z + ez, this, meta, 3);
+						world.setBlock(cx + ex, y + iy, cz + ez, this, meta, 3);
 				}
 			}
 		}

@@ -44,11 +44,11 @@ public class MachineICF extends BlockDummyable {
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
-			{0, 5, 2, ForgeDirection.UP.ordinal()},
+			{0, 5, 0, ForgeDirection.UP.ordinal()},
 			{6, 3, 2, ForgeDirection.SOUTH.ordinal()},
 			{-6, 3, 2, ForgeDirection.SOUTH.ordinal()},
-			{6, 3, -1, ForgeDirection.NORTH.ordinal()},
-			{-6, 3, -1, ForgeDirection.NORTH.ordinal()}
+			{6, 3, -2, ForgeDirection.NORTH.ordinal()},
+			{-6, 3, -2, ForgeDirection.NORTH.ordinal()}
 		}, dir);
 	}
 	@Override
