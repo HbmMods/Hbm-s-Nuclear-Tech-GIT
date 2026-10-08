@@ -62,13 +62,13 @@ public class MachineSuperComputer extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
+		int cx = x + dir.offsetX * o;
+		int cz = z + dir.offsetZ * o;
 
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {6, -6, 3, 3, 1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {6, -6, 1, 1, 3, 3}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {7, -7, 1, 1, 1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {2, 0, -3, 8, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {6, -6, 3, 3, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {6, -6, 1, 1, 3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {7, -7, 1, 1, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {2, 0, -3, 8, 1, 1}, this, dir);
 		
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);

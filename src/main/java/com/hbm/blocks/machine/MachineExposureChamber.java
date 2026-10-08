@@ -57,16 +57,16 @@ public class MachineExposureChamber extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
+		int cx = x + dir.offsetX * o;
+		int cz = z + dir.offsetZ * o;
 
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP).getOpposite();
 
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, 0, 0, -3, 8}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y + 2, z, new int[] {0, 0, 1, -1, -3, 6}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y + 2, z, new int[] {0, 0, -1, 1, -3, 6}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + rot.offsetX * 7, y, z + rot.offsetZ * 7, new int[] {3, 0, 1, -1, 0, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + rot.offsetX * 7, y, z + rot.offsetZ * 7, new int[] {3, 0, -1, 1, 0, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y, cz, new int[] {3, 0, 0, 0, -3, 8}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y + 2, cz, new int[] {0, 0, 1, -1, -3, 6}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, y + 2, cz, new int[] {0, 0, -1, 1, -3, 6}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx + rot.offsetX * 7, y, cz + rot.offsetZ * 7, new int[] {3, 0, 1, -1, 0, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx + rot.offsetX * 7, y, cz + rot.offsetZ * 7, new int[] {3, 0, -1, 1, 0, 1}, this, dir);
 
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
