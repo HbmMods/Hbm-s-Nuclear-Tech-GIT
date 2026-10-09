@@ -6,7 +6,6 @@ import api.hbm.redstoneoverradio.IRORValueProvider;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -19,15 +18,10 @@ import com.hbm.tileentity.*;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,8 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityBarrel implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineFluidTank extends TileEntityBarrel implements IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public boolean hasExploded = false;
 	public boolean onFire = false;
@@ -289,58 +282,6 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements Simp
 	public void repair(EntityPlayer player) {
 		this.hasExploded = false;
 		this.markChanged();
-	}
-
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String getComponentName() {
-		return "ntm_fluid_tank";
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getFluidStored(Context context, Arguments args) {
-		return new Object[] {tank.getFill()};
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxStored(Context context, Arguments args) {
-		return new Object[] {tank.getMaxFill()};
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getName()};
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
-	}
-
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String[] methods() {
-		return new String[] {
-				"getFluidStored",
-				"getMaxStored",
-				"getTypeStored",
-				"getInfo"};
-	}
-
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		switch (method) {
-			case "getFluidStored": return getFluidStored(context, args);
-			case "getMaxStored": return getMaxStored(context, args);
-			case "getTypeStored": return getTypeStored(context, args);
-			case "getInfo": return getInfo(context, args);
-		}
-		throw new NoSuchMethodException();
 	}
 
 	@Override
