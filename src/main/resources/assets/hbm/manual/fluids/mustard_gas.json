@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 102],
     "trigger": [["hbm:item.fluid_icon", 1, 102]],
     "title": {
-        "en_US": "Mustard Gas"
+        "en_US": "Mustard Gas",
+        "ru_RU": "Иприт"
     },
     "content": {
-        "en_US": "Mustard gas can be obtained by mixing [[chlorine gas|Chlorine Gas]] and [[reformate gas|Reformate Gas]] with sulfur. It is used to make certain [[artillery shells|Artillery Shells]]."
+        "en_US": "Mustard gas can be obtained by mixing [[chlorine gas|Chlorine Gas]] and [[reformate gas|Reformate Gas]] with sulfur. It is used to make certain [[artillery shells|Artillery Shells]].",
+        "ru_RU": "Иприт можно получить путем смешивания [[газообразного хлора|Chlorine Gas]] и [[реформированного газа|Reformate Gas]] с серой. Он используется для создания определенных [[артиллерийских снарядов|Artillery Shells]]."
     }
 }

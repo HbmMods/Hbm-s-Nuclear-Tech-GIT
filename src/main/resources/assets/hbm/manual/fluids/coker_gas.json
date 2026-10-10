@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 106],
     "trigger": [["hbm:item.fluid_icon", 1, 106]],
     "title": {
-        "en_US": "Coker Gas"
+        "en_US": "Coker Gas",
+        "ru_RU": "Коксовый газ"
     },
     "content": {
-        "en_US": "Coker gas can be obtained by [[coking|Coker Unit]] various fluids. It is primarily used to create [[weapon steel|Weapon Steel]] in the [[rotary furnace|Rotary Furnace]]. It may also be [[fractioned|Fractioning Tower]] for [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[carbon dioxide|Carbon Dioxide]]."
+        "en_US": "Coker gas can be obtained by [[coking|Coker Unit]] various fluids. It is primarily used to create [[weapon steel|Weapon Steel]] in the [[rotary furnace|Rotary Furnace]]. It may also be [[fractioned|Fractioning Tower]] for [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[carbon dioxide|Carbon Dioxide]].",
+        "ru_RU": "Коксовый газ образуется путем [[коксования|Coker Unit]] различных жидкостей. В основном он используется для создания [[оружейной стали|Weapon Steel]] в [[роторной печи|Rotary Furnace]]. Его также можно [[ректифицировать|Fractioning Tower]] для получения [[ароматических углеводородов|Aromatic Hydrocarbons]] и [[углекислого газа|Carbon Dioxide]]."
     }
 }

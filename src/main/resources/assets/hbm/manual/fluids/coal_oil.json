@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 62],
     "trigger": [["hbm:item.fluid_icon", 1, 62]],
     "title": {
-        "en_US": "Coal Oil"
+        "en_US": "Coal Oil",
+        "ru_RU": "Фотоген"
     },
     "content": {
-        "en_US": "Coal oil can first be obtained by [[liquifying|Liquification Machine]] coal or lignite. It is primarily used in the production of [[coal gasoline|Coal Gasoline]] through [[fractioning|Fractioning Tower]] or [[hydrotreating|Hydrotreater]]. Additionally, it is used in the production of [[syngas|Syngas]]. It can also be obtained by [[fractioning|Fractioning Tower]] [[coal tar creosote|Coal Tar Creosote]]. "
+        "en_US": "Coal oil can first be obtained by [[liquifying|Liquification Machine]] coal or lignite. It is primarily used in the production of [[coal gasoline|Coal Gasoline]] through [[fractioning|Fractioning Tower]] or [[hydrotreating|Hydrotreater]]. Additionally, it is used in the production of [[syngas|Syngas]]. It can also be obtained by [[fractioning|Fractioning Tower]] [[coal tar creosote|Coal Tar Creosote]].",
+        "ru_RU": "Фотоген можно впервые получить путем [[сжижения|Liquification Machine]] угля или бурого угля. В основном он используется в производстве [[угольного газа|Coal Gasoline]] путем [[ректификации|Fractioning Tower]] или [[гидроочистки|Hydrotreater]]. Кроме того, он применяется в производстве [[синтез газа|Syngas]]. Его также можно получить путем [[ректификации|Fractioning Tower]] [[креозота из угольной смолы|Coal Tar Creosote]]."
     }
 }

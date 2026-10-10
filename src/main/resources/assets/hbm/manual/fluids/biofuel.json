@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 27],
     "trigger": [["hbm:item.fluid_icon", 1, 27]],
     "title": {
-        "en_US": "Biofuel"
+        "en_US": "Biofuel",
+        "ru_RU": "Биотопливо"
     },
     "content": {
-        "en_US": "Biofuel can be obtained by combining [[biogas|Biogas]] and [[ethanol|Ethanol]] in a [[chemical plant|Chemical Plant]]. It is primarily used as a combustion [[fuel|Fuels]] for supplemental power production."
+        "en_US": "Biofuel can be obtained by combining [[biogas|Biogas]] and [[ethanol|Ethanol]] in a [[chemical plant|Chemical Plant]]. It is primarily used as a combustion [[fuel|Fuels]] for supplemental power production.",
+        "ru_RU": "Биотопливо образуется путем соединения [[биогаза|Biogas]] и [[этанола|Ethanol]] в [[химической установке|Chemical Plant]]. В основном оно используется в качестве горючего [[топлива|Fuels]] для дополнительного производства энергии."
     }
 }
