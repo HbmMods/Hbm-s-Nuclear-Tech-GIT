@@ -1003,6 +1003,8 @@ desc.gui.zirnox.coolant=§3Охлаждение§r$CO2 перемещает те
 desc.gui.zirnox.pressure=§6Давление§r$Давление можно снизить, выпустив CO2.$Однако при слишком низком давлении$эффективность охлаждения и выработка пара будут снижены.$Избегайте расплавления!
 desc.gui.zirnox.warning1=§cВнимание:§r Вода необходима для$правильной работы реактора!
 desc.gui.zirnox.warning2=§cВнимание:§r CO2 необходим для$правильной работы реактора!
+desc.gui.turret_mob_filter.import=Импорт
+desc.gui.turret_mob_filter.export=Экспорт
 
 desc.item.armorMod.display=чтобы показать установленные модификаторы брони
 desc.item.kitArmor=Броня будет заменена новым комплектом.
@@ -4346,6 +4348,7 @@ item.turret_light_ammo.name=Коробка боеприпасов лёгкой �
 item.turret_rocket_ammo.name=Боекомплект ракетной турели 2х4
 item.turret_spitfire_ammo.name=AA-Снаряд
 item.turret_tau_ammo.name=Урановые боеприпасы Тау-турели
+item.turret_mob_filter.name=Фильтр мобов турели
 item.twinkie.name=Твинки
 item.twinkie.desc=Испортилось 600 лет назад!
 item.ullapool_caber.name=Аллапульское бревно
