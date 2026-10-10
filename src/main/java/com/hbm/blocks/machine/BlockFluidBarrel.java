@@ -47,7 +47,6 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		if(this == ModBlocks.barrel_corroded) return null;
 		return new TileEntityBarrel(capacity);
 	}
 
@@ -203,10 +202,7 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 		}
 		
 		if(this == ModBlocks.barrel_corroded) {
-			list.add(EnumChatFormatting.AQUA + "Capacity: 6,000mB");
-			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
-			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
-			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
+			list.add(EnumChatFormatting.AQUA + "Capacity: 16,000mB");
 			list.add(EnumChatFormatting.RED + "Leaky");
 		}
 		

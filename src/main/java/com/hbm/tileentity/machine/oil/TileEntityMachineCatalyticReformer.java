@@ -57,7 +57,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		if(!worldObj.isRemote) {
 			
 			this.setupAllPorts(getPorts());
-			this.updatePortPOFIFO();
+			this.updatePortPIFIFO();
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(9, slots);
