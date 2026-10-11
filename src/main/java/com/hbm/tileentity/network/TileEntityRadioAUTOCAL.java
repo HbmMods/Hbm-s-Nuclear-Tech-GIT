@@ -1,5 +1,7 @@
 package com.hbm.tileentity.network;
 
+import java.util.Locale;
+
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRadioAUTOCAL;
@@ -84,6 +86,10 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 							if(ret == EnumStatementReturn.BUFFER_EMPTY) this.stop("Buffer empty");
 							if(ret == EnumStatementReturn.UNDEFINED) this.stop("Undefined behavior");
 							if(ret == EnumStatementReturn.STACK_EXCEEDED) this.stop("Stack exceeded capacity");
+						} else {
+							if(ret.error) {
+								this.ctx.variables.setString("last_error", ret.name().toLowerCase(Locale.US));
+							}
 						}
 						if(ret == EnumStatementReturn.SKIP) i--;
 					} catch(Exception ex) {

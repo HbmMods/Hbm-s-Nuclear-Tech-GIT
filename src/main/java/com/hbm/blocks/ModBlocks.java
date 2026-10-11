@@ -1943,11 +1943,11 @@ public class ModBlocks {
 
 		trapdoor_steel = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_steel").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_steel");
 
-		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
-		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
-		barrel_steel = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_steel").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_steel");
-		barrel_tcalloy = new BlockFluidBarrel(Material.iron, 24000).setBlockName("barrel_tcalloy").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_tcalloy");
-		barrel_antimatter = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_antimatter").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_antimatter");
+		barrel_plastic = new BlockFluidBarrel(Material.iron, 12_000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
+		barrel_corroded = new BlockFluidBarrel(Material.iron, 16_000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
+		barrel_steel = new BlockFluidBarrel(Material.iron, 16_000).setBlockName("barrel_steel").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_steel");
+		barrel_tcalloy = new BlockFluidBarrel(Material.iron, 24_000).setBlockName("barrel_tcalloy").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_tcalloy");
+		barrel_antimatter = new BlockFluidBarrel(Material.iron, 16_000).setBlockName("barrel_antimatter").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_antimatter");
 
 		machine_transformer = new MachineTransformer(Material.iron).setBlockName("machine_transformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer_iron");
 

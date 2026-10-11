@@ -518,7 +518,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
 		// pile
 		this.register(new GenericRecipe("ass.pileblock").setup(20, 250).outputItems(new ItemStack(ModBlocks.pile_brick, 1))
-				.inputItems(new OreDictStack(KEY_PLANKS, 1), new OreDictStack(GRAPHITE.ingot(), 4), new OreDictStack(STEEL.bolt(), 2))
+				.inputItems(new OreDictStack(KEY_PLANKS, 1), new OreDictStack(GRAPHITE.ingot(), 2), new OreDictStack(STEEL.bolt(), 2))
 				.inputItemsEx(new OreDictStack(KEY_PLANKS, 1), new OreDictStack(GRAPHITE.ingot(), 8), new OreDictStack(STEEL.plate(), 1)));
 
 		// reactors
