@@ -191,6 +191,9 @@ public class FluidType {
 	public boolean isCorrosive() {
 		return this.traits.containsKey(FT_Corrosive.class);
 	}
+	public boolean isHighlyCorrosive() {
+		return this.traits.containsKey(FT_Corrosive.class) && ((FT_Corrosive) this.traits.get(FT_Corrosive.class)).isHighlyCorrosive();
+	}
 	public boolean isAntimatter() {
 		return this.traits.containsKey(FT_Amat.class);
 	}

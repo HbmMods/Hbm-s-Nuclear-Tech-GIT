@@ -125,14 +125,6 @@ public class EntityCog extends EntityThrowableInterp {
 
 	@Override
 	public void onUpdate() {
-
-		if(!worldObj.isRemote) {
-			int orientation = this.dataWatcher.getWatchableObjectInt(10);
-			if(orientation >= 6 && !this.inGround) {
-				this.dataWatcher.updateObject(10, orientation - 6);
-			}
-		}
-
 		super.onUpdate();
 	}
 
