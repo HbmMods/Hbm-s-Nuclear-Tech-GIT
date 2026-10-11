@@ -1248,6 +1248,11 @@ gui.weapon.quality.utility=Utility
 gui.weapon.quality.secret=SECRET
 gui.weapon.quality.debug=DEBUG
 
+gui.calc.calculatorResult=Calculation Results:
+gui.calc.calculatorHistory=Calculation History:
+gui.calc.qmawResult=QMAW Search Results:
+gui.calc.qmawHistory=QMAW Historu:
+
 gun.make.ARMALITE=Armalite
 gun.make.AUTO_ORDINANCE=Auto-Ordnance Corporation
 gun.make.BAE=BAE Systems plc
