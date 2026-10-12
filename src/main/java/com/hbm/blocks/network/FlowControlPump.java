@@ -55,7 +55,13 @@ public class FlowControlPump extends BlockDummyable implements ILookOverlay, IGU
 
 	@Override 	public int[] getDimensions() { return new int[] {0, 0, 0, 0, 1, 1}; }
 	@Override public int getOffset() { return 0; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
 		

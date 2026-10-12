@@ -18,6 +18,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
@@ -74,10 +75,13 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		return recipes;
 	}
 
-	public static RotaryFurnaceRecipe getRecipe(ItemStack... inputs) {
+	public static RotaryFurnaceRecipe getRecipe(FluidType fluid, ItemStack... inputs) {
 
 		outer:
 		for(RotaryFurnaceRecipe recipe : recipes) {
+			
+			// never try to match if a fluid is required and our tank doesn't match it
+			if(recipe.fluid != null && recipe.fluid.type != fluid) continue;
 
 			List<AStack> recipeList = new ArrayList();
 			for(AStack ingredient : recipe.ingredients) recipeList.add(ingredient);

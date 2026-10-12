@@ -68,9 +68,6 @@ public class MachineFusionBoiler extends BlockDummyable implements ILookOverlay,
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
 		
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);

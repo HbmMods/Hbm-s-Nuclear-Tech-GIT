@@ -42,11 +42,11 @@ public class BlockPADetector extends BlockDummyable implements ITooltipProvider 
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
-			{-5, 0, 0, ForgeDirection.EAST.ordinal()},
-			{-5, 1, 0, ForgeDirection.EAST.ordinal()},
-			{-5, -1, 0, ForgeDirection.EAST.ordinal()},
-			{-5, 0, 1, ForgeDirection.EAST.ordinal()},
-			{-5, 0, -1, ForgeDirection.EAST.ordinal()}
+			{-4, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-4, 1, 0, ForgeDirection.WEST.ordinal()},
+			{-4, -1, 0, ForgeDirection.WEST.ordinal()},
+			{-4, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-4, 0, -1, ForgeDirection.WEST.ordinal()}
 		}, dir);
 	}
 	@Override

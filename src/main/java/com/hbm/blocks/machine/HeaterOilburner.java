@@ -78,9 +78,12 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+		
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
+		
+		this.makeExtra(world, x - dir.offsetX, y + 1, z - dir.offsetZ);
 	}
 
 	@Override
@@ -92,14 +95,10 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		int[] pos = this.findCore(world, x, y, z);
-		
-		if(pos == null)
-			return;
+		if(pos == null) return;
 		
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-		
-		if(!(te instanceof TileEntityHeaterOilburner))
-			return;
+		if(!(te instanceof TileEntityHeaterOilburner)) return;
 		
 		TileEntityHeaterOilburner heater = (TileEntityHeaterOilburner) te;
 

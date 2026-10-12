@@ -214,9 +214,11 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				this.audios[index].stopSound();
 				this.audios[index] = null;
 
+				if(Math.abs(this.positions[INDEX_ERECTOR] - this.prevPositions[INDEX_ERECTOR]) > 5) return;
+				
 				Vec3NT pos = getSoundPosition(index);
 				if(index == 0) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.garage_stop", 35F, 1F);
-				if(index == 1 && this.target[INDEX_ERECTOR] == 25F) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 50F, 0.5F);
+				if(index == 1 && this.target[INDEX_ERECTOR] == 25F) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 25F, 0.5F);
 				if(index == 1 && this.target[INDEX_ERECTOR] != 25F) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_stop", 25F, 1F);
 				if(index == 2) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 25F, 0.75F);
 			}

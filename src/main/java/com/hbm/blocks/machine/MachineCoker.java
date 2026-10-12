@@ -94,14 +94,14 @@ public class MachineCoker extends BlockDummyable implements ITooltipProvider {
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
+		int cx = x + dir.offsetX * o;
+		int cz = z + dir.offsetZ * o;
 
-		MultiblockHandlerXR.fillSpace(world, x, y + 1, z, new int[] {5, 0, 2, 2, 2, 2}, this, ForgeDirection.NORTH);
-		MultiblockHandlerXR.fillSpace(world, x + 2, y + 1, z + 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
-		MultiblockHandlerXR.fillSpace(world, x + 2, y + 1, z - 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
-		MultiblockHandlerXR.fillSpace(world, x - 2, y + 1, z + 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
-		MultiblockHandlerXR.fillSpace(world, x - 2, y + 1, z - 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(world, cx, y + 1, cz, new int[] {5, 0, 2, 2, 2, 2}, this, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(world, cx + 2, y + 1, cz + 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(world, cx + 2, y + 1, cz - 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(world, cx - 2, y + 1, cz + 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
+		MultiblockHandlerXR.fillSpace(world, cx - 2, y + 1, cz - 2, new int[] {0, 1, 0, 0, 0, 0}, this, ForgeDirection.NORTH);
 
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);

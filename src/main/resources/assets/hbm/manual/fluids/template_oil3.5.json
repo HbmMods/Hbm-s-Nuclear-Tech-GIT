@@ -7,6 +7,7 @@
 		"en_US": "Template:Oil3.5"
 	},
 	"content": {
-		"en_US": "§2[ §2Desulfurized §2Oil §2Processing §2]<br>[[Desulfurized Oil Processing]]<br>[[Desulfurized Crude Oil]]<br>[[Desulfurized Hot Crude Oil]]<br>[[Desulfurized Cracked Oil]]<br>[[Desulfurized Light Oil]]<br>[[Desulfurized Naphtha]]"
+		"en_US": "§2[ §2Desulfurized §2Oil §2Processing §2]<br>[[Desulfurized Oil Processing]]<br>[[Desulfurized Crude Oil]]<br>[[Desulfurized Hot Crude Oil]]<br>[[Desulfurized Cracked Oil]]<br>[[Desulfurized Light Oil]]<br>[[Desulfurized Naphtha]]",
+		"ru_RU": "§2[ §2Переработка §2обессеренной §2нефти §2]<br>[[Переработка обессеренной нефти|Desulfurized Oil Processing]]<br>[[Обессеренная сырая нефть|Desulfurized Crude Oil]]<br>[[Обессеренная горячая нефть|Desulfurized Hot Crude Oil]]<br>[[Обессеренная крекированная нефть|Desulfurized Cracked Oil]]<br>[[Обессеренная лёгкая нефть|Desulfurized Light Oil]]<br>[[Обессеренная нафта|Desulfurized Naphtha]]"
 	}
 }

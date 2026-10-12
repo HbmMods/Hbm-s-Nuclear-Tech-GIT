@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 105],
     "trigger": [["hbm:item.fluid_icon", 1, 105]],
     "title": {
-        "en_US": "Coker Naphtha"
+        "en_US": "Coker Naphtha",
+        "ru_RU": "Коксовая нафта"
     },
     "content": {
-        "en_US": "Coker naphtha can be obtained by [[coking|Coker Unit]] [[naphtha|Naphtha]] variants, various [[diesels|Diesel]], or [[reclaimed industrial oil|Reclaimed Industrial Oil]]. It can be [[fractioned|Fractioning Tower]] for [[cracked light oil|Cracked Light Oil]] and [[cracked naphtha|Cracked Naphtha]]. It may also be used as an ingredient in [[solvent|Solvent]] or [[reformed|Catalytic Reformer]] for [[reformate|Reformate]] and [[reformate gas|Reformate Gas]]."
+        "en_US": "Coker naphtha can be obtained by [[coking|Coker Unit]] [[naphtha|Naphtha]] variants, various [[diesels|Diesel]], or [[reclaimed industrial oil|Reclaimed Industrial Oil]]. It can be [[fractioned|Fractioning Tower]] for [[cracked light oil|Cracked Light Oil]] and [[cracked naphtha|Cracked Naphtha]]. It may also be used as an ingredient in [[solvent|Solvent]] or [[reformed|Catalytic Reformer]] for [[reformate|Reformate]] and [[reformate gas|Reformate Gas]].",
+        "ru_RU": "Коксовую нафту образуется путем [[коксования|Coker Unit]] вариантов [[нафты|Naphtha]], различных видов [[дизеля|Diesel]] или [[очищенного промышленного масло|Reclaimed Industrial Oil]]. Её можно [[ректифицировать|Fractioning Tower]] для получения [[крекированной лёгкой нефти|Cracked Light Oil]] и [[крекированной нафты|Cracked Naphtha]]. Её также можно использовать в качестве ингредиента для [[растворителя|Solvent]] или подвергнуть [[реформирования|Catalytic Reformer]] для получения [[реформированного топлива|Reformate]] и [[реформированного газа|Reformate Gas]]."
     }
 }

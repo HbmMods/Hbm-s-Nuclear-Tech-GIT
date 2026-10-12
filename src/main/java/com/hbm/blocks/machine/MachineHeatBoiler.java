@@ -153,8 +153,6 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
 		return rotatePorts(new int[][] {
 			{1, 0, 0, ForgeDirection.EAST.ordinal()},
 			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
-			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
-			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
 			{0, 3, 0, ForgeDirection.UP.ordinal()}
 		}, dir);
 	}
