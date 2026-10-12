@@ -101,6 +101,7 @@ public class ItemMold extends Item {
 	public void registerMold(Mold mold) {
 		this.molds.add(mold);
 		this.moldById.put(mold.id, mold);
+		mold.order = nextOrder++;
 	}
 
 	@Override
@@ -157,7 +158,6 @@ public class ItemMold extends Item {
 		public String name;
 		
 		public Mold(int id, int size, String name) {
-			this.order = nextOrder++;
 			this.id = id;
 			this.size = size;
 			this.name = name;

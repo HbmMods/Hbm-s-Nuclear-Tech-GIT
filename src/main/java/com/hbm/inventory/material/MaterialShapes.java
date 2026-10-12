@@ -180,7 +180,7 @@ public class MaterialShapes {
 					boolean large = moldObject.get("size").getAsString().equals("L");
 					int castAmount = moldObject.get("castAmount").getAsInt();
 					List<MoldShape> addTo = large ? L_moldShapes : S_moldShapes;
-					addTo.add(new MoldShape(-1, large ? 1 : 0, name + "." + castAmount, shape));
+					addTo.add(new MoldShape(-1, large ? 1 : 0, name + "." + castAmount, shape, castAmount));
 				}
 				
 				customShapes.add(shape);
