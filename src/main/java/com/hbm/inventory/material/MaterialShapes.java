@@ -13,7 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-
+import com.hbm.items.machine.ItemMold.MoldShape;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
@@ -25,8 +25,8 @@ public class MaterialShapes {
 	public static final List<MaterialShapes> allShapes = new ArrayList();
 	public static List<MaterialShapes> customShapes = new ArrayList();
 	public static List<Item> customShapesItem = new ArrayList();
-	public static final List<MaterialShapes> S_moldShapes = new ArrayList();
-	public static final List<MaterialShapes> L_moldShapes = new ArrayList();
+	public static final List<MoldShape> S_moldShapes = new ArrayList();
+	public static final List<MoldShape> L_moldShapes = new ArrayList();
 
 	public static final MaterialShapes ANY = new MaterialShapes(0, "any").noAutogen();
 	public static final MaterialShapes ONLY_ORE = new MaterialShapes(0, "ore").noAutogen();
@@ -134,14 +134,18 @@ public class MaterialShapes {
 			writer.setIndent("  ");
 			writer.beginObject();
 
-			writer.name("gear").beginObject();
-			writer.name("quantity").value(9);
-			writer.name("mold").value(true);
-			writer.name("moldSize").value("S"); // TODO: one mold per shape is a weird limit, make mold selection into an array
+			writer.name("demoshape").beginObject();
+			writer.name("quantity").value(MaterialShapes.INGOT.q(4));
 			writer.name("materials").beginArray(); {
 				writer.value("Iron");
 				writer.value("Steel");
-				writer.value("Bronze");
+				writer.value("DemoMat");
+			} writer.endArray();
+			writer.name("molds").beginArray(); {
+				writer.beginObject(); {
+					writer.name("size").value("S");
+					writer.name("castAmount").value(3);
+				} writer.endObject();
 			} writer.endArray();
 			writer.endObject();
 
@@ -162,29 +166,24 @@ public class MaterialShapes {
 				JsonObject obj = (JsonObject) entry.getValue();
 
 				String name = entry.getKey();
-				int quantity = obj.get("quantity").getAsInt();
-				MaterialShapes shape = new MaterialShapes(quantity, name);
+				MaterialShapes shape = new MaterialShapes(obj.get("quantity").getAsInt(), name);
+				
+				JsonArray materials = obj.get("materials").getAsJsonArray();
+				for(JsonElement material : materials) {
+					NTMMaterial mt = Mats.matByName.get(material.getAsString());
+					if(mt != null) mt.setAutogen(shape);
+				}
+				
+				JsonArray molds = obj.get("molds").getAsJsonArray();
+				for(JsonElement moldElement : molds) {
+					JsonObject moldObject = moldElement.getAsJsonObject();
+					boolean large = moldObject.get("size").getAsString().equals("L");
+					int castAmount = moldObject.get("castAmount").getAsInt();
+					List<MoldShape> addTo = large ? L_moldShapes : S_moldShapes;
+					addTo.add(new MoldShape(-1, large ? 1 : 0, name + "." + castAmount, shape));
+				}
+				
 				customShapes.add(shape);
-				JsonElement mold = obj.get("mold");
-				if(mold != null && mold.getAsBoolean()) {
-					JsonElement moldSize = obj.get("moldSize");
-					if(moldSize != null) {
-						if(Objects.equals(moldSize.getAsString(), "S")) {
-							S_moldShapes.add(shape);
-						} else {
-							L_moldShapes.add(shape);
-						}
-					}
-				}
-				JsonElement materialsElem = obj.get("materials");
-				if(materialsElem != null && materialsElem.isJsonArray()) {
-					JsonArray materials = materialsElem.getAsJsonArray();
-					for(JsonElement material : materials) {
-						NTMMaterial mt = Mats.matByName.get(material.getAsString());
-						if(mt != null)
-							mt.setAutogen(shape);
-					}
-				}
 			}
 
 		} catch(Exception ex) {

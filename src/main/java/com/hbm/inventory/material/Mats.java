@@ -305,9 +305,7 @@ public class Mats {
 			writer.setIndent("  ");
 			writer.beginObject(); {
 				
-				// demo is disabled for now, needs just a bit more cleanup
-				
-				/*writer.name("Bronze").beginObject(); {
+				writer.name("DemoMat").beginObject(); {
 					writer.name("id").value(20006);
 					writer.name("solidColorLight").value(0xFDCA88);
 					writer.name("solidColorDark").value(0x601E0D);
@@ -315,16 +313,13 @@ public class Mats {
 					writer.name("smeltingBehavior").value("SMELTABLE");
 					writer.name("matTraits").value("METAL");
 					writer.name("shapes").beginArray(); {
-						writer.value("dust");
-						writer.value("plate");
 						writer.value("wireDense");
 						writer.value("plateTriple");
 						writer.value("plateSextuple");
 						writer.value("shell");
 						writer.value("ntmpipe");
-						writer.value("block");
 					} writer.endArray();
-				} writer.endObject();*/
+				} writer.endObject();
 			} writer.endObject();
 			writer.close();
 		} catch(IOException e) {
