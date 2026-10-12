@@ -689,6 +689,7 @@ public class ModItems {
 	public static Item mold;
 	public static Item scraps;
 	public static Item ingot_raw;
+	public static Item nugget_raw;
 	public static Item plate_cast;
 	public static Item plate_welded;
 	public static Item wire_fine;
@@ -2763,6 +2764,7 @@ public class ModItems {
 		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
 		scraps = new ItemScraps().aot(Mats.MAT_BISMUTH, "scraps_bismuth").setUnlocalizedName("scraps").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scraps");
 		ingot_raw = new ItemAutogen(MaterialShapes.INGOT).setUnlocalizedName("ingot_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_raw");
+		nugget_raw = new ItemAutogen(MaterialShapes.NUGGET).setUnlocalizedName("nugget_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_raw");
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
 		wire_fine = new ItemAutogen(MaterialShapes.WIRE)
@@ -4541,6 +4543,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_fiberglass, ingot_fiberglass.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_asbestos, ingot_asbestos.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_raw, ingot_raw.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_raw, nugget_raw.getUnlocalizedName());
 
 		//Billets
 		GameRegistry.registerItem(billet_uranium, billet_uranium.getUnlocalizedName());

@@ -451,8 +451,8 @@ public class OreDictManager {
 		/*
 		 * HAZARDS, MISC
 		 */
-		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium);
-		NA	.hydro(1F)	.hazIngot()										.dust(powder_sodium);
+		LI	.hydro(1F)	.hazNugget()	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium);
+		NA	.hydro(1F)	.hazNugget()	.hazIngot()										.dust(powder_sodium);
 
 		/*
 		 * PHOSPHORUS
@@ -487,7 +487,7 @@ public class OreDictManager {
 		/*
 		 * FISSION FRAGMENTS
 		 */
-		SR									.hot(1F)	.hydro(1F)	.hazIngot()						.dust(powder_strontium);
+		SR									.hot(1F)	.hydro(1F)	.hazIngot()						.dust(powder_strontium)											.hazNugget();
 		SR90	.rad(HazardRegistry.sr90)	.hot(1F)	.hydro(1F)	.dustSmall(powder_sr90_tiny)	.dust(powder_sr90)	.ingot(ingot_sr90)	.billet(billet_sr90)	.nugget(nugget_sr90);
 		I131	.rad(HazardRegistry.i131)	.hot(1F)				.dustSmall(powder_i131_tiny)	.dust(powder_i131);
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
@@ -548,6 +548,7 @@ public class OreDictManager {
 			}
 			if(mat.autogen.contains(MaterialShapes.BOLT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.BOLT.name() + name, new ItemStack(ModItems.bolt, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.INGOT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.INGOT.name() + name, new ItemStack(ModItems.ingot_raw, 1, mat.id));
+			if(mat.autogen.contains(MaterialShapes.NUGGET)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.NUGGET.name() + name, new ItemStack(ModItems.nugget_raw, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.SHELL)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.SHELL.name() + name, new ItemStack(ModItems.shell, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.PIPE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.PIPE.name() + name, new ItemStack(ModItems.pipe, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.FRAGMENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.FRAGMENT.name() + name, new ItemStack(ModItems.bedrock_ore_fragment, 1, mat.id));
@@ -659,6 +660,13 @@ public class OreDictManager {
 				else if(!OreDictionary.getOres(MaterialShapes.BILLET.name() + name).isEmpty()) MineralRecipes.addBilletFragment(OreDictionary.getOres(MaterialShapes.BILLET.name() + name).get(0).copy(), mat.make(ModItems.bedrock_ore_fragment));
 				else if(!OreDictionary.getOres(MaterialShapes.ORE.name() + name).isEmpty()) MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), OreDictionary.getOres(MaterialShapes.ORE.name() + name).get(0).copy());
 				else MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), new ItemStack(ModItems.nothing));
+			}
+		}
+		
+		for(NTMMaterial mat : Mats.orderedList) {
+			System.out.println("Checking for " + MaterialShapes.INGOT.make(mat));
+			if(mat.autogen.contains(MaterialShapes.NUGGET) && !OreDictionary.getOres(MaterialShapes.INGOT.make(mat)).isEmpty()) {
+				MineralRecipes.add1To9Pair(OreDictionary.getOres(MaterialShapes.INGOT.make(mat)).get(0).copy(), new ItemStack(ModItems.nugget_raw, 9, mat.id));
 			}
 		}
 
@@ -900,6 +908,11 @@ public class OreDictManager {
 		public DictFrame makeBlocks(String tag, Block... blocks) {
 			for(Block b : blocks) registerStack(tag, new ItemStack(b));
 			return this;
+		}
+
+		public DictFrame hazNugget() {
+			hazMult = HazardRegistry.nugget;
+			return autoRegHazard(NUGGET);
 		}
 
 		public DictFrame hazIngot() {

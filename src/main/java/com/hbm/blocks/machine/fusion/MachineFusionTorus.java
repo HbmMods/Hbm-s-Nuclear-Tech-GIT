@@ -187,6 +187,8 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 		int cx = x + dir.offsetX * o;
 		int cz = z + dir.offsetZ * o;
 		
+		safeRem = true;
+		
 		for(int iy = 0; iy < 5; iy++) {
 			
 			int l = iy > 2 ? 4 - iy : iy;
@@ -220,6 +222,9 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 				}
 			}
 		}
+		
+		safeRem = false;
+		
 		// is that enough ports?
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);

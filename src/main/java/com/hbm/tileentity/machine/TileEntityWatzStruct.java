@@ -63,7 +63,7 @@ public class TileEntityWatzStruct extends TileEntity {
 		Watz watz = (Watz)ModBlocks.watz;
 		BlockDummyable.safeRem = true;
 		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.watz, 12, 3);
-		watz.fillSpace(worldObj, xCoord, yCoord, zCoord, ForgeDirection.NORTH, 0);
+		watz.fillSpace(worldObj, xCoord, yCoord, zCoord - watz.getOffset(), ForgeDirection.NORTH, -watz.getOffset());
 		BlockDummyable.safeRem = false;
 	}
 	

@@ -31,7 +31,7 @@ public class ItemMold extends Item {
 	public static List<Mold> molds = new ArrayList(); //molds in "pretty" order, variable between versions
 	public static HashMap<Integer, Mold> moldById = new HashMap(); //molds by their static ID -> stack item damage
 	
-	public HashMap<NTMMaterial, ItemStack> blockOverrides = new HashMap();
+	public static HashMap<NTMMaterial, ItemStack> blockOverrides = new HashMap();
 	
 	public ItemMold() {
 
@@ -94,13 +94,14 @@ public class ItemMold extends Item {
 		// starting indices with plenty of padding
 		int smallMolds = 100;
 		int largeMolds = 200;
-		for(MaterialShapes shape : MaterialShapes.S_moldShapes){ registerMold(new MoldShape(smallMolds, S, shape.name(), shape)); smallMolds++; }
-		for(MaterialShapes shape : MaterialShapes.L_moldShapes){ registerMold(new MoldShape(largeMolds, L, shape.name(), shape)); largeMolds++; }
+		for(MoldShape shape : MaterialShapes.S_moldShapes){ registerMold(shape.setId(smallMolds)); smallMolds++; }
+		for(MoldShape shape : MaterialShapes.L_moldShapes){ registerMold(shape.setId(largeMolds)); largeMolds++; }
 	}
 	
 	public void registerMold(Mold mold) {
 		this.molds.add(mold);
 		this.moldById.put(mold.id, mold);
+		mold.order = nextOrder++;
 	}
 
 	@Override
@@ -150,14 +151,13 @@ public class ItemMold extends Item {
 	
 	public static int nextOrder = 0;
 
-	public abstract class Mold {
+	public static abstract class Mold {
 		public int order;
 		public int id;
 		public int size;
 		public String name;
 		
 		public Mold(int id, int size, String name) {
-			this.order = nextOrder++;
 			this.id = id;
 			this.size = size;
 			this.name = name;
@@ -168,7 +168,7 @@ public class ItemMold extends Item {
 		public abstract String getTitle();
 	}
 
-	public class MoldShape extends Mold {
+	public static class MoldShape extends Mold {
 		
 		public MaterialShapes shape;
 		public int amount;
@@ -181,6 +181,11 @@ public class ItemMold extends Item {
 			super(id, size, name);
 			this.shape = shape;
 			this.amount = amount;
+		}
+		
+		public MoldShape setId(int id) {
+			this.id = id;
+			return this;
 		}
 
 		@Override
@@ -221,7 +226,7 @@ public class ItemMold extends Item {
 		}
 	}
 
-	public class MoldBlock extends MoldShape {
+	public static class MoldBlock extends MoldShape {
 
 		public MoldBlock(int id, int size, String name, MaterialShapes shape) {
 			super(id, size, name, shape);
@@ -241,7 +246,7 @@ public class ItemMold extends Item {
 
 
 	/* because why not */
-	public class MoldSingle extends Mold {
+	public static class MoldSingle extends Mold {
 		
 		public ItemStack out;
 		public NTMMaterial mat;
@@ -271,7 +276,7 @@ public class ItemMold extends Item {
 	}
 
 	/* not so graceful but it does the job and it does it well */
-	public class MoldMulti extends Mold {
+	public static class MoldMulti extends Mold {
 		
 		public HashMap<NTMMaterial, ItemStack> map = new HashMap();
 		public int amount;
