@@ -209,7 +209,7 @@ public class GUICalculator extends GuiScreen {
 		// up arrow, wraps to the end for efficiency
 		if (keyCode == 200) selectedHist = selectedHist < 0 ? (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1 : Math.max(selectedHist - 1, -1);
 		// down arrow, also wraps
-		else if (keyCode == 208) selectedHist = selectedHist >= (history ? qmawHistory.size() : qmawResults.size()) - 1 ? -1 : Math.min(selectedHist + 1, (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1);
+		else if (keyCode == 208) selectedHist = selectedHist >= (history ? qmawHistory.size() : qmawResults.size()) - 1 ? -1 : selectedHist >= maxHistory - 1 ? -1 : selectedHist + 1;
 		else selectedHist = -1;
 	}
 
