@@ -171,7 +171,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 				if(output.amount <= 0) this.output = null;
 			}
 
-			RotaryFurnaceRecipe recipe = RotaryFurnaceRecipes.getRecipe(slots[0], slots[1], slots[2]);
+			RotaryFurnaceRecipe recipe = RotaryFurnaceRecipes.getRecipe(tanks[0].getTankType(), slots[0], slots[1], slots[2]);
 			this.isProgressing = false;
 
 			if(recipe != null) {

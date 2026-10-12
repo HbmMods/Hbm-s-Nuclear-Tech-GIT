@@ -1,12 +1,2 @@
-## Changed
-* Updated russian and chinese localization
-* Halved graphite in the chicago pile brick recipe
-* Upon erroring with error ignore enabled, AUTOCALs now save the error name to a variable called `last_error`
-
 ## Fixed
-* Fixed 256k tanks craching with OpenComputers installed
-* Fixed jittering of detached stirling engine cogs that have gotten stuck in blocks
-* Fixed ports for the lambda launchpad and the fluid burner
-* Fixed steel barrels being able to hold highly corrosive liquids
-* Fixed catalytic reformer not receiving power from cables
-* Fixed missing ilmenite material localization
+* Fixed recipe collision in the rotary furnace caused by a missing fluid type check, affecting the sodium aluminate and titanium tetrachloride recipes
