@@ -6,6 +6,8 @@ import com.hbm.qmaw.QuickManualAndWiki;
 import com.hbm.util.Calculator;
 import com.hbm.util.Tuple;
 
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -26,28 +28,27 @@ import java.math.MathContext;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static codechicken.lib.gui.GuiDraw.gui;
-
 public class GUICalculator extends GuiScreen {
 	/// QMAW keys that are indexable. Statically loaded, so it runs only once.
 	private static final Set<String> QMAW_KEYS = QMAWLoader.qmaw.entrySet().stream().filter(e -> !e.getValue().noIndex).map(Map.Entry::getKey).collect(Collectors.toSet());
 	
 	private int xSize = 220;
-	private int ySize = 80;
+	private int ySize = 50;
 	private int borderWidth = 2;
 	private GuiTextField inputField;
 
 	private int selectedHist = -1;
 	private static final int maxHistory = 6;
-	private static final Deque<Tuple.Pair<String, Double>> calcHistory = new ArrayDeque<>();
-	private static final Deque<String> qmawHistory = new ArrayDeque<>();
+	private static final Deque<Tuple.Pair<String, Double>> calcHistory = new ArrayDeque<>(maxHistory);
+	private static final Deque<String> qmawHistory = new ArrayDeque<>(maxHistory);
+	// Can in theory add more modes if we make it an enum and use a switch, but I imagine that'd be impractical
+	private static boolean qmawMode = false;
 	private String latestResult = "?", lastInput = "";
 
 	@Override
@@ -56,29 +57,38 @@ public class GUICalculator extends GuiScreen {
 
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-		inputField = new GuiTextField(fontRendererObj, x + 5, y + 8, 210, 13);
+		inputField = new GuiTextField(fontRendererObj, x + 5, y + 14, 210, 13);
 		inputField.setTextColor(-1);
 		inputField.setCanLoseFocus(false);
 		inputField.setFocused(true);
 		inputField.setMaxStringLength(1000);
 	}
 
+	private static int totalHistory()
+	{
+		return calcHistory.size() + qmawHistory.size();
+	}
+	
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
 //	private final Set<Tuple.Pair<String, Integer>> resultWeightPairs = new HashSet<>();
-	private final List<String> qmawResults = new ArrayList<>();
+	private final List<String> qmawResults = new ArrayList<>(QMAW_KEYS.size());
 		
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
 		if (!inputField.textboxKeyTyped(typedChar, keyCode))
 			super.keyTyped(typedChar, keyCode);
 
-		trySearchForQMAW(typedChar, keyCode);
-
-//		handleCalculator(typedChar, keyCode);
+		if (typedChar == 9)// Tab
+			qmawMode = !qmawMode;
+		
+		if (qmawMode)
+			trySearchForQMAW(typedChar, keyCode);
+		else 
+			handleCalculator(typedChar, keyCode);
 	}
 	private void handleCalculator(char typedChar, int keyCode)
 	{
@@ -103,14 +113,23 @@ public class GUICalculator extends GuiScreen {
 				return;
 			}
 		}
-
-		if (keyCode == 200) { // up arrow
-			selectedHist = Math.max(selectedHist - 1, -1);
-		} else if (keyCode == 208) { // down arrow
-			selectedHist = Math.min(selectedHist + 1, calcHistory.size() - 1);
-		} else {
-			selectedHist = -1;
+		
+		if (typedChar == 127 && input.isEmpty())// Delete key
+		{
+			if (selectedHist >= 0)
+			{
+				final Iterator<Tuple.Pair<String, Double>> it = calcHistory.iterator();
+				for (int i = 0; i <= selectedHist; i++)
+					it.next();
+				it.remove();
+			}
 		}
+
+		// up arrow, wraps
+		if (keyCode == 200) selectedHist = selectedHist < 0 ? Math.min(calcHistory.size(), maxHistory) - 1 : Math.max(selectedHist - 1, -1);
+		// down arrow, wraps
+		else if (keyCode == 208) selectedHist = selectedHist >= calcHistory.size() - 1 ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
+		else selectedHist = -1;
 
 		if (input.isEmpty()) {
 			latestResult = "?";
@@ -122,31 +141,45 @@ public class GUICalculator extends GuiScreen {
 		} catch (Exception e) { latestResult = e.toString(); }
 	}
 
+	private static void sortQMAWResults(String search, List<String> results)
+	{
+		// Standard sort first
+//		results.sort(String::compareToIgnoreCase);
+		// Prioritize matching from the start
+		results.sort((s1, s2) ->
+			{
+				final boolean starts1 = s1.toLowerCase().startsWith(search), starts2 = s2.toLowerCase().startsWith(search);
+
+				return starts1 && !starts2 ? -1 :
+				       !starts1 && starts2 ? 1 : s1.compareTo(s2);
+			});
+	}
+	
 	// Split it out to keep things contained
 	protected void trySearchForQMAW(char typedChar, int keyCode)
 	{
+		final String query = inputField.getText().toLowerCase();
 		// Reset with updated search parameters if new string
 		if (!inputField.getText().equalsIgnoreCase(lastInput))
 		{
 			qmawResults.clear();
 			lastInput = inputField.getText();
+			
+			for (String entry : QMAW_KEYS)
+				if (entry.toLowerCase().contains(query) && !qmawResults.contains(entry))// Make sure we don't have duplicate entries
+					qmawResults.add(entry);
 		}
 
-		// Don't do anything with empty queries otherwise
-//		if (inputField.getText().isEmpty())
-//			return;
-
-		final String query = inputField.getText().toLowerCase();
-
-		for (String entry : QMAW_KEYS)
-			if(entry.toLowerCase().contains(query))
-				qmawResults.add(entry);
+		sortQMAWResults(query, qmawResults);
 
 		if (typedChar == 13 || typedChar == 10) // Enter key
 		{
-			if (selectedHist != -1)
+			if (selectedHist >= 0)
 			{
 				final String key = new ArrayList<>(inputField.getText().isEmpty() ? qmawHistory : qmawResults).get(selectedHist);
+				qmawHistory.remove(key);// Remove duplicate history
+				qmawHistory.addFirst(key);
+				if (qmawHistory.size() > maxHistory) qmawHistory.removeLast();
 				inputField.setText(key);
 				selectedHist = -1;
 
@@ -160,13 +193,28 @@ public class GUICalculator extends GuiScreen {
 			}
 		}
 		
-		// up arrow
-		if (keyCode == 200) selectedHist = Math.max(selectedHist - 1, -1);
-		// down arrow
-		else if (keyCode == 208) selectedHist = Math.min(selectedHist + 1, qmawResults.size() - 1);
+		if (typedChar == 127 && inputField.getText().isEmpty())// Delete key
+		{
+			if (selectedHist >= 0)
+			{
+				final Iterator<String> it = qmawHistory.iterator();
+				for (int i = 0; i <= selectedHist; i++)
+					it.next();
+				it.remove();
+			}
+		}
+		
+		final boolean history = inputField.getText().isEmpty();
+		
+		// up arrow, wraps to the end for efficiency
+		if (keyCode == 200) selectedHist = selectedHist < 0 ? (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1 : Math.max(selectedHist - 1, -1);
+		// down arrow, also wraps
+		else if (keyCode == 208) selectedHist = selectedHist >= (history ? qmawHistory.size() : qmawResults.size()) - 1 ? -1 : Math.min(selectedHist + 1, (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1);
 		else selectedHist = -1;
 	}
 
+	private static final int BORDER_COLOR = 0xFF2d2d2d, FILL_COLOR = 0xFF3d3d3d, SELECT_COLOR = 0xFF111111;
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -174,28 +222,37 @@ public class GUICalculator extends GuiScreen {
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-		int histHeight = (fontRendererObj.FONT_HEIGHT + 2) * maxHistory;
+		int histHeight = (fontRendererObj.FONT_HEIGHT + 4) * maxHistory;
 		int histStart = y + 30 + fontRendererObj.FONT_HEIGHT + 8;
 
-		drawRect(x, y, x+xSize, y+ySize+histHeight, 0xFF2d2d2d);
-		drawRect(x+borderWidth, y+borderWidth, x+xSize-borderWidth, y+ySize-borderWidth+histHeight, 0xFF3d3d3d);
-		drawRect(x, histStart - 5, x+xSize, histStart - 3, 0xFF2d2d2d);
+		drawRect(x, y, x+xSize, y+ySize+histHeight, BORDER_COLOR);
+		drawRect(x+borderWidth, y+borderWidth, x+xSize-borderWidth, y+ySize-borderWidth+histHeight, FILL_COLOR);
+		if (!qmawMode)
+			drawRect(x, histStart - 5, x+xSize, histStart - 3, BORDER_COLOR);
 
 		inputField.drawTextBox();
+
+		final String headerText = qmawMode
+			? I18nUtil.resolveKey(inputField.getText().isEmpty() ? "gui.calc.qmawHistory" : "gui.calc.qmawResult")
+		                          : I18nUtil.resolveKey(inputField.getText().isEmpty() ? "gui.calc.calculatorHistory" : "gui.calc.calculatorResult");
 		
-//		drawCalc(x, y, histHeight, histStart);
-		drawQMAW(x, y, histHeight, histStart);
+		fontRendererObj.drawString(headerText, x + 4, y + 4, -1);
+		
+		if (qmawMode)
+			drawQMAW(x, y);
+		else
+			drawCalc(x, y);
 	}
 	
-	private void drawCalc(int x, int y, int histHeight, int histStart)
+	private void drawCalc(int x, int y)
 	{
-		fontRendererObj.drawString("=" + latestResult, x + 5, y + 30, -1);
+		fontRendererObj.drawString("=" + latestResult, x + 5, y + 32, -1);
 
 		int i = 0;
 		for (Tuple.Pair<String, Double> prevInput : calcHistory) {
 			int hy = y + 50 + (fontRendererObj.FONT_HEIGHT+1)*i;
 			if (i == selectedHist) {
-				drawRect(x + 4, hy - 1, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT, 0xFF111111);
+				drawRect(x + 4, hy - 1, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT, SELECT_COLOR);
 			}
 			fontRendererObj.drawString(prevInput.key + " = " + prevInput.value, x + 5, hy, -1);
 			i++;
@@ -204,15 +261,15 @@ public class GUICalculator extends GuiScreen {
 	
 	private static final int QMAW_ENTRY_Y_SPACING = 7;
 	
-	private void drawQMAW(int x, int y, int histHeight, int histStart)
+	private void drawQMAW(int x, int y)
 	{
 		int i = 0;
 		for (String r : inputField.getText().isEmpty() ? qmawHistory : qmawResults)
 		{			
 			if (i > maxHistory - 1)
 				break;
-			final int hy = y + 50 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;
-			if (i == selectedHist) drawRect(x + 4, hy - QMAW_ENTRY_Y_SPACING / 2, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING / 2, 0xFF111111);
+			final int hy = y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;
+			if (i == selectedHist) drawRect(x + 4, hy - QMAW_ENTRY_Y_SPACING / 2, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING / 2, SELECT_COLOR);
 			fontRendererObj.drawString(r, x + 25, hy, -1);
 			
 			// Copy-pasted from GuiQMAW
