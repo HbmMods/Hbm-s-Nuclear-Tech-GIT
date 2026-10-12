@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorBulkie;
@@ -53,6 +55,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryTool {
 
+	public static ConfigWrapper<Float> GUN_EXTINGUISHER_DAMAGE =	new ConfigWrapper(0F);
+	public static ConfigWrapper<Float> GUN_CHARGE_THROWER_DAMAGE =	new ConfigWrapper(10F);
+
 	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_tool.png");
 
 	public static BulletConfig fext_water;
@@ -62,6 +67,11 @@ public class XFactoryTool {
 	public static BulletConfig ct_hook;
 	public static BulletConfig ct_mortar;
 	public static BulletConfig ct_mortar_charge;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_EXTINGUISHER_DAMAGE", GUN_EXTINGUISHER_DAMAGE);
+		ServerConfig.configMap.put("GUN_CHARGE_THROWER_DAMAGE", GUN_CHARGE_THROWER_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_WATER_HIT = (bullet, mop) -> {
 		if(!bullet.worldObj.isRemote) {
@@ -260,7 +270,7 @@ public class XFactoryTool {
 		ModItems.gun_fireext = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
 				.dura(5_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(0F).delay(1).dry(0).auto(true).spread(0F).spreadHipfire(0F).reload(20).jam(0).sound(NTMSounds.GUN_EXTINGUISHER_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_EXTINGUISHER_DAMAGE).delay(1).dry(0).auto(true).spread(0F).spreadHipfire(0F).reload(20).jam(0).sound(NTMSounds.GUN_EXTINGUISHER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 300).addConfigs(fext_water, fext_foam, fext_sand))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire())
@@ -271,7 +281,7 @@ public class XFactoryTool {
 		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(4).dry(10).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(0).sound(NTMSounds.GUN_CHARGE_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_CHARGE_THROWER_DAMAGE).delay(4).dry(10).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(0).sound(NTMSounds.GUN_CHARGE_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 1).addConfigs(ct_hook, ct_mortar, ct_mortar_charge))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CT))

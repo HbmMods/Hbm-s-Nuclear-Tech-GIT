@@ -7,6 +7,7 @@
 		"en_US": "Template:Explosives"
 	},
 	"content": {
-		"en_US": "§2[ §2Grenades §2and §2Rockets §2]<br>[[High-Explosives]]<br>[[Shaped Charges]]<br>[[Demolition Explosives]]<br>[[Incendiary Munitions]]<br>[[White Phosphorus Munitions]]"
+		"en_US": "§2[ §2Grenades §2and §2Rockets §2]<br>[[High-Explosives]]<br>[[Shaped Charges]]<br>[[Demolition Explosives]]<br>[[Incendiary Munitions]]<br>[[White Phosphorus Munitions]]",
+		"ru_RU": "§2[ §2Гранаты §2и §2ракеты §2]<br>[[Осколочно-фугасные|High-Explosives]]<br>[[Кумулятивные|Shaped Charges]]<br>[[Штурмовой заряд|Demolition Explosives]]<br>[[Зажигательные боеприпасы|Incendiary Munitions]]<br>[[Боеприпасы с белым фосфором|White Phosphorus Munitions]]"
 	}
 }

@@ -15,9 +15,12 @@ import com.hbm.packet.toclient.TEFFPacket;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -99,6 +102,9 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	public TileEntityForceField() {
 		slots = new ItemStack[3];
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public int getSizeInventory() {
@@ -287,8 +293,10 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			updateConnections();
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 
 			int rStack = 0;
 			int hStack = 0;
@@ -358,8 +366,7 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	private void damage(int ouch) {
 		health -= ouch;
 
-		if(ouch >= (this.maxHealth / 250))
-		blink = 5;
+		if(ouch >= (this.maxHealth / 250)) blink = 5;
 
 		if(health <= 0) {
 			health = 0;
@@ -474,7 +481,7 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	private double getMotionWithFallback(Entity e) {
 
 		Vec3 v1 = Vec3.createVectorHelper(e.motionX, e.motionY, e.motionZ);
-		Vec3 v2 = Vec3.createVectorHelper(e.posX - e.prevPosY, e.posY - e.prevPosY, e.posZ - e.prevPosZ);
+		Vec3 v2 = Vec3.createVectorHelper(e.posX - e.prevPosX, e.posY - e.prevPosY, e.posZ - e.prevPosZ);
 
 		double s1 = v1.lengthVector();
 		double s2 = v2.lengthVector();
@@ -487,8 +494,7 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 
 		return Math.min(s1, s2);
 	}
-
-
+	
 	@Override
 	public void setPower(long i) {
 		power = i;
@@ -497,7 +503,6 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	@Override
 	public long getPower() {
 		return power;
-
 	}
 
 	@Override
@@ -508,14 +513,6 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
-	}
-
-	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 1, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
 
 	@Override

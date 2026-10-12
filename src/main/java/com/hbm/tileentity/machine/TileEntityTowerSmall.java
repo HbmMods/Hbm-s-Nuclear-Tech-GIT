@@ -5,17 +5,16 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.config.ClientConfig;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityTowerSmall extends TileEntityCondenser {
@@ -46,6 +45,9 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		writer.name("I:inputTankSize").value(inputTankSizeTS);
 		writer.name("I:outputTankSize").value(outputTankSizeTS);
 	}
+	
+	@Override
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.auxTower(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
@@ -68,22 +70,6 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
-	}
-
-	@Override
-	public void subscribeToAllAround(FluidType type, TileEntity te) {
-		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
-		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
-		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
-		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
-	}
-
-	@Override
-	public void sendFluidToAll(FluidTank tank, TileEntity te) {
-		this.sendFluid(this.tanks[1], worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
-		this.sendFluid(this.tanks[1], worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
-		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
-		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
 	}
 	
 	AxisAlignedBB bb = null;

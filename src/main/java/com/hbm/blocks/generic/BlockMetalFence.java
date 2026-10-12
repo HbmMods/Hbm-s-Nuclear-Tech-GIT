@@ -123,6 +123,22 @@ public class BlockMetalFence extends BlockFence implements IBlockMulti {
 			list.add(axisalignedbb1);
 		}
 	}
+	
+	public boolean hasPost(World world, int x, int y, int z, int meta) {
+		if(meta == 1) return true;
+
+		boolean xNeg = canConnectFenceTo(world, x - 1, y, z);
+		boolean xPos = canConnectFenceTo(world, x + 1, y, z);
+		boolean zNeg = canConnectFenceTo(world, x, y, z - 1);
+		boolean zPos = canConnectFenceTo(world, x, y, z + 1);
+
+		boolean hasX = xNeg || xPos;
+		boolean hasZ = zNeg || zPos;
+		
+		boolean straightX = !hasZ && xNeg && xPos;
+		boolean straightZ = !hasX && zNeg && zPos;
+		return !straightX && !straightZ;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -136,5 +152,4 @@ public class BlockMetalFence extends BlockFence implements IBlockMulti {
 	public int getSubCount() {
 		return 2;
 	}
-
 }

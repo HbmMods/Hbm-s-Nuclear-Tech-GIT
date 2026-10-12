@@ -7,6 +7,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -48,13 +50,17 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	public String getName() {
 		return "container.dfcStabilizer";
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
-			this.updateConnections();
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			int demand = (int) Math.pow(watts, 4);
@@ -97,12 +103,6 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 			this.networkPackNT(250);
 		}
-	}
-	
-	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

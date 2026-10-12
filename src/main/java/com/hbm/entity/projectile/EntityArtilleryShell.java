@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -49,6 +50,8 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	
 	private ItemStack cargo = null;
 	
+	public int health = 50;
+	
 	public EntityArtilleryShell(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
@@ -60,6 +63,22 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(this.isEntityInvulnerable()) {
+			return false;
+		} else {
+			if(this.health > 0 && !this.worldObj.isRemote) {
+				this.health -= (int) amount;
+
+				if(this.health <= 0) {
+					this.setDead();
+				}
+			}
+			return true;
+		}
 	}
 	
 	@Override

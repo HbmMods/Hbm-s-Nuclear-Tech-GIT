@@ -7,11 +7,12 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.energymk2.Nodespace;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.ILoadedTile;
@@ -32,50 +33,104 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public int tiltBlocksChecked = 0;
 	public int tiltBlocksValid = 0;
 	
-	public int tickOffset = -1;
-	public int[] energyRecDelay;
-	public int[] energyProDelay;
-	public int[] fluidRecDelay;
-	public int[] fluidProDelay;
+	// temporary crap solution for furnaces to not destroy networks on state change
+	public static boolean destroyPortsOnInvalidate = true;
+
+	// that did not last long at all
+	@Deprecated public TilePort[] powerPorts;
+	@Deprecated public TilePort[] fluidInPorts;
+	@Deprecated public TilePort[] fluidOutPorts;
 	
-	/** Automatic handling of ports, including dynamic pauses for ports not currently in use */
-	public void autoPort(DirPos[] pos) {
-		
-		if(this.tickOffset == -1) {
-			this.tickOffset = Math.abs(BlockPos.getIdentity(xCoord, yCoord, zCoord) % 100);
-		}
-
-		if(this.energyRecDelay == null || this.energyRecDelay.length != pos.length) this.energyRecDelay = new int[pos.length];
-		if(this.energyProDelay == null || this.energyProDelay.length != pos.length) this.energyProDelay = new int[pos.length];
-		if(this.fluidRecDelay == null || this.fluidRecDelay.length != pos.length) this.fluidRecDelay = new int[pos.length];
-		if(this.fluidProDelay == null || this.fluidProDelay.length != pos.length) this.fluidProDelay = new int[pos.length];
-
-		IEnergyReceiverMK2 energyRec = this instanceof IEnergyReceiverMK2 ? (IEnergyReceiverMK2) this : null;
-		IEnergyProviderMK2 energyProv = this instanceof IEnergyProviderMK2 ? (IEnergyProviderMK2) this : null;
-		IFluidStandardReceiverMK2 fluidRec = this instanceof IFluidStandardReceiverMK2 ? (IFluidStandardReceiverMK2) this : null;
-		IFluidStandardSenderMK2 fluidPro = this instanceof IFluidStandardSenderMK2 ? (IFluidStandardSenderMK2) this : null;
-		
-		for(int i = 0; i < pos.length; i++) {
-			DirPos port = pos[i];
-
-			if(energyRec != null) { if(energyRecDelay[i] > 0) energyRecDelay[i]--; else energyRecDelay[i] = energyRec.trySubscribe(worldObj, pos[i]).delay; }
-			if(energyProv != null) { if(energyProDelay[i] > 0) energyProDelay[i]--; else energyProDelay[i] = energyProv.tryProvide(worldObj, pos[i]).delay; }
-
-			if(fluidRec != null) if(fluidRecDelay[i] > 0) { fluidRecDelay[i]--; } else {
-				for(FluidTank tank : fluidRec.getReceivingTanks()) {
-					int newDelay = fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
-					if(fluidRecDelay[i] <= 0 || newDelay < fluidRecDelay[i]) fluidRecDelay[i] = newDelay;
-				}
-			}
-
-			if(fluidPro != null) if(fluidProDelay[i] > 0) { fluidProDelay[i]--; } else {
-				for(FluidTank tank : fluidPro.getSendingTanks()) {
-					int newDelay = fluidPro.tryProvide(tank, worldObj, port).delay;
-					if(fluidProDelay[i] <= 0 || newDelay < fluidProDelay[i]) fluidProDelay[i] = newDelay;
-				}
-			}
+	/// PORTS START ///
+	
+	/** Sets up power, fluid in (if valid) and fluid out (if valid) ports */
+	@Deprecated public void setupAllPorts(PortDef[] ports) {
+		this.setupPowerPorts(ports);
+		this.setupFluidPorts(ports);
+	}
+	
+	/** Sets up only the power ports with M2M port rules (i.e. no passthrough, all ports are separate) */
+	@Deprecated public void setupPowerPorts(PortDef[] ports) {
+		if(powerPorts != null) return;
+		powerPorts = TilePort.manyToMany(this, ports);
+		for(TilePort port : powerPorts) {
+			port.setupType(Nodespace.THE_POWER_PROVIDER);
 		}
 	}
+
+	/** Sets up  fluid in (if valid) and fluid out (if valid) ports */
+	@Deprecated public void setupFluidPorts(PortDef[] ports) {
+		if(this instanceof IFluidStandardReceiverMK2) this.setupFluidInPorts(((IFluidStandardReceiverMK2) this).getReceivingTanks(), PortDef.combine(ports));
+		if(this instanceof IFluidStandardSenderMK2) this.setupFluidOutPorts(((IFluidStandardSenderMK2) this).getSendingTanks(), PortDef.combine(ports));
+	}
+	
+	@Deprecated public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
+		if(fluidInPorts != null) return;
+		fluidInPorts = TilePort.oneToMany(this, tanks.length, ports);
+		for(int i = 0; i < fluidInPorts.length; i++) {
+			fluidInPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
+		}
+	}
+	
+	@Deprecated public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
+		if(fluidOutPorts != null) return;
+		fluidOutPorts = TilePort.oneToMany(this, tanks.length, ports);
+		for(int i = 0; i < fluidOutPorts.length; i++) {
+			fluidOutPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
+		}
+	}
+	
+	@Deprecated public void updateAllPorts() {
+		if(powerPorts != null) for(TilePort port : powerPorts) port.update(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.update(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.update(worldObj);
+	}
+	
+	/** Fluid in, fluid out */
+	@Deprecated public void updatePortFIFO() {
+		this.updateAllPorts();
+		if(this instanceof IFluidStandardReceiverMK2) this.receiveFluid(((IFluidStandardReceiverMK2) this).getReceivingTanks());
+		if(this instanceof IFluidStandardSenderMK2) this.provideFluid(((IFluidStandardSenderMK2) this).getSendingTanks());
+	}
+	
+	/** Power in, fluid in, fluid out */
+	@Deprecated public void updatePortPIFIFO() { this.updatePortFIFO(); this.receivePower(); }
+	/** Power out, fluid in, fluid out */
+	@Deprecated public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
+	
+	@Deprecated public void receivePower() { if(powerPorts == null) return; if(this instanceof IEnergyReceiverMK2) for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
+	@Deprecated public void providePower() { if(powerPorts == null) return; if(this instanceof IEnergyProviderMK2) for(TilePort port : powerPorts) port.checkProvide(worldObj); }
+
+	@Deprecated public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
+	@Deprecated public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
+		if(ports == null || ports.length != tanks.length) return;
+		
+		for(int i = 0; i < ports.length; i++) {
+			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
+			if(!ports[i].needsRebuild) ports[i].checkProvide(worldObj);
+		}
+	}
+
+	@Deprecated public void receiveFluid(FluidTank[] tanks) { receiveFluid(tanks, this.fluidInPorts); }
+	@Deprecated public void receiveFluid(FluidTank[] tanks, TilePort[] ports) {
+		if(ports == null || ports.length != tanks.length) return;
+		
+		for(int i = 0; i < ports.length; i++) {
+			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
+			if(!ports[i].needsRebuild) ports[i].checkSubscribe(worldObj);
+		}
+	}
+	
+	@Deprecated public void destroyAllPorts() {
+		if(powerPorts != null) for(int i = 0; i < powerPorts.length; i++) { powerPorts[i].disableIfPresent(worldObj); powerPorts[i] = null; }
+		if(fluidInPorts != null) for(int i = 0; i < fluidInPorts.length; i++) { fluidInPorts[i].disableIfPresent(worldObj); fluidInPorts[i] = null; }
+		if(fluidOutPorts != null) for(int i = 0; i < fluidOutPorts.length; i++) { fluidOutPorts[i].disableIfPresent(worldObj); fluidOutPorts[i] = null; }
+		powerPorts = null;
+		fluidInPorts = null;
+		fluidOutPorts = null;
+	}
+	
+	/// PORTS END ///
 
 	@Override
 	public boolean isLoaded() {
@@ -86,6 +141,19 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
+		
+		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.disableIfPresent(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.disableIfPresent(worldObj);
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if(!destroyPortsOnInvalidate) return;
+		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.disableIfPresent(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.disableIfPresent(worldObj);
 	}
 
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */

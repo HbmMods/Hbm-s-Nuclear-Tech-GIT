@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.fusion;
 
-import java.util.Map.Entry;
-
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionTorus;
@@ -19,6 +17,7 @@ import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.albion.TileEntityCooledBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -92,6 +91,42 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				.itemOutput(2);
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord + 0, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+					PortDef.make(xCoord + 6, yCoord + 0, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord + 6, yCoord + 4, zCoord, Library.POS_Y),
+					PortDef.make(xCoord + 6, yCoord + 0, zCoord + 2, Library.NEG_Y),
+					PortDef.make(xCoord + 6, yCoord + 4, zCoord + 2, Library.POS_Y),
+					PortDef.make(xCoord + 6, yCoord + 0, zCoord - 2, Library.NEG_Y),
+					PortDef.make(xCoord + 6, yCoord + 4, zCoord - 2, Library.POS_Y),
+					PortDef.make(xCoord - 6, yCoord + 0, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord - 6, yCoord + 4, zCoord, Library.POS_Y),
+					PortDef.make(xCoord - 6, yCoord + 0, zCoord + 2, Library.NEG_Y),
+					PortDef.make(xCoord - 6, yCoord + 4, zCoord + 2, Library.POS_Y),
+					PortDef.make(xCoord - 6, yCoord + 0, zCoord - 2, Library.NEG_Y),
+					PortDef.make(xCoord - 6, yCoord + 4, zCoord - 2, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 0, zCoord + 6, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord + 4, zCoord + 6, Library.POS_Y),
+					PortDef.make(xCoord + 2, yCoord + 0, zCoord + 6, Library.NEG_Y),
+					PortDef.make(xCoord + 2, yCoord + 4, zCoord + 6, Library.POS_Y),
+					PortDef.make(xCoord - 2, yCoord + 0, zCoord + 6, Library.NEG_Y),
+					PortDef.make(xCoord - 2, yCoord + 4, zCoord + 6, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 0, zCoord - 6, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord + 4, zCoord - 6, Library.POS_Y),
+					PortDef.make(xCoord + 2, yCoord + 0, zCoord - 6, Library.NEG_Y),
+					PortDef.make(xCoord + 2, yCoord + 4, zCoord - 6, Library.POS_Y),
+					PortDef.make(xCoord - 2, yCoord + 0, zCoord - 6, Library.NEG_Y),
+					PortDef.make(xCoord - 2, yCoord + 4, zCoord - 6, Library.POS_Y),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public String getName() {
 		return "container.fusionTorus";
@@ -101,6 +136,10 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.checkTilt(TiltType.CONFIG, true);
 
 			for(int i = 0; i < 4; i++) {
@@ -125,20 +164,6 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.temperature -= this.temp_change_per_mb * cycles;
 			}
 
-			for(DirPos pos : getConPos()) {
-
-				if(worldObj.getTotalWorldTime() % 20 == 0) {
-					this.trySubscribe(worldObj, pos);
-					this.trySubscribe(coolantTanks[0].getTankType(), worldObj, pos);
-					if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
-					if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), worldObj, pos);
-					if(tanks[2].getTankType() != Fluids.NONE) this.trySubscribe(tanks[2].getTankType(), worldObj, pos);
-				}
-
-				if(coolantTanks[1].getFill() > 0) this.tryProvide(coolantTanks[1], worldObj, pos);
-				if(tanks[3].getFill() > 0) this.tryProvide(tanks[3], worldObj, pos);
-			}
-
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 
 			// keeping track of PLASMA receivers because those need to share the combined output
@@ -153,9 +178,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
 
-					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
-						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						Object thing = entry.getKey();
+					for(Object thing : plasmaNodes[i].net.receiverEntries) {
 						if(thing instanceof TileEntityLoadedBase && !((TileEntityLoadedBase) thing).isLoaded()) continue;
 						if(thing instanceof IFusionPowerReceiver && ((IFusionPowerReceiver) thing).receivesFusionPower()) receiverCount++;
 						if(thing instanceof TileEntityFusionCollector) collectors++;
@@ -203,12 +226,11 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
 
-					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
-						Entry<Object, Long> entry = (Entry<Object, Long>) o;
+					for(Object o : plasmaNodes[i].net.receiverEntries) {
 
-						if(entry.getKey() instanceof IFusionPowerReceiver) {
+						if(o instanceof IFusionPowerReceiver) {
 							long powerReceived = (long) Math.ceil(this.plasmaEnergy * outputIntensity);
-							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux, r, g, b);
+							((IFusionPowerReceiver) o).receiveFusionPower(powerReceived, outputFlux, r, g, b);
 						}
 					}
 				}
@@ -365,42 +387,6 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 		if(level >= max * 0.5) return 1D;
 		return level / max * 2D;
 	}
-
-	@Override
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord, yCoord + 5, zCoord, Library.POS_Y),
-
-				new DirPos(xCoord + 6, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord + 6, yCoord + 5, zCoord, Library.POS_Y),
-				new DirPos(xCoord + 6, yCoord - 1, zCoord + 2, Library.NEG_Y),
-				new DirPos(xCoord + 6, yCoord + 5, zCoord + 2, Library.POS_Y),
-				new DirPos(xCoord + 6, yCoord - 1, zCoord - 2, Library.NEG_Y),
-				new DirPos(xCoord + 6, yCoord + 5, zCoord - 2, Library.POS_Y),
-
-				new DirPos(xCoord - 6, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord - 6, yCoord + 5, zCoord, Library.POS_Y),
-				new DirPos(xCoord - 6, yCoord - 1, zCoord + 2, Library.NEG_Y),
-				new DirPos(xCoord - 6, yCoord + 5, zCoord + 2, Library.POS_Y),
-				new DirPos(xCoord - 6, yCoord - 1, zCoord - 2, Library.NEG_Y),
-				new DirPos(xCoord - 6, yCoord + 5, zCoord - 2, Library.POS_Y),
-
-				new DirPos(xCoord, yCoord - 1, zCoord + 6, Library.NEG_Y),
-				new DirPos(xCoord, yCoord + 5, zCoord + 6, Library.POS_Y),
-				new DirPos(xCoord + 2, yCoord - 1, zCoord + 6, Library.NEG_Y),
-				new DirPos(xCoord + 2, yCoord + 5, zCoord + 6, Library.POS_Y),
-				new DirPos(xCoord - 2, yCoord - 1, zCoord + 6, Library.NEG_Y),
-				new DirPos(xCoord - 2, yCoord + 5, zCoord + 6, Library.POS_Y),
-
-				new DirPos(xCoord, yCoord - 1, zCoord - 6, Library.NEG_Y),
-				new DirPos(xCoord, yCoord + 5, zCoord - 6, Library.POS_Y),
-				new DirPos(xCoord + 2, yCoord - 1, zCoord - 6, Library.NEG_Y),
-				new DirPos(xCoord + 2, yCoord + 5, zCoord - 6, Library.POS_Y),
-				new DirPos(xCoord - 2, yCoord - 1, zCoord - 6, Library.NEG_Y),
-				new DirPos(xCoord - 2, yCoord + 5, zCoord - 6, Library.POS_Y),
-		};
-	}
 	
 	@Override public int getFloorCount() { return 6 * 6; }
 	@Override public BlockPos getFloorPosFromIndex(int index) {
@@ -475,7 +461,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("index") && data.hasKey("selection")) {
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
@@ -601,6 +587,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				PREFIX_VALUE + "recipe",
 				PREFIX_VALUE + "active",
 				PREFIX_VALUE + "temp",
+				PREFIX_FUNCTION + "setrecipe" + NAME_SEPARATOR + "name",
 		};
 	}
 

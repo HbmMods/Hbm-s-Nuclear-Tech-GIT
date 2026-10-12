@@ -5,6 +5,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
@@ -45,6 +46,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 
 public class XFactoryFolly {
+	
+	// no config here lol
+	public static ConfigWrapper<Float> GUN_FOLLY_DAMAGE =	new ConfigWrapper(1_000F);
 
 	public static BulletConfig folly_sm;
 	public static BulletConfig folly_nuke;
@@ -83,7 +87,7 @@ public class XFactoryFolly {
 				if(iy > 0 && iy < 256) beam.worldObj.setBlock(ix, iy, iz, Blocks.air);
 				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(ix - 1, iy - 1, iz - 1, ix + 2, iy + 2, iz + 2);
 				for(Entity e : entities) if(e != beam.thrower && e.boundingBox.intersectsWith(aabb)) {
-					if(e instanceof EntityLivingBase) EntityDamageUtil.attackEntityFromNT((EntityLivingBase) e, beam.config.getDamage(beam, beam.thrower, beam.config.dmgClass), beam.damage, true, false, 0D, 100F, 0.99F);
+					if(e instanceof EntityLivingBase) EntityDamageUtil.attackEntityFromNT((EntityLivingBase) e, beam.config.getDamage(beam, beam.thrower, beam.config.dmgClass), beam.damage, true, false, 0D, 1_000F, 1F);
 					else EntityDamageUtil.attackEntityFromIgnoreIFrame(e, beam.config.getDamage(beam, beam.thrower, beam.config.dmgClass), beam.damage);
 				}
 			}
@@ -108,7 +112,7 @@ public class XFactoryFolly {
 		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.SECRET, new GunConfig()
 				.dura(0).draw(40).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0)
-						.dmg(1_000F).delay(26).dryfire(false).reload(160).jam(0).sound(NTMSounds.GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS, 100.0F, 1.0F)
+						.dmg(GUN_FOLLY_DAMAGE).delay(26).dryfire(false).reload(160).jam(0).sound(NTMSounds.GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS, 100.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm, folly_nuke))
 						.offset(0.75, -0.0625, -0.1875D).offsetScoped(0.75, -0.0625, -0.125D)
 						.canFire(LAMBDA_CAN_FIRE).fire(LAMBDA_FIRE).recoil(LAMBDA_RECOIL_FOLLY))

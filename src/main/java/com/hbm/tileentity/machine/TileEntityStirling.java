@@ -11,7 +11,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IHeatSource;
@@ -41,10 +41,33 @@ public class TileEntityStirling extends TileEntityLoadedBase implements IBufPack
 	public static int maxHeatSteel = 1500;
 	public static int overspeedLimit = 300;
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+					PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
+					PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+					PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+			};
+		}
+		return cachedPorts;
+	}
+
+	@Override
+	public long getProviderSpeed() {
+		return this.hasCog ? this.getMaxPower() : 0;
+	}
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.providePower();
 
 			if(hasCog) {
 				this.powerBuffer = 0;
@@ -91,12 +114,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements IBufPack
 
 			networkPackNT(150);
 
-			if(hasCog) {
-				for(DirPos pos : getConPos()) {
-					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			} else {
-
+			if(!hasCog) {
 				if(this.powerBuffer > 0)
 					this.powerBuffer--;
 			}
@@ -128,15 +146,6 @@ public class TileEntityStirling extends TileEntityLoadedBase implements IBufPack
 
 	public boolean isCreative() {
 		return this.getBlockType() == ModBlocks.machine_stirling_creative;
-	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
-		};
 	}
 
 	@Override

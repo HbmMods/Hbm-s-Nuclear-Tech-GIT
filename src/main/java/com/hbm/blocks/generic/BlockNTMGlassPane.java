@@ -15,15 +15,6 @@ public class BlockNTMGlassPane extends BlockPane
 	int renderLayer;
 	boolean doesDrop = false;
 	
-    //NOTE when you have eclipse make the constructor for you it *WILL BE 'protected'* so make sure to make this public like below.
-	/*public BlockNTMGlassPane(String flatFaceTextureName, String rimTextureName,
-		Material mat, boolean bool) {
-	super(flatFaceTextureName, rimTextureName, mat, bool);
-	// TODO Auto-generated constructor stub
-		this.setLightOpacity(1);
-		this.opaque = true;
-	}*/
-	
 	public BlockNTMGlassPane(int layer, String name, String rimTextureName, Material material, boolean doesDrop) {
 		super(name, rimTextureName, material, false);
 		this.renderLayer = layer;
@@ -48,5 +39,4 @@ public class BlockNTMGlassPane extends BlockPane
 	public int quantityDropped(Random rand) {
 		return doesDrop ? 1 : 0;
 	}
-
 }

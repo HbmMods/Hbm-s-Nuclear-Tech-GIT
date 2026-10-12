@@ -191,6 +191,7 @@ public class Fluids {
 	public static FluidType SODIUM_ALUMINATE;
 	public static FluidType BAUXITE_SOLUTION;
 	public static FluidType ALUMINA;
+	public static FluidType TITANIUM_TETRACHLORIDE;
 	public static FluidType CONCRETE;
 	public static FluidType DHC;
 
@@ -412,8 +413,9 @@ public class Fluids {
 		CONCRETE =				new FluidType("CONCRETE",			0xA2A2A2, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		DHC =					new FluidType("DHC",				0xD2AFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		AIRBLAST =				new FluidType("AIRBLAST",			0xFFDADA, 0, 3, 0, EnumSymbol.NONE).setTemp(1_200).addTraits(GASEOUS);
-		FLUE =					new FluidType(155, "FLUE",			0x131313, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(25_000), GASEOUS, new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.SOOT, SOOT_GAS * 25));
-
+		FLUE =					new FluidType("FLUE",				0x131313, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(25_000), GASEOUS, new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.SOOT, SOOT_GAS * 5));
+		TITANIUM_TETRACHLORIDE =new FluidType(156, "TITANIUM_TETRACHLORIDE",0xDBF796, 3, 0, 2, EnumSymbol.NOWATER).addContainers(new CD_Canister(0xE1E549)).addTraits(LIQUID);
+		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 
@@ -565,6 +567,7 @@ public class Fluids {
 		metaOrder.add(SODIUM_ALUMINATE);
 		metaOrder.add(BAUXITE_SOLUTION);
 		metaOrder.add(ALUMINA);
+		metaOrder.add(TITANIUM_TETRACHLORIDE);
 		metaOrder.add(CONCRETE);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
@@ -617,7 +620,7 @@ public class Fluids {
 				.addEntry(new ToxinEffects(HazardClass.GAS_BLISTERING, true).add(new PotionEffect(Potion.wither.id, 100, 1), new PotionEffect(Potion.confusion.id, 100, 0))));
 		ESTRADIOL.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.PARTICLE_FINE, false).add(new PotionEffect(HbmPotion.estrogen.id, 60 * 60 * 20, 0))));
 		REDMUD.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.GAS_BLISTERING, false).add(new PotionEffect(Potion.wither.id, 30 * 20, 2))));
-		
+
 		AIR.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).addStep(5, 1, AIRBLAST, 1));
 
 		double eff_steam_boil = 1.0D;
@@ -819,7 +822,7 @@ public class Fluids {
 				int p = obj.get("p").getAsInt();
 				int f = obj.get("f").getAsInt();
 				int r = obj.get("r").getAsInt();
-				EnumSymbol symbol = EnumSymbol.valueOf(obj.get("symbol").getAsString());
+				EnumSymbol symbol = obj.has("symbol") ? EnumSymbol.valueOf(obj.get("symbol").getAsString()) : EnumSymbol.NONE;
 				String texture = obj.get("texture").getAsString();
 				int temperature = obj.get("temperature").getAsInt();
 
@@ -889,7 +892,7 @@ public class Fluids {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static HashMap<String, FluidType> fluidMigration = new HashMap(); // since reloading would create new fluid instances, and those break existing machines
 
 	public static void reloadFluids(){
@@ -1036,6 +1039,10 @@ public class Fluids {
 		}
 
 		return all;
+	}
+	
+	public static boolean isSmoke(FluidType type) {
+		return type == Fluids.SMOKE || type == Fluids.SMOKE_POISON || type == Fluids.SMOKE_LEADED;
 	}
 
 	public static class CD_Canister {

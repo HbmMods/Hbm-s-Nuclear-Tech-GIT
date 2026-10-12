@@ -5,6 +5,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PlasmaNetworkProvider;
@@ -38,19 +39,33 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 		this.tanks[0] = new FluidTank(Fluids.WATER, 32_000);
 		this.tanks[1] = new FluidTank(Fluids.SUPERHOTSTEAM, 32_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 1, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 1, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			this.plasmaEnergySync = this.plasmaEnergy;
 			this.plasmaEnergy = 0;
-
-			for(DirPos pos : getConPos()) {
-				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
-				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
-			}
 
 			if(plasmaNode == null || plasmaNode.expired) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
@@ -69,19 +84,6 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 
 			this.networkPackNT(50);
 		}
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				//new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, rot.getOpposite())
-		};
 	}
 
 	@Override public boolean receivesFusionPower() { return true; }

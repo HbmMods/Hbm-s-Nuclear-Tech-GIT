@@ -46,7 +46,19 @@ public class MachineOreSlopper extends BlockDummyable {
 	public int getOffset() {
 		return 3;
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 3, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -3, ForgeDirection.NORTH.ordinal()},
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{1, 0, 2, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 2, ForgeDirection.WEST.ordinal()},
+			{1, 0, -2, ForgeDirection.EAST.ordinal()},
+			{-1, 0, -2, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return standardOpenBehavior(world, x, y, z, player, side);
@@ -56,18 +68,8 @@ public class MachineOreSlopper extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 3, y, z + dir.offsetZ * 3);
-		this.makeExtra(world, x - dir.offsetX * 3, y, z - dir.offsetZ * 3);
-		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
-		this.makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX, y, z + dir.offsetZ * 2 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX, y, z + dir.offsetZ * 2 - rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 2 + rot.offsetX, y, z - dir.offsetZ * 2 + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX, y, z - dir.offsetZ * 2 - rot.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

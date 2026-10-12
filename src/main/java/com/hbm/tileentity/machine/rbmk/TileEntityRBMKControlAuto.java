@@ -128,7 +128,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("function")) {
 			int c = Math.abs(data.getInteger("function")) % RBMKColor.values().length;

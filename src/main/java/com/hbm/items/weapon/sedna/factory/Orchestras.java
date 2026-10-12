@@ -1513,7 +1513,7 @@ public class Orchestras {
 				MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), 3.0D);
 				if(mop != null) {
 					if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-						float damage = 10F;
+						float damage = XFactory44.GUN_HANGMAN_SMACK_DAMAGE.get();
 						mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(ctx.getPlayer()), damage);
 						mop.entityHit.motionX *= 2;
 						mop.entityHit.motionZ *= 2;

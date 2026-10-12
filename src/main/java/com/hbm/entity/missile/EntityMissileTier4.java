@@ -57,9 +57,9 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		thrust.rotateAroundX(this.rotationPitch * (float) Math.PI / 180F);
 		thrust.rotateAroundY(-(this.rotationYaw + 90) * (float) Math.PI / 180F);
 
-		this.spawnContraolWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
-		this.spawnContraolWithOffset(0, 0, 0);
-		this.spawnContraolWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
+		this.spawnContrailWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
+		this.spawnContrailWithOffset(0, 0, 0);
+		this.spawnContrailWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
 	}
 	
 	public static class EntityMissileNuclear extends EntityMissileTier4 {

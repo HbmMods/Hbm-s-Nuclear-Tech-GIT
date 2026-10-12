@@ -112,12 +112,12 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 		}
 		
 		//frame
-		if(!(te.placeDummy(x, y + 1, z) &&
-			te.placeDummy(x, y + 2, z) &&
-			te.placeDummy(x, y + 3, z) &&
-			te.placeDummy(x, y + 4, z) &&
-			te.placeDummy(x, y + 5, z) &&
-			te.placeDummy(x, y + 6, z)))
+		if(!(te.placeDummy(x, y + 1, z, false) &&
+			te.placeDummy(x, y + 2, z, false) &&
+			te.placeDummy(x, y + 3, z, false) &&
+			te.placeDummy(x, y + 4, z, false) &&
+			te.placeDummy(x, y + 5, z, false) &&
+			te.placeDummy(x, y + 6, z, false)))
 			world.func_147480_a(x, y, z, true);
 	}
 

@@ -2,14 +2,12 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIMachineTurbineGas;
 import com.hbm.inventory.container.ContainerMachineTurbineGas;
 import com.hbm.inventory.fluid.FluidType;
@@ -20,12 +18,13 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
@@ -46,7 +45,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting implements IFluidStandardTransceiverMK2, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -83,7 +82,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	//TODO particles from heat exchanger maybe? maybe in a future
 
 	public TileEntityMachineTurbineGas() {
-		super(2);
+		super(2, 150);
 		this.tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.GAS, 100000);
 		tanks[1] = new FluidTank(Fluids.LUBRICANT, 16000);
@@ -97,6 +96,10 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupPowerPorts(getPowerPorts());
+			this.setupFluidPorts(getPorts());
+			this.updatePortPOFIFO();
 
 			waterToBoil = 0; //reset
 			throttle = powerSliderPos * 100 / 60;
@@ -144,28 +147,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				break;
 			}
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
 			powerBeforeNet = Math.min(this.power, maxPower);
 
 			//do net/battery deductions first...
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
-			this.tryProvide(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, rot); //sends out power
 
 			//...and then cap it. Prevents potential future cases where power would be limited due to the fuel being too strong and the buffer too small.
 			if(this.power > this.maxPower)
 				this.power = this.maxPower;
-
-			for(int i = 0; i < 2; i++) { //fuel and lube
-				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
-				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
-			}
-			//water
-			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
-			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
-			//steam
-			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 
 			this.networkPackNT(150);
 
@@ -196,6 +185,36 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				}
 			}
 		}
+	}
+	
+	protected PortDef[] cachedPowerPorts;
+	public PortDef[] getPowerPorts() {
+		if(cachedPowerPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPowerPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX * 4, yCoord + 1, zCoord + rot.offsetZ * 4, rot),
+			};
+		}
+		return cachedPowerPorts;
+	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ, dir.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * -4, dir.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -4, dir),
+					PortDef.make(xCoord - rot.offsetX * 5, yCoord + 1, zCoord - rot.offsetZ * 5, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override
@@ -351,8 +370,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			}
 		}
 
-		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
-		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
+		double consumption = fuelMaxCons.getOrDefault(tanks[0].getTankType(), 5D);
 		makePower(consumption, throttle);
 	}
 
@@ -363,6 +381,10 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 		double idleConsumption = consMax * 0.05D;
 		double consumption = idleConsumption + consMax * throttle / 100;
+
+		if(worldObj.getTotalWorldTime() % 5 == 0) {
+			super.pollute(tanks[0].getTankType(), FluidReleaseType.BURN, (float)consumption * 0.5F);
+		}
 
 		fuelToConsume += consumption;
 
@@ -463,7 +485,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("slidPos"))
 			powerSliderPos = data.getInteger("slidPos");
@@ -559,7 +581,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { tanks[3] };
+		return new FluidTank[] { tanks[3], smoke, smoke_leaded, smoke_poison };
 	}
 
 	@Override

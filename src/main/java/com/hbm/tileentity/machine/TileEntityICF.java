@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.container.ContainerICF;
@@ -18,10 +19,11 @@ import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -41,7 +43,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiverMK2, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider {
 
 	public long laser;
 	public long maxLaser;
@@ -70,12 +72,11 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			tanks[0].setType(11, slots);
-
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 
 			boolean markDirty = false;
 
@@ -152,11 +153,6 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				this.output = step.amountProduced * cycles;
 			}
 
-			for(DirPos pos : getConPos()) {
-				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
 			this.heat *= 0.999D;
 			if(this.heat > this.maxHeat) this.heat = this.maxHeat;
 			if(markDirty) this.markDirty();
@@ -167,17 +163,23 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		}
 	}
 
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord, yCoord + 6, zCoord, Library.POS_Y),
-				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord + dir.offsetX * 3 + rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 3 + rot.offsetZ * 6, dir),
-				new DirPos(xCoord + dir.offsetX * 3 - rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 3 - rot.offsetZ * 6, dir),
-				new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 3 + rot.offsetZ * 6, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 3 - rot.offsetZ * 6, dir.getOpposite())
-		};
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord + 5, zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 2 + rot.offsetZ * 6, dir),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 2 - rot.offsetZ * 6, dir),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 2 + rot.offsetZ * 6, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 2 - rot.offsetZ * 6, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override public void serialize(ByteBuf buf) {
@@ -296,6 +298,27 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		data.setLong(CompatEnergyControl.L_ENERGY_TU, this.heat);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, this.output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "laser",
+				PREFIX_VALUE + "heat",
+				PREFIX_VALUE + "coldfluid",
+				PREFIX_VALUE + "hotfluid",
+				PREFIX_VALUE + "stellarflux"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "laser").equals(name))		return "" + this.laser;
+		if((PREFIX_VALUE + "heat").equals(name))		return "" + this.heat;
+		if((PREFIX_VALUE + "coldfluid").equals(name))	return "" + tanks[0].getFill();
+		if((PREFIX_VALUE + "hotfluid").equals(name))	return "" + tanks[1].getFill();
+		if((PREFIX_VALUE + "stellarflux").equals(name))	return "" + tanks[2].getFill();
+		return null;
 	}
 
 	//OC stuff

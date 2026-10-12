@@ -23,12 +23,12 @@ import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumAchievementType;
-import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.HbmWorld;
@@ -208,7 +208,6 @@ public class MainRegistry {
 	public static Achievement achManhattan;
 	public static Achievement achGasCent;
 	public static Achievement achCentrifuge;
-	public static Achievement achFOEQ;
 	public static Achievement achSoyuz;
 	public static Achievement achSpace;
 	public static Achievement achSchrab;
@@ -263,7 +262,9 @@ public class MainRegistry {
 		/* For whichever fucking reason, replacing the bolt items with a bolt autogen broke all autogen items, most likely due to the load order.
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
+		Mats.customMatsInit();
 		Fluids.init();
+		MaterialShapes.customShapesInit();
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -420,7 +421,6 @@ public class MainRegistry {
 		achTantalum = new Achievement("achievement.tantalum", "tantalum", 7, 3, ModItems.gem_tantalium, achChemplant).initIndependentStat().setSpecial().registerStat();
 		achGasCent = new Achievement("achievement.gasCent", "gasCent", 13, 2, ModItems.ingot_uranium_fuel, achDesh).initIndependentStat().registerStat();
 		achCentrifuge = new Achievement("achievement.centrifuge", "centrifuge", 12, -2, new ItemStack(ModBlocks.machine_centrifuge), achPolymer).initIndependentStat().registerStat();
-		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 5, 5, new ItemStack(ModItems.satellite, 1, EnumSatType.RELAY.ordinal()), achDesh).initIndependentStat().setSpecial().registerStat();
 		achSoyuz = new Achievement("achievement.soyuz", "soyuz", 7, 6, Items.baked_potato, achDesh).initIndependentStat().setSpecial().registerStat();
 		achSpace = new Achievement("achievement.space", "space", 9, 7, ModItems.missile_soyuz, achDesh).initIndependentStat().setSpecial().registerStat();
 		achSchrab = new Achievement("achievement.schrab", "schrab", 11, 3, ModItems.ingot_schrabidium, achDesh).initIndependentStat().registerStat();
@@ -485,7 +485,6 @@ public class MainRegistry {
 			achTantalum,
 			achGasCent,
 			achCentrifuge,
-			achFOEQ,
 			achSoyuz,
 			achSpace,
 			achSchrab,
@@ -518,6 +517,9 @@ public class MainRegistry {
 				proxy.handleNHNEICompat();
 			}
 		}
+
+		// Load compatibility for OC.
+		CompatHandler.init();
 	}
 
 	@EventHandler
@@ -584,7 +586,7 @@ public class MainRegistry {
 		proxy.registerMissileItems();
 
 		// Load compatibility for OC.
-		CompatHandler.init();
+		CompatHandler.postInit();
 
 		// Load compatibility for AE2.
 		AE2CompatHandler.init();
@@ -1649,6 +1651,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.cape_gasmask");
 		ignoreMappings.add("hbm:item.cape_schrabidium");
 		ignoreMappings.add("hbm:item.cape_hidden");
+		ignoreMappings.add("hbm:tile.dummy_plate_cargo");
+		ignoreMappings.add("hbm:tile.machine_turbine");
+		ignoreMappings.add("hbm:tile.machine_fensu");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

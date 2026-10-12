@@ -171,7 +171,7 @@ public class TileEntityMachineFunnel extends TileEntityMachineBase implements IG
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		this.mode++;
 		if(mode > 2) mode = 0;
 		this.markDirty();

@@ -1,5 +1,7 @@
 package com.hbm.tileentity.network;
 
+import java.util.Locale;
+
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRadioAUTOCAL;
@@ -76,9 +78,18 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 						if(ret == EnumStatementReturn.SHUTDOWN) this.stop("Program requested shutdown");
 						if(!this.ignoreError) {
 							if(ret == EnumStatementReturn.UNRECOGNIZED_COMMAND) this.stop("Unrecognized command");
-							if(ret == EnumStatementReturn.PARAMETER_ERROR) this.stop("Parameter error");
+							if(ret == EnumStatementReturn.PARAMETER_MISSING) this.stop("Parameter missing");
+							if(ret == EnumStatementReturn.PARAMETER_OOB) this.stop("Parameter out of bounds");
+							if(ret == EnumStatementReturn.PARAMETER_PARSE_ERROR) this.stop("Error parsing parameter");
+							if(ret == EnumStatementReturn.NO_DESTINATION) this.stop("Missing JMP destination");
+							if(ret == EnumStatementReturn.ARITHMETIC_EXCEPTION) this.stop("Arithmetic error");
+							if(ret == EnumStatementReturn.BUFFER_EMPTY) this.stop("Buffer empty");
 							if(ret == EnumStatementReturn.UNDEFINED) this.stop("Undefined behavior");
 							if(ret == EnumStatementReturn.STACK_EXCEEDED) this.stop("Stack exceeded capacity");
+						} else {
+							if(ret.error) {
+								this.ctx.variables.setString("last_error", ret.name().toLowerCase(Locale.US));
+							}
 						}
 						if(ret == EnumStatementReturn.SKIP) i--;
 					} catch(Exception ex) {
@@ -168,7 +179,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("on")) {
 			if(this.isOn) stop("User requested shutdown");
 			else this.isOn = true;

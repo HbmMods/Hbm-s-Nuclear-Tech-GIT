@@ -34,7 +34,7 @@ public class TileEntityChimneyIndustrial extends TileEntityChimneyBase {
 	}
 
 	@Override
-	public boolean cpaturesSoot() {
+	public boolean capturesSoot() {
 		return true;
 	}
 	

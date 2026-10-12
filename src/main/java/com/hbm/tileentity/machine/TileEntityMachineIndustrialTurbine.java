@@ -16,7 +16,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
@@ -198,25 +198,33 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	}
 
 	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 3 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 3, yCoord + 3, zCoord + dir.offsetZ * 3, ForgeDirection.UP),
-				new DirPos(xCoord - dir.offsetX * 1, yCoord + 3, zCoord - dir.offsetZ * 1, ForgeDirection.UP),
-		};
+	public PortDef[] getFluidPorts() {
+		if(fluidPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			fluidPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX * 3 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ * 1, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 1, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, ForgeDirection.UP),
+					PortDef.make(xCoord - dir.offsetX * 1, yCoord + 2, zCoord - dir.offsetZ * 1, ForgeDirection.UP),
+			};
+		}
+		return fluidPorts;
 	}
 
 	@Override
-	public DirPos[] getPowerPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		return new DirPos[] {
-				new DirPos(xCoord - dir.offsetX * 4, yCoord + 1, zCoord - dir.offsetZ * 4, dir.getOpposite())
-		};
+	public PortDef[] getPowerPorts() {
+		if(powerPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			
+			powerPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord + 1, zCoord - dir.offsetZ * 3, dir.getOpposite())
+			};
+		}
+		return powerPorts;
 	}
 	
 	AxisAlignedBB bb = null;

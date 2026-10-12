@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -55,6 +56,7 @@ public class ItemPowerNetTool extends Item {
 				player.addChatComponentMessage(ChatBuilder.start("Links: " + net.links.size()).color(EnumChatFormatting.YELLOW).flush());
 				player.addChatComponentMessage(ChatBuilder.start("Providers: " + net.providerEntries.size()).color(EnumChatFormatting.YELLOW).flush());
 				player.addChatComponentMessage(ChatBuilder.start("Receivers: " + net.receiverEntries.size()).color(EnumChatFormatting.YELLOW).flush());
+				player.addChatComponentMessage(ChatBuilder.start("Last flow: " + BobMathUtil.format(net.energyTracker) + " HE/t").color(EnumChatFormatting.YELLOW).flush());
 				player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
 
 				for(PowerNode link : net.links) {

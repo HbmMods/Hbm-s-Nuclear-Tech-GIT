@@ -27,12 +27,15 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePort.PortDef;
+import com.hbm.util.Compat;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -50,7 +53,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable, IRORValueProvider {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -118,11 +121,31 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 				new DirPos(this.xCoord - rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ * 2 - dir.offsetZ, rot.getOpposite())
 		};
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot),
+					PortDef.make(xCoord + rot.offsetX - dir.offsetX, yCoord, zCoord + rot.offsetZ - dir.offsetZ, rot),
+					PortDef.make(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 
 			this.output = 0;
 			this.consumption = 0;
@@ -168,6 +191,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			boolean redstone = false;
 			
 			for(DirPos pos : getConPos()) {
+				if(!Compat.isPositionLoaded(worldObj, pos.getX(), pos.getZ())) continue;
 				if(this.worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) {
 					redstone = true;
 					break;
@@ -192,14 +216,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			}
 
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
+			
 			if(burnValue > 0 && amountToBurn > 0) {
 
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
@@ -423,7 +440,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 	@Override
 	public void onChunkUnload() {
-
+		super.onChunkUnload();
+		
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
@@ -432,7 +450,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 	@Override
 	public void invalidate() {
-
 		super.invalidate();
 
 		if(audio != null) {
@@ -474,7 +491,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { blood };
+		return new FluidTank[] { blood, smoke, smoke_leaded, smoke_poison };
 	}
 
 	@Override
@@ -519,5 +536,28 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.output > 0);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fuel",
+				PREFIX_VALUE + "blood",
+				PREFIX_VALUE + "afterburner",
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "state").equals(name))	return	wasOn ? "1" : "0";
+		if((PREFIX_VALUE + "output").equals(name))	return	"" + output;
+		if((PREFIX_VALUE + "power").equals(name))	return	"" + power;
+		if((PREFIX_VALUE + "fuel").equals(name))	return	"" + tank.getFill();
+		if((PREFIX_VALUE + "blood").equals(name))	return	"" + blood.getFill();
+		if((PREFIX_VALUE + "afterburner").equals(name))	return	"" + afterburner;
+		return null;
 	}
 }

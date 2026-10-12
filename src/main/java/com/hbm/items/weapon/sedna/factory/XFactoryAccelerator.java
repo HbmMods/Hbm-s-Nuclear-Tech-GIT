@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.entity.projectile.EntityCoin;
 import com.hbm.items.ModItems;
@@ -39,6 +41,11 @@ import net.minecraft.util.Vec3;
 
 public class XFactoryAccelerator {
 
+	public static ConfigWrapper<Float> GUN_TAU_CANNON_DAMAGE =	new ConfigWrapper(25F);
+	public static ConfigWrapper<Float> GUN_TAU_CANNON_CHARGE_DAMAGE =	new ConfigWrapper(5F);
+	public static ConfigWrapper<Float> GUN_COILGUN_DAMAGE =		new ConfigWrapper(35F);
+	public static ConfigWrapper<Float> GUN_NI4NI_DAMAGE =		new ConfigWrapper(35F);
+
 	public static MagazineBelt tauChargeMag = new MagazineBelt();
 
 	public static BulletConfig tau_uranium;
@@ -48,6 +55,13 @@ public class XFactoryAccelerator {
 	public static BulletConfig coil_ferrouranium;
 
 	public static BulletConfig ni4ni_arc;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_TAU_CANNON_DAMAGE", GUN_TAU_CANNON_DAMAGE);
+		ServerConfig.configMap.put("GUN_TAU_CANNON_CHARGE_DAMAGE", GUN_TAU_CANNON_CHARGE_DAMAGE);
+		ServerConfig.configMap.put("GUN_COILGUN_DAMAGE", GUN_COILGUN_DAMAGE);
+		ServerConfig.configMap.put("GUN_NI4NI_DAMAGE", GUN_NI4NI_DAMAGE);
+	}
 
 	public static Consumer<Entity> LAMBDA_UPDATE_TUNGSTEN = (entity) -> {breakInPath(entity, 1.25F); };
 	public static Consumer<Entity> LAMBDA_UPDATE_FERRO = (entity) -> { breakInPath(entity, 2.5F); };
@@ -106,7 +120,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_tau = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(6_400).draw(10).inspect(10).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(25F).spreadHipfire(0F).delay(4).auto(true).spread(0F)
+						.dmg(GUN_TAU_CANNON_DAMAGE).spreadHipfire(0F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_TAU))
@@ -122,7 +136,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(400).draw(5).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(5).reload(20).jam(33).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_COILGUN_DAMAGE).delay(5).reload(20).jam(33).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(coil_tungsten, coil_ferrouranium))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_COILGUN))
@@ -133,7 +147,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_n_i_4_n_i = new ItemGunNI4NI(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(0).draw(5).inspect(39).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(10).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_NI4NI_DAMAGE).delay(10).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineInfinite(ni4ni_arc))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().fire(Lego.LAMBDA_NOWEAR_FIRE))
@@ -174,7 +188,7 @@ public class XFactoryAccelerator {
 			double heightOffset = offset.yCoord;
 			double sideOffset = offset.zCoord;
 
-			float damage = Lego.getStandardWearDamage(stack, ctx.config, index) * unitsUsed * 5;
+			float damage = Lego.getStandardWearDamage(stack, ctx.config, index) * unitsUsed * GUN_TAU_CANNON_CHARGE_DAMAGE.get();
 			float spread = Lego.calcSpread(ctx, stack, primary, config, true, index, false);
 			EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			entity.worldObj.spawnEntityInWorld(mk4);

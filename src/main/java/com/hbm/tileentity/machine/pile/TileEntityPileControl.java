@@ -2,17 +2,24 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPile;
+import com.hbm.handler.CompatHandler;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.Compat;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileControl extends TileEntityPileDeviceBase implements IRORInteractive {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityPileControl extends TileEntityPileDeviceBase implements IRORInteractive, SimpleComponent, CompatHandler.OCComponent {
 	
 	public double syncLevel;
 	public double level;
@@ -145,5 +152,25 @@ public class TileEntityPileControl extends TileEntityPileDeviceBase implements I
 
 	public void setTarget(double target) {
 		this.targetLevel = target;
+	}
+
+	// do some opencomputer stuff
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_pile_control";
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns current level")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLevel(Context context, Arguments args) {
+		return new Object[] {this.level};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(targ: number) -- Sets target level (0-100)")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLevel(Context context, Arguments args) {
+		setTarget(MathHelper.clamp_double(args.checkDouble(0)/100D, 0D, 1D));
+		return new Object[] {};
 	}
 }

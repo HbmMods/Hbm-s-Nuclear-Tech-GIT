@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,7 @@ public class RenderSealDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_seal_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.SLIDING_SEAL_DOOR.getSkinFromIndex(door.getSkinIndex()));
 		
 		double maxRaise = 1;
 		double raise = 0;

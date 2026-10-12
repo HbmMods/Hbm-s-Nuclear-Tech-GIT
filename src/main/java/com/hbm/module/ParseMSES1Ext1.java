@@ -25,7 +25,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 
 		// sets the splitter char
 		if(lower.startsWith("splitter ")) {
-			if(line.length() <= 9) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 9) return EnumStatementReturn.PARAMETER_MISSING;
 			String splitter = substitute(ctx, line.substring(9), false);
 			ctx.splitString = splitter;
 			return EnumStatementReturn.OK;
@@ -33,21 +33,21 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 
 		// grabs a fragment based on index
 		if(lower.startsWith("split ")) {
-			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_MISSING;
 			try {
 				String statement = substitute(ctx, line.substring(6), true);
 				int index = Integer.parseInt(statement);
-				if(index < 1) return EnumStatementReturn.PARAMETER_ERROR;
+				if(index < 1) return EnumStatementReturn.PARAMETER_OOB;
 				String[] frags = ctx.readBuffer().split(Pattern.quote(ctx.splitString));
-				if(index > frags.length) return EnumStatementReturn.PARAMETER_ERROR;
+				if(index > frags.length) return EnumStatementReturn.PARAMETER_OOB;
 				ctx.writeBuffer(frags[index - 1]);
 				return EnumStatementReturn.OK;
-			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
+			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_PARSE_ERROR; }
 		}
 
 		// counts the amount of fragments in this string
 		if(lower.equals("splitcount")) {
-			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.BUFFER_EMPTY;
 			String[] frags = ctx.readBuffer().split(Pattern.quote(ctx.splitString));
 			ctx.writeBuffer(frags.length + "");
 			return EnumStatementReturn.OK;
@@ -55,14 +55,14 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 
 		// pushes the buffer to stack
 		if(lower.equals("push")) {
-			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.BUFFER_EMPTY;
 			boolean succ = ctx.push(ctx.readBuffer());
 			return succ ? EnumStatementReturn.OK : EnumStatementReturn.STACK_EXCEEDED;
 		}
 
 		// pushes the supplied value (or variable) to stack
 		if(lower.startsWith("push ")) {
-			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_MISSING;
 			boolean succ = ctx.push(substitute(ctx, line.substring(5), false));
 			return succ ? EnumStatementReturn.OK : EnumStatementReturn.STACK_EXCEEDED;
 		}
@@ -91,31 +91,31 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 
 		// grabs the first x characters from the buffer and writes them back to the buffer
 		if(lower.startsWith("first ")) {
-			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_MISSING;
 			try {
 				int length = Integer.parseInt(substitute(ctx, line.substring(6), true));
 				int max = ctx.readBuffer().length();
 				if(length > max) length = max;
 				ctx.writeBuffer(ctx.readBuffer().substring(0, length));
 				return EnumStatementReturn.OK;
-			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
+			} catch(Exception x) { return EnumStatementReturn.PARAMETER_PARSE_ERROR; }
 		}
 
 		// grabs the last x characters from the buffer and writes them back to the buffer
 		if(lower.startsWith("last ")) {
-			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_MISSING;
 			try {
 				int length = Integer.parseInt(substitute(ctx, line.substring(5), true));
 				int max = ctx.readBuffer().length();
 				if(length > max) length = max;
 				ctx.writeBuffer(ctx.readBuffer().substring(max - length, max));
 				return EnumStatementReturn.OK;
-			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
+			} catch(Exception x) { return EnumStatementReturn.PARAMETER_PARSE_ERROR; }
 		}
 
 		// listens to an RoR signal using the supplied channel name and saves it to the buffer
 		if(lower.startsWith("poll ")) {
-			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_MISSING;
 			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(5), false));
 			if(chan != null && chan.timeStamp >= ctx.world.getTotalWorldTime() - 1) ctx.writeBuffer(chan.signal + "");
 			return EnumStatementReturn.OK;

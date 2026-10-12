@@ -10,6 +10,8 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PneumaticNetwork;
@@ -57,7 +59,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		super(15);
 		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
 	}
-
+	
 	@Override
 	public String getName() {
 		return "container.pneumoTube";
@@ -74,6 +76,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		
 		return false;
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
@@ -98,16 +103,17 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 				}
 			}
 			
+			if(this.isCompressor()) {
+				this.setupFluidPorts(getPorts());
+				this.updatePortFIFO();
+			} else {
+				this.destroyAllPorts();
+			}
+			
 			if(this.isCompressor() && (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ this.redstone)) {
 				
 				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
-				
-				if(worldObj.getTotalWorldTime() % 10 == 0) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					if(dir != this.insertionDir && dir != this.ejectionDir) {
-						this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-					}
-				}
-				
+								
 				if(randTime % 5 == 0 && this.node != null && !this.node.expired && this.node.net != null && this.compair.getFill() >= 50) {
 					TileEntity sendFrom = Compat.getTileStandard(worldObj, xCoord + insertionDir.offsetX, yCoord + insertionDir.offsetY, zCoord + insertionDir.offsetZ);
 					
@@ -266,7 +272,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	}
 	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.whitelist = !this.whitelist;
 		}

@@ -1,0 +1,13 @@
+{
+    "name": "Vacuum Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 92],
+    "trigger": [["hbm:item.fluid_icon", 1, 92]],
+    "title": {
+        "en_US": "Vacuum Light Oil",
+        "ru_RU": "Вакуумная лёгкая нефть"
+    },
+    "content": {
+        "en_US": "Vacuum light oil can be obtained by [[vacuum refining|Vacuum Refinery]] [[pressurized|Compressor]] [[crude oil|Crude Oil]]. It is primarily [[fractioned|Fractioning Tower]] into [[kerosene|Kerosene]] and [[reformate gas|Reformate Gas]].<br><br>{{Template:Oil3}}",
+        "ru_RU": "Вакуумную лёгкую нефть можно получить путем [[вакуумной переработки|Vacuum Refinery]] [[сжатой|Compressor]] [[сырой нефти|Crude Oil]]. В основном он подвергается [[ректификации|Fractioning Tower]] на [[керосин|Kerosene]] и [[реформированный газ|Reformate Gas]].<br><br>{{Template:Oil3}}"
+    }
+}

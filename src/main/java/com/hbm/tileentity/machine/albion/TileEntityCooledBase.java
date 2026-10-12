@@ -4,7 +4,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -35,12 +34,6 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-
-			for(DirPos pos : this.getConPos()) {
-				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(coolantTanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.tryProvide(coolantTanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 			
 			this.temperature += this.temp_passive_heating;
 			if(this.temperature > KELVIN + 20) this.temperature = KELVIN + 20;
@@ -64,8 +57,6 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 		return this.temperature <= this.temperature_target;
 	}
 	
-	public abstract DirPos[] getConPos();
-
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);

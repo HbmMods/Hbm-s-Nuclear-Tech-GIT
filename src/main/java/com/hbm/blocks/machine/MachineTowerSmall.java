@@ -43,17 +43,21 @@ public class MachineTowerSmall extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 2;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{0, 0, 2, ForgeDirection.SOUTH.ordinal()},
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-		
-		for(int i = 2; i <= 6; i++) {
-			ForgeDirection dr2 = ForgeDirection.getOrientation(i);
-			this.makeExtra(world, x + dr2.offsetX * 2, y, z + dr2.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 

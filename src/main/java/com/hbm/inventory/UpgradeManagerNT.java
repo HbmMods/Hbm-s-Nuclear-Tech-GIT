@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /*
  Steps for use:
@@ -26,7 +27,7 @@ public class UpgradeManagerNT {
 	public ItemStack[] cachedSlots;
 
 	private UpgradeType mutexType;
-	public HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+	public Map<UpgradeType, Integer> upgrades = new HashMap<>();
 
 	public UpgradeManagerNT(TileEntity te) { this.owner = te; }
 	@Deprecated public UpgradeManagerNT() { }
@@ -81,7 +82,7 @@ public class UpgradeManagerNT {
 		}
 	}
 
-	public Integer getLevel(UpgradeType type) {
+	public int getLevel(UpgradeType type) {
 		return upgrades.getOrDefault(type, 0);
 	}
 }

@@ -573,6 +573,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return meta;
 	}
 
+	/**
+	 * Allows six int arrays with standard format (up, down, forward, backward, left, right)
+	 * or nine int arrays with extra offset info (backward, up, left)
+	 */
 	public int[][] getAllDimensions() {
 		return new int[][] { getDimensions() };
 	}
@@ -580,7 +584,51 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	public double[][] getAABBExtras() {
 		return new double[0][0];
 	}
+	//You do not want to know how many sacrifices were needed to make this section work 
+	// (in total not just 3 lines)
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return new int[0][0];
+	}
+	//Fancy thingy (it just rotates the ports using North as refernce)
+	//(due to how it works, for east and west you type the opposite, 
+	//yes I have tried to figure it out, no I did not succeed, yes I gave up)
+	//
+	//(yes this is stupid, Im tired boss)
+	public int[][] rotatePorts(int[][] ports, ForgeDirection facing) {
+		ForgeDirection rot = facing.getRotation(ForgeDirection.UP);
+		int[][] result = new int[ports.length][4];
+		for(int i = 0; i < ports.length; i++) {
+			int nx = ports[i][0];
+			int ny = ports[i][1];
+			int nz = ports[i][2];
+			ForgeDirection face = ForgeDirection.getOrientation(ports[i][3]);
 
+			result[i][0] = nx * rot.offsetX + nz * facing.offsetX;
+			result[i][1] = ny;
+			result[i][2] = nx * rot.offsetZ + nz * facing.offsetZ;
+
+			int fx = face.offsetX * rot.offsetX + face.offsetZ * facing.offsetX;
+			int fz = face.offsetX * rot.offsetZ + face.offsetZ * facing.offsetZ;
+			int fy = face.offsetY;
+
+			ForgeDirection rotatedFace = ForgeDirection.UNKNOWN;
+			//Forge deadass made a thing to see if it is up down nesw T_T
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(dir.offsetX == fx && dir.offsetY == fy && dir.offsetZ == fz) {
+					rotatedFace = dir;
+					break;
+				}
+			}
+			result[i][3] = rotatedFace.ordinal();
+		}
+		//Solution to literally the entire problem....
+		for(int[] port : result) {
+			port[0] += facing.offsetX * -getOffset();
+			port[2] += facing.offsetZ * -getOffset();
+		}
+		return result;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
@@ -600,7 +648,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			if(i == 1) facing = ForgeDirection.getOrientation(5);
 			if(i == 2) facing = ForgeDirection.getOrientation(3);
 			if(i == 3) facing = ForgeDirection.getOrientation(4);
-
+			
 			ForgeDirection sideHit = ForgeDirection.getOrientation(mop.sideHit);
 			facing = getDirModified(facing);
 
@@ -641,16 +689,16 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				// Some of the multiblocks have offsets for the placements, so
 				// this allows for the ones that dont need it to have a bunch of
 				// 0s at the end.
-				int offFwd = dims.length > 6 ? dims[6] : 0;
+				int offBkwd = dims.length > 6 ? dims[6] : 0;
 				int offUp = dims.length > 7 ? dims[7] : 0;
-				int offLat = dims.length > 8 ? dims[8] : 0;
+				int offLeft = dims.length > 8 ? dims[8] : 0;
 				int worldOffX;
 				int worldOffY;
 				int worldOffZ;
 
 				worldOffY = offUp;
-				worldOffX = facing.offsetX * offFwd + facing.getRotation(ForgeDirection.UP).offsetX * offLat;
-				worldOffZ = facing.offsetZ * offFwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLat;
+				worldOffX = facing.offsetX * offBkwd + facing.getRotation(ForgeDirection.UP).offsetX * offLeft;
+				worldOffZ = facing.offsetZ * offBkwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLeft;
 
 				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
 				for(int bx = -rot[4] + worldOffX; bx <= rot[5] + worldOffX; bx++) {
@@ -791,11 +839,20 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 					}
 				}
 			}
-
-			tess.setColorRGBA(0, 0, color, 255);
 			
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
+				if(extra.length > 6) {
+					if(extra[6] == 1) {
+						// backwards compatibility for heat ports, a color of "1" just defaults to orange
+						tess.setColorRGBA(255, 165, 0, 255);
+					} else {
+						// ...otherwise, cast to int and use that as the hex value
+						tess.setColorOpaque_I((int) Math.round(extra[6]));
+					}
+				} else {
+					tess.setColorRGBA(0, 0, color, 255);
+				}
 				ForgeDirection rot = facing.getRotation(ForgeDirection.UP);
 				double cX = MathHelper.floor_double(originX) - dX + 0.5;
 				double cY = MathHelper.floor_double(originY) - dY;
@@ -829,6 +886,38 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				tess.addVertex(x1, y0, z0); tess.addVertex(x1, y1, z0);
 				tess.addVertex(x0, y0, z1); tess.addVertex(x0, y1, z1);
 				tess.addVertex(x1, y0, z1); tess.addVertex(x1, y1, z1);
+			}
+			//rainbow yellow!
+			tess.setColorRGBA(color, color, 0, 255);
+
+			for(int[] port : getAllPorts(facing)) {
+				//IM RUNNING OUT OF LETTERS TO NOT MAKE EVERYTHING THE SAME VAR NAME (for readability)
+				double jX = MathHelper.floor_double(originX) + port[0] - dX - facing.offsetX * o;
+				double jY = MathHelper.floor_double(originY) + port[1] - dY;
+				double jZ = MathHelper.floor_double(originZ) + port[2] - dZ - facing.offsetZ * o;
+
+				double s = 0.3;
+				ForgeDirection dir = ForgeDirection.getOrientation(port[3]);
+				//Yo wheres the port face
+				if(dir == ForgeDirection.UP || dir == ForgeDirection.DOWN) {
+					double fy = jY + (dir.offsetY > 0 ? 1 : 0);
+					tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 - s); tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 - s);
+					tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 - s); tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 + s);
+					tess.addVertex(jX + 0.5 + s, fy, jZ + 0.5 + s); tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 + s);
+					tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 + s); tess.addVertex(jX + 0.5 - s, fy, jZ + 0.5 - s);
+				} else if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+					double fx = jX + (dir.offsetX > 0 ? 1 : 0);
+					tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 - s); tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 - s);
+					tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 - s); tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 + s);
+					tess.addVertex(fx, jY + 0.5 + s, jZ + 0.5 + s); tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 + s);
+					tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 + s); tess.addVertex(fx, jY + 0.5 - s, jZ + 0.5 - s);
+				} else {
+					double fz = jZ + (dir.offsetZ > 0 ? 1 : 0);
+					tess.addVertex(jX + 0.5 - s, jY + 0.5 - s, fz); tess.addVertex(jX + 0.5 + s, jY + 0.5 - s, fz);
+					tess.addVertex(jX + 0.5 + s, jY + 0.5 - s, fz); tess.addVertex(jX + 0.5 + s, jY + 0.5 + s, fz);
+					tess.addVertex(jX + 0.5 + s, jY + 0.5 + s, fz); tess.addVertex(jX + 0.5 - s, jY + 0.5 + s, fz);
+					tess.addVertex(jX + 0.5 - s, jY + 0.5 + s, fz); tess.addVertex(jX + 0.5 - s, jY + 0.5 - s, fz);
+				}
 			}
 
 			tess.draw();

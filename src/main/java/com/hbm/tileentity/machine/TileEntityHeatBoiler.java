@@ -23,7 +23,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -66,6 +66,9 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			if(this.buf != null)
 				this.buf.release();
@@ -75,7 +78,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 
 			if(!this.hasExploded) {
 				this.setupTanks();
-				this.updateConnections();
 				this.tryPullHeat();
 				int lastHeat = this.heat;
 
@@ -90,10 +92,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 				this.isOn = false;
 				this.tryConvert();
 				tanks[1].serialize(buf);
-
-				if(this.tanks[1].getFill() > 0) {
-					this.sendFluid();
-				}
 			}
 
 			buf.writeBoolean(this.muffled);
@@ -259,28 +257,19 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 			}
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
 
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, dir.getOpposite()),
+					PortDef.make(xCoord, yCoord + 3, zCoord, Library.POS_Y),
+			};
 		}
-	}
-
-	private void sendFluid() {
-
-		for(DirPos pos : getConPos()) {
-			this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
-		};
+		return cachedPorts;
 	}
 
 	@Override

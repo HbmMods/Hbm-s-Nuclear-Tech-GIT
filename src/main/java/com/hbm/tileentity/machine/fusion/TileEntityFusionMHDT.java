@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -12,6 +13,7 @@ import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PlasmaNetworkProvider;
@@ -20,6 +22,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +37,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver, IConfigurableMachine, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver, IConfigurableMachine, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider {
 
 	protected GenNode plasmaNode;
 
@@ -72,6 +75,9 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 
 			this.plasmaEnergySync = this.plasmaEnergy;
 
@@ -80,12 +86,6 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 				if(!this.hasMinimumPlasma()) this.power /= 2;
 				tanks[0].setFill(tanks[0].getFill() - COOLANT_USE);
 				tanks[1].setFill(tanks[1].getFill() + COOLANT_USE);
-			}
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
-				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
 			}
 
 			if(plasmaNode == null || plasmaNode.expired) {
@@ -148,15 +148,20 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 		return tanks[0].getFill() >= COOLANT_USE && tanks[1].getFill() + COOLANT_USE <= tanks[1].getMaxFill();
 	}
 
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+	protected PortDef[] cachedPorts;
 
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 4, rot),
-				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 4, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 8, yCoord + 1, zCoord + dir.offsetZ * 8, dir)
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 4 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord + dir.offsetX * 4 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 7, yCoord + 1, zCoord + dir.offsetZ * 7, dir)
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override public boolean receivesFusionPower() { return true; }
@@ -312,5 +317,18 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "output"
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "output").equals(name)) return "" + this.power;
+		return null;
 	}
 }

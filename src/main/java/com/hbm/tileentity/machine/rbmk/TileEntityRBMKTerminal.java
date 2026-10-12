@@ -172,7 +172,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("cmd")) {
 			eval(data.getString("cmd"));
 			this.markChanged();

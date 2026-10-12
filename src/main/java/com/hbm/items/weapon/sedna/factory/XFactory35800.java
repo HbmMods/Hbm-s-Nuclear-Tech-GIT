@@ -3,6 +3,8 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.extprop.HbmLivingProps;
@@ -30,6 +32,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory35800 {
+
+	public static ConfigWrapper<Float> GUN_ABERRATOR_DAMAGE =	new ConfigWrapper(100F);
+	public static ConfigWrapper<Float> GUN_EOTT_LEFT_DAMAGE =	new ConfigWrapper(100F);
+	public static ConfigWrapper<Float> GUN_EOTT_RIGHT_DAMAGE =	new ConfigWrapper(100F);
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_ABERRATOR_DAMAGE", GUN_ABERRATOR_DAMAGE);
+		ServerConfig.configMap.put("GUN_EOTT_LEFT_DAMAGE", GUN_EOTT_LEFT_DAMAGE);
+		ServerConfig.configMap.put("GUN_EOTT_RIGHT_DAMAGE", GUN_EOTT_RIGHT_DAMAGE);
+	}
 
 	public static BulletConfig p35800;
 	public static BulletConfig p35800_bl;
@@ -60,7 +72,7 @@ public class XFactory35800 {
 		ModItems.gun_aberrator = new ItemGunBaseNT(WeaponQuality.SECRET, new GunConfig()
 				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(100F).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_ABERRATOR_DAMAGE).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))
@@ -71,7 +83,7 @@ public class XFactory35800 {
 		ModItems.gun_aberrator_eott = new ItemGunBaseNT(WeaponQuality.SECRET,
 				new GunConfig().dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(100F).spreadHipfire(0F).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_EOTT_LEFT_DAMAGE).spreadHipfire(0F).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, 0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))
@@ -80,7 +92,7 @@ public class XFactory35800 {
 				.anim(LAMBDA_ABERRATOR).orchestra(Orchestras.ORCHESTRA_ABERRATOR),
 				new GunConfig().dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(100F).spreadHipfire(0F).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_EOTT_RIGHT_DAMAGE).spreadHipfire(0F).delay(13).dry(21).reload(51).sound(NTMSounds.GUN_ABERRATOR_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(1, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))

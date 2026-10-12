@@ -2,6 +2,8 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
@@ -129,7 +131,7 @@ public class Floodlight extends BlockContainer implements IToolable, INBTBlockTr
 		return block; // No block transformation needed
 	}
 
-	public static class TileEntityFloodlight extends TileEntity implements IEnergyReceiverMK2 {
+	public static class TileEntityFloodlight extends TileEntityLoadedBase implements IEnergyReceiverMK2 {
 
 		public float rotation;
 		protected BlockPos[] lightPos = new BlockPos[15];
@@ -139,13 +141,26 @@ public class Floodlight extends BlockContainer implements IToolable, INBTBlockTr
 		public int delay;
 		public boolean isOn;
 
+		protected PortDef[] cachedPorts;
+
+		public PortDef[] getPorts() {
+			if(cachedPorts == null) {
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() % 6).getOpposite();
+				cachedPorts = new PortDef[] {
+						PortDef.make(xCoord, yCoord, zCoord, dir)
+				};
+			}
+			return cachedPorts;
+		}
+
 		@Override
 		public void updateEntity() {
 
 			if(!worldObj.isRemote) {
-
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() % 6).getOpposite();
-				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				
+				this.setupPowerPorts(getPorts());
+				this.updateAllPorts();
+				this.receivePower();
 
 				if(delay > 0) {
 					delay --;

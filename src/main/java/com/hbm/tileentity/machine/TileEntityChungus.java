@@ -13,7 +13,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
@@ -74,20 +74,30 @@ public class TileEntityChungus extends TileEntityTurbineBase implements SimpleCo
 	@Override public double getEfficiency() { return efficiency; }
 
 	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
-		};
+	public PortDef[] getFluidPorts() {
+		if(fluidPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			fluidPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, dir),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
+			};
+		}
+		return fluidPorts;
 	}
-	
+
 	@Override
-	public DirPos[] getPowerPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		return new DirPos[] { new DirPos(xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir.getOpposite()) };
+	public PortDef[] getPowerPorts() {
+		if(powerPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			
+			powerPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 10, yCoord, zCoord - dir.offsetZ * 10, dir.getOpposite()),
+			};
+		}
+		return powerPorts;
 	}
 
 	@Override

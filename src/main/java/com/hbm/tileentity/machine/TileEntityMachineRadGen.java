@@ -11,11 +11,13 @@ import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Triplet;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyProviderMK2, IGUIProvider, IInfoProviderEC, IRORValueProvider {
 
 	public int[] progress = new int[12];
 	public int[] maxProgress = new int[12];
@@ -53,16 +55,30 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 		return "container.radGen";
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord, zCoord - dir.offsetZ * 3, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.providePower();
+			
 			this.output = 0;
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.tryProvide(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
-			
 			//check if reload necessary for any queues
 			for(int i = 0; i < 12; i++) {
 				
@@ -304,5 +320,51 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "output1",
+				PREFIX_VALUE + "output2",
+				PREFIX_VALUE + "output3",
+				PREFIX_VALUE + "output4",
+				PREFIX_VALUE + "output5",
+				PREFIX_VALUE + "output6",
+				PREFIX_VALUE + "output7",
+				PREFIX_VALUE + "output8",
+				PREFIX_VALUE + "output9",
+				PREFIX_VALUE + "output10",
+				PREFIX_VALUE + "output11",
+				PREFIX_VALUE + "output12",
+				PREFIX_VALUE + "progress1",
+				PREFIX_VALUE + "progress2",
+				PREFIX_VALUE + "progress3",
+				PREFIX_VALUE + "progress4",
+				PREFIX_VALUE + "progress5",
+				PREFIX_VALUE + "progress6",
+				PREFIX_VALUE + "progress7",
+				PREFIX_VALUE + "progress8",
+				PREFIX_VALUE + "progress9",
+				PREFIX_VALUE + "progress10",
+				PREFIX_VALUE + "progress11",
+				PREFIX_VALUE + "progress12",
+		};
+	}
+		
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "state").equals(name))	return	this.isOn ? "1" : "0";
+		if((PREFIX_VALUE + "power").equals(name))	return	"" + this.power;
+		if((PREFIX_VALUE + "output").equals(name))	return	"" + this.output;
+		for(int i = 0; i < 12; i++) {
+			if((PREFIX_VALUE + "output" + (i + 1)).equals(name)) 	return	"" + this.production[i];
+			if((PREFIX_VALUE + "progress" + (i + 1)).equals(name)) 	return	"" + (this.progress[i] * 100 / Math.max(this.maxProgress[i], 1));
+		}
+		
+		return null;
 	}
 }

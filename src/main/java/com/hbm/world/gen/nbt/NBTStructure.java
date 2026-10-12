@@ -112,6 +112,7 @@ public class NBTStructure {
 			name = resource.getResourcePath();
 			loadStructure(stream);
 		} else {
+			name = resource.getResourcePath();
 			MainRegistry.logger.error("NBT Structure not found: " + resource.getResourcePath());
 		}
 	}
@@ -595,6 +596,15 @@ public class NBTStructure {
 
 		int sizeX = totalBounds.maxX - totalBounds.minX;
 		int sizeZ = totalBounds.maxZ - totalBounds.minZ;
+		
+		boolean swizzle = coordBaseMode == 1 || coordBaseMode == 3;
+		int expectedX = (swizzle ? size.z : size.x) - 1;
+		int expectedZ = (swizzle ? size.x : size.z) - 1;
+		
+		if(sizeX != expectedX || sizeZ != expectedZ) {
+			MainRegistry.logger.warn("NBT structure {} bounds mismatch (saved {}x{}, expected {}x{}) - structure changed since worldgen, skipping piece", name, sizeX, sizeZ, expectedX, expectedZ);
+			return false;
+		}
 
 		// voxel grid transforms can fuck you up
 		// you have my respect, vaer
@@ -1249,8 +1259,12 @@ public class NBTStructure {
 		private SpawnCondition nextSpawn;
 
 		public void generateStructures(World world, Random rand, IChunkProvider chunkProvider, int chunkX, int chunkZ) {
-			func_151539_a(chunkProvider, world, chunkX, chunkZ, null);
-			generateStructuresInChunk(world, rand, chunkX, chunkZ);
+			try {
+				func_151539_a(chunkProvider, world, chunkX, chunkZ, null);
+				generateStructuresInChunk(world, rand, chunkX, chunkZ);
+			} catch(Exception t) {
+				MainRegistry.logger.error("NTM structure gen failed at chunk {}, {} ({}) - chunk generates without it", chunkX, chunkZ, nextSpawn != null ? nextSpawn.name : "unknown", t);
+			}
 		}
 
 		@Override

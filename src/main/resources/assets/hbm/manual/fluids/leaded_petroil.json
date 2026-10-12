@@ -1,0 +1,13 @@
+{
+    "name": "Leaded Petroil",
+    "icon": ["hbm:item.fluid_icon", 1, 72],
+    "trigger": [["hbm:item.fluid_icon", 1, 72]],
+    "title": {
+        "en_US": "Leaded Petroil",
+        "ru_RU": "Этилированный бензин"
+    },
+    "content": {
+        "en_US": "Leaded petroil can be obtained from mixing [[petroil|Petroil]] and [[tetraethyllead antiknock agent|Tetraethyllead Antiknock Agent]]. It can only be used as a [[fuel|Fuels]] source for additional power.<br><br>See also:<br>[[Basic Oil Processing]]",
+        "ru_RU": "Этилированный бензин можно получить путем смешивания [[бензина|Petroil]] и [[антидетонационного средства из тетраэтилсвинца|Tetraethyllead Antiknock Agent]]. Его можно использовать в качестве источника горючего [[топлива|Fuels]] для дополнительной энергии.<br><br>См. также:<br>[[Базовая переработка нефти|Basic Oil Processing]]"
+    }
+}

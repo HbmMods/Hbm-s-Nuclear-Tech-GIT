@@ -1,0 +1,13 @@
+{
+    "name": "Blood",
+    "icon": ["hbm:item.fluid_icon", 1, 84],
+    "trigger": [["hbm:item.fluid_icon", 1, 84], ["hbm:item.fluid_icon", 1, 85]],
+    "title": {
+        "en_US": "Blood",
+        "ru_RU": "Кровь"
+    },
+    "content": {
+        "en_US": "Blood can first be obtained by using an empty IV bag, however, this method will inflict damage. It can also be collected through a mob colliding with the [[turbofan|Turbofan]]. It is primarily used as an [[ICF|Inertial Confinement Reactor]] coolant, turning into hot blood when heated. It may also be converted to [[heavy oil|Heavy Oil]] by [[compressing|Compressor]] to '4PU'.",
+        "ru_RU": "Кровь в первую очередь можно получить с помощью пустого пакета для внутривенных инъекций, однако этот метод наносит урон. Её также можно собрать, когда моб сталкивается с [[турбовентилятором|Turbofan]]. В основном она используется в качестве хладагента для [[ICF|Inertial Confinement Reactor]], превращаясь при нагреве в горячую кровь. Её также можно переработать в [[тяжёлый мазут|Heavy Oil]] путем [[сжатия|Compressor]] до '4PU'."
+    }
+}

@@ -6,15 +6,19 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.main.NTMSounds;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ItemStackUtil;
+import net.minecraft.init.Items;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IHeatSource {
+public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IHeatSource {
 
 	public int maxBurnTime;
 	public int burnTime;
@@ -44,6 +48,9 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 		super(2, 50);
 	}
 	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
+	
 	@Override
 	public void openInventory() {
 		if(!worldObj.isRemote) this.playersUsing++;
@@ -58,15 +65,8 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			for(int i = 2; i < 6; i++) {
-				ForgeDirection dir = ForgeDirection.getOrientation(i);
-				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-				
-				for(int j = -1; j <= 1; j++) {
-					this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
-				}
-			}
+
+			this.moduleSmokePorts.update(getPorts());
 			
 			wasOn = false;
 			
@@ -180,6 +180,9 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 			if(name.contains("Wood"))		return EnumAshType.WOOD;
 			if(name.contains("Sapling"))	return EnumAshType.WOOD;
 		}
+		
+		//extra check for charcoal since it doesnt have an ore dict 
+		if(stack.getItem() == Items.coal && stack.getItemDamage() == 1)	return EnumAshType.WOOD; 
 
 		return EnumAshType.MISC;
 	}
@@ -266,6 +269,6 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && Fluids.isSmoke(type);
 	}
 }

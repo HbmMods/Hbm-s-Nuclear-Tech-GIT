@@ -142,6 +142,12 @@ public class PneumaticNetwork extends NodeNet {
 			int index = (receiveOrder == RECEIVE_ROBIN) ? (nextReceiver + attempts) % receiverList.size() : attempts;
 
 			Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> candidate = receiverList.get(index);
+			
+			// skip sending to self
+			if(candidate.getKey() == source) {
+				attempts++;
+				continue;
+			}
 
 			if(NodeNet.isBadLink(candidate.getKey())) {
 				receivers.remove(candidate.getKey());

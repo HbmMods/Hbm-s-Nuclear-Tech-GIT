@@ -2,11 +2,9 @@ package com.hbm.saveddata.satellites;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemSatellite.EnumSatType;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.RTTYSystem;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -34,14 +32,6 @@ public class SatelliteRelay extends SatelliteBase {
 		return new IChatComponent[] {
 				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.RELAY.ordinal())) + ".name")
 		};
-	}
-	
-	@Override
-	public void onOrbit(World world, double x, double y, double z) {
-		super.onOrbit(world, x, y, z);
-
-		for(Object p : world.playerEntities)
-			((EntityPlayer) p).triggerAchievement(MainRegistry.achFOEQ);
 	}
 
 	@Override

@@ -18,7 +18,6 @@ public class Jars {
 		canneries.put(new ComparableStack(ModBlocks.machine_stirling), new CanneryStirling());
 		canneries.put(new ComparableStack(ModBlocks.machine_stirling_steel), new CanneryStirling());
 		canneries.put(new ComparableStack(ModBlocks.machine_gascent), new CanneryCentrifuge());
-		canneries.put(new ComparableStack(ModBlocks.machine_fensu), new CanneryFEnSU());
 		canneries.put(new ComparableStack(ModBlocks.machine_fel), new CannerySILEX());
 		canneries.put(new ComparableStack(ModBlocks.machine_silex), new CannerySILEX());
 		canneries.put(new ComparableStack(ModBlocks.foundry_channel), new CanneryFoundryChannel());

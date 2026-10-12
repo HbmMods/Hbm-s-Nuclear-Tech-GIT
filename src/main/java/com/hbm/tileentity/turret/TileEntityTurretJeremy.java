@@ -91,7 +91,7 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 
 			if(conf != null) {
 				this.cachedCasingConfig = conf.casing;
-				this.spawnBullet(conf, 50F);
+				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 4.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();
@@ -110,6 +110,9 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_JEREMY_DAMAGE.get(); }
 
 	@Override
 	protected void spawnCasing() {

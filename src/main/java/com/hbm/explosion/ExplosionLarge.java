@@ -94,8 +94,8 @@ public class ExplosionLarge {
 			shrapnel.posY = y;
 			shrapnel.posZ = z;
 			shrapnel.motionY = ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count);
-			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 50));
-			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50));
+			shrapnel.motionX = rand.nextGaussian() * 1 * (1 + (count / 50));
+			shrapnel.motionZ = rand.nextGaussian() * 1 * (1 + (count / 50));
 			shrapnel.setTrail(rand.nextInt(3) == 0);
 			world.spawnEntityInWorld(shrapnel);
 		}
@@ -109,8 +109,8 @@ public class ExplosionLarge {
 			shrapnel.posY = y;
 			shrapnel.posZ = z;
 			shrapnel.motionY = ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count) * 0.25F;
-			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
-			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
+			shrapnel.motionX = rand.nextGaussian() * 1 * (1 + (count / 50)) * 0.25F;
+			shrapnel.motionZ = rand.nextGaussian() * 1 * (1 + (count / 50)) * 0.25F;
 			shrapnel.setTrail(true);
 			world.spawnEntityInWorld(shrapnel);
 		}
@@ -160,16 +160,6 @@ public class ExplosionLarge {
 
 			world.spawnEntityInWorld(item);
 		}
-	}
-
-	@Deprecated public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
-		world.createExplosion(exploder, x, y, z, strength, true);
-		if(cloud)
-			spawnParticles(world, x, y, z, cloudFunction((int)strength));
-		if(rubble)
-			spawnRubble(world, x, y, z, rubbleFunction((int)strength));
-		if(shrapnel)
-			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
 	}
 
 	@Deprecated public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {

@@ -88,21 +88,28 @@ public class MachineCyclotron extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{2, 0, 1, ForgeDirection.EAST.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{2, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
+			{1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -2, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}	
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o + 1);
-		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o);
-		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o - 1);
-		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o + 1);
-		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o);
-		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o - 1);
-		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o + 2);
-		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o + 2);
-		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o + 2);
-		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o - 2);
-		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o - 2);
-		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o - 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

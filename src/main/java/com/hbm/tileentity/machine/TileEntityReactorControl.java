@@ -233,7 +233,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	}
 	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("function")) {
 			this.function = RodFunction.values()[data.getInteger("function")];

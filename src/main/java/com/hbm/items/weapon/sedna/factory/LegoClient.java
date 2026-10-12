@@ -156,10 +156,13 @@ public class LegoClient {
 		
 		if(bullet.ticksExisted < 2) return;
 		RenderArcFurnace.fullbright(true);
+		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
+		GL11.glDisable(GL11.GL_FOG);
 		
 		double scale = Math.min(5, (bullet.ticksExisted + interp - 2) * 0.5) * (0.8 + bullet.worldObj.rand.nextDouble() * 0.4);
 		renderFlareSprite(bullet, interp, r, g, b, scale, 0.5F, 0.75F);
 		
+		if(fog) GL11.glEnable(GL11.GL_FOG);
 		RenderArcFurnace.fullbright(false);
 	}
 	public static void renderFlareSprite(Entity bullet, float interp, float r, float g, float b, double scale, float outerAlpha, float innerAlpha) {

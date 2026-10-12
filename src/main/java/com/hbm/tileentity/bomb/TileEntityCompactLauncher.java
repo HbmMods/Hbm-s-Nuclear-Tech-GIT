@@ -22,10 +22,12 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +47,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver {
 
 	private ItemStack slots[];
 
@@ -67,6 +69,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		tanks[0] = new FluidTank(Fluids.NONE, 25000);
 		tanks[1] = new FluidTank(Fluids.NONE, 25000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public int getSizeInventory() {
@@ -171,6 +176,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			updateTypes();
 
@@ -180,13 +188,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
 
 			if(slots[4] != null && slots[4].getItem() == ModItems.rocket_fuel && solid + 250 <= maxSolid) {
-
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
-
-			if(worldObj.getTotalWorldTime() % 20 == 0)
-				this.updateConnections();
 
 			networkPackNT(50);
 
@@ -250,15 +254,6 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		this.solid = buf.readInt();
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
-	}
-
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	public DirPos[] getConPos() {

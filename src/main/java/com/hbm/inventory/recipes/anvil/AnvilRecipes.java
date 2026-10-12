@@ -964,13 +964,6 @@ public class AnvilRecipes extends SerializableRecipe {
 		}
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModBlocks.machine_turbine), new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModItems.turbine_titanium, 1)),
-						new AnvilOutput(new ItemStack(ModItems.coil_copper, 2)),
-						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 4))
-						}).setTier(3));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.yellow_barrel), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.tank_steel, 1)),
 						new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),

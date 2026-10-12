@@ -27,6 +27,7 @@ import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.items.machine.ItemDrive.EnumDriveType;
 
 import net.minecraft.item.ItemStack;
 
@@ -58,6 +59,47 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 				.outputItems(DictFrame.fromOne(ModItems.part_generic, EnumPartType.HDE))
 				.inputItems(new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 2), new OreDictStack(CMB.plateWelded(), 1), new ComparableStack(ModItems.ingot_cft))
 				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000)));
+
+		// Expensive mode
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.exsteelplating").setInputEnergy(1_000_000).setup(40, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.STEEL_PLATING.ordinal()))
+				.inputItems(new OreDictStack(STEEL.plateCast(), 4), new OreDictStack(TI.plate(), 4), new OreDictStack(STEEL.bolt(), 16)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.exheavyframe").setInputEnergy(1_000_000).setup(120, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.HEAVY_FRAME.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.STEEL_PLATING), new OreDictStack(ANY_PLASTIC.ingot(), 8), new OreDictStack(CU.plateWelded(), 4), new OreDictStack(DESH.ingot(), 1), new OreDictStack(DURA.bolt(), 32)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.excircuit").setInputEnergy(1_000_000).setup(80, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.CIRCUIT.ordinal()))
+				.inputItems(new ComparableStack(ModItems.circuit, 12, EnumCircuitType.BASIC), new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CAPACITOR), new OreDictStack(RUBBER.ingot(), 4))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.exleadplating").setInputEnergy(1_000_000).setup(80, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.LEAD_PLATING.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 2, EnumExpensiveType.STEEL_PLATING), new OreDictStack(PB.plateCast(), 8), new OreDictStack(B.ingot(), 2), new OreDictStack(W.bolt(), 32))
+				.inputFluids(new FluidStack(Fluids.LUBRICANT, 1_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.exferroplating").setInputEnergy(1_000_000).setup(240, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.FERRO_PLATING.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.LEAD_PLATING), new OreDictStack(FERRO.plateCast(), 4), new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 1_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.excomputer").setInputEnergy(1_000_000).setup(240, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.COMPUTER.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.CIRCUIT), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CONTROLLER), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR_BOARD), new ComparableStack(ModBlocks.glass_quartz, 8))
+				.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 2_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.bronzetubes").setInputEnergy(10_000_000).setup(600, 1_000_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.BRONZE_TUBES.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.HEAVY_FRAME), new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.FERRO_PLATING), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(ZR.plateWelded(), 1))
+				.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL_COLD, 4_000))
+				.outputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 4_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.explastic").setInputEnergy(1_000_000).setup(120, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.PLASTIC.ordinal()))
+				.inputItems(new OreDictStack(ANY_HARDPLASTIC.ingot(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 16), new OreDictStack(RUBBER.ingot(), 8))
+				.inputFluids(new FluidStack(Fluids.SOLVENT, 1_000)));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.exgold").setInputEnergy(1_000_000).setup(120, 100_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.GOLD_DUST.ordinal()))
+				.inputItems(new OreDictStack(GOLD.dust(), 64), new OreDictStack(GOLD.dust(), 64)));
+		
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.cmbtubes").setInputEnergy(12_500_000).setup(6_000, 10_000_000L)
+				.outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.CMB_TUBES.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(CMB.plateCast(), 4), new ComparableStack(ModItems.powder_chlorophyte, 12))
+				.inputFluids(new FluidStack(Fluids.REFORMGAS, 4_000)));
 		
 		// Welded Plates
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldiron").setInputEnergy(500_000).setup(50, 100L)
@@ -118,7 +160,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 		// ICF
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfcell").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new ComparableStack(ModBlocks.glass_quartz, 16))
-				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 2, EnumExpensiveType.BRONZE_TUBES), new ComparableStack(ModItems.ingot_cft, 8), new ComparableStack(ModBlocks.glass_quartz, 16))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.CMB_TUBES), new ComparableStack(ModItems.ingot_cft, 8), new ComparableStack(ModBlocks.glass_quartz, 16))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfemitter").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.EMITTER.ordinal()))
 				.inputItems(new OreDictStack(W.plateWelded(), 4), new OreDictStack(MAGTUNG.wireDense(), 16))
@@ -143,7 +185,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfcontroller").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_controller, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 16), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID))
-				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.BRONZE_TUBES), new ComparableStack(ModItems.ingot_cft, 16), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.COMPUTER))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.CMB_TUBES), new ComparableStack(ModItems.ingot_cft, 16), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.COMPUTER))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfscaffold").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_component, 1, 0))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 4), new OreDictStack(TI.plateWelded(), 2))
@@ -151,6 +193,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfvessel").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_component, 1, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 1), new OreDictStack(CMB.plateCast(), 1), new OreDictStack(W.plateWelded(), 2))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.CMB_TUBES), new ComparableStack(ModItems.ingot_cft, 1), new OreDictStack(W.plateWelded(), 2))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfstructural").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_component, 1, 3))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 2), new OreDictStack(CU.plateWelded(), 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 1))
@@ -158,7 +201,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfcore").setInputEnergy(1_000_000).setup(3_000, 10_000_000).outputItems(new ItemStack(ModBlocks.struct_icf_core, 1))
 				.inputItems(new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.QUANTUM))
-				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.QUANTUM), new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.COMPUTER))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 12, EnumExpensiveType.CMB_TUBES), new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.QUANTUM), new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.COMPUTER))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfpress").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.machine_icf_press, 1))
 				.inputItems(new OreDictStack(GOLD.plateCast(), 8), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BISMOID))
@@ -195,7 +238,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 						new ComparableStack(ModItems.ingot_cft, 64))
 				.inputItemsEx(new ComparableStack(ModItems.ingot_electronium, 64),
 						new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_QUANTUM),
-						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.BRONZE_TUBES),
+						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.CMB_TUBES),
 						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.FERRO_PLATING),
 						new OreDictStack(OSMIRIDIUM.plateWelded(), 64),
 						new OreDictStack(OSMIRIDIUM.plateWelded(), 64),
@@ -217,25 +260,26 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CONTROLLER_QUANTUM),
-						new ComparableStack(ModItems.coin_ufo, 1))
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.CRYSTAL),
+						new ComparableStack(ModItems.drive, 16, EnumDriveType.DISK_ORBITDATA_PROCESSED))
 				.inputItemsEx(new OreDictStack(SBD.plateCast(), 64),
 						new OreDictStack(BSCCO.wireDense(), 64),
 						new ComparableStack(ModBlocks.det_nuke, 64),
-						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.BRONZE_TUBES),
-						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.BRONZE_TUBES),
-						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.BRONZE_TUBES),
+						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.CMB_TUBES),
+						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.CMB_TUBES),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CONTROLLER_QUANTUM),
+						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CRYSTAL),
 						new ComparableStack(ModItems.item_expensive, 64, EnumExpensiveType.COMPUTER),
-						new ComparableStack(ModItems.coin_ufo, 1)).setPools(PlasmaForgeRecipes.POOL_PREFIX_DISCOVER + "gerald"));
+						new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_ORBITDATA_PROCESSED)));
 
 		// really, really boring fucking temp recipes
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.dfccore").setInputEnergy(50_000_000).setup(12_000, 100_000_000).outputItems(new ItemStack(ModBlocks.dfc_core)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 12_000))
 				.inputItems(new OreDictStack(OSMIRIDIUM.plateWelded(), 16), new OreDictStack(DNT.wireDense(), 16), new ComparableStack(ModItems.circuit, 12, EnumCircuitType.CONTROLLER_QUANTUM), new ComparableStack(ModItems.singularity_spark), new ComparableStack(ModItems.powder_chlorophyte, 64)));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.dfcemitter").setInputEnergy(50_000_000).setup(1_200, 10_000_000).outputItems(new ItemStack(ModBlocks.dfc_emitter)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000))
-				.inputItems(new OreDictStack(OSMIRIDIUM.plateWelded(), 16), new OreDictStack(STAR.wireDense(), 16), new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CONTROLLER_QUANTUM)));
+				.inputItems(new OreDictStack(OSMIRIDIUM.plateWelded(), 16), new OreDictStack(STAR.wireDense(), 16), new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CONTROLLER_QUANTUM), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CRYSTAL)));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.dfcreceiver").setInputEnergy(50_000_000).setup(1_200, 10_000_000).outputItems(new ItemStack(ModBlocks.dfc_receiver)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000))
 				.inputItems(new OreDictStack(OSMIRIDIUM.plateWelded(), 16), new OreDictStack(STAR.plateCast(), 16), new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CONTROLLER_QUANTUM)));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.dfcinjector").setInputEnergy(50_000_000).setup(1_200, 10_000_000).outputItems(new ItemStack(ModBlocks.dfc_injector)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000))

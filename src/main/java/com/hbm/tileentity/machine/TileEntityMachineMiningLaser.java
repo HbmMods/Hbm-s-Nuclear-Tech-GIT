@@ -22,6 +22,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -29,7 +31,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -51,7 +53,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSenderMK2, IGUIProvider, IUpgradeInfoProvider {
 
 	public long power;
 	public int age = 0;
@@ -108,16 +110,19 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		return false;
 	}
 
+	protected PortDef[] cachedSidePorts;
+	protected PortDef[] cachedTopPorts;
+	public PortDef[] getSidePorts() { if(cachedSidePorts == null) cachedSidePorts = TilePortShapes.flare(xCoord, yCoord, zCoord); return cachedSidePorts; }
+	public PortDef[] getTopPorts() { if(cachedTopPorts == null) cachedTopPorts = new PortDef[] {PortDef.make(xCoord, yCoord + 1, zCoord, Library.POS_Y)}; return cachedTopPorts; }
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
 
-			this.updateConnections();
-
-			for (DirPos pos : getConPos()) {
-				this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			this.setupPowerPorts(getTopPorts());
+			this.setupFluidPorts(getSidePorts());
+			this.updatePortPIFIFO();
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
@@ -199,10 +204,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			this.networkPackNT(250);
 		}
-	}
-
-	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 	}
 
 	@Override

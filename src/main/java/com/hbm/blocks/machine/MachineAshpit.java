@@ -34,7 +34,12 @@ public class MachineAshpit extends BlockDummyable implements ITooltipProvider {
 	public int[] getDimensions() {
 		return new int[] {0, 0, 1, 1, 1, 1};
 	}
-
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1, 1, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
 	@Override
 	public int getOffset() {
 		return 1;

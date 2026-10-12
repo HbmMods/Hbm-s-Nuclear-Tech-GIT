@@ -1,5 +1,6 @@
 package api.hbm.tile;
 
+@Deprecated // this entire approach fucking sucks
 public enum EnumTransferAction {
 	
 	NOTHING(20),					// port not in use, wait a full second

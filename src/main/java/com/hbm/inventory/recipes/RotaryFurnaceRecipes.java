@@ -18,6 +18,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
@@ -50,6 +51,7 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_SATURN, INGOT.q(4)), 200, 300, new FluidStack(Fluids.REFORMGAS, 250), new OreDictStack(DURA.dust(), 4), new OreDictStack(CU.dust()), new OreDictStack(BORAX.dust())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(2)), 100, 400, new FluidStack(Fluids.SODIUM_ALUMINATE, 150)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(3)), 40, 200, new FluidStack(Fluids.SODIUM_ALUMINATE, 150), new ComparableStack(ModItems.powder_flux, 2)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_TITANIUM, INGOT.q(4)), 40, 100, new FluidStack(Fluids.TITANIUM_TETRACHLORIDE, 1_000), new ComparableStack(ModItems.powder_flux, 1)));
 	}
 
 	public static HashMap getRecipes() {
@@ -73,10 +75,13 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		return recipes;
 	}
 
-	public static RotaryFurnaceRecipe getRecipe(ItemStack... inputs) {
+	public static RotaryFurnaceRecipe getRecipe(FluidType fluid, ItemStack... inputs) {
 
 		outer:
 		for(RotaryFurnaceRecipe recipe : recipes) {
+			
+			// never try to match if a fluid is required and our tank doesn't match it
+			if(recipe.fluid != null && recipe.fluid.type != fluid) continue;
 
 			List<AStack> recipeList = new ArrayList();
 			for(AStack ingredient : recipe.ingredients) recipeList.add(ingredient);

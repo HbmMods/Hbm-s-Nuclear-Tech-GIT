@@ -3,11 +3,16 @@ package com.hbm.items.food;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -110,7 +115,13 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60 * 20, 2));
 			}
 			if(this == ModItems.chocolate_milk) {
-				ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
+				ExplosionCreator.composeEffectStandard(world, player.posX, player.posY + player.height / 2, player.posZ);
+				ExplosionVNT xnt = new ExplosionVNT(world, player.posX, player.posY + player.height / 2, player.posZ, 50);
+				xnt.setBlockAllocator(new BlockAllocatorStandard(32));
+				xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+				xnt.setEntityProcessor(new EntityProcessorCross(5D));
+				xnt.setPlayerProcessor(new PlayerProcessorStandard());
+				xnt.explode();
 			}
 			if(this == ModItems.bottle_nuka) {
 				player.heal(4F);

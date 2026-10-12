@@ -218,7 +218,7 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		int active = data.getByte("active");
 		int polling = data.getByte("polling");

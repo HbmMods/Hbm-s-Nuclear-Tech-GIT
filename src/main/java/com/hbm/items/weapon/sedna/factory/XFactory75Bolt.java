@@ -3,6 +3,8 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
@@ -28,9 +30,15 @@ import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory75Bolt {
 
+	public static ConfigWrapper<Float> GUN_BOLTER_DAMAGE =	new ConfigWrapper(15F);
+	
 	public static BulletConfig b75;
 	public static BulletConfig b75_inc;
 	public static BulletConfig b75_exp;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_BOLTER_DAMAGE", GUN_BOLTER_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
@@ -59,7 +67,7 @@ public class XFactory75Bolt {
 		ModItems.gun_bolter = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound(NTMSounds.GUN_POWDER_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_BOLTER_DAMAGE).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound(NTMSounds.GUN_POWDER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(b75, b75_inc, b75_exp))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_BOLT))

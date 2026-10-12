@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryRocket;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -132,7 +133,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 			BulletConfig conf = this.getFirstConfigLoaded();
 
 			if(conf != null) {
-				this.spawnBullet(conf, 30F);
+				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
@@ -144,16 +145,19 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_RICHARD_DAMAGE.get(); }
 
 	@Override
-	public void spawnBullet(BulletConfig bullet, float baseDamage) {
+	public void spawnBullet(BulletConfig bullet) {
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, getBaseDamage(), bullet.spread, (float) rotationYaw, (float) rotationPitch);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		proj.lockonTarget = this.target;
 		worldObj.spawnEntityInWorld(proj);

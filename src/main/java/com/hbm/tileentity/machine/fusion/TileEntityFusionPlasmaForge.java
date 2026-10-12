@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine.fusion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -22,6 +21,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachinePlasma;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.UniNodespace;
@@ -136,6 +136,9 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.plasmaEnergySync = this.plasmaEnergy;
 			this.plasmaEnergy = 0;
 			
@@ -161,11 +164,6 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
-			}
 
 			double speed = booster > 0 ? 4D : 1D;
 			double pow = 1D;
@@ -183,11 +181,9 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			
 			if(providerNode != null && providerNode.hasValidNet()) {
 
-				for(Object o : providerNode.net.receiverEntries.entrySet()) {
-					Entry<Object, Long> entry = (Entry<Object, Long>) o;
-
-					if(entry.getKey() instanceof IFusionPowerReceiver) {
-						if(powerReceived > 0) ((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
+				for(Object o : providerNode.net.receiverEntries) {
+					if(o instanceof IFusionPowerReceiver) {
+						if(powerReceived > 0) ((IFusionPowerReceiver) o).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
 					}
 				}
 			}
@@ -252,22 +248,27 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		}
 	}
 	
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ * 1, dir),
-				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 0, dir),
-				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 1, dir),
-				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ * 1, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 0, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 0, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 1, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 2, dir.getOpposite()),
-		};
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 5 - rot.offsetZ * 2, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 5 - rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 0, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 2, dir),
+					PortDef.make(xCoord - dir.offsetX * 5 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 + rot.offsetX * 0, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 0, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override
@@ -359,7 +360,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("index") && data.hasKey("selection")) {
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");

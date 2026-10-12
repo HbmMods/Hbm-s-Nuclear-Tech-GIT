@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -44,6 +46,8 @@ import net.minecraft.world.World;
 
 public class XFactoryCatapult {
 
+	public static ConfigWrapper<Float> GUN_FATMAN_DAMAGE =	new ConfigWrapper(100F);
+	
 	public static BulletConfig nuke_standard;
 	public static BulletConfig nuke_demo;
 	public static BulletConfig nuke_high;
@@ -52,6 +56,10 @@ public class XFactoryCatapult {
 	public static BulletConfig nuke_balefire;
 	
 	public static BulletConfig cluster_submunition;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_FATMAN_DAMAGE", GUN_FATMAN_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_STANDARD = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
@@ -186,7 +194,7 @@ public class XFactoryCatapult {
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound(NTMSounds.GUN_FATMAN_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_FATMAN_DAMAGE).spreadHipfire(0F).delay(10).reload(57).jam(40).sound(NTMSounds.GUN_FATMAN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive, nuke_balefire))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))

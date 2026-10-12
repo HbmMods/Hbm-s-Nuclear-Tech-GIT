@@ -71,6 +71,10 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		if(data.hasKey("secondary")) {
 			setType(stack, Fluids.fromID(data.getInteger("secondary")), false);
 		}
+		if(data.hasKey("bookmarks")) {
+			if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setTag("bookmarks", data.getTag("bookmarks"));
+		}
 		
 		updateMeta(stack);
 	}

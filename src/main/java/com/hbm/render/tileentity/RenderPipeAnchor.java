@@ -2,20 +2,28 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.network.TileEntityPipeAnchor;
+import com.hbm.tileentity.network.TileEntityPipelineBase;
+import com.hbm.tileentity.network.TileEntityFluidPipeAnchor;
 import com.hbm.util.ColorUtil;
 import com.hbm.util.Compat;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.IItemRenderer;
 
 public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItemRendererProvider {
+	private Item item;
+	private ResourceLocation texture;
+
+	public RenderPipeAnchor(Item item, ResourceLocation texture) {
+		this.item = item;
+		this.texture = texture;
+	}
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
@@ -35,20 +43,20 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 		}
 
 		GL11.glTranslated(0, -0.5F, 0);
-		bindTexture(ResourceManager.pipe_anchor_tex);
+		bindTexture(texture);
 		ResourceManager.pipe_anchor.renderPart("Anchor");
 		GL11.glPopMatrix();
-		
-		TileEntityPipeAnchor anchor = (TileEntityPipeAnchor) te;
-		
+
+		TileEntityPipelineBase anchor = (TileEntityPipelineBase) te;
+
 		for(int[] pos : anchor.getConnected()) {
 			TileEntity tile = Compat.getTileStandard(te.getWorldObj(), pos[0], pos[1], pos[2]);
-			if(tile instanceof TileEntityPipeAnchor) {
-				TileEntityPipeAnchor other = (TileEntityPipeAnchor) tile;
-				if(anchor.getType() != other.getType()) continue;
+			if(tile instanceof TileEntityPipelineBase) {
+				TileEntityPipelineBase other = (TileEntityPipelineBase) tile;
+
 				Vec3 anchorPoint = anchor.getConnectionPoint();
 				Vec3 connectionPoint = other.getConnectionPoint();
-				
+
 				if(isDominant(anchorPoint, connectionPoint)) {
 					double dX = connectionPoint.xCoord - anchorPoint.xCoord;
 					double dY = connectionPoint.yCoord - anchorPoint.yCoord;
@@ -58,16 +66,24 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 					double yaw = Math.toDegrees(Math.atan2(dX, dZ));
 					double pitch = Math.toDegrees(Math.atan2(dY, hyp));
 					double length = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
-					
+
 					GL11.glPushMatrix();
 					GL11.glRotated(yaw, 0, 1, 0);
 					GL11.glRotated(90 - pitch, 1, 0, 0);
-					
+
 					GL11.glPushMatrix();
 					GL11.glScaled(1, length, 1);
 					GL11.glTranslated(0, -0.5, 0);
-					int color = ColorUtil.lightenColor(anchor.getType().getColor(), 0.25D);
-					GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
+
+					if (anchor instanceof TileEntityFluidPipeAnchor) {
+						int color = ((TileEntityFluidPipeAnchor)anchor).getType().getColor();
+						color = ColorUtil.lightenColor(color, 0.25D);
+						
+						GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
+					} else {
+						GL11.glColor3f(1F, 1F, 1F);
+					}
+					
 					ResourceManager.pipe_anchor.renderPart("Pipe");
 					GL11.glColor3f(1F, 1F, 1F);
 					GL11.glPopMatrix();
@@ -76,7 +92,7 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 					GL11.glTranslated(0, length / 2D - 1.5, 0);
 					ResourceManager.pipe_anchor.renderPart("Ring");
 					GL11.glPopMatrix();
-					
+
 					GL11.glPopMatrix();
 				}
 			}
@@ -99,7 +115,7 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 
 	@Override
 	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(ModBlocks.pipe_anchor);
+		return item;
 	}
 
 	@Override
@@ -112,7 +128,7 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 			}
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.pipe_anchor_tex);
+				bindTexture(texture);
 				ResourceManager.pipe_anchor.renderPart("Anchor");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};

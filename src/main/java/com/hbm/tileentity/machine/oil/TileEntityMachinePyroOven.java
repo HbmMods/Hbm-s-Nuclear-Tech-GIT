@@ -22,12 +22,12 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -40,7 +40,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 10_000_000;
@@ -65,6 +65,38 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		tanks[1] = new FluidTank(Fluids.NONE, 24_000);
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, rot),
+			};
+		}
+		return cachedPorts;
+	}
+
+	protected PortDef[] smokePorts;
+
+	public PortDef[] getSmokePorts() {
+		if(smokePorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+			
+			smokePorts = new PortDef[] {
+					PortDef.make(xCoord - rot.offsetX, yCoord + 2, zCoord - rot.offsetZ, Library.POS_Y),
+			};
+		}
+		return smokePorts;
+	}
+
 	@Override
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
@@ -84,18 +116,12 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 
 		if(!worldObj.isRemote) {
 
+			this.moduleSmokePorts.update(getSmokePorts());
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(3, slots);
-
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-			if(smoke.getFill() > 0) this.sendFluid(smoke, worldObj, xCoord - rot.offsetX, yCoord + 3, zCoord - rot.offsetZ, Library.POS_Y);
 
 			upgradeManager.checkSlots(this, slots, 4, 5);
 			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
@@ -249,19 +275,6 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		}
 	}
 
-	protected DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, rot),
-		};
-	}
-
 	@Override public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		tanks[0].serialize(buf);
@@ -305,18 +318,8 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 	@Override public boolean canExtractItem(int i, ItemStack itemStack, int j) { return i == 2; }
 
 	@Override
-	public void pollute(PollutionType type, float amount) {
-		FluidTank tank = type == PollutionType.SOOT ? smoke : type == PollutionType.HEAVYMETAL ? smoke_leaded : smoke_poison;
-
-		int fluidAmount = (int) Math.ceil(amount * 100);
-		tank.setFill(tank.getFill() + fluidAmount);
-
-		if(tank.getFill() > tank.getMaxFill()) {
-			int overflow = tank.getFill() - tank.getMaxFill();
-			tank.setFill(tank.getMaxFill());
-			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
-			this.isVenting = true;
-		}
+	protected void vent() {
+		this.isVenting = true;
 	}
 
 	@Override public AudioWrapper createAudioLoop() {

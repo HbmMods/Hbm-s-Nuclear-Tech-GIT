@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.machine.TileEntityMachineCompressorCompact;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -20,7 +19,7 @@ public class RenderCompressorCompact extends TileEntitySpecialRenderer implement
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		switch(tileEntity.getBlockMetadata() - 10) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -29,31 +28,11 @@ public class RenderCompressorCompact extends TileEntitySpecialRenderer implement
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 		
-		TileEntityMachineCompressorCompact compressor = (TileEntityMachineCompressorCompact) tileEntity;
-		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.compressor_compact_tex);
-		ResourceManager.condenser.renderPart("Condenser");
-
-		float rot = compressor.prevFanSpin + (compressor.fanSpin - compressor.prevFanSpin) * f;
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(0,1.5, 0);
-		GL11.glRotatef(rot, 1, 0, 0);
-		GL11.glTranslated(0, -1.5, 0);
-		ResourceManager.condenser.renderPart("Fan1");
-		GL11.glPopMatrix();
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(0,1.5, 0);
-		GL11.glRotatef(rot, -1, 0, 0);
-		GL11.glTranslated(0, -1.5, 0);
-		ResourceManager.condenser.renderPart("Fan2");
-		GL11.glPopMatrix();
-		
+		ResourceManager.compressor_compact.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 
@@ -73,7 +52,7 @@ public class RenderCompressorCompact extends TileEntitySpecialRenderer implement
 				GL11.glScaled(0.75, 0.75, 0.75);
 				GL11.glTranslated(0.5, 0, 0);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.compressor_compact_tex); ResourceManager.condenser.renderAll();
+				bindTexture(ResourceManager.compressor_compact_tex); ResourceManager.compressor_compact.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		};

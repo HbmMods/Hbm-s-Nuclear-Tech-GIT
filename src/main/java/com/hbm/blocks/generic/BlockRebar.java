@@ -21,6 +21,7 @@ import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -121,12 +122,30 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 		}
 
 		@Override
+		public boolean canConnect(FluidType type, ForgeDirection dir) {
+			return dir == ForgeDirection.UP && type == Fluids.CONCRETE;
+		}
+
+		@Override
 		public void updateEntity() {
 
-			long time = worldObj.getTotalWorldTime();
-
 			if(!worldObj.isRemote) {
-
+				
+				if(this.hasConnection) {
+					if(this.fluidInPorts == null) {
+						fluidInPorts = new TilePort[1];
+						fluidInPorts[0] = new TilePort().setupOwner(this).setupType(Fluids.CONCRETE.getNetworkProvider())
+								.setupPositions(new BlockPos(xCoord, yCoord, zCoord)).setupConnections(new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y));
+					}
+					fluidInPorts[0].update(worldObj);
+					fluidInPorts[0].checkSubscribe(worldObj);
+				} else {
+					if(this.fluidInPorts != null) {
+						fluidInPorts[0].disableIfPresent(worldObj);
+						this.fluidInPorts = null;
+					}
+				}
+				
 				if(prevProgress != progress) {
 					worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
 					prevProgress = progress;
@@ -141,12 +160,6 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 					return;
 				}
 				
-				if(time % 60 == 0) {
-					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-						this.trySubscribe(Fluids.CONCRETE, worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-					}
-				}
-
 				if(this.node == null || this.node.expired) {
 
 					this.node = (RebarNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, RebarNetworkProvider.THE_PROVIDER);
@@ -164,6 +177,8 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 		@Override
 		public void invalidate() {
 			super.invalidate();
+			
+			if(this.fluidInPorts != null) fluidInPorts[0].disable();
 
 			if(!worldObj.isRemote) {
 				if(this.node != null) {

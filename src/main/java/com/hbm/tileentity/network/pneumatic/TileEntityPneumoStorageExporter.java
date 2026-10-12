@@ -292,7 +292,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("continuous")) {
 			this.continuousRequest = !this.continuousRequest;
 		}
@@ -320,6 +320,8 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
 		int slot = nbt.getInteger("slot");
+		int[] filterRange = this.getFilterSlots();
+		if(slot < filterRange[0] || slot >= filterRange[1]) return;
 		NBTTagCompound stack = nbt.getCompoundTag("stack");
 		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
 		this.setInventorySlotContents(slot, item);

@@ -16,7 +16,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	void nextMode(int i);
 
 	@Override
-	default void receiveControl(NBTTagCompound data) {
+	default void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("slot")) {
 			setFilterContents(data);
 		}
@@ -30,6 +30,8 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 		TileEntity tile = (TileEntity) this;
 		IInventory inv = (IInventory) this;
 		int slot = nbt.getInteger("slot");
+		int[] filterRange = this.getFilterSlots();
+		if(slot < filterRange[0] || slot >= filterRange[1]) return;
 		NBTTagCompound stack = nbt.getCompoundTag("stack");
 		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
 		item.stackSize = 1;

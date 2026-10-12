@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import io.netty.buffer.ByteBuf;
@@ -15,18 +14,6 @@ public class TileEntityMachinePumpElectric extends TileEntityMachinePumpBase imp
 	public TileEntityMachinePumpElectric() {
 		super();
 		water = new FluidTank(Fluids.WATER, electricSpeed * 100);
-	}
-	
-	public void updateEntity() {
-		
-		if(!worldObj.isRemote) {
-			
-			if(worldObj.getTotalWorldTime() % 20 == 0) for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-		}
-		
-		super.updateEntity();
 	}
 
 	@Override

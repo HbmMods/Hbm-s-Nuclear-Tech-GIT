@@ -15,8 +15,12 @@ public class SatelliteLunarMiner extends SatelliteMiner {
 	
 	@Override
 	public IChatComponent[] getInfo(World world) {
+		
+		int progress = (int) Math.round(this.progress * 100);
+		
 		return new IChatComponent[] {
-				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR.ordinal())) + ".name")
+				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR.ordinal())) + ".name"),
+				new ChatComponentTranslation("satellite.minerprogress", progress + "%")
 		};
 	}
 	

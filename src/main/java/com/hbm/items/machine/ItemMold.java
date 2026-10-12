@@ -90,6 +90,12 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		26, S, "mechanism", MaterialShapes.MECHANISM));
 		registerMold(new MoldShape(		27, S, "stock", MaterialShapes.STOCK));
 		registerMold(new MoldShape(		28, S, "grip", MaterialShapes.GRIP));
+		
+		// starting indices with plenty of padding
+		int smallMolds = 100;
+		int largeMolds = 200;
+		for(MaterialShapes shape : MaterialShapes.S_moldShapes){ registerMold(new MoldShape(smallMolds, S, shape.name(), shape)); smallMolds++; }
+		for(MaterialShapes shape : MaterialShapes.L_moldShapes){ registerMold(new MoldShape(largeMolds, L, shape.name(), shape)); largeMolds++; }
 	}
 	
 	public void registerMold(Mold mold) {

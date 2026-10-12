@@ -621,16 +621,15 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		int recipeContent = recipe.getInputAmount();
 		int recipeInputRequired = getQuantaFromType(recipe.input, stack.material);
 		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
+		int amount = getQuantaFromType(this.recipeStack, stack.material);
+		int amountTotal = getQuantaFromType(this.recipeStack, null);
 
-		if(recipeInputRequired + stack.amount <= matMaximum) {
-			this.addToStack(this.recipeStack, stack.copy());
-			return null;
-		}
+		int toAdd = Math.min(matMaximum - amount, this.recipeZCapacity - amountTotal);
+		toAdd = Math.min(toAdd, stack.amount);
+		if(toAdd <= 0) return stack;
 
-		int toAdd = matMaximum - stack.amount;
-		toAdd = Math.min(toAdd, this.recipeZCapacity - getQuantaFromType(this.recipeStack, null));
 		this.addToStack(this.recipeStack, new MaterialStack(stack.material, toAdd));
-		return new MaterialStack(stack.material, stack.amount - toAdd);
+		return toAdd < stack.amount ? new MaterialStack(stack.material, stack.amount - toAdd) : null;
 	}
 
 	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
@@ -655,7 +654,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("index") && data.hasKey("selection")) {
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");

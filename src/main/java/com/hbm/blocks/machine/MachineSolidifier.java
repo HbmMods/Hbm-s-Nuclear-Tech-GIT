@@ -46,20 +46,24 @@ public class MachineSolidifier extends BlockDummyable implements ITooltipProvide
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 3, 0, ForgeDirection.UP.ordinal()},
+			{0, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{1, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 1, 0, ForgeDirection.WEST.ordinal()},
+			{0, 1, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 1, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-
-		this.makeExtra(world, x, y + 3, z);
-		
-		this.makeExtra(world, x + 1, y + 1, z);
-		this.makeExtra(world, x - 1, y + 1, z);
-		this.makeExtra(world, x, y + 1, z + 1);
-		this.makeExtra(world, x, y + 1, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

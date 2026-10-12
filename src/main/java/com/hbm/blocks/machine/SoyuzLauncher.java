@@ -24,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class SoyuzLauncher extends BlockDummyable {
 
 	public SoyuzLauncher(Material p_i45386_1_) {
@@ -70,6 +71,16 @@ public class SoyuzLauncher extends BlockDummyable {
 	}
 	
 	public static final int height = 4;
+
+	@Override
+	public int getHeightOffset() {
+		return height;
+	}
+	
+	@Override
+	protected ForgeDirection getDirModified(ForgeDirection dir) {
+		return ForgeDirection.EAST;
+	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {

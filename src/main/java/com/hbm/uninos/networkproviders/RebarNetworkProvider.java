@@ -1,6 +1,8 @@
 package com.hbm.uninos.networkproviders;
 
+import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 public class RebarNetworkProvider implements INetworkProvider<RebarNetwork> {
 	
@@ -9,5 +11,10 @@ public class RebarNetworkProvider implements INetworkProvider<RebarNetwork> {
 	@Override
 	public RebarNetwork provideNetwork() {
 		return new RebarNetwork();
+	}
+
+	@Override
+	public GenNode<RebarNetwork> provideNode(BlockPos... positions) {
+		return new GenNode(this, positions);
 	}
 }

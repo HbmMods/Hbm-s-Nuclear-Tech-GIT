@@ -24,16 +24,16 @@ import net.minecraft.util.StatCollector;
 public class ItemAutogen extends Item {
 
 	MaterialShapes shape;
-	
+
 	private HashMap<NTMMaterial, String> textureOverrides = new HashMap();
 	private HashMap<NTMMaterial, IIcon> iconMap = new HashMap();
 	private String overrideUnlocalizedName = null;
-	
+
 	public ItemAutogen(MaterialShapes shape) {
 		this.setHasSubtypes(true);
 		this.shape = shape;
 	}
-	
+
 	/** add override texture */
 	public ItemAutogen aot(NTMMaterial mat, String tex) {
 		textureOverrides.put(mat, tex);
@@ -44,13 +44,17 @@ public class ItemAutogen extends Item {
 		return this;
 	}
 
+	public MaterialShapes getShape(){
+		return this.shape;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
-		
+
 		if(reg instanceof TextureMap) {
 			TextureMap map = (TextureMap) reg;
-			
+
 			for(NTMMaterial mat : Mats.orderedList) {
 				if(!textureOverrides.containsKey(mat) && mat.solidColorLight != mat.solidColorDark && (shape == null || mat.autogen.contains(shape))) { //only generate icons if there is no override, color variation is available and if the icon will actually be used
 					String placeholderName = this.getIconString() + "-" + mat.names[0]; //the part after the dash is discarded - the name only has to be unique so that the hashmap which holds all the icon definitions can hold multiple references
@@ -60,7 +64,7 @@ public class ItemAutogen extends Item {
 				}
 			}
 		}
-		
+
 		for(Entry<NTMMaterial, String> tex : textureOverrides.entrySet()) {
 			iconMap.put(tex.getKey(), reg.registerIcon(RefStrings.MODID + ":" + tex.getValue()));
 		}
@@ -76,53 +80,53 @@ public class ItemAutogen extends Item {
 			}
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
-		
+
 		NTMMaterial mat = Mats.matById.get(meta);
-		
+
 		if(mat != null) {
 			IIcon override = iconMap.get(mat);
 			if(override != null) {
 				return override;
 			}
 		}
-		
+
 		return this.itemIcon;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack stack, int layer) {
-		
+
 		if(this.getIconFromDamage(stack.getItemDamage()) != this.itemIcon) {
 			return 0xffffff; //custom textures don't need tints
 		}
-		
+
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
-		
+
 		if(mat != null) {
 			return mat.moltenColor;
 		}
-		
+
 		return 0xffffff;
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		
+
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
-		
+
 		if(mat == null) {
 			return "UNDEFINED";
 		}
-		
+
 		String matName = StatCollector.translateToLocal(mat.getUnlocalizedName());
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", matName);
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return overrideUnlocalizedName != null ? "item." + overrideUnlocalizedName : super.getUnlocalizedName(stack);

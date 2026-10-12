@@ -322,8 +322,6 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			return true;
 		}
 
-		public void receiveControl(NBTTagCompound data) {}
-
 		@Override
 		public void receiveControl(EntityPlayer player, NBTTagCompound nbt) {
 			readFromNBT(nbt);

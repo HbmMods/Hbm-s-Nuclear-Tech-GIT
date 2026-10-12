@@ -26,8 +26,8 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked implements IBlockM
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
-		this.blockIcon = reg.registerIcon(this.getTextureName());
 		super.registerBlockIcons(reg);
+		this.blockIcon = reg.registerIcon(this.getTextureName());
 	}
 
 	@Override

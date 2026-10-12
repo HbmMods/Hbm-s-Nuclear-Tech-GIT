@@ -6,6 +6,7 @@ import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.TileEntityTickingBase;
+import com.hbm.tileentity.network.RTTYSystem;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -161,7 +162,8 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 				PREFIX_VALUE + "rx",
 				PREFIX_VALUE + "type",
 				PREFIX_FUNCTION + "setfreq" + NAME_SEPARATOR + "freq",
-				PREFIX_FUNCTION + "tx" + NAME_SEPARATOR + "payload"
+				PREFIX_FUNCTION + "tx" + NAME_SEPARATOR + "payload",
+				PREFIX_FUNCTION + "txrx" + NAME_SEPARATOR + "return freq" + PARAM_SEPARATOR + "payload"
 		};
 	}
 
@@ -204,12 +206,29 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			this.markChanged();
 		}
 
-		if(name.equals(PREFIX_FUNCTION + "tx")) {
+		if(name.equals(PREFIX_FUNCTION + "tx") && params.length > 0) {
 			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 			SatelliteBase sat = dat.getSatFromFreq(this.freq);
 			String[] cmd = String.join(IRORInteractive.PARAM_SEPARATOR, params).split(" ");
 			if(sat != null) {
 				sat.onCommand(worldObj, cmd);
+				dat.markDirty();
+			}
+			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
+			this.markChanged();
+		}
+		
+		if(name.equals(PREFIX_FUNCTION + "txrx") && params.length > 1) {
+			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+			SatelliteBase sat = dat.getSatFromFreq(this.freq);
+			
+			String[] args = new String[params.length - 1];
+			System.arraycopy(params, 1, args, 0, args.length);
+			String[] cmd = String.join(IRORInteractive.PARAM_SEPARATOR, args).split(" ");
+			
+			if(sat != null) {
+				sat.onCommand(worldObj, cmd);
+				RTTYSystem.broadcast(worldObj, params[0], sat.tx);
 				dat.markDirty();
 			}
 			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);

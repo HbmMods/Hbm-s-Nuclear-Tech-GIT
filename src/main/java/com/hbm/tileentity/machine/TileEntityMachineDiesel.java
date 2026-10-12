@@ -25,6 +25,8 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -37,7 +39,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IControlReceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
@@ -103,6 +104,9 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super(4, 100);
 		tank = new FluidTank(Fluids.DIESEL, fuelCap);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -154,17 +158,14 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 			
 			this.wasOn = false;
 
 			tank.setType(3, slots);
 			tank.loadTank(0, 1, slots);
-			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-				this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			}
 			
 			power = Library.chargeItemsFromTE(slots, 2, power, powerCap);
 			if(isOn) generate();
@@ -283,7 +284,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("turnOn")) this.isOn = !this.isOn;
 		this.markChanged();
 	}

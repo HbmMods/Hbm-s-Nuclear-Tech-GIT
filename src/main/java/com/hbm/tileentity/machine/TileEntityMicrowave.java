@@ -11,6 +11,8 @@ import com.hbm.inventory.gui.GUIMicrowave;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.Optional;
@@ -31,7 +33,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, ICopiable {
@@ -47,6 +48,9 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	public TileEntityMicrowave() {
 		super(3);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -58,7 +62,9 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 		
 		if(!worldObj.isRemote) {
 
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 			
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			

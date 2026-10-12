@@ -153,7 +153,6 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 		canDestroy.add(ModBlocks.machine_chemical_plant);
 		canDestroy.add(ModBlocks.machine_chemical_factory);
 		canDestroy.add(ModBlocks.machine_crystallizer);
-		canDestroy.add(ModBlocks.machine_turbine);
 		canDestroy.add(ModBlocks.machine_industrial_turbine);
 		canDestroy.add(ModBlocks.machine_chungus);
 		canDestroy.add(ModBlocks.machine_purex);

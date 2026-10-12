@@ -15,12 +15,14 @@ import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTItemControlPacket;
+import com.hbm.util.Bookmarks;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -28,7 +30,7 @@ public class GUIScreenFluid extends GuiScreen {
 	
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_fluid.png");
 	protected int xSize = 176;
-	protected int ySize = 54;
+	protected int ySize = 72;
 	protected int guiLeft;
 	protected int guiTop;
 	private GuiTextField search;
@@ -36,7 +38,8 @@ public class GUIScreenFluid extends GuiScreen {
 	private final EntityPlayer player;
 	private FluidType primary = Fluids.NONE;
 	private FluidType secondary = Fluids.NONE;
-	private FluidType[] searchArray = new FluidType[9];
+	private FluidType[] searchArray = new FluidType[18];
+	private Bookmarks<FluidType> bookmarks = new Bookmarks<>(searchArray.length);
 
 	public GUIScreenFluid(EntityPlayer player) {
 		this.player = player;
@@ -69,10 +72,20 @@ public class GUIScreenFluid extends GuiScreen {
 		this.search.setDisabledTextColour(-1);
 		this.search.setEnableBackgroundDrawing(false);
 		this.search.setFocused(true);
-		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier_multi) {
-			this.primary = ItemFluidIDMulti.getType(player.getHeldItem(), true);
-			this.secondary = ItemFluidIDMulti.getType(player.getHeldItem(), false);
+
+		ItemStack heldItem = player.getHeldItem();
+		if(heldItem != null && heldItem.getItem() == ModItems.fluid_identifier_multi) {
+			this.primary = ItemFluidIDMulti.getType(heldItem, true);
+			this.secondary = ItemFluidIDMulti.getType(heldItem, false);
+			
+			if (heldItem.hasTagCompound() && heldItem.stackTagCompound.hasKey("bookmarks")) {
+				int[] fluidIds = heldItem.stackTagCompound.getIntArray("bookmarks");
+				for (int i = 0; i < Math.min(fluidIds.length, this.searchArray.length); i++) {
+					FluidType fluid = Fluids.fromID(fluidIds[i]);
+					this.bookmarks.add(fluid);
+					this.searchArray[i] = fluid;
+				}
+			}
 		}
 	}
 
@@ -85,7 +98,7 @@ public class GUIScreenFluid extends GuiScreen {
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j) {
+			if(guiLeft + 7 + (k % 9) * 18 <= i && guiLeft + 7 + (k % 9) * 18 + 18 > i && guiTop + 29 + (k / 9 * 18) < j && guiTop + 29 + (k / 9 * 18) + 18 >= j) {
 				if(button == 0) {
 					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 					this.primary = this.searchArray[k];
@@ -98,6 +111,12 @@ public class GUIScreenFluid extends GuiScreen {
 					NBTTagCompound data = new NBTTagCompound();
 					data.setInteger("secondary", this.secondary.getID());
 					PacketDispatcher.wrapper.sendToServer(new NBTItemControlPacket(data));
+				} else if (button == 2) {
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+					FluidType fluid = this.searchArray[k];
+					if (this.bookmarks.add(fluid)) this.bookmarks.remove(fluid);
+					if (this.search.getText().trim().isEmpty())
+						this.searchArray = this.bookmarks.set().toArray(new FluidType[this.searchArray.length]);
 				}
 			}
 		}
@@ -111,7 +130,7 @@ public class GUIScreenFluid extends GuiScreen {
 			if(this.searchArray[k] == null)
 				return;
 			
-			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j) {
+			if(guiLeft + 7 + (k % 9) * 18 <= i && guiLeft + 7 + (k % 9) * 18 + 18 > i && guiTop + 29 + (k / 9 * 18) < j && guiTop + 29 + (k / 9 * 18) + 18 >= j) {
 				List<String> tooltip = new ArrayList();
 				tooltip.add(this.searchArray[k].getLocalizedName());
 				this.searchArray[k].addInfo(tooltip);
@@ -126,7 +145,7 @@ public class GUIScreenFluid extends GuiScreen {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		if(this.search.isFocused())
-			drawTexturedModalRect(guiLeft + 43, guiTop + 7, 166, 54, 90, 18);
+			drawTexturedModalRect(guiLeft + 43, guiTop + 7, 166, 72, 90, 18);
 		
 		for(int k = 0; k < this.searchArray.length; k++) {
 			FluidType type = this.searchArray[k];
@@ -136,15 +155,15 @@ public class GUIScreenFluid extends GuiScreen {
 			
 			Color color = new Color(type.getColor());
 			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-			drawTexturedModalRect(guiLeft + 12 + k * 18, guiTop + 31, 12 + k * 18, 56, 8, 14);
+			drawTexturedModalRect(guiLeft + 12 + (k % 9) * 18, guiTop + 31 + (k / 9 * 18), 12 + (k % 9) * 18, 74, 8, 14);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			
 			if(type == this.primary && type == this.secondary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 36, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 36, 18, 18);
 			} else if(type == this.primary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 0, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 0, 18, 18);
 			} else if(type == this.secondary) {
-				drawTexturedModalRect(guiLeft + 7 + k * 18, guiTop + 29, 176, 18, 18, 18);
+				drawTexturedModalRect(guiLeft + 7 + (k % 9) * 18, guiTop + 29 + (k / 9 * 18), 176, 18, 18, 18);
 			}
 		}
 	}
@@ -169,10 +188,16 @@ public class GUIScreenFluid extends GuiScreen {
 	}
 	
 	private void updateSearch() {
-		this.searchArray = new FluidType[9];
+		this.searchArray = new FluidType[this.searchArray.length];
+		String searchText = this.search.getText();
+
+		if (this.bookmarks.size() > 0 && searchText.trim().isEmpty()) {
+			this.searchArray = this.bookmarks.set().toArray(this.searchArray);
+			return;
+		}
 		
 		int next = 0;
-		String subs = this.search.getText().toLowerCase(Locale.US);
+		String subs = searchText.toLowerCase(Locale.US);
 		
 		for(FluidType type : Fluids.getInNiceOrder()) {
 			String name = type.getLocalizedName().toLowerCase(Locale.US);
@@ -181,7 +206,7 @@ public class GUIScreenFluid extends GuiScreen {
 				this.searchArray[next] = type;
 				next++;
 				
-				if(next >= 9)
+				if(next >= this.searchArray.length)
 					return;
 			}
 		}
@@ -190,5 +215,9 @@ public class GUIScreenFluid extends GuiScreen {
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setIntArray("bookmarks", this.bookmarks.set().stream().mapToInt(f -> f.getID()).toArray());
+		PacketDispatcher.wrapper.sendToServer(new NBTItemControlPacket(data));
 	}
 }

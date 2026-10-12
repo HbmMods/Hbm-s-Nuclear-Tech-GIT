@@ -153,7 +153,7 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("destroyer")) this.destroyer = !this.destroyer;
 	}
 }

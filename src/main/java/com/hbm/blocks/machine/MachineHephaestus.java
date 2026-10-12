@@ -47,22 +47,25 @@ public class MachineHephaestus extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 11, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 11, 0, ForgeDirection.WEST.ordinal()},
+			{0, 11, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 11, -1, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		x -= dir.offsetX;
-		z -= dir.offsetZ;
-
-		this.makeExtra(world, x + 1, y, z);
-		this.makeExtra(world, x - 1, y, z);
-		this.makeExtra(world, x, y, z + 1);
-		this.makeExtra(world, x, y, z - 1);
-		this.makeExtra(world, x + 1, y + 11, z);
-		this.makeExtra(world, x - 1, y + 11, z);
-		this.makeExtra(world, x, y + 11, z + 1);
-		this.makeExtra(world, x, y + 11, z - 1);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 	
 	@Override

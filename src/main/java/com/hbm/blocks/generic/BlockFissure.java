@@ -2,15 +2,17 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
+
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +23,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockFissure extends BlockContainer implements IBlockMultiPass {
 
@@ -79,22 +80,21 @@ public class BlockFissure extends BlockContainer implements IBlockMultiPass {
 		return new TileEntityFissure();
 	}
 	
-	public static class TileEntityFissure extends TileEntityLoadedBase implements IFluidStandardSender {
+	public static class TileEntityFissure extends TileEntityLoadedBase implements IFluidStandardSenderMK2 {
 
 		public FluidTank lava = new FluidTank(Fluids.LAVA, 1_000);
+		
+		protected PortDef[] cachedPorts;
+		public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 		
 		@Override
 		public void updateEntity() {
 			
 			if(!worldObj.isRemote) {
+				this.setupFluidPorts(getPorts());
+				this.updatePortFIFO();
 				lava.setFill(1_000);
-				this.sendFluid(lava, worldObj, xCoord, yCoord + 1, zCoord, ForgeDirection.UP);
 			}
-		}
-
-		@Override
-		public boolean canConnect(FluidType type, ForgeDirection dir) {
-			return dir == ForgeDirection.DOWN && type == Fluids.LAVA;
 		}
 		
 		@Override public FluidTank[] getAllTanks() { return new FluidTank[] {lava}; }

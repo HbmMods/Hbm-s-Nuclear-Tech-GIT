@@ -14,6 +14,8 @@ import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.blocks.network.BlockNetworkSeparator.TileEntityNetworkSeparator;
+import com.hbm.blocks.network.FlowControlPump.TileEntityFlowControlPump;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.EntityMinecartCrate;
@@ -84,6 +86,7 @@ import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
+import com.hbm.tileentity.network.pneumatic.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ColorUtil;
@@ -314,7 +317,6 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRTG.class, new RenderRTG());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFF.class, new RenderForceField());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFENSU.class, new RenderFENSU());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBatterySocket.class, new RenderBatterySocket());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBatteryREDD.class, new RenderBatteryREDD());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineLargeTurbine.class, new RenderBigTurbine());
@@ -376,6 +378,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineArcFurnaceLarge.class, new RenderArcFurnace());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineWoodBurner.class, new RenderWoodBurner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPump.class, new RenderFluidPump());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlowControlPump.class, new RenderFlowControlPump());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNetworkSeparator.class, new RenderNetworkSeparator());
 		//Foundry
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryBasin.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryMold.class, new RenderFoundry());
@@ -401,6 +405,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCompactLauncher.class, new RenderCompactLauncher());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchTable.class, new RenderLaunchTable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzLauncher.class, new RenderSoyuzLauncher());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchpadSoyuz.class, new RenderLaunchpadSoyuz());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchpadLambda.class, new RenderLaunchpadLambda());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzCapsule.class, new RenderCapsule());
 		//network
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylon.class, new RenderPylon());
@@ -409,7 +415,9 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonMedium.class, new RenderPylonMedium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonLarge.class, new RenderPylonLarge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySubstation.class, new RenderSubstation());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPipeAnchor.class, new RenderPipeAnchor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPipeAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor), ResourceManager.pipe_anchor_tex));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPipeExhaustAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor_exhaust), ResourceManager.pipe_anchor_exhaust_tex));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPneumaticPipeAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor_pneumatic), ResourceManager.pipe_anchor_pneumatic_tex));
 		//chargers
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCharger.class, new RenderCharger());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRefueler.class, new RenderRefueler());
@@ -627,7 +635,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityC130.class, new RenderC130());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBurningFOEQ.class, new RenderFOEQ());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFallingNuke.class, new RenderFallingNuke());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinerRocket.class, new RenderMinerRocket());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySatellitePod.class, new RenderDropship());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBobmazon.class, new RenderMinerRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTom.class, new RenderTom());
 		RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
@@ -674,7 +682,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileVolcano.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsday.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsdayRusted.class, new RenderMissileNuclear());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySoyuz.class, new RenderSoyuz());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRocketSoyuz.class, new RenderSoyuz());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRocketLambda.class, new RenderLambdaRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySoyuzCapsule.class, new RenderSoyuzCapsule());
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachuteCrate.class, new RenderParachuteCrate());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileTaint.class, new RenderMissileTaint());
@@ -1077,35 +1086,32 @@ public class ClientProxy extends ServerProxy {
 
 
 		if("exhaust".equals(type)) {
-
 			String mode = data.getString("mode");
+			int count = Math.max(1, data.getInteger("count"));
+			double width = data.getDouble("width");
+			if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350) return;
 
 			if("soyuz".equals(mode)) {
 
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
-
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
-
 				for(int i = 0; i < count; i++) {
-
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
 					fx.motionY = -0.75 + rand.nextDouble() * 0.5;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
 
-			if("meteor".equals(mode)) {
-
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
-
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
+			if("lambda".equals(mode)) {
 
 				for(int i = 0; i < count; i++) {
+					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width).setScale(1.5F);
+					fx.motionY = -1 + rand.nextDouble() * 0.25;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
 
+			if("meteor".equals(mode)) {
+
+				for(int i = 0; i < count; i++) {
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
@@ -1871,7 +1877,7 @@ public class ClientProxy extends ServerProxy {
 				int color = data.getInteger("color");
 				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
 			}
-			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+			if(debug != null) Minecraft.getMinecraft().effectRenderer.addEffect(debug);
 		}
 
 		if("gasfire".equals(type)) {

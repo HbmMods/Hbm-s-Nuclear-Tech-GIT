@@ -84,7 +84,7 @@ public class ItemRenderLibraryDoors {
 				GL11.glScaled(2.5, 2.5, 2.5);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_blast_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.SLIDE_DOOR.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_blast_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
@@ -98,7 +98,7 @@ public class ItemRenderLibraryDoors {
 			}
 			public void renderCommon() {
 				GL11.glRotated(90, 0, 1, 0);
-				bindTexture(ResourceManager.pheo_vehicle_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.LARGE_VEHICLE_DOOR.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_vehicle_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
@@ -177,7 +177,7 @@ public class ItemRenderLibraryDoors {
 				GL11.glScaled(5, 5, 5);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_sliding_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.QE_SLIDING.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_sliding_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
@@ -203,7 +203,7 @@ public class ItemRenderLibraryDoors {
 				GL11.glScaled(7, 7, 7);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_seal_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.SLIDING_SEAL_DOOR.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_seal_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);

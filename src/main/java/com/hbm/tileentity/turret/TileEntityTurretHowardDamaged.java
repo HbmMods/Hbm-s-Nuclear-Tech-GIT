@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import com.hbm.config.WeaponConfig;
 import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.EntityDamageUtil;
@@ -79,7 +80,7 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 				this.spawnCasing();
 
 				if(worldObj.rand.nextInt(100) + 1 <= WeaponConfig.ciwsHitrate * 0.5)
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, 2F + worldObj.rand.nextInt(2));
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, getBaseDamage() + worldObj.rand.nextInt(2));
 
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -99,6 +100,9 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_METHUSALEM_DAMAGE.get(); }
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

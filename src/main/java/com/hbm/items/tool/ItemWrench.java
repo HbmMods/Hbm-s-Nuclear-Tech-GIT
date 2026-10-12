@@ -49,8 +49,6 @@ public class ItemWrench extends ItemSword {
 					stack.stackTagCompound = new NBTTagCompound();
 
 				if(!stack.stackTagCompound.hasKey("x")) {
-					stack.stackTagCompound = new NBTTagCompound();
-
 					stack.stackTagCompound.setInteger("x", x);
 					stack.stackTagCompound.setInteger("y", y);
 					stack.stackTagCompound.setInteger("z", z);
@@ -123,7 +121,7 @@ public class ItemWrench extends ItemSword {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(itemstack.stackTagCompound != null) {
+		if(itemstack.hasTagCompound() && itemstack.stackTagCompound.hasKey("x")) {
 			list.add("Pipe start x: " + itemstack.stackTagCompound.getInteger("x"));
 			list.add("Pipe start y: " + itemstack.stackTagCompound.getInteger("y"));
 			list.add("Pipe start z: " + itemstack.stackTagCompound.getInteger("z"));
@@ -136,7 +134,7 @@ public class ItemWrench extends ItemSword {
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean inhand) {
 
 		if(world.isRemote) {
-			if(stack.stackTagCompound != null) {
+			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("x")) {
 				Vec3 vec = Vec3.createVectorHelper(
 						entity.posX - stack.stackTagCompound.getInteger("x"),
 						entity.posY - stack.stackTagCompound.getInteger("y"),

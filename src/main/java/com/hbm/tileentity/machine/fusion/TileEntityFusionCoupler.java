@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.fusion;
 
-import java.util.Map.Entry;
-
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
@@ -68,10 +66,9 @@ public class TileEntityFusionCoupler extends TileEntityLoadedBase implements IFu
 		if(klystronNode != null && klystronNode.net != null) {
 			KlystronNetwork net = (KlystronNetwork) klystronNode.net;
 			
-			for(Object o : net.receiverEntries.entrySet()) {
-				Entry e = (Entry) o;
-				if(e.getKey() instanceof TileEntityFusionTorus) {
-					TileEntityFusionTorus torus = (TileEntityFusionTorus) e.getKey();
+			for(Object o : net.receiverEntries) {
+				if(o instanceof TileEntityFusionTorus) {
+					TileEntityFusionTorus torus = (TileEntityFusionTorus) o;
 					
 					if(torus.isLoaded() && !torus.isInvalid()) {
 						torus.klystronEnergy += fusionPower;

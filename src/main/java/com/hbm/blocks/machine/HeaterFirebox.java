@@ -46,7 +46,12 @@ public class HeaterFirebox extends BlockDummyable implements ITooltipProvider {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1, 1, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);

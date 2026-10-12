@@ -1,8 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,8 +21,8 @@ public class TileEntityMachineBigAssTank extends TileEntityBarrel {
 		return "container.bigAssTank";
 	}
 
-	@Override public long getReceiverSpeed(FluidType type, int pressure) { return Math.max(50_000, (tank.getMaxFill() - tank.getFill()) / 100); }
-	@Override public long getProviderSpeed(FluidType type, int pressure) { return Math.max(50_000, tank.getFill() / 100); }
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return (mode == 0 || mode == 1) ? Math.max(50_000, (tank.getMaxFill() - tank.getFill()) / 100) : 0; }
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return (mode == 1 || mode == 2) ? Math.max(50_000, tank.getFill() / 100) : 0; }
 
 	@Override
 	public void updateEntity() {
@@ -46,13 +47,15 @@ public class TileEntityMachineBigAssTank extends TileEntityBarrel {
 	}
 	
 	@Override
-	protected DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 7, yCoord, zCoord + dir.offsetZ * 7, dir),
-				new DirPos(xCoord - dir.offsetX * 7, yCoord, zCoord - dir.offsetZ * 7, dir.getOpposite())
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 6, yCoord, zCoord + dir.offsetZ * 6, dir),
+					PortDef.make(xCoord - dir.offsetX * 6, yCoord, zCoord - dir.offsetZ * 6, dir.getOpposite())
+			};
+		}
+		return cachedPorts;
 	}
 
 	AxisAlignedBB bb = null;

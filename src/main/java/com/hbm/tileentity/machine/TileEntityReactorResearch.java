@@ -345,7 +345,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	}
 	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("level")) {
 			this.setTarget(data.getDouble("level"));
 		}

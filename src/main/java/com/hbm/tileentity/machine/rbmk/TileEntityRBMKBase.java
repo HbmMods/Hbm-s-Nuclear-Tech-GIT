@@ -12,10 +12,12 @@ import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
@@ -498,18 +500,18 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		/* Hanlde overpressure event */
 		if(RBMKDials.getOverpressure(worldObj) && !pipes.isEmpty()) {
 			HashSet<FluidNode> pipeBlocks = new HashSet<>();
-			HashSet<Map.Entry<IFluidReceiverMK2, Long>> pipeReceivers = new HashSet<>();
+			HashSet<IFluidReceiverMK2> pipeReceivers = new HashSet<>();
 
 			//unify all parts into single sets to prevent redundancy
 			pipes.forEach(x -> {
 				pipeBlocks.addAll(x.links);
-				pipeReceivers.addAll(x.receiverEntries.entrySet());
+				pipeReceivers.addAll(x.receiverEntries);
 			});
 
 			int count = 0;
 			int max = Math.min(pipeBlocks.size() / 5, 100);
 			Iterator<FluidNode> itPipes = pipeBlocks.iterator();
-			Iterator<Map.Entry<IFluidReceiverMK2, Long>> itReceivers = pipeReceivers.iterator();
+			Iterator<IFluidReceiverMK2> itReceivers = pipeReceivers.iterator();
 
 			while(itPipes.hasNext() && count < max) {
 				FluidNode node = itPipes.next();
@@ -523,8 +525,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 			}
 
 			while(itReceivers.hasNext()) {
-				Map.Entry<IFluidReceiverMK2, Long> e = itReceivers.next();
-				IFluidReceiverMK2 con = e.getKey();
+				IFluidReceiverMK2 con = itReceivers.next();
 				if(con instanceof TileEntity) {
 					TileEntity tile = (TileEntity) con;
 					if(con instanceof IOverpressurable) {
@@ -606,5 +607,39 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 17, zCoord + 1);
+	}
+
+	protected PortDef[] portShapeNoLoader;
+	public PortDef[] getPortsNoLoader() {
+		if(portShapeNoLoader == null) {
+			portShapeNoLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+			};
+		}
+		return portShapeNoLoader;
+	}
+	
+	protected PortDef[] portShapeCloseLoader;
+	public PortDef[] getPortsCloseLoader() {
+		if(portShapeCloseLoader == null) {
+			portShapeCloseLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord - 1, zCoord, ForgeDirection.VALID_DIRECTIONS),
+			};
+		}
+		return portShapeCloseLoader;
+	}
+	
+	protected PortDef[] portShapeClassicLoader;
+	public PortDef[] getPortsClassicLoader() {
+		if(portShapeClassicLoader == null) {
+			portShapeClassicLoader = new PortDef[] {
+					PortDef.make(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord - 2, zCoord, ForgeDirection.VALID_DIRECTIONS),
+			};
+		}
+		return portShapeClassicLoader;
 	}
 }

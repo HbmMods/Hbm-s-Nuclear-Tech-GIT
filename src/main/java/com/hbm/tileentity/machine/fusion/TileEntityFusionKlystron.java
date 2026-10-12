@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.fusion;
 
-import java.util.Map.Entry;
-
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionKlystron;
@@ -14,6 +12,7 @@ import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.KlystronNetwork;
@@ -23,6 +22,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +43,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionKlystron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityFusionKlystron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	protected GenNode klystronNode;
 	public static final long MAX_OUTPUT = 1_000_000;
@@ -66,6 +67,22 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 
 		compair = new FluidTank(Fluids.AIR, AIR_CONSUMPTION * 60);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -76,16 +93,12 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			this.maxPower = Math.max(1_000_000L, this.outputTarget * 100L);
-
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				this.trySubscribe(compair.getTankType(), worldObj, pos);
-			}
-
 			this.output = 0;
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(maxPower, power);
@@ -181,10 +194,9 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 		if(klystronNode != null && klystronNode.net != null) {
 			KlystronNetwork net = (KlystronNetwork) klystronNode.net;
 
-			for(Object o : net.receiverEntries.entrySet()) {
-				Entry e = (Entry) o;
-				if(e.getKey() instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
-					TileEntityFusionTorus torus = (TileEntityFusionTorus) e.getKey();
+			for(Object o : net.receiverEntries) {
+				if(o instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
+					TileEntityFusionTorus torus = (TileEntityFusionTorus) o;
 
 					if(torus.isLoaded() && !torus.isInvalid()) { // check against zombie network members
 						torus.klystronEnergy += output;
@@ -196,17 +208,6 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 		}
 		
 		return connected;
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, dir),
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
-		};
 	}
 
 	@Override
@@ -329,7 +330,7 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("amount")) {
 			this.outputTarget = data.getLong("amount");
@@ -402,5 +403,32 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "target",
+				PREFIX_FUNCTION + "settarget" + NAME_SEPARATOR + "target",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "output").equals(name))  return "" + this.output;
+		if((PREFIX_VALUE + "target").equals(name))	return "" + this.outputTarget;
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "settarget").equals(name) && params.length == 1) {
+			this.outputTarget = IRORInteractive.parseInt(params[0], 0, (int)MAX_OUTPUT);
+			return null;
+		}
+		
+		return null;
 	}
 }

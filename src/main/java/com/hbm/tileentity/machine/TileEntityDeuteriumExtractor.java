@@ -4,14 +4,15 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IFluidCopiable {
 	
 	public long power = 0;
 	public FluidTank[] tanks;
@@ -22,6 +23,9 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 		tanks[0] = new FluidTank(Fluids.WATER, 1000);
 		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -32,8 +36,9 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.updateConnections();
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
 				int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
@@ -44,17 +49,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 				power -= this.getMaxPower() / 20;
 			}
 			
-			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1], this);
-			
 			this.networkPackNT(50);
 		}
-	}
-	
-	protected void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

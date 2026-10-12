@@ -50,10 +50,10 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 		thrust.rotateAroundX(this.rotationPitch * (float) Math.PI / 180F);
 		thrust.rotateAroundY(-(this.rotationYaw + 90) * (float) Math.PI / 180F);
 
-		this.spawnContraolWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
-		this.spawnContraolWithOffset(-thrust.zCoord, thrust.yCoord, thrust.xCoord);
-		this.spawnContraolWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
-		this.spawnContraolWithOffset(thrust.zCoord, -thrust.zCoord, -thrust.xCoord);
+		this.spawnContrailWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
+		this.spawnContrailWithOffset(-thrust.zCoord, thrust.yCoord, thrust.xCoord);
+		this.spawnContrailWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
+		this.spawnContrailWithOffset(thrust.zCoord, -thrust.zCoord, -thrust.xCoord);
 	}
 	
 	public static class EntityMissileBurst extends EntityMissileTier3 {

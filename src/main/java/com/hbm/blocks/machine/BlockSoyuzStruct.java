@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+@Deprecated
 public class BlockSoyuzStruct extends BlockContainer {
 
 	public BlockSoyuzStruct(Material mat) {

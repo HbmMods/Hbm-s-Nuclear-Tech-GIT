@@ -5,18 +5,17 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.config.ClientConfig;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTowerLarge extends TileEntityCondenser {
 	
@@ -46,6 +45,9 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 		writer.name("I:inputTankSize").value(inputTankSizeTL);
 		writer.name("I:outputTankSize").value(outputTankSizeTL);
 	}
+	
+	@Override
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.bigTower(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
@@ -70,30 +72,6 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 		}
 	}
 
-	@Override
-	public void subscribeToAllAround(FluidType type, TileEntity te) {
-		
-		for(int i = 2; i < 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-			this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, dir);
-			this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, dir);
-			this.trySubscribe(this.tanks[0].getTankType(),worldObj,  xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, dir);
-		}
-	}
-
-	@Override
-	public void sendFluidToAll(FluidTank tank, TileEntity te) {
-		
-		for(int i = 2; i < 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-			this.sendFluid(this.tanks[1], worldObj, xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, dir);
-			this.sendFluid(this.tanks[1], worldObj, xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, dir);
-			this.sendFluid(this.tanks[1], worldObj,  xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, dir);
-		}
-	}
-	
 	AxisAlignedBB bb = null;
 	
 	@Override

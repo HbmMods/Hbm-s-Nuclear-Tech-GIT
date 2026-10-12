@@ -10,6 +10,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityTickingBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -35,7 +36,7 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 	public static int capacitorPower = 2_500_000;
 	public static int turboPower = 5_000_000;
 
-	protected List<BlockPos> ports = new ArrayList();
+	public PortDef[] ports = new PortDef[0];
 	
 	public boolean assembled;
 
@@ -62,6 +63,7 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		this.emitterCount = 0;
 		this.capacitorCount = 0;
 		this.turbochargerCount = 0;
+		List<PortDef> portList = new ArrayList();
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 		BlockPos pos = new BlockPos(0, 0, 0);
@@ -99,7 +101,11 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 			}
 		}
 		
-		this.ports.addAll(ports);
+		for(BlockPos port : ports) {
+			portList.add(PortDef.make(port.getX(), port.getY(), port.getZ(), ForgeDirection.VALID_DIRECTIONS));
+		}
+
+		this.ports = portList.toArray(new PortDef[0]);
 	}
 
 	@Override
@@ -110,12 +116,9 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 			this.networkPackNT(50);
 			
 			if(this.assembled) {
-				for(BlockPos pos : ports) {
-					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-						BlockPos portPos = pos.offset(dir);
-						if(this.getMaxPower() > 0) this.trySubscribe(worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
-					}
-				}
+				
+				this.setupAllPorts(ports);
+				this.updatePortPIFIFO();
 				
 				if(this.power > 0) {
 		
@@ -162,6 +165,7 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 				}
 				
 			} else {
+				this.destroyAllPorts();
 				this.laserLength = 0;
 			}
 		} else {
@@ -204,12 +208,12 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		this.emitterCount = nbt.getInteger("emitterCount");
 		this.capacitorCount = nbt.getInteger("capacitorCount");
 		this.turbochargerCount = nbt.getInteger("turbochargerCount");
-		
-		ports.clear();
+
 		int portCount = nbt.getInteger("portCount");
+		this.ports = new PortDef[portCount];
 		for(int i = 0; i < portCount; i++) {
 			int[] port = nbt.getIntArray("p" + i);
-			ports.add(new BlockPos(port[0], port[1], port[2]));
+			ports[i] = PortDef.make(port[0], port[1], port[2], ForgeDirection.VALID_DIRECTIONS);
 		}
 	}
 	
@@ -224,11 +228,11 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		nbt.setInteger("emitterCount", emitterCount);
 		nbt.setInteger("capacitorCount", capacitorCount);
 		nbt.setInteger("turbochargerCount", turbochargerCount);
-		
-		nbt.setInteger("portCount", ports.size());
-		for(int i = 0; i < ports.size(); i++) {
-			BlockPos pos = ports.get(i);
-			nbt.setIntArray("p" + i, new int[] { pos.getX(), pos.getY(), pos.getZ() });
+
+		nbt.setInteger("portCount", ports.length);
+		for(int i = 0; i < ports.length; i++) {
+			PortDef port = ports[i];
+			nbt.setIntArray("p" + i, new int[] { port.portPositions[0].getX(), port.portPositions[0].getY(), port.portPositions[0].getZ() });
 		}
 	}
 

@@ -117,7 +117,7 @@ public class FusionRecipes extends GenericRecipes<FusionRecipe> {
 				.setRGB(1F, 0.4F, 0.1F) // brilliant orange, like looking into a furnace
 				.setNamed().setIcon(new ItemStack(ModItems.fluid_icon, 1, Fluids.STELLAR_FLUX.getID()))
 				.setPower(solenoid).setDuration(100)
-				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 10))
+				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 5))
 				.outputItems(new ItemStack(ModItems.powder_gold))); // eough
 	}
 

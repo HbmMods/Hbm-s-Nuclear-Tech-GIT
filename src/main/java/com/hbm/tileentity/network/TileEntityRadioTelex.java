@@ -159,7 +159,7 @@ public class TileEntityRadioTelex extends TileEntityLoadedBase implements IContr
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		for(int i = 0; i < 5; i++) {
 			if(data.hasKey("tx" + i)) this.txBuffer[i] = data.getString("tx" + i);

@@ -74,7 +74,9 @@ public class NTMMaterial {
 		return this;
 	}
 
+	/** Metal */
 	public NTMMaterial m() { this.traits.add(MatTraits.METAL); return this; }
+	/** Nonmetal */
 	public NTMMaterial n() { this.traits.add(MatTraits.NONMETAL); return this; }
 	
 	/** Defines smelting behavior */
