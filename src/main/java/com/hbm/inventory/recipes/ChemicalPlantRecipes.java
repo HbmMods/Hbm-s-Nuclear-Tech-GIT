@@ -80,6 +80,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
 		
+		this.register(new GenericRecipe("chem.ticl4").setup(60, 500)
+				.inputItems(new OreDictStack(ILMENITE.ingot(), 4), new OreDictStack(ANY_COKE.gem()))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 500))
+				.outputFluids(new FluidStack(Fluids.TITANIUM_TETRACHLORIDE, 4_000)));
+		
 		/// OILS ///
 		this.register(new GenericRecipe("chem.ethanol").setupNamed(50, 100).setIcon(ModItems.canister_full, Fluids.ETHANOL.getID())
 				.inputItems(new ComparableStack(Items.sugar, 10))

@@ -54,6 +54,15 @@ public class MachineExcavator extends BlockDummyable {
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 1, 3, ForgeDirection.SOUTH.ordinal()},
+			{-1, 1, 3, ForgeDirection.SOUTH.ordinal()},
+			{3, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-3, 1, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		x += dir.offsetX * o;
 		y += dir.offsetY * o;
@@ -67,19 +76,17 @@ public class MachineExcavator extends BlockDummyable {
 
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		x += dir.offsetX * o;
-		y += dir.offsetY * o;
-		z += dir.offsetZ * o;
 
-		MultiblockHandlerXR.fillSpace(world, x, y, z, getDimensions(), this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, 3, -2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
+		int cx = x + dir.offsetX * o;
+		int cy = y + dir.offsetY * o;
+		int cz = z + dir.offsetZ * o;
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, getDimensions(), this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, 3, -2, 3, -2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, cx, cy, cz, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX, y + 1, z + dir.offsetZ * 3 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y + 1, z + dir.offsetZ * 3 - rot.offsetZ);
-		this.makeExtra(world, x + rot.offsetX * 3, y + 1, z + rot.offsetZ * 3);
-		this.makeExtra(world, x - rot.offsetX * 3, y + 1, z - rot.offsetZ * 3);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

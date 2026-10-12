@@ -30,22 +30,24 @@ public class MachineBlastFurnace extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {6, 0, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 1; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{0, 3, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 5, 1, ForgeDirection.SOUTH.ordinal()},
+			{0, 6, 0, ForgeDirection.UP.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x -= dir.offsetX;
-		z -= dir.offsetZ;
-		
-		this.makeExtra(world, x + 1, y, z);
-		this.makeExtra(world, x - 1, y, z);
-		this.makeExtra(world, x, y, z + 1);
-		this.makeExtra(world, x, y, z - 1);
-
-		this.makeExtra(world, x + dir.offsetX, y + 3, z + dir.offsetZ);
-		this.makeExtra(world, x + dir.offsetX, y + 5, z + dir.offsetZ);
-		
-		this.makeExtra(world, x, y + 6, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 }

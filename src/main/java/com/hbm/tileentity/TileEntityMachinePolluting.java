@@ -45,8 +45,7 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 			int overflow = tank.getFill() - tank.getMaxFill();
 			tank.setFill(tank.getMaxFill());
 			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
-			
-			if(worldObj.rand.nextInt(3) == 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.VANILLA_HISS, 0.1F, 1.5F);
+			vent();
 		}
 	}
 	public void pollute(FluidType type, FluidTrait.FluidReleaseType release, float amount) {
@@ -58,7 +57,13 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 		HashMap<PollutionType, Float> map = release == FluidTrait.FluidReleaseType.BURN ? trait.burnMap : trait.releaseMap;
 
 		for(Map.Entry<PollutionType, Float> entry : map.entrySet()) {
-			pollute(entry.getKey(), entry.getValue());
+			pollute(entry.getKey(), entry.getValue() * amount);
+		}
+	}
+
+	protected void vent() {
+		if (worldObj.rand.nextInt(3) == 0) {
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.VANILLA_HISS, 0.1F, 1.5F);
 		}
 	}
 	

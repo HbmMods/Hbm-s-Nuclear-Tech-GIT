@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 80],
     "trigger": [["hbm:item.fluid_icon", 1, 80]],
     "title": {
-        "en_US": "Coal Tar Creosote"
+        "en_US": "Coal Tar Creosote",
+        "ru_RU": "Креозот из угольной смолы"
     },
     "content": {
-        "en_US": "Coal tar creosote can be made by coking any form of coal or lignite in a [[combination oven|Combination Oven]]. It is primarily [[fractioned|Fractioning Tower]] for [[coal oil|Coal Oil]] and [[bitumen|Bitumen]]."
+        "en_US": "Coal tar creosote can be made by coking any form of coal or lignite in a [[combination oven|Combination Oven]]. It is primarily [[fractioned|Fractioning Tower]] for [[coal oil|Coal Oil]] and [[bitumen|Bitumen]].",
+        "ru_RU": "Креозот из угольной смолы образуется путем коксования любой формы угля или бурого угля в [[коксовой печи|Combination Oven]]. В основном его [[ректифируют|Fractioning Tower]] для получения [[фотоген|Coal Oil]] и [[битума|Bitumen]]."
     }
 }

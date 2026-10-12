@@ -81,6 +81,16 @@ public class TileEntityMachineTapeDrive extends TileEntityMachineBase implements
 		}
 	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return stack.getItemDamage() != EnumDriveType.DISK_EMPTY.ordinal() && stack.getItemDamage() != EnumDriveType.FLASH_EMPTY.ordinal();
+	}
+
 	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return stack.getItem() == ModItems.drive; }
 	@Override public int getInventoryStackLimit() { return 1; }
 

@@ -88,22 +88,25 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 			return true;
 		}
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, -1, ForgeDirection.DOWN.ordinal()},
+			{0, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{1, 0, -1, ForgeDirection.DOWN.ordinal()},
+			{1, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{0, 4, -1, ForgeDirection.UP.ordinal()},
+			{0, 4, 0, ForgeDirection.UP.ordinal()},
+			{1, 4, -1, ForgeDirection.UP.ordinal()},
+			{1, 4, 0, ForgeDirection.UP.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		x = x + dir.offsetX * o;
-		z = z + dir.offsetZ * o;
-		
-		ForgeDirection d2 = dir.getRotation(ForgeDirection.UP);
-		dir = dir.getOpposite();
 
-		for(int i = 0; i < 5; i += 4) {
-			this.makeExtra(world, x, y + i, z);
-			this.makeExtra(world, x + dir.offsetX, y + i, z + dir.offsetZ);
-			this.makeExtra(world, x + d2.offsetX, y + i, z + d2.offsetZ);
-			this.makeExtra(world, x + dir.offsetX + d2.offsetX, y + i, z + dir.offsetZ + d2.offsetZ);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 	

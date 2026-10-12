@@ -83,6 +83,14 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	}
 
 	@Override
+	public long getFluidAvailable(FluidType type, int pressure) {
+		if(this.tilted) return 0;
+		if(this.mode == 0 || this.mode == 3) return 0;
+		if(tank.getPressure() != pressure) return 0;
+		return type == tank.getTankType() ? tank.getFill() : 0;
+	}
+
+	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
@@ -93,7 +101,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
 			if(comp != this.lastRedstone) {
 				this.markDirty();
-				for(PortDef port : getPorts()) for(DirPos pos : port.portConnections) this.updateRedstoneConnection(pos);
+				for(PortDef port : getPorts()) for(DirPos pos : port.portConnections) this.triggerNeighborUpdate(pos);
 			}
 			this.lastRedstone = comp;
 
@@ -167,12 +175,19 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
 
-		if(b == ModBlocks.barrel_corroded ) {
+		if(b == ModBlocks.barrel_corroded) {
 			if(worldObj.rand.nextInt(3) == 0) {
 				tank.setFill(tank.getFill() - 1);
 				FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.SPILL, 1);
 			}
 			if(worldObj.rand.nextInt(3 * 60 * 20) == 0) worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+		}
+
+		if(b == ModBlocks.barrel_steel && tank.getTankType().isHighlyCorrosive()) {
+			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
+			TileEntityBarrel barrel = (TileEntityBarrel) worldObj.getTileEntity(xCoord, yCoord, zCoord);
+			barrel.tank.setTankType(tank.getTankType());
+			barrel.tank.setFill(tank.getFill());
 		}
 
 		//For when Tom's firestorm hits a barrel full of water

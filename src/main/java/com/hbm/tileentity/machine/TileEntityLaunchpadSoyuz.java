@@ -191,7 +191,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
-			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX;
+			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4;
 			double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
 			
 			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.READY || this.soyuzStatus == SoyuzStatus.LAUNCHING) &&
@@ -501,6 +501,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		
 		// at least one cargo slot must be occupied
 		if(this.cargoMode) {
+			if(slots[1] == null) return false;
 			for(int i = 9; i < 27; i++) {
 				if(slots[i] != null) return true;
 			}
@@ -575,6 +576,11 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		if(slot == 1) return stack.getItem() instanceof IDesignatorItem;
 		if(slot == 2) return stack.getItem() instanceof ISatChip && !cargoMode;
 		if(slot == 3) return stack.getItem() == ModItems.missile_soyuz_lander && !cargoMode;
+		if(slot == 4) return this.isFluidContainer(stack, tanks[0]);
+		if(slot == 5) return false;
+		if(slot == 6) return this.isFluidContainer(stack, tanks[1]);
+		if(slot == 7) return false;
+		if(slot == 8) return this.isBattery(stack);
 		if(slot > 8) {
 			if(!cargoMode) return false;
 			// only allow items not compatible with slots 0-3
@@ -660,7 +666,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "tank0");
 		tanks[1].writeToNBT(nbt, "tank1");
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 8; i++) {
 			nbt.setFloat("p" + i, positions[i]);
 			nbt.setFloat("s" + i, speed[i]);
 			nbt.setFloat("t" + i, target[i]);
@@ -672,6 +678,20 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		nbt.setBoolean("cargoMode", cargoMode);
 		nbt.setInteger("fuelCountdown", fuelCountdown);
 		nbt.setInteger("countdown", countdown);
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
 	}
 
 	@Override public long getPower() { return this.power; }

@@ -162,7 +162,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 			if(this.lastPower != getRedPower()) {
 				this.markChanged();
-				for(PortDef port : this.getPorts()) for(DirPos pos : port.portConnections) this.updateRedstoneConnection(pos);
+				for(PortDef port : this.getPorts()) for(DirPos pos : port.portConnections) this.triggerNeighborUpdate(pos);
 			}
 			lastPower = getRedPower();
 

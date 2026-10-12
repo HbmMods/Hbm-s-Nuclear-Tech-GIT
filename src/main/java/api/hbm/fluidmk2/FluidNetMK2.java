@@ -39,6 +39,7 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 	}
 	
 	//this sucks ass, but it makes the code just a smidge more structured
+	public long totalFluidInNetwork;
 	public long[] fluidAvailable = new long[IFluidUserMK2.HIGHEST_VALID_PRESSURE + 1];
 	public List<Pair<IFluidProviderMK2, Long>>[] providers = new ArrayList[IFluidUserMK2.HIGHEST_VALID_PRESSURE + 1];
 	public long[][] fluidDemand = new long[IFluidUserMK2.HIGHEST_VALID_PRESSURE + 1][ConnectionPriority.values().length];
@@ -46,6 +47,9 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 	public long[] transfered = new long[IFluidUserMK2.HIGHEST_VALID_PRESSURE + 1];
 	
 	public void setupFluidProviders() {
+		
+		totalFluidInNetwork = 0;
+		
 		Iterator<IFluidProviderMK2> iterator = providerEntries.iterator();
 		
 		while(iterator.hasNext()) {
@@ -56,6 +60,7 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 				long available = Math.min(provider.getFluidAvailable(type, p), provider.getProviderSpeed(type, p));
 				providers[p].add(new Pair(provider, available));
 				fluidAvailable[p] += available;
+				totalFluidInNetwork += provider.getFluidAvailable(type, p);
 			}
 		}
 	}
@@ -97,7 +102,6 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 					long toSend = (long) Math.max(toTransfer * weight, 0D);
 					toSend -= entry.getKey().transferFluid(type, p, toSend);
 					received[p] += toSend;
-					fluidTracker += toSend;
 				}
 				
 				totalAvailable -= received[p];
@@ -130,6 +134,18 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 				notAccountedFor[p] -= toUse;
 			}
 		}
+		
+		Iterator<IFluidProviderMK2> iterator = providerEntries.iterator();
+		long totalAfterTransfer = 0;
+		
+		while(iterator.hasNext()) {
+			IFluidProviderMK2 provider = iterator.next();
+			for(int p = 0; p <= IFluidUserMK2.HIGHEST_VALID_PRESSURE; p++) {
+				totalAfterTransfer += provider.getFluidAvailable(type, p);
+			}
+		}
+		
+		this.fluidTracker += this.totalFluidInNetwork - totalAfterTransfer;
 	}
 	
 	public void cleanUp() {

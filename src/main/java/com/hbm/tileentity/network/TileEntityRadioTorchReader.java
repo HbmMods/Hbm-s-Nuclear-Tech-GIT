@@ -149,7 +149,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getChannel(Context context, Arguments args) {
 		int index = args.checkInteger(0);
-		if (index >= 0 && index < channels.length) return new Object[] { channels[args.checkInteger(0)] };
+		if (index >= 0 && index < channels.length) return new Object[] { channels[index] };
 		else return new Object[] {};
 	}
 
@@ -165,7 +165,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getName(Context context, Arguments args) {
 		int index = args.checkInteger(0);
-		if (index >= 0 && index < names.length) return new Object[] { names[args.checkInteger(0)] };
+		if (index >= 0 && index < names.length) return new Object[] { names[index] };
 		else return new Object[] {};
 	}
 

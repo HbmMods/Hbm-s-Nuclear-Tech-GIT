@@ -37,14 +37,8 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 170, guiTop + 44, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 44, 16, 52, launcher.power, launcher.maxPower);
 		
-		String[] descText = I18nUtil.resolveKeyArray("desc.gui.soyuz.desc");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 53, 16, 16, guiLeft - 8, guiTop + 53 + 16, descText);
-
-		String[] cargoText = I18nUtil.resolveKeyArray("desc.gui.soyuz.cargo");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 52, 18, 18, mouseX, mouseY, cargoText );
-		
-		String[] satelliteText = I18nUtil.resolveKeyArray("desc.gui.soyuz.satellite");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 97, guiTop + 52, 18, 18, mouseX, mouseY, satelliteText );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 52, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("desc.gui.soyuz.cargo"));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 97, guiTop + 52, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("desc.gui.soyuz.satellite"));
 	}
 
 	@Override
@@ -124,12 +118,27 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		int l = launcher.orbital();
 		if(l > 0) drawTexturedModalRect(guiLeft + 79, guiTop + 25, 210 + (l - 1) * 18, 8, 18, 18);
 		
+		if(launcher.loadedType == -1)
+			drawTexturedModalRect(guiLeft + 97, guiTop + 79, 210, 8, 18, 18);
+		else
+			drawTexturedModalRect(guiLeft + 97, guiTop + 79, 228, 8, 18, 18);
+		
+		if(!launcher.cargoMode) {
+			if(launcher.slots[2] == null)
+				drawTexturedModalRect(guiLeft + 97, guiTop + 25, 210, 8, 18, 18);
+			else
+				drawTexturedModalRect(guiLeft + 97, guiTop + 25, 228, 8, 18, 18);
+		} else {
+			if(launcher.slots[1] == null)
+				drawTexturedModalRect(guiLeft + 79, guiTop + 79, 210, 8, 18, 18);
+			else
+				drawTexturedModalRect(guiLeft + 79, guiTop + 79, 228, 8, 18, 18);
+		}
+		
 		if(launcher.soyuzStatus == SoyuzStatus.LAUNCHING)
 			drawTexturedModalRect(guiLeft + 88, guiTop + 97, 210, 44, 18, 18);
 		
 		launcher.tanks[0].renderTank(guiLeft + 152, guiTop + 96, this.zLevel, 16, 52);
 		launcher.tanks[1].renderTank(guiLeft + 170, guiTop + 96, this.zLevel, 16, 52);
-		
-		this.drawInfoPanel(guiLeft - 16, guiTop + 53, 16, 16, 2);
 	}
 }

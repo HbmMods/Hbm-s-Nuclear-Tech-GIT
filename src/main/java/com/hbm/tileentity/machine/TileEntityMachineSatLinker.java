@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 
 public class TileEntityMachineSatLinker extends TileEntityMachineBase implements IGUIProvider {
 	
+	public static final int SAT_ID_RANGE = 10_000_000;
+	
 	public TileEntityMachineSatLinker() {
 		super(3);
 	}
@@ -47,7 +49,7 @@ public class TileEntityMachineSatLinker extends TileEntityMachineBase implements
 			
 			if(slots[2] != null && slots[2].getItem() instanceof ISatChip) {
 				SatelliteSavedData satelliteData = SatelliteSavedData.getData(worldObj);
-				int newId = worldObj.rand.nextInt(100000);
+				int newId = worldObj.rand.nextInt(SAT_ID_RANGE);
 				if(!satelliteData.isFreqTaken(newId)) {
 					ISatChip.setFreqS(slots[2], newId);
 				}

@@ -64,6 +64,21 @@ public class Watz extends BlockDummyable {
 		};
 	}
 	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{2, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{-2, 0, 0, ForgeDirection.DOWN.ordinal()},
+			{0, 0, 2, ForgeDirection.DOWN.ordinal()},
+			{0, 0, -2, ForgeDirection.DOWN.ordinal()},
+			{2, 2, 0, ForgeDirection.UP.ordinal()},
+			{-2, 2, 0, ForgeDirection.UP.ordinal()},
+			{0, 2, 2, ForgeDirection.UP.ordinal()},
+			{0, 2, -2, ForgeDirection.UP.ordinal()},
+			{0, 2, 0, ForgeDirection.UP.ordinal()},
+			{0, 0, 0, ForgeDirection.DOWN.ordinal()}
+		}, dir);
+	}
+	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{2, 0, 2, 2, 2, -2}, x, y, z, dir) &&
@@ -80,19 +95,9 @@ public class Watz extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{2, 0, 2, 2, -2, 2}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{2, 0, 1, 1, 3, -3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{2, 0, 1, 1, -3, 3}, this, dir);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-
-		this.makeExtra(world, x + 2, y, z);
-		this.makeExtra(world, x - 2, y, z);
-		this.makeExtra(world, x, y, z + 2);
-		this.makeExtra(world, x, y, z - 2);
-		this.makeExtra(world, x + 2, y + 2, z);
-		this.makeExtra(world, x - 2, y + 2, z);
-		this.makeExtra(world, x, y + 2, z + 2);
-		this.makeExtra(world, x, y + 2, z - 2);
-		this.makeExtra(world, x, y + 2, z);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 	
 	public static boolean drop = true;

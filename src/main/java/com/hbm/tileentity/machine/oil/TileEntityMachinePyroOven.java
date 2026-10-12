@@ -318,18 +318,8 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 	@Override public boolean canExtractItem(int i, ItemStack itemStack, int j) { return i == 2; }
 
 	@Override
-	public void pollute(PollutionType type, float amount) {
-		FluidTank tank = type == PollutionType.SOOT ? smoke : type == PollutionType.HEAVYMETAL ? smoke_leaded : smoke_poison;
-
-		int fluidAmount = (int) Math.ceil(amount * 100);
-		tank.setFill(tank.getFill() + fluidAmount);
-
-		if(tank.getFill() > tank.getMaxFill()) {
-			int overflow = tank.getFill() - tank.getMaxFill();
-			tank.setFill(tank.getMaxFill());
-			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
-			this.isVenting = true;
-		}
+	protected void vent() {
+		this.isVenting = true;
 	}
 
 	@Override public AudioWrapper createAudioLoop() {

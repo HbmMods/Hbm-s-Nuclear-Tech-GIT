@@ -34,16 +34,37 @@ public class MachinePUREX extends BlockDummyable implements ITooltipProvider {
 
 	@Override public int[] getDimensions() { return new int[] {4, 0, 2, 2, 2, 2}; }
 	@Override public int getOffset() { return 2; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{-2, 0, -2, ForgeDirection.WEST.ordinal()},
+			{-2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{0, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{2, 0, -2, ForgeDirection.EAST.ordinal()},
+			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
+			{2, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{2, 0, 1, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 2, ForgeDirection.WEST.ordinal()},
+			{-2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{0, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 2, ForgeDirection.EAST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		for(int i = -2; i <= 2; i++) for(int j = -2; j <= 2; j++) {
-			if(Math.abs(i) == 2 || Math.abs(j) == 2) this.makeExtra(world, x + i, y, z + j);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
 	}
 

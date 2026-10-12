@@ -37,8 +37,8 @@ public class SuperComputerRecipes extends GenericRecipes<GenericRecipe> {
 		registerSimulation(EnumDriveType.FLASH_PARTICLESIM, "com.particlecalc");
 		
 		// process
-		registerTriplet("com.processflight", 30 * min, 15 * min, 5 * min, EnumDriveType.DISK_FLIGHTDATA, EnumDriveType.DISK_FLIGHTDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 99, 95, 90);
-		registerTriplet("com.processorbit", 60 * min, 30 * min, 15 * min, EnumDriveType.DISK_ORBITDATA, EnumDriveType.DISK_ORBITDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 75, 65, 50);
+		registerTriplet("com.processflight", 30 * min, 15 * min, 2 * min, EnumDriveType.DISK_FLIGHTDATA, EnumDriveType.DISK_FLIGHTDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 99, 95, 90);
+		registerTriplet("com.processorbit", 60 * min, 30 * min, 5 * min, EnumDriveType.DISK_ORBITDATA, EnumDriveType.DISK_ORBITDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 75, 65, 50);
 		
 		// copy
 		registerCopy("com.copyflightcalc", 15 * min, EnumDriveType.FLASH_FLIGHTSIM, EnumDriveType.FLASH_EMPTY, EnumDriveType.FLASH_BROKEN, 95);

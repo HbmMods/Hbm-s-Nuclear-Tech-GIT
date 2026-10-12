@@ -49,7 +49,15 @@ public class MachineFusionKlystron extends BlockDummyable implements ITooltipPro
 			{1.5, 3.5, -4.5, -4.5, 1, -1}
 		};
 	}
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 2, 3, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-2, 0, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
+
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
@@ -61,15 +69,10 @@ public class MachineFusionKlystron extends BlockDummyable implements ITooltipPro
 		super.fillSpace(world, x, y, z, dir, o);
 		
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y, z + dir.offsetZ * o, new int[] {4, -3, 4, 3, 1, 1}, this, dir);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 3, y + 2, z + dir.offsetZ * 3);
-		this.makeExtra(world, x + rot.offsetX * 2, y, z + rot.offsetZ * 2);
-		this.makeExtra(world, x - rot.offsetX * 2, y, z - rot.offsetZ * 2);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

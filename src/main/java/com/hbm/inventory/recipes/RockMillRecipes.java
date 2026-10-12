@@ -101,6 +101,17 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 						new ChanceOutput(new ItemStack(ModItems.powder_gold), 5)
 				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
 		
+		this.register(new GenericRecipe("rock.basalt").setup(duraLong, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new ComparableStack(ModBlocks.basalt))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputFluids(new FluidStack(Fluids.COLLOID, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(Blocks.gravel), 50),
+						new ChanceOutput(new ItemStack(ModItems.powder_ash, 1, 2), 25),
+						new ChanceOutput(new ItemStack(ModItems.powder_quartz), 15),
+						new ChanceOutput(new ItemStack(ModBlocks.gravel_obsidian), 10)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
 		this.register(new GenericRecipe("rock.hematite").setup(duraLong, consumption).setNameWrapper("rock.crushing")
 				.inputItems(new OreDictStack(HEMATITE.ore()))
 				.inputFluids(new FluidStack(Fluids.WATER, 250))

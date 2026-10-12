@@ -1,5 +1,7 @@
 package com.hbm.items;
 
+import com.hbm.interfaces.IOrderedEnum;
+
 /**
  * I'm not at all sure if bunching together all these enums in one long class is a good idea
  * but I don't want to make a new class for every multi item to hold the enum
@@ -50,11 +52,23 @@ public class ItemEnums {
 		MUSTARDWILLOW
 	}
 
-	public static enum EnumChunkType {
+	public static enum EnumChunkType implements IOrderedEnum {
 		RARE,
 		MALACHITE,
 		CRYOLITE,
-		MOONSTONE
+		MOONSTONE,
+		ILMENITE;
+
+		@Override
+		public Enum[] getOrder() {
+			return new Enum[] {
+					MALACHITE,
+					CRYOLITE,
+					ILMENITE,
+					RARE,
+					MOONSTONE,
+			};
+		}
 	}
 
 	public static enum EnumAchievementType {

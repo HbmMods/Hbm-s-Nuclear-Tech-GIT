@@ -41,22 +41,24 @@ public class MachineBatteryREDD extends BlockDummyable implements IPersistentInf
 
 	@Override public int[] getDimensions() { return new int[] {9, 0, 2, 2, 4, 4}; }
 	@Override public int getOffset() { return 2; }
-	
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{-2, 0, 2, ForgeDirection.SOUTH.ordinal()},
+			{2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{-2, 0, -2, ForgeDirection.NORTH.ordinal()},
+			{4, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-4, 0, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX * 2, y, z + dir.offsetZ * 2 + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX * 2, y, z + dir.offsetZ * 2 - rot.offsetZ * 2);
-		this.makeExtra(world, x - dir.offsetX * 2 + rot.offsetX * 2, y, z - dir.offsetZ * 2 + rot.offsetZ * 2);
-		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * 2, y, z - dir.offsetZ * 2 - rot.offsetZ * 2);
-		this.makeExtra(world, x + rot.offsetX * 4, y, z + rot.offsetZ * 4);
-		this.makeExtra(world, x - rot.offsetX * 4, y, z - rot.offsetZ * 4);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 	
 	@Override

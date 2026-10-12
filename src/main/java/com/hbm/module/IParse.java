@@ -103,30 +103,36 @@ public interface IParse {
 	
 	public static enum EnumStatementReturn {
 		/** The command executed correctly (more or less) */
-		OK,
+		OK(false),
 		/** The command hasn't been recognized */
-		UNRECOGNIZED_COMMAND,
+		UNRECOGNIZED_COMMAND(true),
 		/** Requests the AUTOCAL unit to end the tick, regardless of how many clock cycles are left */
-		END_TICK,
+		END_TICK(false),
 		/** Requests an AUTOCAL shutdown */
-		SHUTDOWN,
+		SHUTDOWN(false),
 		/** Skips the instruction, doesn't use up a clock cycle */
-		SKIP,
+		SKIP(false),
 		/** General undefined behavior */
-		UNDEFINED,
+		UNDEFINED(true),
 		/** Stack ran full */
-		STACK_EXCEEDED,
+		STACK_EXCEEDED(true),
 		/** Parameters expected but not supplied */
-		PARAMETER_MISSING,
+		PARAMETER_MISSING(true),
 		/** Parameters not within expected numeric range */
-		PARAMETER_OOB,
+		PARAMETER_OOB(true),
 		/** Parameters not in expected format */
-		PARAMETER_PARSE_ERROR,
+		PARAMETER_PARSE_ERROR(true),
 		/** Jump to undefined destination */
-		NO_DESTINATION,
+		NO_DESTINATION(true),
 		/** Calculation has failed, likely to values not being numbers or malformed statements */
-		ARITHMETIC_EXCEPTION,
+		ARITHMETIC_EXCEPTION(true),
 		/** Buffer contents are required, but not present */
-		BUFFER_EMPTY,
+		BUFFER_EMPTY(true);
+		
+		public final boolean error;
+		
+		private EnumStatementReturn(boolean error) {
+			this.error = error;
+		}
 	}
 }

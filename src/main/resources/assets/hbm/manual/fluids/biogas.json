@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 26],
     "trigger": [["hbm:item.fluid_icon", 1, 26]],
     "title": {
-        "en_US": "Biogas"
+        "en_US": "Biogas",
+        "ru_RU": "Биогаз"
     },
     "content": {
-        "en_US": "Biogas can be obtained by [[combining|Chemical Plant]] biomass with [[compressed air|Compressed Air]]. Through [[mixing|Chemical Plant]] with [[ethanol|Ethanol]] it can be used to produce [[biofuel|Biofuel]]. Addtionally, it may also be used to create additional [[petroleum gas|Petroleum Gas]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It may also be produced by [[liquifying|Liquification Machine]] biomass."
+        "en_US": "Biogas can be obtained by [[combining|Chemical Plant]] biomass with [[compressed air|Compressed Air]]. Through [[mixing|Chemical Plant]] with [[ethanol|Ethanol]] it can be used to produce [[biofuel|Biofuel]]. Addtionally, it may also be used to create additional [[petroleum gas|Petroleum Gas]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It may also be produced by [[liquifying|Liquification Machine]] biomass.",
+        "ru_RU": "Биогаз можно получить путем [[объединения|Chemical Plant]] биомассы со [[сжатым воздухом|Compressed Air]]. Путем [[смешивания|Chemical Plant]] с [[этанолом|Ethanol]] его можно использовать для производства [[биотоплива|Biofuel]]. Кроме того, его можно применять для создания дополнительного [[попутного нефтяного газа|Petroleum Gas]] и [[ароматических углеводородов|Aromatic Hydrocarbons]]. Его также можно получить путем [[сжижения|Liquification Machine]] биомассы."
     }
 }

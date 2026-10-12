@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineArcWelder extends BlockDummyable {
 
@@ -34,5 +35,21 @@ public class MachineArcWelder extends BlockDummyable {
 	@Override
 	public int getOffset() {
 		return 0;
+	}
+
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{0, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{-1, 0, 0, ForgeDirection.SOUTH.ordinal()},
+			{1, 0, 0, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 0, ForgeDirection.WEST.ordinal()},
+			{0, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+		}, dir);
 	}
 }

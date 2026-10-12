@@ -72,23 +72,25 @@ public class MachineIndustrialTurbine extends BlockDummyable implements ITooltip
 
 	@Override public int[] getDimensions() { return new int[] { 2, 0, 3, 3, 1, 1 }; }
 	@Override public int getOffset() { return 3; }
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, 3, ForgeDirection.EAST.ordinal()},
+			{-1, 0, 3, ForgeDirection.WEST.ordinal()},
+			{1, 0, -1, ForgeDirection.EAST.ordinal()},
+			{-1, 0, -1, ForgeDirection.WEST.ordinal()},
+			{0, 2, 3, ForgeDirection.UP.ordinal()},
+			{0, 2, -1, ForgeDirection.UP.ordinal()},
+			{0, 1, -3, ForgeDirection.NORTH.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX, y, z + dir.offsetZ * 3 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y, z + dir.offsetZ * 3 - rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 1 + rot.offsetX, y, z - dir.offsetZ * 1 + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 1 - rot.offsetX, y, z - dir.offsetZ * 1 - rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 3, y + 2, z + dir.offsetZ * 3);
-		this.makeExtra(world, x - dir.offsetX * 1, y + 2, z - dir.offsetZ * 1);
-		this.makeExtra(world, x - dir.offsetX * 3, y + 1, z - dir.offsetZ * 3);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

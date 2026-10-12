@@ -21,6 +21,7 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer implements I
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		float rotation = 0F;
 

@@ -24,7 +24,12 @@ public class FurnaceSteel extends BlockDummyable implements ITooltipProvider {
 		if(meta >= 12) return new TileEntityFurnaceSteel();
 		return new TileEntityProxyCombo(true, false, false);
 	}
-	
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{0, 0, 0.5, -0.3, 0.4, -0.4, 1}
+		};
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);

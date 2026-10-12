@@ -93,6 +93,19 @@ public class LaunchpadSoyuz extends BlockDummyable {
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		MultiblockHandlerXR.fillSpace(world, x + rot.offsetX * 5, y, z + rot.offsetZ * 5, new int[] {7, 0, -2, 3, 2, 2}, this, dir);
+		
+		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX * 1, y + 1, z + dir.offsetZ * 2 + rot.offsetZ * 1);
+		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX * 1, y + 1, z + dir.offsetZ * 2 - rot.offsetZ * 1);
+		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX * 7, y + 1, z + dir.offsetZ * 2 - rot.offsetZ * 7);
+		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX * 9, y + 1, z + dir.offsetZ * 2 - rot.offsetZ * 9);
+		this.makeExtra(world, x - dir.offsetX * 10 + rot.offsetX * 1, y + 1, z - dir.offsetZ * 10 + rot.offsetZ * 1);
+		this.makeExtra(world, x - dir.offsetX * 10 - rot.offsetX * 1, y + 1, z - dir.offsetZ * 10 - rot.offsetZ * 1);
+		this.makeExtra(world, x - dir.offsetX * 10 - rot.offsetX * 7, y + 1, z - dir.offsetZ * 10 - rot.offsetZ * 7);
+		this.makeExtra(world, x - dir.offsetX * 10 - rot.offsetX * 9, y + 1, z - dir.offsetZ * 10 - rot.offsetZ * 9);
+		this.makeExtra(world, x + dir.offsetX * 1 - rot.offsetX * 10, y + 1, z + dir.offsetZ * 1 - rot.offsetZ * 10);
+		this.makeExtra(world, x - dir.offsetX * 1 - rot.offsetX * 10, y + 1, z - dir.offsetZ * 1 - rot.offsetZ * 10);
+		this.makeExtra(world, x - dir.offsetX * 7 - rot.offsetX * 10, y + 1, z - dir.offsetZ * 7 - rot.offsetZ * 10);
+		this.makeExtra(world, x - dir.offsetX * 9 - rot.offsetX * 10, y + 1, z - dir.offsetZ * 9 - rot.offsetZ * 10);
 	}
 
 	@Override

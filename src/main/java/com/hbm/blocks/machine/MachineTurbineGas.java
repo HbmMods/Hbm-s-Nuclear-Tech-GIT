@@ -49,22 +49,24 @@ public class MachineTurbineGas extends BlockDummyable implements ILookOverlay {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllPorts(ForgeDirection dir) {
+		return rotatePorts(new int[][] {
+			{1, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{1, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{-4, 0, -1, ForgeDirection.NORTH.ordinal()},
+			{-4, 0, 1, ForgeDirection.SOUTH.ordinal()},
+			{4, 1, 0, ForgeDirection.EAST.ordinal()},
+			{-5, 1, 0, ForgeDirection.WEST.ordinal()}
+		}, dir);
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-
-		x += dir.offsetX * o;
-		z += dir.offsetZ * o;
 		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		this.makeExtra(world, x - dir.offsetX * 1 + rot.offsetX, y, z - dir.offsetZ * 1 + rot.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * 1 + rot.offsetX, y, z + dir.offsetZ * 1 + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX * 1 + rot.offsetX * -4, y, z - dir.offsetZ * 1 + rot.offsetZ * -4);
-		this.makeExtra(world, x + dir.offsetX * 1 + rot.offsetX * -4, y, z + dir.offsetZ * 1 + rot.offsetZ * -4);
-		this.makeExtra(world, x + rot.offsetX * 4, y + 1, z + rot.offsetZ * 4);
-		this.makeExtra(world, x + rot.offsetX * -5, y + 1, z + rot.offsetZ * -5);
+		for(int[] offset : getAllPorts(dir)) {
+			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
+		}
 	}
 
 	@Override

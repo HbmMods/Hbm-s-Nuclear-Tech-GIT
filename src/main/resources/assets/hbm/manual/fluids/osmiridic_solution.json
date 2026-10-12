@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 58],
     "trigger": [["hbm:item.fluid_icon", 1, 58]],
     "title": {
-        "en_US": "Osmiridic Solution"
+        "en_US": "Osmiridic Solution",
+        "ru_RU": "Осмиридиевый раствор"
     },
     "content": {
-        "en_US": "Osmiridic solution is a post-gerald fluid that can be made from paleogenite powder and other materials in a [[chemical plant|Chemical Plant]]. It may be split with gamma waves in a [[SILEX]] to obtain impure osmiridium powder."
+        "en_US": "Osmiridic solution is a post-gerald fluid that can be made from paleogenite powder and other materials in a [[chemical plant|Chemical Plant]]. It may be split with gamma waves in a [[SILEX]] to obtain impure osmiridium powder.",
+        "ru_RU": "Раствор осмиридия — это жидкость этапа пост-геральд, которую можно получить из порошка палеогенита и других материалов в [[химической установке|Chemical Plant]]. Его можно расщепить гамма-излучением в [[SILEX]], чтобы получить неочищенный порошок осмиридия."
     }
 }

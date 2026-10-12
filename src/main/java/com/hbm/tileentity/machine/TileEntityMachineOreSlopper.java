@@ -122,6 +122,8 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 
 		if(!worldObj.isRemote) {
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			tanks[0].setType(1, slots);

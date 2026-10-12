@@ -33,6 +33,11 @@ public class ModulePortManFluidAdaptive {
 		this.owner = owner;
 	}
 	
+	public void destroy() {
+		if(inPorts != null) for(TilePort port : inPorts) if(port != null) port.disableIfPresent(owner.getWorldObj());
+		if(outPorts != null) for(TilePort port : outPorts) if(port != null) port.disableIfPresent(owner.getWorldObj());
+	}
+	
 	public ModulePortManFluidAdaptive setInputTanks(FluidTank... tanks) {
 		inPorts = new TilePort[tanks.length];
 		inTanks = tanks;

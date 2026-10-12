@@ -25,7 +25,10 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecip
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.module.portmanager.ModulePortManFluidAdaptive;
+import com.hbm.module.portmanager.ModulePortManPower;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
@@ -72,6 +75,9 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
+	protected ModulePortManFluidAdaptive moduleFluidPorts;
+	protected ModulePortManPower modulePowerPorts;
+
 	public TileEntityElectrolyser() {
 		//0: Battery
 		//1-2: Upgrades
@@ -88,6 +94,9 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		tanks[1] = new FluidTank(Fluids.HYDROGEN, 16000);
 		tanks[2] = new FluidTank(Fluids.OXYGEN, 16000);
 		tanks[3] = new FluidTank(Fluids.NITRIC_ACID, 16000);
+
+		moduleFluidPorts = new ModulePortManFluidAdaptive(this).setInputTanks(getReceivingTanks()).setOutputTanks(getSendingTanks());
+		modulePowerPorts = new ModulePortManPower(this);
 	}
 
 	@Override
@@ -111,12 +120,46 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		return "container.machineElectrolyser";
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 + rot.offsetX * 0, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 0, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 5 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 1, dir.getOpposite()),
+					
+					PortDef.make(xCoord - dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 4 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 1, rot),
+					
+					PortDef.make(xCoord - dir.offsetX * 4 - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 4 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 0 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 0 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 4 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 3, rot.getOpposite()),
+					
+					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 5 - rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 0, dir),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, dir),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
-			// TODO ports
+
+			moduleFluidPorts.update(getPorts());
+			modulePowerPorts.update(getPorts());
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.tanks[0].setType(3, 4, slots);
