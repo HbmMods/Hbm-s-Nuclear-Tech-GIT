@@ -47,6 +47,7 @@ public class GUICalculator extends GuiScreen {
 	private static final int maxHistory = 6;
 	private static final Deque<Tuple.Pair<String, Double>> calcHistory = new ArrayDeque<>(maxHistory);
 	private static final Deque<String> qmawHistory = new ArrayDeque<>(maxHistory);
+	private final List<String> qmawResults = new ArrayList<>(QMAW_KEYS.size());
 	// Can in theory add more modes if we make it an enum and use a switch, but I imagine that'd be impractical
 	private static boolean qmawMode = false;
 	private String latestResult = "?", lastInput = "";
@@ -56,26 +57,24 @@ public class GUICalculator extends GuiScreen {
 		Keyboard.enableRepeatEvents(true);
 
 		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
+		int y = (height / 2) - ySize;
 		inputField = new GuiTextField(fontRendererObj, x + 5, y + 14, 210, 13);
 		inputField.setTextColor(-1);
 		inputField.setCanLoseFocus(false);
 		inputField.setFocused(true);
 		inputField.setMaxStringLength(1000);
 	}
-
-	private static int totalHistory()
-	{
-		return calcHistory.size() + qmawHistory.size();
-	}
 	
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-
-//	private final Set<Tuple.Pair<String, Integer>> resultWeightPairs = new HashSet<>();
-	private final List<String> qmawResults = new ArrayList<>(QMAW_KEYS.size());
+	
+	private boolean isInputEmpty()
+	{
+		return inputField.getText().isEmpty();
+	}
+	
 		
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
@@ -158,6 +157,7 @@ public class GUICalculator extends GuiScreen {
 	// Split it out to keep things contained
 	protected void trySearchForQMAW(char typedChar, int keyCode)
 	{
+		final boolean history = isInputEmpty();
 		final String query = inputField.getText().toLowerCase();
 		// Reset with updated search parameters if new string
 		if (!inputField.getText().equalsIgnoreCase(lastInput))
@@ -176,7 +176,7 @@ public class GUICalculator extends GuiScreen {
 		{
 			if (selectedHist >= 0)
 			{
-				final String key = new ArrayList<>(inputField.getText().isEmpty() ? qmawHistory : qmawResults).get(selectedHist);
+				final String key = new ArrayList<>(history ? qmawHistory : qmawResults).get(selectedHist);
 				qmawHistory.remove(key);// Remove duplicate history
 				qmawHistory.addFirst(key);
 				if (qmawHistory.size() > maxHistory) qmawHistory.removeLast();
@@ -193,7 +193,7 @@ public class GUICalculator extends GuiScreen {
 			}
 		}
 		
-		if (typedChar == 127 && inputField.getText().isEmpty())// Delete key
+		if (typedChar == 127 && history)// Delete key
 		{
 			if (selectedHist >= 0)
 			{
@@ -204,7 +204,6 @@ public class GUICalculator extends GuiScreen {
 			}
 		}
 		
-		final boolean history = inputField.getText().isEmpty();
 		
 		// up arrow, wraps to the end for efficiency
 		if (keyCode == 200) selectedHist = selectedHist < 0 ? (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1 : Math.max(selectedHist - 1, -1);
@@ -221,7 +220,7 @@ public class GUICalculator extends GuiScreen {
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
+		int y = (height / 2) - ySize;
 		int histHeight = (fontRendererObj.FONT_HEIGHT + 4) * maxHistory;
 		int histStart = y + 30 + fontRendererObj.FONT_HEIGHT + 8;
 
@@ -233,8 +232,8 @@ public class GUICalculator extends GuiScreen {
 		inputField.drawTextBox();
 
 		final String headerText = qmawMode
-			? I18nUtil.resolveKey(inputField.getText().isEmpty() ? "gui.calc.qmawHistory" : "gui.calc.qmawResult")
-		                          : I18nUtil.resolveKey(inputField.getText().isEmpty() ? "gui.calc.calculatorHistory" : "gui.calc.calculatorResult");
+			? I18nUtil.resolveKey(isInputEmpty() ? "gui.calc.qmawHistory" : "gui.calc.qmawResult")
+		                          : I18nUtil.resolveKey(isInputEmpty() ? "gui.calc.calculatorHistory" : "gui.calc.calculatorResult");
 		
 		fontRendererObj.drawString(headerText, x + 4, y + 4, -1);
 		
@@ -264,7 +263,7 @@ public class GUICalculator extends GuiScreen {
 	private void drawQMAW(int x, int y)
 	{
 		int i = 0;
-		for (String r : inputField.getText().isEmpty() ? qmawHistory : qmawResults)
+		for (String r : isInputEmpty() ? qmawHistory : qmawResults)
 		{			
 			if (i > maxHistory - 1)
 				break;
