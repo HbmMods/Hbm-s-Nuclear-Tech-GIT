@@ -36,7 +36,7 @@ public class TileEntityFusionTorusStruct extends TileEntity {
 		MachineFusionTorus block = (MachineFusionTorus) ModBlocks.fusion_torus;
 		BlockDummyable.safeRem = true;
 		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.fusion_torus, 12, 3);
-		block.fillSpace(worldObj, xCoord, yCoord, zCoord, ForgeDirection.NORTH, 0);
+		block.fillSpace(worldObj, xCoord, yCoord, zCoord - block.getOffset(), ForgeDirection.NORTH, -block.getOffset());
 		BlockDummyable.safeRem = false;
 	}
 	
