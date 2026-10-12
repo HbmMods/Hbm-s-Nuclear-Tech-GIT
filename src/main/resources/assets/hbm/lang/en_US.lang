@@ -1249,9 +1249,9 @@ gui.weapon.quality.utility=Utility
 gui.weapon.quality.secret=SECRET
 gui.weapon.quality.debug=DEBUG
 
-gui.calc.calculatorResult=§lCalculation Result:§r
+gui.calc.calculatorResult=§lCalculator Mode§r
 gui.calc.calculatorHistory=§lCalculation History:§r
-gui.calc.qmawResult=§lQMAW Search Results:§r
+gui.calc.qmawResult=§lQMAW Search Mode:§r
 gui.calc.qmawHistory=§lQMAW Search History:§r
 
 gun.make.ARMALITE=Armalite

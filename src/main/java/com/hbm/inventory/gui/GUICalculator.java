@@ -231,9 +231,7 @@ public class GUICalculator extends GuiScreen {
 
 		inputField.drawTextBox();
 
-		final String headerText = qmawMode
-			? I18nUtil.resolveKey(isInputEmpty() ? "gui.calc.qmawHistory" : "gui.calc.qmawResult")
-		                          : I18nUtil.resolveKey(isInputEmpty() ? "gui.calc.calculatorHistory" : "gui.calc.calculatorResult");
+		final String headerText = qmawMode ? I18nUtil.resolveKey("gui.calc.qmawResult") : I18nUtil.resolveKey("gui.calc.calculatorResult");
 		
 		fontRendererObj.drawString(headerText, x + 4, y + 4, -1);
 		
