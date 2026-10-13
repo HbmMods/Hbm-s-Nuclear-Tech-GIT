@@ -1249,10 +1249,8 @@ gui.weapon.quality.utility=Utility
 gui.weapon.quality.secret=SECRET
 gui.weapon.quality.debug=DEBUG
 
-gui.calc.calculatorResult=§lCalculator Mode§r
-gui.calc.calculatorHistory=§lCalculation History:§r
-gui.calc.qmawResult=§lQMAW Search Mode:§r
-gui.calc.qmawHistory=§lQMAW Search History:§r
+gui.calc.calculatorResult=§lCalculator Mode §o(Tab to toggle):§r
+gui.calc.qmawResult=§lQMAW Search Mode §o(Tab to toggle):§r
 
 gun.make.ARMALITE=Armalite
 gun.make.AUTO_ORDINANCE=Auto-Ordnance Corporation

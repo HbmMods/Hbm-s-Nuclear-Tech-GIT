@@ -17,37 +17,30 @@ import net.minecraft.client.renderer.RenderHelper;
 
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class GUICalculator extends GuiScreen {
-	/// QMAW keys that are indexable. Statically loaded, so it runs only once.
-	private static final Set<String> QMAW_KEYS = QMAWLoader.qmaw.entrySet().stream().filter(e -> !e.getValue().noIndex).map(Map.Entry::getKey).collect(Collectors.toSet());
-	
-	private int xSize = 220;
-	private int ySize = 50;
-	private int borderWidth = 2;
+	private static final int xSize = 220;
+	private static final int ySize = 50;
+	private static final int borderWidth = 2;
 	private GuiTextField inputField;
 
 	private int selectedHist = -1;
 	private static final int maxHistory = 6;
-	private static final Deque<Tuple.Pair<String, Double>> calcHistory = new ArrayDeque<>(maxHistory);
-	private static final Deque<String> qmawHistory = new ArrayDeque<>(maxHistory);
-	private final List<String> qmawResults = new ArrayList<>(QMAW_KEYS.size());
+	private static final List<Tuple.Pair<String, Double>> calcHistory = new ArrayList<>(maxHistory);
+	private static final List<String> qmawHistory = new ArrayList<>(maxHistory);
+	private final List<String> qmawResults = new ArrayList<>(QMAWLoader.QMAW_KEYS.size());// Update initial capacity???
 	// Can in theory add more modes if we make it an enum and use a switch, but I imagine that'd be impractical
 	private static boolean qmawMode = false;
 	private String latestResult = "?", lastInput = "";
@@ -55,14 +48,26 @@ public class GUICalculator extends GuiScreen {
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
-
-		int x = (width - xSize) / 2;
-		int y = (height / 2) - ySize;
+		
+		int x = startX();
+		int y = startY();
 		inputField = new GuiTextField(fontRendererObj, x + 5, y + 14, 210, 13);
 		inputField.setTextColor(-1);
 		inputField.setCanLoseFocus(false);
 		inputField.setFocused(true);
 		inputField.setMaxStringLength(1000);
+	}
+	
+	/// @return The GUI x-coord starting position
+	private int startX()
+	{
+		return (width - xSize) / 2;
+	}
+	
+	/// @return The GUI y-coord starting position
+	private int startY()
+	{
+		return (height - (ySize + (fontRendererObj.FONT_HEIGHT + 4) * maxHistory)) / 2;
 	}
 	
 	@Override
@@ -74,7 +79,6 @@ public class GUICalculator extends GuiScreen {
 	{
 		return inputField.getText().isEmpty();
 	}
-	
 		
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
@@ -89,20 +93,23 @@ public class GUICalculator extends GuiScreen {
 		else 
 			handleCalculator(typedChar, keyCode);
 	}
+	
 	private void handleCalculator(char typedChar, int keyCode)
 	{
 		String input = inputField.getText().replaceAll("[^\\d+\\-*/%^!.()\\sA-Za-z]+", "");
 
+		selectedHistSanityCheck();
+		
 		if (typedChar == 13 || typedChar == 10) { // when pressing enter (CR or LF)
 			if (selectedHist != -1) {
-				input = new ArrayList<>(calcHistory).get(selectedHist).key;
+				input = calcHistory.get(selectedHist).key;
 				inputField.setText(input);
 				selectedHist = -1;
 			} else {
 				try {
 					double result = Calculator.evaluateExpression(input);
-					calcHistory.addFirst(new Tuple.Pair<>(input, result));
-					if (calcHistory.size() > maxHistory) calcHistory.removeLast();
+					calcHistory.add(0, new Tuple.Pair<>(input, result));
+					if (calcHistory.size() > maxHistory) calcHistory.remove(calcHistory.size() - 1);
 					String plainStringRepresentation = (new BigDecimal(result, MathContext.DECIMAL64)).toPlainString();
 					GuiScreen.setClipboardString(plainStringRepresentation);
 					inputField.setText(plainStringRepresentation);
@@ -114,20 +121,12 @@ public class GUICalculator extends GuiScreen {
 		}
 		
 		if (typedChar == 127 && input.isEmpty())// Delete key
-		{
-			if (selectedHist >= 0)
-			{
-				final Iterator<Tuple.Pair<String, Double>> it = calcHistory.iterator();
-				for (int i = 0; i <= selectedHist; i++)
-					it.next();
-				it.remove();
-			}
-		}
+			deleteCalcHistoryEntry();
 
 		// up arrow, wraps
-		if (keyCode == 200) selectedHist = selectedHist < 0 ? Math.min(calcHistory.size(), maxHistory) - 1 : Math.max(selectedHist - 1, -1);
+		if (keyCode == 200) selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
 		// down arrow, wraps
-		else if (keyCode == 208) selectedHist = selectedHist >= calcHistory.size() - 1 ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
+		else if (keyCode == 208) selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
 		else selectedHist = -1;
 
 		if (input.isEmpty()) {
@@ -139,12 +138,17 @@ public class GUICalculator extends GuiScreen {
 			latestResult = Double.toString(Calculator.evaluateExpression(input));
 		} catch (Exception e) { latestResult = e.toString(); }
 	}
+	
+	private void deleteCalcHistoryEntry()
+	{
+		selectedHistSanityCheck();
+		if (selectedHist >= 0)
+			calcHistory.remove(selectedHist);
+	}
 
 	private static void sortQMAWResults(String search, List<String> results)
 	{
-		// Standard sort first
-//		results.sort(String::compareToIgnoreCase);
-		// Prioritize matching from the start
+		// Prioritize entries that start with the query
 		results.sort((s1, s2) ->
 			{
 				final boolean starts1 = s1.toLowerCase().startsWith(search), starts2 = s2.toLowerCase().startsWith(search);
@@ -159,13 +163,13 @@ public class GUICalculator extends GuiScreen {
 	{
 		final boolean history = isInputEmpty();
 		final String query = inputField.getText().toLowerCase();
-		// Reset with updated search parameters if new string
+		// Reset with updated search parameters if new string to save on some compute
 		if (!inputField.getText().equalsIgnoreCase(lastInput))
 		{
 			qmawResults.clear();
 			lastInput = inputField.getText();
 			
-			for (String entry : QMAW_KEYS)
+			for (String entry : QMAWLoader.QMAW_KEYS)
 				if (entry.toLowerCase().contains(query) && !qmawResults.contains(entry))// Make sure we don't have duplicate entries
 					qmawResults.add(entry);
 		}
@@ -173,43 +177,45 @@ public class GUICalculator extends GuiScreen {
 		sortQMAWResults(query, qmawResults);
 
 		if (typedChar == 13 || typedChar == 10) // Enter key
-		{
-			if (selectedHist >= 0)
-			{
-				final String key = new ArrayList<>(history ? qmawHistory : qmawResults).get(selectedHist);
-				qmawHistory.remove(key);// Remove duplicate history
-				qmawHistory.addFirst(key);
-				if (qmawHistory.size() > maxHistory) qmawHistory.removeLast();
-				inputField.setText(key);
-				selectedHist = -1;
-
-				final QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(key);
-				if (qmaw != null)
-				{
-					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-					final GuiQMAW screen = new GuiQMAW(qmaw);
-					FMLCommonHandler.instance().showGuiScreen(screen);
-				}
-			}
-		}
+			executeQMAW(history);
 		
 		if (typedChar == 127 && history)// Delete key
+			deleteQMAWHistoryEntry();
+				
+		// up arrow, wraps to the end for efficiency
+		if (keyCode == 200) selectedHist = (selectedHist < 0) ? ((history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1) : Math.max(selectedHist - 1, -1);
+		// down arrow, also wraps
+		else if (keyCode == 208) selectedHist = (selectedHist >= ((history ? qmawHistory.size() : qmawResults.size()) - 1)) ? -1 : ((selectedHist >= (maxHistory - 1)) ? -1 : (selectedHist + 1));
+		else selectedHist = -1;
+	}
+	
+	private void executeQMAW(boolean historyMode)
+	{
+		selectedHistSanityCheck();
+		if (selectedHist >= 0)
 		{
-			if (selectedHist >= 0)
+			final String key = new ArrayList<>(historyMode ? qmawHistory : qmawResults).get(selectedHist);
+			qmawHistory.remove(key);// Remove duplicate history
+			qmawHistory.add(0, key);
+			if (qmawHistory.size() > maxHistory) qmawHistory.remove(qmawHistory.size() - 1);
+			inputField.setText(key);
+			selectedHist = -1;
+
+			final QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(key);
+			if (qmaw != null)
 			{
-				final Iterator<String> it = qmawHistory.iterator();
-				for (int i = 0; i <= selectedHist; i++)
-					it.next();
-				it.remove();
+				Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				final GuiQMAW screen = new GuiQMAW(qmaw);
+				FMLCommonHandler.instance().showGuiScreen(screen);
 			}
 		}
-		
-		
-		// up arrow, wraps to the end for efficiency
-		if (keyCode == 200) selectedHist = selectedHist < 0 ? (history ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1 : Math.max(selectedHist - 1, -1);
-		// down arrow, also wraps
-		else if (keyCode == 208) selectedHist = selectedHist >= (history ? qmawHistory.size() : qmawResults.size()) - 1 ? -1 : selectedHist >= maxHistory - 1 ? -1 : selectedHist + 1;
-		else selectedHist = -1;
+	}
+
+	private void deleteQMAWHistoryEntry()
+	{
+		selectedHistSanityCheck();
+		if (selectedHist >= 0)
+			qmawHistory.remove(selectedHist);
 	}
 
 	private static final int BORDER_COLOR = 0xFF2d2d2d, FILL_COLOR = 0xFF3d3d3d, SELECT_COLOR = 0xFF111111;
@@ -219,29 +225,55 @@ public class GUICalculator extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		int x = (width - xSize) / 2;
-		int y = (height / 2) - ySize;
+		int x = startX();
+		int y = startY();
 		int histHeight = (fontRendererObj.FONT_HEIGHT + 4) * maxHistory;
 		int histStart = y + 30 + fontRendererObj.FONT_HEIGHT + 8;
 
-		drawRect(x, y, x+xSize, y+ySize+histHeight, BORDER_COLOR);
-		drawRect(x+borderWidth, y+borderWidth, x+xSize-borderWidth, y+ySize-borderWidth+histHeight, FILL_COLOR);
+		drawRect(x, y, x + xSize, y + ySize + histHeight, BORDER_COLOR);
+		drawRect(x + borderWidth, y + borderWidth, x + xSize - borderWidth, y + ySize - borderWidth + histHeight, FILL_COLOR);
 		if (!qmawMode)
-			drawRect(x, histStart - 5, x+xSize, histStart - 3, BORDER_COLOR);
+			drawRect(x, histStart - 5, x + xSize, histStart - 3, BORDER_COLOR);
 
 		inputField.drawTextBox();
 
 		final String headerText = qmawMode ? I18nUtil.resolveKey("gui.calc.qmawResult") : I18nUtil.resolveKey("gui.calc.calculatorResult");
 		
 		fontRendererObj.drawString(headerText, x + 4, y + 4, -1);
-		
+
+		handleScrolling();
+				
 		if (qmawMode)
-			drawQMAW(x, y);
+			drawQMAW(mouseX, mouseY, x, y);
 		else
-			drawCalc(x, y);
+			drawCalc(mouseX, mouseY, x, y);
+
 	}
 	
-	private void drawCalc(int x, int y)
+	private void handleScrolling()
+	{
+		if (!Mouse.isButtonDown(MOUSE_LEFT) && !Mouse.isButtonDown(MOUSE_MIDDLE) && Mouse.next())
+		{
+			final int scroll = Mouse.getEventDWheel();
+//			System.out.printf("Scrolling = %d\n", scroll);
+			// Scrolling up behaves the same as up arrow
+			if (scroll > 0)
+			{
+				if (qmawMode)
+					selectedHist = (selectedHist < 0) ? ((isInputEmpty() ? qmawHistory.size() : Math.min(qmawResults.size(), maxHistory)) - 1) : Math.max(selectedHist - 1, -1);
+				else
+					selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
+			} else if (scroll < 0) // And vice versa
+			{
+				if (qmawMode)
+					selectedHist = (selectedHist >= ((isInputEmpty() ? qmawHistory.size() : qmawResults.size()) - 1)) ? -1 : ((selectedHist >= (maxHistory - 1)) ? -1 : (selectedHist + 1));
+				else
+					selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
+			}
+		}
+	}
+
+	private void drawCalc(int mouseX, int mouseY, int x, int y)
 	{
 		fontRendererObj.drawString("=" + latestResult, x + 5, y + 32, -1);
 
@@ -258,7 +290,7 @@ public class GUICalculator extends GuiScreen {
 	
 	private static final int QMAW_ENTRY_Y_SPACING = 7;
 	
-	private void drawQMAW(int x, int y)
+	private void drawQMAW(int mouseX, int mouseY, int x, int y)
 	{
 		int i = 0;
 		for (String r : isInputEmpty() ? qmawHistory : qmawResults)
@@ -290,5 +322,82 @@ public class GUICalculator extends GuiScreen {
 			
 			i++;
 		}
+	}
+
+	private static final byte MOUSE_LEFT = 0, MOUSE_RIGHT = 1, MOUSE_MIDDLE = 2, MOUSE_BACK = 3, MOUSE_FORWARD = 4, MOUSE_SCROLL_LEFT = 5, MOUSE_SCROLL_RIGHT = 6;
+	
+	/// Is the mouse in a relevant spot to count its position and clicks? Ignore events outside of this range
+	private boolean isMouseInSegment(int mouseX, int mouseY)
+	{
+		final int x = startX(), y = startY();
+		return (mouseX > x && mouseX < (x + xSize)) && (mouseY > y && mouseY < (y + ySize + (fontRendererObj.FONT_HEIGHT + 4) * maxHistory));
+	}
+	
+	/// Returns what entry the mouse probably clicked on
+	/// @return 0 - 5 if such entries do exist, -1 if the click was out of bounds or otherwise invalid
+	private int mouseEntrySelected(int mouseX, int mouseY)
+	{
+		int entry = -1;
+		if (isMouseInSegment(mouseX, mouseY))
+		{
+			final int x = startX(), y = startY();
+			for (int i = 0; i < maxHistory; i++)
+			{
+				final int hy = qmawMode ? y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i : y + 50 + (fontRendererObj.FONT_HEIGHT + 1) * i;
+				if (qmawMode)
+				{
+					if ((mouseX > (x + 4)) && (mouseY > (hy - (QMAW_ENTRY_Y_SPACING / 2))) && (mouseX < ((x + 4 + xSize) - 9)) && (mouseY < (hy + fontRendererObj.FONT_HEIGHT + (QMAW_ENTRY_Y_SPACING / 2))))
+					{
+						entry = i;
+						break;
+					}
+				} else
+				{
+					if ((mouseX > (x + 4)) && (mouseY > (hy - 1)) && (mouseX < ((x + 4 + xSize) - 9)) && (mouseY < (hy + fontRendererObj.FONT_HEIGHT)))
+					{
+						entry = i;
+						break;
+					}
+				}
+			}
+		}
+		final boolean history = isInputEmpty();
+		if (entry >= (qmawMode ? (history ? qmawHistory.size() : qmawResults.size()) : calcHistory.size()))
+			entry = -1;
+		return entry;
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int key)
+	{
+		super.mouseClicked(mouseX, mouseY, key);
+		
+//		if (isMouseInSegment(mouseX, mouseY))
+//			System.out.printf("MouseX = %d, MouseY = %d, button = %d\n", mouseX, mouseY, key);
+		
+		if (!isMouseInSegment(mouseX, mouseY))
+			return;
+		
+		if ((selectedHist = mouseEntrySelected(mouseX, mouseY)) >= 0)
+		{
+			if (qmawMode)
+			{
+				if (key == MOUSE_LEFT)
+					executeQMAW(isInputEmpty());
+				else if (key == MOUSE_MIDDLE)
+					deleteQMAWHistoryEntry();
+			} else
+			{
+				if (key == MOUSE_LEFT)
+					handleCalculator((char) 10, 0);// Sometimes you gotta live by the jank
+				else if (key == MOUSE_MIDDLE)
+					deleteCalcHistoryEntry();
+			}
+		}
+	}
+	
+	private void selectedHistSanityCheck()
+	{
+		selectedHist = MathHelper.clamp_int(selectedHist, -1, qmawMode ? (isInputEmpty() ? qmawHistory.size() : qmawResults.size()) : calcHistory.size());
 	}
 }
