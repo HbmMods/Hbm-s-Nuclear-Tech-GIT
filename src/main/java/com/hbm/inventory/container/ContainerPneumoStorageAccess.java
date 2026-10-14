@@ -20,6 +20,7 @@ import com.hbm.util.InventoryUtil;
 import api.hbm.ntl.StackCache;
 import api.hbm.ntl.StackCache.CacheSlot;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -84,6 +85,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	public static final int GRID_SIZE = 6 * 8;
 	public static final int DELTAS_PER_MSG = 6 * 8;
 	public static final int SLOT_CLICK_ID_REFRESH = -666;
+	public static final int SLOT_CLICK_ID_RESYNC = -667;
 
 	public int listingStart = 0;
 	public int listingSize = 0;
@@ -135,6 +137,13 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	/** Compares the original access stack cache with the one we have buffered to detect changes and pushes them to the s2c sending queue */
 	public void checkAndSyncCache() {
 		if(this.access.cache == null || this.access.cache.hasExpired) return;
+		
+		for(Entry<Long, CacheSlotDummy> entry : this.cachedEntries.entrySet()) {
+			if(entry.getValue().stacksize != 0 && !this.access.cache.cacheSlots.containsKey(entry.getKey())) {
+				this.updateCount(entry.getKey(), 0);
+				entry.getValue().stacksize = 0;
+			}
+		}
 		
 		for(Entry<Long, CacheSlot> entry : this.access.cache.cacheSlots.entrySet()) {
 			
@@ -193,6 +202,18 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 		}
 
 		boolean client = player.worldObj.isRemote;
+		
+		if(index == SLOT_CLICK_ID_RESYNC) {
+			if(!client) {
+				this.cachedEntries.clear();
+				NBTTagCompound data = new NBTTagCompound();
+				data.setByte("type", (byte) DeltaType.RESET.ordinal());
+				s2cQueue.add(data);
+				this.detectAndSendChanges();
+			}
+			return null;
+		}
+		
 		boolean leftClick = button == 0 && mode == 0;
 		boolean rightClick = button == 1 && mode == 0;
 		boolean shiftClick = button == 0 && mode == 1;
@@ -230,7 +251,8 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 				sendClickToServer(ClickType.RIGHT_CLICK, hash);
 				return null;
 			}
-			if(shiftClick) { sendClickToServer(ClickType.SHIFT_CLICK, hash); return null; }
+			if(shiftClick) sendClickToServer(ClickType.SHIFT_CLICK, hash);
+			return null;
 			
 		// shift clicking an item from the player inv to the storage
 		} else if(index >= GRID_SIZE && index < this.inventorySlots.size()) {
@@ -289,16 +311,29 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			rebuildClientIndex();
 		}
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void putStackInSlot(int index, ItemStack stack) {
+		if(index >= GRID_SIZE) super.putStackInSlot(index, stack);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void putStacksInSlots(ItemStack[] stacks) {
+		for(int i = GRID_SIZE; i < stacks.length; i++) this.getSlot(i).putStack(stacks[i]);
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return access.getDistanceFrom(player.posX, player.posY, player.posZ) <= 15 * 15;
+		return !access.isInvalid() && access.getDistanceFrom(player.posX, player.posY, player.posZ) <= 15 * 15;
 	}
 	
 	/** For S2C to send deltas updating the available items */
 	public static enum DeltaType {
 		NEW_TYPE,
-		COUNT_CHANGE;
+		COUNT_CHANGE,
+		RESET;
 	}
 	
 	public static enum ClickType {
@@ -318,7 +353,10 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 				NBTTagCompound line = list.getCompoundTagAt(i);
 				DeltaType type = EnumUtil.grabEnumSafely(DeltaType.class, line.getByte("type"));
 				
-				if(type == DeltaType.NEW_TYPE) {
+				if(type == DeltaType.RESET) {
+					this.cachedEntries.clear();
+					
+				} else if(type == DeltaType.NEW_TYPE) {
 					ItemStack stack = ItemStack.loadItemStackFromNBT(line);
 					long amount = line.getLong("amount");
 					long hash = StackCache.getStackIdentity(stack);

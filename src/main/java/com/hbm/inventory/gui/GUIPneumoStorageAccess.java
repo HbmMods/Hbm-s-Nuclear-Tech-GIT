@@ -55,12 +55,15 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		super.initGui();
 		
 		Keyboard.enableRepeatEvents(true);
+		boolean reinit = search != null;
+		String text = reinit ? search.getText() : "";
+		if(reinit) this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccess.SLOT_CLICK_ID_RESYNC, 0, 0, this.mc.thePlayer);
 		search = new GuiTextField(this.fontRendererObj, guiLeft + 45 + 34, guiTop + 127, 86, 12);
 		search.setTextColor(0xffffff);
 		search.setDisabledTextColour(0xa0a0a0);
 		search.setEnableBackgroundDrawing(false);
 		search.setMaxStringLength(50);
-		search.setText("");
+		search.setText(text);
 		
 		if(this.startFocussed) search.setFocused(true);
 	}
