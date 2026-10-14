@@ -349,10 +349,9 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 				if(hash != heldHash && held != null) {
 					int toDeposit = type == ClickType.LEFT_CLICK ? held.stackSize : 1;
 					held.stackSize -= toDeposit;
-					int leftover = (int) this.access.cache.addItemsAndReturnQuantity(held, toDeposit);
-					held.stackSize += leftover;
-					this.player.inventory.setItemStack(null);
-					if(held.stackSize > 0) InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, held);
+					held.stackSize += (int) this.access.cache.addItemsAndReturnQuantity(held, toDeposit);
+					this.player.inventory.setItemStack(held.stackSize > 0 ? held : null);
+					((EntityPlayerMP) this.player).updateHeldItem();
 					detectAndSendChanges();
 					return;
 				}
@@ -366,7 +365,8 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 					int toGrab = (int) Math.min(capacity, cache.stacksize);
 					int grabbed = (int) this.access.cache.consumeItemsAndReturnQuantity(stack, toGrab);
 					stack.stackSize = alreadyHeld + grabbed;
-					this.player.inventory.setItemStack(stack);
+					this.player.inventory.setItemStack(stack.stackSize > 0 ? stack : null);
+					((EntityPlayerMP) this.player).updateHeldItem();
 					detectAndSendChanges();
 					return;
 				}
@@ -374,16 +374,21 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			
 			if(type == ClickType.SHIFT_CLICK && cache != null) {
 				ItemStack stack = cache.displayStack.copy();
-				int originalStacksize = (int) Math.min(stack.getMaxStackSize(), cache.stacksize);
-				stack.stackSize = originalStacksize;
-				ItemStack ret = InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, stack);
-				int remainder = ret == null ? 0 : ret.stackSize;
-				int itemsUsed = originalStacksize - remainder;
-				this.access.cache.consumeItemsAndReturnQuantity(stack, itemsUsed);
+				stack.stackSize = (int) this.access.cache.consumeItemsAndReturnQuantity(stack, getInventorySpace(stack));
+				InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, stack);
 				detectAndSendChanges();
 				return;
 			}
 		}
+	}
+
+	public int getInventorySpace(ItemStack stack) {
+		int space = 0;
+		for(ItemStack existing : this.player.inventory.mainInventory) {
+			if(existing == null) return stack.getMaxStackSize();
+			if(InventoryUtil.doesStackDataMatch(existing, stack)) space += Math.max(existing.getMaxStackSize() - existing.stackSize, 0);
+		}
+		return Math.min(space, stack.getMaxStackSize());
 	}
 	
 	public void rebuildClientIndex() {

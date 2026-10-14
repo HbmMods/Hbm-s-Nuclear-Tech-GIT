@@ -66,6 +66,12 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 		return new GUIPneumoStorageMono(player.inventory, this);
 	}
 
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		if(!worldObj.isRemote && amounts[i] > 0) return;
+		super.setInventorySlotContents(i, stack);
+	}
+
 	@Override public long getAmountAt(int index) { return amounts[index]; }
 	@Override public boolean allowTypeSetting() { return false; }
 

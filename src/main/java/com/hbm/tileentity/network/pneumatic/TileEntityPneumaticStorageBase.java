@@ -85,7 +85,7 @@ public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBa
 			}
 
 			if(node != null && !node.expired && node.hasValidNet()) {
-				this.node.net.storages.add(this);
+				this.node.net.addStorage(this);
 			}
 
 			if(this.compair.getFill() > 0) {
