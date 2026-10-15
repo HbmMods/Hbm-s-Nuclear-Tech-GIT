@@ -50,10 +50,10 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 				
 				if(timer % 20 == 0)
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.fstbmbPing", 5.0F, 1.0F);
-			}
-			
-			if(timer <= 0) {
-				explode();
+
+				if(timer <= 0) {
+					explode();
+				}
 			}
 
 			networkPackNT(250);
@@ -85,7 +85,7 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 			started = true;
 		}
 		
-		if(meta == 1)
+		if(meta == 1 && value >= 1 && value <= 999)
 			timer = value * 20;
 	}
 	
