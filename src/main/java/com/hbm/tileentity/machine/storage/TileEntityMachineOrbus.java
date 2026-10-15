@@ -39,10 +39,10 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 					PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, Library.NEG_Y),
 					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, Library.NEG_Y),
 					PortDef.make(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, Library.NEG_Y),
-					PortDef.make(xCoord, yCoord + 3, zCoord, Library.POS_Y),
-					PortDef.make(xCoord + dir.offsetX, yCoord + 3, zCoord + dir.offsetZ, Library.POS_Y),
-					PortDef.make(xCoord + rot.offsetX, yCoord + 3, zCoord + rot.offsetZ, Library.POS_Y),
-					PortDef.make(xCoord + dir.offsetX + rot.offsetX, yCoord + 3, zCoord + dir.offsetZ + rot.offsetZ, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX, yCoord + 4, zCoord + dir.offsetZ, Library.POS_Y),
+					PortDef.make(xCoord + rot.offsetX, yCoord + 4, zCoord + rot.offsetZ, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX, yCoord + 4, zCoord + dir.offsetZ + rot.offsetZ, Library.POS_Y),
 			};
 		}
 		return cachedPorts;
