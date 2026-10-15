@@ -97,8 +97,8 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 					PortDef.make(xCoord - dir.offsetX * 3, yCoord, zCoord - dir.offsetZ * 3, dir.getOpposite()),
 					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot),
 					PortDef.make(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
-					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
-					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, rot.getOpposite()),
 					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, rot),
 					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, rot.getOpposite()),
 			};
