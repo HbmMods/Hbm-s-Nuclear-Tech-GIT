@@ -1179,7 +1179,7 @@ entity.hbm.entity_balls_o_tron.name=Balls-O-Tron Prime
 entity.hbm.entity_balls_o_tron_seg.name=Balls-O-Tron Segment
 entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
-entity.hbm.entity_schrabnel.name=Shrapnel
+entity.hbm.entity_schrabnel.name=Schrabnel
 
 error.generic=### I AM ERROR ###
 
