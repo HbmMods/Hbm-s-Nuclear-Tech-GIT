@@ -554,11 +554,18 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+		if(player.worldObj != worldObj || worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		} else {
-			return true;
 		}
+		if(player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D) return true;
+
+		ItemStack link = slots[8];
+		if(link == null || link.getItem() != ModItems.radar_linker) return false;
+
+		BlockPos pos = ItemCoordinateBase.getPosition(link);
+		return pos != null && player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D
+				&& worldObj.blockExists(pos.getX(), pos.getY(), pos.getZ())
+				&& worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ()) instanceof TileEntityMachineRadarScreen;
 	}
 
 	@Override
