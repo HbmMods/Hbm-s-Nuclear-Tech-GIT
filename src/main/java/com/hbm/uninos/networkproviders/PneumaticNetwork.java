@@ -55,22 +55,6 @@ public class PneumaticNetwork extends NodeNet {
 		storages.clear();
 	}
 	
-	@Override
-	public void joinNetworks(NodeNet network) {
-		super.joinNetworks(network);
-		
-		PneumaticNetwork net = (PneumaticNetwork) network;
-		//for(StackCache cache : accessors) cache.dissolveCache();
-		
-		for(Object acc : net.accessors) this.accessors.add((StackCache) acc);
-		
-		for(Object connector : net.storages) {
-			ISlotMonitorProvider monitor = (ISlotMonitorProvider) connector;
-			this.storages.add((ISlotMonitorProvider) connector);
-			for(Object acc : net.accessors) monitor.onNewCacheHasJoined((StackCache) acc, this);
-		}
-	}
-
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));
 	}
@@ -78,6 +62,12 @@ public class PneumaticNetwork extends NodeNet {
 	public void addStackCache(StackCache accessor) {
 		if(accessors.add(accessor)) {
 			for(ISlotMonitorProvider storage : storages) storage.onNewCacheHasJoined(accessor, this);
+		}
+	}
+
+	public void addStorage(ISlotMonitorProvider storage) {
+		if(storages.add(storage)) {
+			for(StackCache accessor : accessors) storage.onNewCacheHasJoined(accessor, this);
 		}
 	}
 
