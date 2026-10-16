@@ -2,6 +2,7 @@ package com.hbm.packet.toserver;
 
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -21,6 +22,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
@@ -74,6 +76,9 @@ public class AuxButtonPacket implements IMessage {
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 				
+				if(te != null && !canControl(p, te)) {
+					return null;
+				}
 				if(te instanceof TileEntityForceField) {
 					TileEntityForceField field = (TileEntityForceField)te;
 					field.isOn = !field.isOn;
@@ -172,6 +177,14 @@ public class AuxButtonPacket implements IMessage {
 			//} catch (Exception x) { }
 			
 			return null;
+		}
+
+		protected static boolean canControl(EntityPlayer player, TileEntity te) {
+			if(te instanceof IControlReceiver) {
+				return ((IControlReceiver) te).hasPermission(player);
+			}
+
+			return te instanceof IInventory && ((IInventory) te).isUseableByPlayer(player);
 		}
 	}
 }
