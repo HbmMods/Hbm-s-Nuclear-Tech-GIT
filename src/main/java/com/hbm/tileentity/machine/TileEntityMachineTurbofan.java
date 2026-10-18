@@ -115,10 +115,10 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		return new DirPos[] {
-				new DirPos(this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot),
-				new DirPos(this.xCoord + rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
-				new DirPos(this.xCoord - rot.offsetX * 2, this.yCoord, this.zCoord - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(this.xCoord - rot.offsetX * 2 - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ * 2 - dir.offsetZ, rot.getOpposite())
+				new DirPos(this.xCoord + rot.offsetX, this.yCoord, this.zCoord + rot.offsetZ, rot),
+				new DirPos(this.xCoord + rot.offsetX - dir.offsetX, this.yCoord, this.zCoord + rot.offsetZ - dir.offsetZ, rot),
+				new DirPos(this.xCoord - rot.offsetX, this.yCoord, this.zCoord - rot.offsetZ, rot.getOpposite()),
+				new DirPos(this.xCoord - rot.offsetX - dir.offsetX, this.yCoord, this.zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite())
 		};
 	}
 	

@@ -53,7 +53,8 @@ public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverla
 			{2, 0, -1, ForgeDirection.NORTH.ordinal()},
 			{-1, 4, 0, ForgeDirection.UP.ordinal()},
 			{-2, 0, -1, ForgeDirection.WEST.ordinal()},
-			{-2, 0, 1, ForgeDirection.WEST.ordinal()}
+			{-2, 0, 1, ForgeDirection.WEST.ordinal()},
+			{-1, 0, 1, ForgeDirection.SOUTH.ordinal()},
 		}, dir);
 	}
 	@Override

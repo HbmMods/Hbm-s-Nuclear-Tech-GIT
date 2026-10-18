@@ -1,13 +1,9 @@
 ## Changed
-* Updated various electric port textures
-* Changed the custom material/autogen shape config structure
-  * There can now be multiple mold per shape, allowing single and multi molds (like with 1x and 9x ingots)
-  * Examples are now "custom metal demo" and "custom shape demo" instead of "bronze" and "gear" to avoid confusion
-* Some common materials like tungsten, copper, aluminium and boron now have nugget forms
-  * This allows foundry setups to use up materials with nugget precision
+* The calculator (default hotkey N) now acts as a browser for QMAW manual entries
+  * The calculator can be switched between calculator mode and browser mode by pressing tab
 
 ## Fixed
-* Fixed recipe collision in the rotary furnace caused by a missing fluid type check, affecting the sodium aluminate and titanium tetrachloride recipes
-* Fixed port offset on assembled machines
-
-Daily updates will continue until the port situation is improved.
+* Fixed various dupes regarding the pneumatic storage network
+* Fixed an exploit regarding the balefire bomb
+* Fixed the fuel port being missing on the rotary furnace
+* Fixed the redstone detection on the turbofan being offset outwards
