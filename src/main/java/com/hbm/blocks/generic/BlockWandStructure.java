@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -172,6 +173,8 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 	public static class TileEntityWandStructure extends TileEntityLoadedBase implements IControlReceiver {
 
+		public static final int MAX_SAVE_VOLUME = 8 * 1024 * 1024;
+
 		public String name = "";
 
 		public int sizeX = 1;
@@ -187,6 +190,18 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			}
 		}
 
+		private static File structuresFile(String name) {
+			File directory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
+			directory.mkdir();
+
+			try {
+				File file = new File(directory, name + ".nbt").getCanonicalFile();
+				return file.getParentFile().equals(directory.getCanonicalFile()) ? file : null;
+			} catch(IOException ex) {
+				return null;
+			}
+		}
+
 		public void saveStructure(EntityPlayer player) {
 			if(name.isEmpty()) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: invalid name"));
@@ -195,6 +210,16 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 			if(sizeX <= 0 || sizeY <= 0 || sizeZ <= 0) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: invalid dimensions"));
+				return;
+			}
+
+			if((long) sizeX * sizeY > MAX_SAVE_VOLUME / sizeZ) {
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: selection exceeds " + MAX_SAVE_VOLUME + " blocks"));
+				return;
+			}
+
+			if(structuresFile(name) == null) {
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: invalid name"));
 				return;
 			}
 
@@ -223,10 +248,12 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 				return;
 			}
 
-			File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
-			structureDirectory.mkdir();
+			File structureFile = structuresFile(name);
 
-			File structureFile = new File(structureDirectory, name + ".nbt");
+			if(structureFile == null) {
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load: invalid name"));
+				return;
+			}
 
 			boolean debug = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 			boolean previousDebug = ServerConfig.STRUCTURE_DEBUG.get();
@@ -319,12 +346,15 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 		@Override
 		public boolean hasPermission(EntityPlayer player) {
-			return true;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 		}
 
 		@Override
 		public void receiveControl(EntityPlayer player, NBTTagCompound nbt) {
-			readFromNBT(nbt);
+			name = nbt.getString("name");
+			if(nbt.hasKey("sizeX")) sizeX = nbt.getInteger("sizeX");
+			if(nbt.hasKey("sizeY")) sizeY = nbt.getInteger("sizeY");
+			if(nbt.hasKey("sizeZ")) sizeZ = nbt.getInteger("sizeZ");
 			markDirty();
 
 			if(nbt.getBoolean("save")) {
@@ -406,7 +436,6 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			Keyboard.enableRepeatEvents(false);
 
 			NBTTagCompound data = new NBTTagCompound();
-			tile.writeToNBT(data);
 
 			data.setString("name", textName.getText());
 
@@ -518,7 +547,6 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			Keyboard.enableRepeatEvents(false);
 
 			NBTTagCompound data = new NBTTagCompound();
-			tile.writeToNBT(data);
 
 			data.setString("name", textName.getText());
 
