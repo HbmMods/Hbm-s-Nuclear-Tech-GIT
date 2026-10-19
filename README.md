@@ -16,9 +16,11 @@
 
 For further ports, try:
 
-* NTM Remake on 1.18.2: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
-* HBM Modernized on 1.20.1: https://github.com/Raptor324/HBM-Modernized/releases
-* NTM Neo on 1.21.1: https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases
+* [1.18.2] NTM Remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+* [1.20.1] HBM Modernized: https://github.com/Raptor324/HBM-Modernized/releases
+* [1.21.1] NTM Neo: https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases
+* [1.21.1] NTM Decentralized: https://github.com/SecretAgent12/NTM-Decentralized-Edition/releases
+* [26.2] NTM NEXT: https://github.com/Warfactory-Official/ntm-next/releases
 
 ## Downloading pre-compiled versions from GitHub
 

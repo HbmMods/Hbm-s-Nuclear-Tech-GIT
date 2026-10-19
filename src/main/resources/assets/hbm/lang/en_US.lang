@@ -699,6 +699,7 @@ container.iGenerator=Industrial Generator
 container.keyForge=Locksmith Table
 container.launchPad=Launch Pad
 container.launchPadRusted=Launch Pad
+container.launchpadSoyuz=Soyuz Launch Pad
 container.launchTable=Large Launch Pad
 container.leadBox=Containment Box
 container.machineAmmoPress=Ammo Press

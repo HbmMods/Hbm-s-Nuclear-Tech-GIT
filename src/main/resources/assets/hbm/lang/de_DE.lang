@@ -298,6 +298,7 @@ container.iGenerator=Industrieller Generator
 container.keyForge=Schlossertisch
 container.launchPad=Startrampe
 container.launchPadRusted=Startrampe
+container.launchpadSoyuz=Soyuz Startrampe
 container.launchTable=Große Startrampe
 container.leadBox=Sicherheitsbehälter
 container.machineAmmoPress=Munitionspresse

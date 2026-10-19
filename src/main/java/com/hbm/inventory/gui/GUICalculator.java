@@ -324,7 +324,7 @@ public class GUICalculator extends GuiScreen {
 		}
 	}
 
-	private static final byte MOUSE_LEFT = 0, MOUSE_RIGHT = 1, MOUSE_MIDDLE = 2, MOUSE_BACK = 3, MOUSE_FORWARD = 4, MOUSE_SCROLL_LEFT = 5, MOUSE_SCROLL_RIGHT = 6;
+	private static final byte MOUSE_LEFT = 0, MOUSE_MIDDLE = 2;
 	
 	/// Is the mouse in a relevant spot to count its position and clicks? Ignore events outside of this range
 	private boolean isMouseInSegment(int mouseX, int mouseY)
