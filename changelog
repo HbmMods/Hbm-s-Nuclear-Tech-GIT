@@ -9,3 +9,4 @@
 * Fixed the redstone detection on the turbofan being offset outwards
 * Fixed a crash caused by constructing a PWR with no working ports
 * Fixed missing soyuz launch pad localization
+* Fixed reasim RBMK auto control rods being unobtainable in 528 mode due to needing regular non-reasim control rods
