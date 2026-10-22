@@ -698,6 +698,7 @@ container.iGenerator=Промышленный генератор
 container.keyForge=Стол мастера по замкам
 container.launchPad=Пусковая площадка
 container.launchPadRusted=Пусковая площадка
+container.launchpadSoyuz=Пусковая площадка Союз
 container.launchTable=Большая пусковая площадка
 container.leadBox=Защитная коробка
 container.machineAmmoPress=Пресс для патронов
