@@ -72,7 +72,10 @@ public class TilePort {
 	}
 	
 	public void update(World world) {
-		if(this.positions == null || this.connections == null || this.owner == null) return; // skip ticking if setup isn't complete
+		if(this.positions == null || this.positions.length == 0 ||
+				this.connections == null || this.connections.length == 0 ||
+				this.owner == null) return; // skip ticking if setup isn't complete
+		
 		// if positions or connections are nulled, ticks are skipped
 		// if a node already exists, this may cause unintended behavior, so don't do that
 

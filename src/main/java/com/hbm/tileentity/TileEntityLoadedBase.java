@@ -45,6 +45,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	
 	/** Sets up power, fluid in (if valid) and fluid out (if valid) ports */
 	@Deprecated public void setupAllPorts(PortDef[] ports) {
+		if(ports == null || ports.length == 0) return;
 		this.setupPowerPorts(ports);
 		this.setupFluidPorts(ports);
 	}

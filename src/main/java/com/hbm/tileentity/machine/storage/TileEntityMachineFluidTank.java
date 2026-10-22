@@ -4,6 +4,7 @@ import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.OreDictManager;
@@ -197,7 +198,20 @@ public class TileEntityMachineFluidTank extends TileEntityBarrel implements IFlu
 	}
 	
 	@Override
-	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
+	public PortDef[] getPorts() { 
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			cachedPorts = new PortDef[] {
+				PortDef.make(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, dir),
+				PortDef.make(xCoord + dir.offsetX - rot.offsetX, yCoord, zCoord + dir.offsetZ - rot.offsetZ, dir),
+				PortDef.make(xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ, dir.getOpposite()),
+				PortDef.make(xCoord - dir.offsetX + rot.offsetX, yCoord, zCoord - dir.offsetZ + rot.offsetZ, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
 
 	AxisAlignedBB bb = null;
 
