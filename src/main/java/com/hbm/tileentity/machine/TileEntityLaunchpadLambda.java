@@ -18,6 +18,8 @@ import com.hbm.util.Vec3NT;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -29,7 +31,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IControlReceiver {
+public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IControlReceiver, IRORValueProvider, IRORInteractive {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -357,6 +359,46 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	public boolean clampsDown() { return this.positions[INDEX_CLAMPS] == 0F; }
 
 	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+			PREFIX_VALUE + "countdown",
+			PREFIX_VALUE + "power",
+			PREFIX_VALUE + "fuel",
+			PREFIX_VALUE + "oxidizer",
+			PREFIX_VALUE + "isauto",
+			PREFIX_VALUE + "canlaunch",
+			PREFIX_FUNCTION + "launch",
+			PREFIX_FUNCTION + "setauto" + NAME_SEPARATOR + "on/off"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "countdown").equals(name))	return "" + this.countdown;
+		if((PREFIX_VALUE + "power").equals(name))		return "" + this.power;
+		if((PREFIX_VALUE + "fuel").equals(name))		return "" + this.tanks[0].getFill();
+		if((PREFIX_VALUE + "oxidizer").equals(name))	return "" + this.tanks[1].getFill();
+		if((PREFIX_VALUE + "isauto").equals(name))		return this.autolaunch ? "1" : "0";
+		if((PREFIX_VALUE + "canlaunch").equals(name))	return this.canLaunch() ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setauto").equals(name) && params.length == 1) {
+			this.autolaunch = IRORInteractive.parseBool(params[0]);
+			this.markChanged();
+			return null;
+		}
+		else if((PREFIX_FUNCTION + "launch").equals(name)) {
+			if (canLaunch()) this.countdown = COUNTDOWN_DURATION;
+			return null;
+		}
+
+		return null;
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		tanks[0].serialize(buf);
@@ -540,7 +582,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		if(data.hasKey("launch")) {
 			
 			if(canLaunch()) {
-				this.countdown = this.COUNTDOWN_DURATION;
+				this.countdown = COUNTDOWN_DURATION;
 			}
 		}
 	}

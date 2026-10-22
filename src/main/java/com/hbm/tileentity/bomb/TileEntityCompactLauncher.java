@@ -29,6 +29,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.item.IDesignatorItem;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,7 +49,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver, IRORValueProvider, IRORInteractive {
 
 	private ItemStack slots[];
 
@@ -275,7 +277,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	public boolean canLaunch() {
 
-		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel())
+		if(power >= maxPower * 0.75 && isMissileValid() && hasFuel())
 			return true;
 
 		return false;
@@ -283,7 +285,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	@Override
 	public boolean sendCommandEntity(Entity target) {
-		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posX));
+		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posZ));
 	}
 
 	@Override
@@ -498,6 +500,58 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				break;
 			default: break;
 		}
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+			PREFIX_VALUE + "power",
+			PREFIX_VALUE + "solid",
+			PREFIX_VALUE + "fuel",
+			PREFIX_VALUE + "oxidizer",
+			PREFIX_VALUE + "canlaunch",
+			PREFIX_FUNCTION + "launch",
+			PREFIX_FUNCTION + "launch" + NAME_SEPARATOR + "entity",
+			PREFIX_FUNCTION + "launch" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "z"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "power").equals(name))		return "" + this.power;
+		if((PREFIX_VALUE + "solid").equals(name))		return "" + this.solid;
+		if((PREFIX_VALUE + "fuel").equals(name))		return "" + this.tanks[0].getFill();
+		if((PREFIX_VALUE + "oxidizer").equals(name))	return "" + this.tanks[1].getFill();
+		if((PREFIX_VALUE + "canlaunch").equals(name))	return this.canLaunch() ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "launch").equals(name)) {
+			switch (params.length) {
+				case 0:
+					if (this.canLaunch()) this.launchFromDesignator();
+					return null;
+				case 1:
+					if (this.canLaunch()) {
+						Entity entity = this.worldObj.getEntityByID(IRORInteractive.parseInt(params[0]));
+						if (entity != null && entity.isEntityAlive())
+							this.launchTo(
+								(int)Math.floor(entity.posX),
+								(int)Math.floor(entity.posZ));
+					}
+					return null;
+				case 2:
+					if (this.canLaunch())
+						this.launchTo(
+							IRORInteractive.parseInt(params[0]),
+							IRORInteractive.parseInt(params[1]));
+					return null;
+			}
+		}
+
+		return null;
 	}
 
 	@Override

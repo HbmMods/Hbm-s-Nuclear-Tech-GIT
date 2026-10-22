@@ -41,6 +41,8 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.item.IDesignatorItem;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -56,7 +58,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
+public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 	
 	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
 	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
@@ -468,6 +470,52 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public abstract boolean isReadyForLaunch();
 	public abstract double getLaunchOffset();
 
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+			PREFIX_VALUE + "state",
+			PREFIX_VALUE + "power",
+			PREFIX_VALUE + "fuel",
+			PREFIX_VALUE + "oxidizer",
+			PREFIX_VALUE + "canlaunch",
+			PREFIX_FUNCTION + "launch",
+			PREFIX_FUNCTION + "launch" + NAME_SEPARATOR + "entity",
+			PREFIX_FUNCTION + "launch" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "z"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "state").equals(name))		return "" + this.state;
+		if((PREFIX_VALUE + "power").equals(name))		return "" + this.power;
+		if((PREFIX_VALUE + "fuel").equals(name))		return "" + this.tanks[0].getFill();
+		if((PREFIX_VALUE + "oxidizer").equals(name))	return "" + this.tanks[1].getFill();
+		if((PREFIX_VALUE + "canlaunch").equals(name))	return this.canLaunch() ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "launch").equals(name)) {
+			switch (params.length) {
+				case 0:
+					this.launchFromDesignator();
+					return null;
+				case 1:
+					Entity entity = this.worldObj.getEntityByID(IRORInteractive.parseInt(params[0]));
+					if (entity != null && entity.isEntityAlive()) this.launchToEntity(entity);
+					return null;
+				case 2:
+					this.launchToCoordinate(
+						IRORInteractive.parseInt(params[0]),
+						IRORInteractive.parseInt(params[1]));
+					return null;
+			}
+		}
+
+		return null;
+	}
+	
 	// do some opencomputer stuff
 	@Override
 	@Optional.Method(modid = "OpenComputers")

@@ -356,8 +356,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 		}
 
 		if((PREFIX_FUNCTION + "setcontinuous").equals(name) && params.length == 1) {
-			if("on".equals(params[0])) this.continuousRequest = true;
-			if("off".equals(params[0])) this.continuousRequest = false;
+			this.continuousRequest = IRORInteractive.parseBool(params[0]);
 			this.markChanged();
 			return null;
 		}
