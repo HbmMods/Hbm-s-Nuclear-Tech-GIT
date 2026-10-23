@@ -8,20 +8,6 @@
 
 [Bobcat's Blog (the blag)](https://hbmmods.github.io/), you can find lengthy yapping, upcoming features and some secrets here.
 
-**This is for 1.7.10!** For 1.12, check out these projects:
-
-* NTM Community Edition (WarFactory): https://github.com/MisterNorwood/Hbm-s-Nuclear-Tech-CE/releases
-* NTM Extended Edition (Alcater): https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
-* NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
-
-For further ports, try:
-
-* [1.18.2] NTM Remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
-* [1.20.1] HBM Modernized: https://github.com/Raptor324/HBM-Modernized/releases
-* [1.21.1] NTM Neo: https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases
-* [1.21.1] NTM Decentralized: https://github.com/SecretAgent12/NTM-Decentralized-Edition/releases
-* [26.2] NTM NEXT: https://github.com/Warfactory-Official/ntm-next/releases
-
 ## Downloading pre-compiled versions from GitHub
 
 Simply navigate to "Releases" on the right side of the page, download links for the compiled JAR as well as the corresponding source code are under the "Assets" category below the changelog. Make sure to review all changelogs when updating!

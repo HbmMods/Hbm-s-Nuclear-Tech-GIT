@@ -10,7 +10,9 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.util.Compat;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -132,6 +134,33 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 						new ChanceOutput(new ItemStack(ModBlocks.stone_resource, 1, 2), 25),
 						new ChanceOutput(new ItemStack(ModBlocks.ore_titanium), 25)
 				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		// lead paint and asbestos world
+		if(Compat.isModLoaded(Compat.MOD_SIFT)) {
+
+			Block sculkGrassBlock = Compat.tryLoadBlock(Compat.MOD_SIFT, "sculk_grass_block");
+			Block lightSculkGrassBlock = Compat.tryLoadBlock(Compat.MOD_SIFT, "light_sculk_grass_block");
+			
+			if(sculkGrassBlock != null) this.register(new GenericRecipe("rock.sculkgrass").setup(duraLong, consumption).setNameWrapper("rock.crushing")
+					.inputItems(new ComparableStack(sculkGrassBlock))
+					.inputFluids(new FluidStack(Fluids.WATER, 250))
+					.outputFluids(new FluidStack(Fluids.SLOP, 250))
+					.outputItems(new ChanceOutputMulti(
+							new ChanceOutput(new ItemStack(Blocks.dirt), 50),
+							new ChanceOutput(new ItemStack(ModItems.powder_lead), 25),
+							new ChanceOutput(new ItemStack(ModItems.powder_asbestos), 25)
+					)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+			
+			if(lightSculkGrassBlock != null) this.register(new GenericRecipe("rock.lightsculkgrass").setup(duraLong, consumption).setNameWrapper("rock.crushing")
+					.inputItems(new ComparableStack(lightSculkGrassBlock))
+					.inputFluids(new FluidStack(Fluids.WATER, 250))
+					.outputFluids(new FluidStack(Fluids.SLOP, 250))
+					.outputItems(new ChanceOutputMulti(
+							new ChanceOutput(new ItemStack(Blocks.dirt), 50),
+							new ChanceOutput(new ItemStack(ModItems.scrap_nuclear), 25),
+							new ChanceOutput(new ItemStack(ModItems.scrap_oil), 25)
+					)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		}
 		
 		this.register(new GenericRecipe("rock.clay").setup(duraLong, consumption)
 				.inputItems(new OreDictStack(KEY_SAND, 2))

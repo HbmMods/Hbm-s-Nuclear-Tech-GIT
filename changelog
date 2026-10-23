@@ -1,6 +1,7 @@
 ## Changed
 * The calculator (default hotkey N) now acts as a browser for QMAW manual entries
   * The calculator can be switched between calculator mode and browser mode by pressing tab
+* Added compatibility recipes allowing the sculk blocks from the sift backport mod (`io.github.derexxd.sift_backport`) to be processed in the rock mill
 
 ## Fixed
 * Fixed various dupes regarding the pneumatic storage network

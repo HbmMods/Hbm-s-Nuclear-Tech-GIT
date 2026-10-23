@@ -2,9 +2,12 @@ package com.hbm.qmaw;
 
 import java.util.HashMap;
 
+import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.item.ItemStack;
 
 public class QuickManualAndWiki {
+
+	public static final String EN_US = "en_US";
 	
 	public String name;
 	public ItemStack icon;
@@ -37,5 +40,13 @@ public class QuickManualAndWiki {
 	public QuickManualAndWiki noIndex() {
 		this.noIndex = true;
 		return this;
+	}
+	
+	public String getTitle(LanguageManager lang) {
+		String localizedTitle = title.get(lang.getCurrentLanguage().getLanguageCode());
+		if(localizedTitle == null) localizedTitle = title.get(EN_US);
+		if(localizedTitle == null) localizedTitle = "Missing Localization!";
+		
+		return localizedTitle;
 	}
 }
