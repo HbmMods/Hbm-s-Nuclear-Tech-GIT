@@ -921,7 +921,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	@Override
 	public String runRORFunction(String name, String[] params) {
 		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length == 1) {
-			this.enableDrill = params[0].equals("1");
+			this.enableDrill = IRORInteractive.parseBool(params[0]);
 			this.markChanged();
 			return null;
 		}
