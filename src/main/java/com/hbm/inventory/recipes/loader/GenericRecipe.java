@@ -103,7 +103,7 @@ public class GenericRecipe {
 	public GenericRecipe setIconToFirstIngredient() {
 		if(this.inputItem != null) {
 			List<ItemStack> stacks = this.inputItem[0].extractForNEI();
-			if(!stacks.isEmpty()) this.icon = stacks.get(0);
+			if(!stacks.isEmpty()) this.setIcon(stacks.get(0));
 		}
 		return this;
 	}
