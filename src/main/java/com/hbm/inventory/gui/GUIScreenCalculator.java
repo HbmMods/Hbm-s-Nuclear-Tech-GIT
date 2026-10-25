@@ -14,7 +14,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
-
+import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.item.ItemStack;
 
 import net.minecraft.util.MathHelper;
@@ -30,7 +30,7 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUICalculator extends GuiScreen {
+public class GUIScreenCalculator extends GuiScreen {
 	private static final int xSize = 220;
 	private static final int ySize = 50;
 	private static final int borderWidth = 2;
@@ -40,7 +40,7 @@ public class GUICalculator extends GuiScreen {
 	private static final int maxHistory = 6;
 	private static final List<Tuple.Pair<String, Double>> calcHistory = new ArrayList<>(maxHistory);
 	private static final List<String> qmawHistory = new ArrayList<>(maxHistory);
-	private final List<String> qmawResults = new ArrayList<>(QMAWLoader.QMAW_KEYS.size());// Update initial capacity???
+	private final List<String> qmawResults = new ArrayList();
 	// Can in theory add more modes if we make it an enum and use a switch, but I imagine that'd be impractical
 	private static boolean qmawMode = false;
 	private String latestResult = "?", lastInput = "";
@@ -146,32 +146,29 @@ public class GUICalculator extends GuiScreen {
 			calcHistory.remove(selectedHist);
 	}
 
-	private static void sortQMAWResults(String search, List<String> results)
-	{
+	private static void sortQMAWResults(String search, List<String> results) {
 		// Prioritize entries that start with the query
-		results.sort((s1, s2) ->
-			{
-				final boolean starts1 = s1.toLowerCase().startsWith(search), starts2 = s2.toLowerCase().startsWith(search);
-
-				return starts1 && !starts2 ? -1 :
-				       !starts1 && starts2 ? 1 : s1.compareTo(s2);
+		results.sort((s1, s2) -> {
+				boolean starts1 = s1.toLowerCase().startsWith(search), starts2 = s2.toLowerCase().startsWith(search);
+				return starts1 && !starts2 ? -1 : !starts1 && starts2 ? 1 : s1.compareTo(s2);
 			});
 	}
 	
 	// Split it out to keep things contained
-	protected void trySearchForQMAW(char typedChar, int keyCode)
-	{
-		final boolean history = isInputEmpty();
-		final String query = inputField.getText().toLowerCase();
-		// Reset with updated search parameters if new string to save on some compute
-		if (!inputField.getText().equalsIgnoreCase(lastInput))
-		{
+	protected void trySearchForQMAW(char typedChar, int keyCode) {
+		boolean history = isInputEmpty();
+		String query = inputField.getText().toLowerCase();
+		// Reset with updated search parameters if new string to save on some
+		// compute
+		if(!inputField.getText().equalsIgnoreCase(lastInput)) {
 			qmawResults.clear();
 			lastInput = inputField.getText();
 			
-			for (String entry : QMAWLoader.QMAW_KEYS)
-				if (entry.toLowerCase().contains(query) && !qmawResults.contains(entry))// Make sure we don't have duplicate entries
-					qmawResults.add(entry);
+			LanguageManager lang = Minecraft.getMinecraft().getLanguageManager();
+
+			for(QuickManualAndWiki qmaw : QMAWLoader.sortedPages)
+				if(qmaw.getTitle(lang).toLowerCase().contains(query))
+					qmawResults.add(qmaw.name);
 		}
 
 		sortQMAWResults(query, qmawResults);
@@ -290,16 +287,16 @@ public class GUICalculator extends GuiScreen {
 	
 	private static final int QMAW_ENTRY_Y_SPACING = 7;
 	
-	private void drawQMAW(int mouseX, int mouseY, int x, int y)
-	{
+	private void drawQMAW(int mouseX, int mouseY, int x, int y) {
 		int i = 0;
-		for (String r : isInputEmpty() ? qmawHistory : qmawResults)
-		{			
-			if (i > maxHistory - 1)
-				break;
-			final int hy = y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;
+		for (String r : isInputEmpty() ? qmawHistory : qmawResults) {
+			if (i > maxHistory - 1) break;
+			
+			int hy = y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;
 			if (i == selectedHist) drawRect(x + 4, hy - QMAW_ENTRY_Y_SPACING / 2, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING / 2, SELECT_COLOR);
-			fontRendererObj.drawString(r, x + 25, hy, -1);
+			
+			int hover = mouseEntrySelected(mouseX, mouseY);
+			fontRendererObj.drawString(r, x + 25, hy, hover == i ? 0xffff00 : -1);
 			
 			// Copy-pasted from GuiQMAW
 			final ItemStack qmawIcon = QMAWLoader.qmaw.get(r).icon;

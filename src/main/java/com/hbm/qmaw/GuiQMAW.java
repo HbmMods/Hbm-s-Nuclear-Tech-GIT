@@ -82,10 +82,7 @@ public class GuiQMAW extends GuiScreen {
 	protected void parseQMAW(QuickManualAndWiki qmaw) {
 		LanguageManager lang = Minecraft.getMinecraft().getLanguageManager();
 
-		this.title = qmaw.title.get(lang.getCurrentLanguage().getLanguageCode());
-		if(title == null) this.title = qmaw.title.get(EN_US);
-		if(title == null) this.title = "Missing Localization!";
-
+		this.title = qmaw.getTitle(lang);
 		this.icon = qmaw.icon;
 
 		String toParse = qmaw.contents.get(lang.getCurrentLanguage().getLanguageCode());

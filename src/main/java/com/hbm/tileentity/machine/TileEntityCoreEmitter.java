@@ -362,25 +362,17 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			this.markChanged();
 			return null;
 		}
-		
+
 		if((PREFIX_FUNCTION + "toggle").equals(name)) {
 			this.isOn = !this.isOn;
 			this.markChanged();
 			return null;
 		}
-			
-		
+
 		if((PREFIX_FUNCTION + "switch").equals(name) && params.length > 0) {
-			if("on".equals(params[0])) {
-				this.isOn = true;
-				this.markChanged();
-				return null;
-			}
-			if("off".equals(params[0])) {
-				this.isOn = false;
-				this.markChanged();
-				return null;
-			}
+			this.isOn = IRORInteractive.parseBool(params[0]);
+			this.markChanged();
+			return null;
 		}
 		
 		return null;

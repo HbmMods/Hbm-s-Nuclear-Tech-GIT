@@ -7,12 +7,15 @@ import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class TileEntityMachineSatLinker extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityMachineSatLinker extends TileEntityMachineBase implements IGUIProvider, IRORValueProvider, IRORInteractive {
 	
 	public static final int SAT_ID_RANGE = 10_000_000;
 	
@@ -55,6 +58,30 @@ public class TileEntityMachineSatLinker extends TileEntityMachineBase implements
 				}
 			}
 		}
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+			PREFIX_VALUE + "freq",
+			PREFIX_FUNCTION + "setfreq" + NAME_SEPARATOR + "freq"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "freq").equals(name))	return "" + ISatChip.getFreqS(slots[0]);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setfreq").equals(name) && params.length == 1) {
+			ISatChip.setFreqS(slots[0], IRORInteractive.parseInt(params[0], 1, SAT_ID_RANGE));
+			return null;
+		}
+
+		return null;
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineSatLinker(player.inventory, this); }
