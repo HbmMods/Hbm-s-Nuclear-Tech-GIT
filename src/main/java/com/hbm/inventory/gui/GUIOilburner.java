@@ -16,16 +16,21 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIOilburner extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_oilburner.png");
 	private TileEntityHeaterOilburner diFurnace;
+	private int burnRate;
+	private boolean usingSlider = false;
 
 	public GUIOilburner(InventoryPlayer invPlayer, TileEntityHeaterOilburner tedf) {
 		super(new ContainerOilburner(invPlayer, tedf));
-		diFurnace = tedf;
+		this.diFurnace = tedf;
+		this.burnRate = tedf.burnRate;
 		
 		this.xSize = 176;
 		this.ySize = 203;
@@ -35,13 +40,31 @@ public class GUIOilburner extends GuiInfoContainer {
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
 		
-		this.drawCustomInfoStat(x, y, guiLeft + 116, guiTop + 17, 16, 52, x, y, new String[] { String.format(Locale.US, "%,d", Math.min(diFurnace.heatEnergy, diFurnace.maxHeatEnergy)) + " / " + String.format(Locale.US, "%,d", diFurnace.maxHeatEnergy) + " TU" });
-
+		this.drawCustomInfoStat(x, y, guiLeft + 116, guiTop + 17, 16, 52, x, y, String.format(Locale.US, "%,d", diFurnace.heatEnergy) + " / " + String.format(Locale.US, "%,d", diFurnace.maxHeatEnergy) + " TU");
+		
+		if(this.usingSlider || guiLeft + 70 <= x && guiLeft + 70 + 36 > x && guiTop + 23 < y && guiTop + 23 + 8 >= y)
+			this.drawInfo(MathHelper.clamp_int(x, guiLeft + 70, guiLeft + 106), MathHelper.clamp_int(y, guiTop + 23, guiTop + 31), this.burnRate + " mB/t");
+		
 		if(diFurnace.tank.getTankType().hasTrait(FT_Flammable.class)) {
-			this.drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 34, 18, 18, x, y, new String[] { diFurnace.setting + " mB/t", String.format(Locale.US, "%,d", (int)(diFurnace.tank.getTankType().getTrait(FT_Flammable.class).getHeatEnergy() / 1000) * diFurnace.setting) + " TU/t" });
+			int heat = (int)(diFurnace.tank.getTankType().getTrait(FT_Flammable.class).getHeatEnergy() * this.burnRate / 1000);
+			String c = EnumChatFormatting.YELLOW + "";
+			
+			this.drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 34, 18, 18, x, y, c + String.format(Locale.US, "%,d", heat) + " TU/t", c + String.format(Locale.US, "%,d", heat * 20) + " TU/s");
 		}
+
+		this.drawCustomInfoStat(x, y, guiLeft + 70, guiTop + 54, 35, 15, x, y, "Ignition");
 		
 		diFurnace.tank.renderTankInfo(this, x, y, guiLeft + 44, guiTop + 17, 16, 52);
+
+		if (this.usingSlider) {
+			int burnRate = MathHelper.clamp_int((x - guiLeft - 70) * this.diFurnace.maxBurnRate / 32, 1, this.diFurnace.maxBurnRate);
+			if (burnRate != this.burnRate) {
+				this.burnRate = burnRate;
+				NBTTagCompound data = new NBTTagCompound();
+				data.setInteger("burnRate", burnRate);
+				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord));
+			}
+		}
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -52,9 +75,20 @@ public class GUIOilburner extends GuiInfoContainer {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("toggle", true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord));
-			
 		}
 		
+		if(guiLeft + 70 <= x && guiLeft + 70 + 36 > x && guiTop + 23 < y && guiTop + 23 + 8 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			this.usingSlider = true;
+		}
+	}
+
+	@Override
+	protected void mouseMovedOrUp(int x, int y, int i) {
+		super.mouseMovedOrUp(x, y, i);
+
+		if(this.usingSlider && (i == 0 || i == 1))
+			this.usingSlider = false;
 	}
 	
 	@Override
@@ -73,6 +107,13 @@ public class GUIOilburner extends GuiInfoContainer {
 		
 		int i = diFurnace.heatEnergy * 52 / diFurnace.maxHeatEnergy;
 		drawTexturedModalRect(guiLeft + 116, guiTop + 69 - i, 194, 52 - i, 16, i);
+
+		int j = (this.burnRate - 1) * 32 / (this.diFurnace.maxBurnRate - 1);
+		if (j > 32) { // If an upgrade has been removed, the cached burn rate may be greater than the new max
+			j = 32;
+			this.burnRate = this.diFurnace.burnRate;
+		}
+		drawTexturedModalRect(guiLeft + 71 + j, guiTop + 23, 210, 14, 4, 8);
 		
 		if(diFurnace.isOn) {
 			drawTexturedModalRect(guiLeft + 70, guiTop + 54, 210, 0, 35, 14);
