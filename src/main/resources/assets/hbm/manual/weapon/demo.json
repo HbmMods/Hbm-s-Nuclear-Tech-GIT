@@ -9,7 +9,7 @@
 	"title": {
 		"en_US": "Demolition Explosives",
 		"zh_CN": "破坏者弹药",
-		"ru_RU": "Разрушаемый снаряд"
+		"ru_RU": "Разрушающий снаряд"
 	},
 	"content": {
 		"en_US": "Demolition explosives are similar to regular high-explosives, however they have a larger splash radius, slightly lower damage, and they break blocks. Not recommended for home defense.<br><br>{{Template:Explosives}}",
