@@ -47,10 +47,13 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 
 	public void drawElectricityInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
-			gui.drawInfo(new String[] { BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
+			gui.drawInfo(mouseX, mouseY, BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower) + "HE");
 	}
 
-	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String... text) { drawCustomInfoStat(mouseX, mouseY, x, y, width, height, tPosX, tPosY, Arrays.asList(text)); }
+	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String... text) {
+		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
+			this.drawInfo(tPosX, tPosY, text);
+	}
 
 	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, List text) {
 
@@ -58,7 +61,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 			this.func_146283_a(text, tPosX, tPosY);
 	}
 
-	public void drawInfo(String[] text, int x, int y) {
+	public void drawInfo(int x, int y, String... text) {
 		this.func_146283_a(Arrays.asList(text), x, y);
 	}
 

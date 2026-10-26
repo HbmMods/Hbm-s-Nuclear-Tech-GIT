@@ -24,6 +24,8 @@ public class ContainerOilburner extends Container {
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 1, 26, 53));
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 71));
+		//Upgrades
+		this.addSlotToContainer(new Slot(tedf, 3, 80, 73));
 		
 		int offset = 37;
 

@@ -21,6 +21,7 @@ public class SatelliteMapper extends SatelliteBase {
 	public static final String CMD_TARGET_LOADED = "targetloaded";
 	public static final String CMD_GETSMOG = "getsmog";
 	public static final String CMD_SPOT_PLAYER = "spotplayers";
+	public static final String CMD_FIND_PLAYER = "findplayer";
 	
 	public static final int SPOT_PLAYER_MAX_RANGE = 250;
 	
@@ -80,6 +81,32 @@ public class SatelliteMapper extends SatelliteBase {
 			}
 			
 			this.tx = String.join(";", names);
+			return;
+		}
+		
+		if(cmd[0].equals(CMD_FIND_PLAYER) && cmd.length == 2) {
+			
+			String lookingFor = cmd[1].toLowerCase(Locale.US);
+			
+			for(Object o : world.playerEntities) {
+				EntityPlayer player = (EntityPlayer) o;
+				
+				int x = (int) Math.floor(player.posX);
+				int z = (int) Math.floor(player.posZ);
+				
+				double dX = x - targetX;
+				double dZ = z - targetZ;
+				
+				if(dX * dX + dZ * dZ <= SPOT_PLAYER_MAX_RANGE * SPOT_PLAYER_MAX_RANGE && player.getCommandSenderName().toLowerCase(Locale.US).equals(lookingFor)) {
+					int height = world.getHeightValue(x, z);
+					if(height < player.posY + 2) {
+						this.tx = x + ";" + z;
+						return;
+					}
+				}
+			}
+			
+			this.tx = "NOT FOUND";
 			return;
 		}
 	}
