@@ -59,14 +59,12 @@ public class GUIScreenCalculator extends GuiScreen {
 	}
 	
 	/// @return The GUI x-coord starting position
-	private int startX()
-	{
+	private int startX() {
 		return (width - xSize) / 2;
 	}
 	
 	/// @return The GUI y-coord starting position
-	private int startY()
-	{
+	private int startY() {
 		return (height - (ySize + (fontRendererObj.FONT_HEIGHT + 4) * maxHistory)) / 2;
 	}
 	
@@ -74,28 +72,27 @@ public class GUIScreenCalculator extends GuiScreen {
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-	
-	private boolean isInputEmpty()
-	{
+
+	private boolean isInputEmpty() {
 		return inputField.getText().isEmpty();
 	}
 		
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
-		if (!inputField.textboxKeyTyped(typedChar, keyCode))
+		if(!inputField.textboxKeyTyped(typedChar, keyCode))
 			super.keyTyped(typedChar, keyCode);
 
-		if (typedChar == 9)// Tab
+		if(typedChar == 9) // Tab
 			qmawMode = !qmawMode;
-		
-		if (qmawMode)
+
+		if(qmawMode)
 			trySearchForQMAW(typedChar, keyCode);
-		else 
+		else
 			handleCalculator(typedChar, keyCode);
 	}
 	
-	private void handleCalculator(char typedChar, int keyCode)
-	{
+	private void handleCalculator(char typedChar, int keyCode) {
+		
 		String input = inputField.getText().replaceAll("[^\\d+\\-*/%^!.()\\sA-Za-z]+", "");
 
 		selectedHistSanityCheck();
@@ -120,16 +117,16 @@ public class GUIScreenCalculator extends GuiScreen {
 			}
 		}
 		
-		if (typedChar == 127 && input.isEmpty())// Delete key
+		if(typedChar == 127 && input.isEmpty()) // Delete key
 			deleteCalcHistoryEntry();
 
 		// up arrow, wraps
-		if (keyCode == 200) selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
+		if(keyCode == 200) selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
 		// down arrow, wraps
-		else if (keyCode == 208) selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
+		else if(keyCode == 208) selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
 		else selectedHist = -1;
 
-		if (input.isEmpty()) {
+		if(input.isEmpty()) {
 			latestResult = "?";
 			return;
 		}
@@ -168,7 +165,7 @@ public class GUIScreenCalculator extends GuiScreen {
 
 			for(QuickManualAndWiki qmaw : QMAWLoader.sortedPages)
 				if(qmaw.getTitle(lang).toLowerCase().contains(query))
-					qmawResults.add(qmaw.name);
+					qmawResults.add(qmaw.getTitle(lang));
 		}
 
 		sortQMAWResults(query, qmawResults);
@@ -289,7 +286,7 @@ public class GUIScreenCalculator extends GuiScreen {
 	
 	private void drawQMAW(int mouseX, int mouseY, int x, int y) {
 		int i = 0;
-		for (String r : isInputEmpty() ? qmawHistory : qmawResults) {
+		for(String r : isInputEmpty() ? qmawHistory : qmawResults) {
 			if (i > maxHistory - 1) break;
 			
 			int hy = y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;

@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
@@ -69,8 +70,9 @@ public class ItemPoolsComponent {
 					weighted(ModItems.nugget_uranium_fuel, 0, 1, 1, 1),
 					weighted(ModItems.rod_zirnox_empty, 0, 1, 3, 3),
 					weighted(ModItems.ingot_graphite, 0, 1, 4, 3),
-					weighted(ModItems.pile_rod_uranium, 0, 2, 5, 3),
-					weighted(ModItems.pile_rod_source, 0, 1, 2, 2),
+					weighted(ModItems.pile_rod, EnumPileRod.NU.ordinal(), 1, 1, 3),
+					weighted(ModItems.pile_rod , EnumPileRod.RA226BE.ordinal(), 1, 1, 2),
+					weighted(ModItems.pile_rod , EnumPileRod.WASTE.ordinal(), 1, 1, 5),
 					weighted(ModItems.reacher, 0, 1, 1, 3),
 					weighted(ModItems.screwdriver, 0, 1, 1, 2)
 			};
