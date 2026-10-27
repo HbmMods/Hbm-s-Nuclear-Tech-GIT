@@ -74,7 +74,9 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 		agonyEngine();
 
 		sortedPages.clear();
-		sortedPages.addAll(qmaw.values());
+		for(QuickManualAndWiki page : qmaw.values()) {
+			if(!page.noIndex) sortedPages.add(page);
+		}
 		sortedPages.sort(COMPARATOR);
 	}
 
