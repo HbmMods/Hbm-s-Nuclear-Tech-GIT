@@ -5,6 +5,8 @@ import java.util.List;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Compat;
 
@@ -29,9 +31,38 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 
 	public static final double speed = 2D / 20D; // 2 blocks per second
 	public boolean renderPlatform = false;
+	
+	private AudioWrapper audio;
+	private boolean audioMovingState;
 
 	@Override
 	public void updateEntity() {
+		if (worldObj.isRemote) {
+			if (prevExtension != extension && !audioMovingState) {
+				audioMovingState = true;
+				System.out.printf("%f %f\n", prevExtension, extension);
+
+				if (audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+
+				audio = MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", xCoord, yCoord + (float)extension, zCoord, getVolume(2), 10f, 1f);
+				audio.startSound();
+			} else if (prevExtension == extension && audioMovingState) {
+				audioMovingState = false;
+				
+				if (audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+				worldObj.playSound(xCoord, yCoord + (float)extension, zCoord, "hbm:door.garage_stop", getVolume(2), 1F, false);
+			}
+			
+			if (audio != null) {
+				audio.updatePosition(xCoord, yCoord + (float)extension, zCoord);
+			}
+		}
 
 		this.prevExtension = this.extension;
 
@@ -172,5 +203,13 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 			PREFIX_VALUE + "extension",
 			PREFIX_FUNCTION + "setextension" + NAME_SEPARATOR + "amount",
 		};
+	}
+
+	@Override
+	public void onChunkUnload() {
+		if (audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 }
