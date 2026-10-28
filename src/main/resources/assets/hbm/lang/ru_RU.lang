@@ -2651,12 +2651,12 @@ item.gun_carbine.name=Карабин
 item.gun_charge_thrower.name=Метатель снарядов
 item.gun_chemthrower.name=Химомёт
 item.gun_coilgun.name=Гаусс-пушка
-item.gun_congolake.name=Помповый гранатомёт "Конго лейк"
+item.gun_congolake.name=Помповый гранатомёт "Конго Лейк"
 item.gun_detonator.name=Лазерный детонатор
 item.gun_double_barrel.name=Двуствольный дробовик "Старая классика"
 item.gun_double_barrel_sacred_dragon.name=Двуствольный дробовик "Священный дракон"
 item.gun_drill.name=Силовой бур
-item.gun_fatman.name=Атомная катапульта M42 " Толстяк"
+item.gun_fatman.name=Атомная катапульта M42 "Толстяк"
 item.gun_fireext.name=Огнетушитель
 item.gun_flamer.name=Огнемёт
 item.gun_flamer_daybreaker.name=Огнемёт "Дэйбрейкер"
@@ -2672,7 +2672,7 @@ item.gun_greasegun.name=Пистолет-пулемёт "Маслёнка"
 item.gun_greasegun_m3.name=Улучшенный пистолет-пулемёт М3
 item.gun_hangman.name=Винтовка "Палач"
 item.gun_heavy_revolver.name=Тяжёлый револьвер
-item.gun_heavy_revolver_lilmac.name=Револьвер "Маленький макинтош"
+item.gun_heavy_revolver_lilmac.name=Револьвер "Малый Макинтош"
 item.gun_heavy_revolver_protege.name=Револьвер "Защитник"
 item.gun_heavy_revolver_scoped.name=Тяжёлый револьвер .44 Магнум (Прицел)
 item.gun_henry.name=Винтовка рычажного действия
@@ -2689,16 +2689,14 @@ item.gun_light_revolver.name=Револьвер переломного дейс�
 item.gun_light_revolver_atlas.name=Револьвер "Атлас"
 item.gun_light_revolver_dani.name=Парные револьверы "День и Ночь"
 item.gun_m2.name=Пулемёт "Browning Ma Deuce"
-# Ma Deuce не переводить, это M2 на сленге США.
 item.gun_maresleg.name=Дробовик рычажного действия
 item.gun_maresleg_akimbo.name=Парные дробовики рычажного действия
 item.gun_maresleg_broken.name=Дробовик "Сломанный"
 item.gun_maresleg_short.name=Дробовик "Нога кобылы"
 item.gun_mas36.name=Винтовка "Южная звезда"
-item.gun_minigun.name=Многоствольный пулемет "Minigun M134"
-item.gun_minigun_dual.name=Парные многоствольные пулеметы "Minigun M134"
-item.gun_minigun_lacunae.name=Многоствольный пулемет "Minigun Lacunae"
-# Minigun - индекс, его не переводим
+item.gun_minigun.name=Многоствольный пулемет M134
+item.gun_minigun_dual.name=Парные многоствольные пулеметы M134
+item.gun_minigun_lacunae.name=Многоствольный пулемет Lacunae
 item.gun_missile_launcher.name=Ракетная пусковая установка
 item.gun_mk108.name=Автоматический гранатомёт
 item.gun_n_i_4_n_i.name=Энергетический револьвер "N I 4 N I"
@@ -2707,21 +2705,21 @@ item.gun_pa_ranged.name=Силовая броня - Контроллер дал�
 item.gun_panzerschreck.name=Гранатомёт "Панцершрек"
 item.gun_pepperbox.name=Многоствольный револьвер "Пеппербокс"
 item.gun_quadro.name=Четырёхствольная ракетная пусковая установка
-item.gun_spas12.name=Дробовик "SPAS-12"
-# SPAS - аббревиатура, перевод не подлежит
+item.gun_spas12.name=Дробовик SPAS-12
+# SPAS - Аббревиатура
 item.gun_star_f.name=Спортивный пистолет
 item.gun_star_f_akimbo.name=Парные спортивные пистолеты
 item.gun_star_f_silenced.name=Пистолет с глушителем
-item.gun_stg77.name=Штурмовая винтовка "StG 77"
-# StG 77 - аббревиатура, перевод не подлежит
+item.gun_stg77.name=Штурмовая винтовка StG 77
+# StG - (Сокр.) Аббревиатура 
 item.gun_stinger.name=Ракетная пусковая установка FIM-92 "Стингер"
 item.gun_tau.name=Тау-пушка
 item.gun_tesla_cannon.name=Тесла-пушка
-item.gun_uzi.name=Пистолет-пулемёт "Узи"
-item.gun_uzi_akimbo.name=Парные пистолет-пулемёты "Узи"
+item.gun_uzi.name=Пистолет-пулемёт UZI
+item.gun_uzi_akimbo.name=Парные пистолет-пулемёты UZIs
 item.gun_uzi_richter.name=Пистолет-пулемёт "Судья"
-# Слово Рихтер (с немецкого — судья)
-item.gun_uzi_saturnite.name=Сатурнитовый пистолет-пулемёт "Узи"
+# Рихтер (нем.) - Судья
+item.gun_uzi_saturnite.name=Сатурнитовый пистолет-пулемёт UZI
 item.hand_drill.name=Ручная дрель
 item.hand_drill_desh.name=Ручная деш-дрель
 item.hazmat_boots.name=Защитные ботинки
