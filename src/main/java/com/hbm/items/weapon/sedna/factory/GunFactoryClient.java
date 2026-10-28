@@ -85,6 +85,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_sexy,			new ItemRenderSexy(ResourceManager.sexy_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_heretic,			new ItemRenderSexy(ResourceManager.heretic_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_quadro,						new ItemRenderQuadro());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fliegerfaust,				new ItemRenderFliegerfaust());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun,						new ItemRenderMinigun(ResourceManager.minigun_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_lacunae,				new ItemRenderMinigun(ResourceManager.minigun_lacunae_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_dual,				new ItemRenderMinigunDual());
@@ -218,6 +219,8 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_ncrpa_steer);
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_ncrpa);
 		
+		setRendererBulk(LegoClient.RENDER_FLIEGERFAUST, rocket_ff);
+		
 		setRendererBulk(LegoClient.RENDER_NUKE, nuke_standard, nuke_demo, nuke_high);
 		nuke_tots.setRenderer(LegoClient.RENDER_GRENADE);
 		nuke_hive.setRenderer(LegoClient.RENDER_HIVE);
@@ -293,6 +296,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_autoshotgun_sexy)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_autoshotgun_heretic)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_quadro)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_fliegerfaust)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_lag)							.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_minigun)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_minigun_lacunae)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

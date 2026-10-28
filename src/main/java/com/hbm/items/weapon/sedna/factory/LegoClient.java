@@ -240,6 +240,15 @@ public class LegoClient {
 		GL11.glShadeModel(GL11.GL_FLAT);
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FLIEGERFAUST = (bullet, interp) -> {
+		GL11.glScalef(0.25F, 0.25F, 0.25F);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tex);
+		ResourceManager.projectiles.renderPart("Grenade");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	};
+	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_RPZB = (bullet, interp) -> {
 
 		GL11.glPushMatrix();
