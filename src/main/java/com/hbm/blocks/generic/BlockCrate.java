@@ -73,6 +73,7 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_liberator, 2);
 		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_flaregun, 8);
 		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_panzerschreck, 1);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_fliegerfaust, 2);
 
 		// Lead Crate
 		BlockCrate.addToListWithWeight(leadList, ModItems.ingot_uranium, 10);

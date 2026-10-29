@@ -42,12 +42,14 @@ public class ItemRenderFliegerfaust extends ItemRenderWeaponBase {
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
 		double[] reload = HbmAnimations.getRelevantTransformation("RELOAD");
-		double[] rocket = HbmAnimations.getRelevantTransformation("ROCKET");
+		double[] drum = HbmAnimations.getRelevantTransformation("DRUM");
+		double[] drumrot = HbmAnimations.getRelevantTransformation("DRUMROT");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		double[] unloading = HbmAnimations.getRelevantTransformation("UNLOADING");
+		
+		int rocketNum = unloading[0] > 0 ? gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null) : 9;
 		
 		GL11.glRotated(aimingProgress * -45, 0, 0, 1);
-		
-		GL11.glTranslated(0, 0, recoil[2]);
 		
 		GL11.glTranslated(0, 0, 1);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -57,17 +59,21 @@ public class ItemRenderFliegerfaust extends ItemRenderWeaponBase {
 		GL11.glRotated(reload[0], 1, 0, 0);
 		GL11.glTranslated(0, 6, 1);
 		
+		GL11.glTranslated(0, 0, recoil[2]);
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		ResourceManager.fliegerfaust.renderPart("Launcher");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, 2);
+		GL11.glTranslated(drum[0], drum[1], drum[2]);
+		GL11.glTranslated(0, 0, -8.5);
+		GL11.glRotated(drumrot[0], 1, 0, 0);
+		GL11.glTranslated(0, 0, 8.5);
 		ResourceManager.fliegerfaust.renderPart("Drum");
+		for(int i = 1; i <= rocketNum; i++) ResourceManager.fliegerfaust.renderPart("Rocket" + i);
 		GL11.glPopMatrix();
-		
-		for(int i = 1; i <= 9; i++)
-			ResourceManager.fliegerfaust.renderPart("Rocket" + i);
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 
@@ -115,10 +121,8 @@ public class ItemRenderFliegerfaust extends ItemRenderWeaponBase {
 
 		ResourceManager.fliegerfaust.renderPart("Launcher");
 		
-		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, 2);
 		ResourceManager.fliegerfaust.renderPart("Drum");
-		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

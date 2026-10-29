@@ -357,6 +357,11 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				wp,		he,		null,
 				null,	cBig,	null,
 				null,	rocket,	null));
+		
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_MICRO, 9),
+				null,	dyn,				null,
+				null,	cBig,				null,
+				null,	smokeless.copy(2),	null));
 
 		OreDictStack sPlate = new OreDictStack(STEEL.plate());
 		ComparableStack napalm = new ComparableStack(ModItems.canister_napalm);

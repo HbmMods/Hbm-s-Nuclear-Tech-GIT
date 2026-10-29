@@ -1,26 +1,17 @@
 package com.hbm.blocks.machine;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
-import com.hbm.util.i18n.I18nUtil;
 
-import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class HeaterOilburner extends BlockDummyable implements ITooltipProvider {
