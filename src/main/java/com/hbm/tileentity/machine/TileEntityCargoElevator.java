@@ -47,7 +47,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 					audio = null;
 				}
 
-				audio = MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", xCoord, yCoord + (float)extension, zCoord, getVolume(2), 10f, 1f);
+				audio = MainRegistry.proxy.getLoopedSound("hbm:block.elevatorMove", xCoord, yCoord + (float)extension, zCoord, getVolume(2), 10f, 1f);
 				audio.startSound();
 			} else if (prevExtension == extension && audioMovingState) {
 				audioMovingState = false;
@@ -56,7 +56,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRO
 					audio.stopSound();
 					audio = null;
 				}
-				worldObj.playSound(xCoord, yCoord + (float)extension, zCoord, "hbm:door.garage_stop", getVolume(2), 1F, false);
+				worldObj.playSound(xCoord, yCoord + (float)extension, zCoord, "hbm:block.elevatorStop", getVolume(2), 1F, false);
 			}
 			
 			if (audio != null) {
