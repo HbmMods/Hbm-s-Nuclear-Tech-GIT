@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryRocket;
 import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
+import com.hbm.main.NTMSounds;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -135,7 +136,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 			if(conf != null) {
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.TURRET_ROCKET, 2.0F, 1.0F);
 				this.loaded--;
 
 				//if(conf.ammo.equals(new ComparableStack(ModItems.ammo_standard, EnumAmmo.ROCKET_DEMO))) timer = -50;

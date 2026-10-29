@@ -158,7 +158,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	@Override
 	public PortDef[] getPorts() {
 		if(cachedPorts == null) {
-			ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - BlockDummyable.offset);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 			
 			cachedPorts = new PortDef[] {

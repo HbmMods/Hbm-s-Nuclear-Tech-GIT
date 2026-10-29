@@ -7,6 +7,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretJeremy;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.CasingCreator;
 
@@ -75,7 +76,7 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 			reload--;
 
 		if(reload == 1)
-			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_reload", 2.0F, 1.0F);
+			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.TURRET_CANNON_RELOAD, 2.0F, 1.0F);
 
 		super.updateEntity();
 	}
@@ -93,7 +94,7 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 				this.cachedCasingConfig = conf.casing;
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 4.0F, 1.0F);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.TURRET_CANNON, 4.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 				vec.rotateAroundZ((float) -this.rotationPitch);

@@ -11,6 +11,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.CasingCreator;
 import com.hbm.tileentity.IGUIProvider;
@@ -362,7 +363,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				cachedCasingConfig = ItemAmmoArty.itemTypes[conf.getItemDamage()].casing;
 				this.spawnShell(conf);
 				this.conusmeAmmo(ModItems.ammo_arty);
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.TURRET_CANNON, 25.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 				vec.rotateAroundZ((float) -this.rotationPitch);

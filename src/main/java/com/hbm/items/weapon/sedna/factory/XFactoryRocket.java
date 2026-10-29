@@ -244,7 +244,7 @@ public class XFactoryRocket {
 		ModItems.gun_fliegerfaust = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(9 * 25).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(GUN_FLIEGERFAUST_DAMAGE).spreadHipfire(0F).auto(true).delay(4).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_FLIEGERFAUST_DAMAGE).spreadHipfire(0F).auto(true).delay(4).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FLAME, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 9).addConfigs(rocket_ff))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))

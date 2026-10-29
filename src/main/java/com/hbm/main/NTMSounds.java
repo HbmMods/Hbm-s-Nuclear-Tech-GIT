@@ -80,6 +80,7 @@ public class NTMSounds {
 	public static final String GUN_TESLA_BLAST = "hbm:entity.ufoBlast"; // electric crackle sound explosion
 	public static final String GUN_MK108_FIRE = "hbm:weapon.fire.mk108";
 	public static final String GUN_ROCKET_FIRE = "hbm:weapon.rpgShoot";
+	public static final String GUN_ROCKET_FLAME = "hbm:weapon.rocketFlame";
 	public static final String GUN_EXTINGUISHER_FIRE = "hbm:weapon.extinguisher";
 	public static final String GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS = "hbm:weapon.fire.loudestNoiseOnEarth"; // folly fires
 	public static final String GUN_VYLET_PONY_CUTIEMARKS_AND_THE_THINGS_THAT_BIND_US_INTRO_JINGLE = "hbm:weapon.fire.vstar"; // you know how we do it
@@ -92,6 +93,9 @@ public class NTMSounds {
 	/// TURRETS ///
 	public static final String TURRET_50BMG = "hbm:turret.chekhov_fire";
 	public static final String TURRET_CIWS_RELOAD = "hbm:turret.howard_reload";
+	public static final String TURRET_CANNON = "hbm:turret.jeremy_fire";
+	public static final String TURRET_CANNON_RELOAD = "hbm:turret.jeremy_reload";
+	public static final String TURRET_ROCKET = "hbm:turret.richard_fire";
 	
 	/// PEEP NOISES ///
 	public static final String PLAYER_GULP = "hbm:player.gulp";

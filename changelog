@@ -8,3 +8,4 @@
 ## Fixed
 * Fixed crashes caused by the QMAW browser
 * Fixed a game breaking bug where one of the oil QMAW entries has a word misseplled
+* Fixed pumpjack's ports using the wrong metadata value for the rotations, causing ports to be concentrated on the core block on relog
