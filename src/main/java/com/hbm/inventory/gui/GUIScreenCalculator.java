@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class GUIScreenCalculator extends GuiScreen {
 	private static final int xSize = 220;
@@ -59,14 +60,12 @@ public class GUIScreenCalculator extends GuiScreen {
 	}
 	
 	/// @return The GUI x-coord starting position
-	private int startX()
-	{
+	private int startX() {
 		return (width - xSize) / 2;
 	}
 	
 	/// @return The GUI y-coord starting position
-	private int startY()
-	{
+	private int startY() {
 		return (height - (ySize + (fontRendererObj.FONT_HEIGHT + 4) * maxHistory)) / 2;
 	}
 	
@@ -74,28 +73,27 @@ public class GUIScreenCalculator extends GuiScreen {
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-	
-	private boolean isInputEmpty()
-	{
+
+	private boolean isInputEmpty() {
 		return inputField.getText().isEmpty();
 	}
 		
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
-		if (!inputField.textboxKeyTyped(typedChar, keyCode))
+		if(!inputField.textboxKeyTyped(typedChar, keyCode))
 			super.keyTyped(typedChar, keyCode);
 
-		if (typedChar == 9)// Tab
+		if(typedChar == 9) // Tab
 			qmawMode = !qmawMode;
-		
-		if (qmawMode)
+
+		if(qmawMode)
 			trySearchForQMAW(typedChar, keyCode);
-		else 
+		else
 			handleCalculator(typedChar, keyCode);
 	}
 	
-	private void handleCalculator(char typedChar, int keyCode)
-	{
+	private void handleCalculator(char typedChar, int keyCode) {
+		
 		String input = inputField.getText().replaceAll("[^\\d+\\-*/%^!.()\\sA-Za-z]+", "");
 
 		selectedHistSanityCheck();
@@ -120,16 +118,16 @@ public class GUIScreenCalculator extends GuiScreen {
 			}
 		}
 		
-		if (typedChar == 127 && input.isEmpty())// Delete key
+		if(typedChar == 127 && input.isEmpty()) // Delete key
 			deleteCalcHistoryEntry();
 
 		// up arrow, wraps
-		if (keyCode == 200) selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
+		if(keyCode == 200) selectedHist = (selectedHist < 0) ? (Math.min(calcHistory.size(), maxHistory) - 1) : Math.max(selectedHist - 1, -1);
 		// down arrow, wraps
-		else if (keyCode == 208) selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
+		else if(keyCode == 208) selectedHist = (selectedHist >= (calcHistory.size() - 1)) ? -1 : Math.min(selectedHist + 1, calcHistory.size() - 1);
 		else selectedHist = -1;
 
-		if (input.isEmpty()) {
+		if(input.isEmpty()) {
 			latestResult = "?";
 			return;
 		}
@@ -147,17 +145,19 @@ public class GUIScreenCalculator extends GuiScreen {
 	}
 
 	private static void sortQMAWResults(String search, List<String> results) {
+		LanguageManager lang = Minecraft.getMinecraft().getLanguageManager();
 		// Prioritize entries that start with the query
 		results.sort((s1, s2) -> {
-				boolean starts1 = s1.toLowerCase().startsWith(search), starts2 = s2.toLowerCase().startsWith(search);
-				return starts1 && !starts2 ? -1 : !starts1 && starts2 ? 1 : s1.compareTo(s2);
+				String title1 = QMAWLoader.qmaw.get(s1).getTitle(lang), title2 = QMAWLoader.qmaw.get(s2).getTitle(lang);
+				boolean starts1 = title1.toLowerCase(Locale.ROOT).startsWith(search), starts2 = title2.toLowerCase(Locale.ROOT).startsWith(search);
+				return starts1 && !starts2 ? -1 : !starts1 && starts2 ? 1 : title1.compareTo(title2);
 			});
 	}
 	
 	// Split it out to keep things contained
 	protected void trySearchForQMAW(char typedChar, int keyCode) {
 		boolean history = isInputEmpty();
-		String query = inputField.getText().toLowerCase();
+		String query = inputField.getText().toLowerCase(Locale.ROOT);
 		// Reset with updated search parameters if new string to save on some
 		// compute
 		if(!inputField.getText().equalsIgnoreCase(lastInput)) {
@@ -167,7 +167,7 @@ public class GUIScreenCalculator extends GuiScreen {
 			LanguageManager lang = Minecraft.getMinecraft().getLanguageManager();
 
 			for(QuickManualAndWiki qmaw : QMAWLoader.sortedPages)
-				if(qmaw.getTitle(lang).toLowerCase().contains(query))
+				if(qmaw.getTitle(lang).toLowerCase(Locale.ROOT).contains(query))
 					qmawResults.add(qmaw.name);
 		}
 
@@ -192,19 +192,16 @@ public class GUIScreenCalculator extends GuiScreen {
 		if (selectedHist >= 0)
 		{
 			final String key = new ArrayList<>(historyMode ? qmawHistory : qmawResults).get(selectedHist);
+			final QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(key);
 			qmawHistory.remove(key);// Remove duplicate history
 			qmawHistory.add(0, key);
 			if (qmawHistory.size() > maxHistory) qmawHistory.remove(qmawHistory.size() - 1);
-			inputField.setText(key);
+			inputField.setText(qmaw.getTitle(Minecraft.getMinecraft().getLanguageManager()));
 			selectedHist = -1;
 
-			final QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(key);
-			if (qmaw != null)
-			{
-				Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-				final GuiQMAW screen = new GuiQMAW(qmaw);
-				FMLCommonHandler.instance().showGuiScreen(screen);
-			}
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			final GuiQMAW screen = new GuiQMAW(qmaw);
+			FMLCommonHandler.instance().showGuiScreen(screen);
 		}
 	}
 
@@ -288,18 +285,20 @@ public class GUIScreenCalculator extends GuiScreen {
 	private static final int QMAW_ENTRY_Y_SPACING = 7;
 	
 	private void drawQMAW(int mouseX, int mouseY, int x, int y) {
+		LanguageManager lang = Minecraft.getMinecraft().getLanguageManager();
 		int i = 0;
-		for (String r : isInputEmpty() ? qmawHistory : qmawResults) {
+		for(String r : isInputEmpty() ? qmawHistory : qmawResults) {
 			if (i > maxHistory - 1) break;
+			QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(r);
 			
 			int hy = y + 35 + (fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING) * i;
 			if (i == selectedHist) drawRect(x + 4, hy - QMAW_ENTRY_Y_SPACING / 2, x + 4 + xSize - 9, hy + fontRendererObj.FONT_HEIGHT + QMAW_ENTRY_Y_SPACING / 2, SELECT_COLOR);
 			
 			int hover = mouseEntrySelected(mouseX, mouseY);
-			fontRendererObj.drawString(r, x + 25, hy, hover == i ? 0xffff00 : -1);
+			fontRendererObj.drawString(qmaw.getTitle(lang), x + 25, hy, hover == i ? 0xffff00 : -1);
 			
 			// Copy-pasted from GuiQMAW
-			final ItemStack qmawIcon = QMAWLoader.qmaw.get(r).icon;
+			final ItemStack qmawIcon = qmaw.icon;
 			if (qmawIcon!= null)
 			{
 				GL11.glPushMatrix();
@@ -381,7 +380,7 @@ public class GUIScreenCalculator extends GuiScreen {
 			{
 				if (key == MOUSE_LEFT)
 					executeQMAW(isInputEmpty());
-				else if (key == MOUSE_MIDDLE)
+				else if (key == MOUSE_MIDDLE && isInputEmpty())
 					deleteQMAWHistoryEntry();
 			} else
 			{
@@ -395,6 +394,6 @@ public class GUIScreenCalculator extends GuiScreen {
 	
 	private void selectedHistSanityCheck()
 	{
-		selectedHist = MathHelper.clamp_int(selectedHist, -1, qmawMode ? (isInputEmpty() ? qmawHistory.size() : qmawResults.size()) : calcHistory.size());
+		selectedHist = MathHelper.clamp_int(selectedHist, -1, (qmawMode ? (isInputEmpty() ? qmawHistory.size() : qmawResults.size()) : calcHistory.size()) - 1);
 	}
 }

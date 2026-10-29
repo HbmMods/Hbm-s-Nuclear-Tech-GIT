@@ -96,7 +96,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		tanks[3] = new FluidTank(Fluids.NITRIC_ACID, 16000);
 
 		moduleFluidPorts = new ModulePortManFluidAdaptive(this).setInputTanks(getReceivingTanks()).setOutputTanks(getSendingTanks());
-		modulePowerPorts = new ModulePortManPower(this);
+		modulePowerPorts = new ModulePortManPower(this).onlyInput();
 	}
 
 	@Override
@@ -246,6 +246,20 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			this.networkPackNT(50);
 		}
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		this.modulePowerPorts.destroy();
+		this.moduleFluidPorts.destroy();
 	}
 
 	@Override

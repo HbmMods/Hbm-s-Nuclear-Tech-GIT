@@ -965,6 +965,7 @@ public class ResourceManager {
 	public static final IModelCustom sexy = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/sexy.obj")).asVBO();
 	public static final IModelCustom whiskey = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/whiskey.obj")).asVBO();
 	public static final IModelCustom quadro = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/quadro.obj")).asVBO();
+	public static final IModelCustom fliegerfaust = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/fliegerfaust.obj")).asVBO();
 	public static final IModelCustom mike_hawk = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/mike_hawk.obj")).asVBO();
 	public static final IModelCustom minigun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/minigun.obj")).asVBO();
 	public static final IModelCustom missile_launcher = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/missile_launcher.obj")).asVBO();
@@ -1098,6 +1099,7 @@ public class ResourceManager {
 	public static final ResourceLocation whiskey_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/whiskey.png");
 	public static final ResourceLocation quadro_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/quadro.png");
 	public static final ResourceLocation quadro_rocket_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/quadro_rocket.png");
+	public static final ResourceLocation fliegerfaust_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fliegerfaust.png");
 	public static final ResourceLocation minigun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun.png");
 	public static final ResourceLocation minigun_lacunae_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_lacunae.png");
 	public static final ResourceLocation minigun_dual_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_dual.png");

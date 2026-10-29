@@ -1,14 +1,10 @@
+## Added
+* Hilariously impractical multiple rocket anti air launcher
+  * Nine-barrel rocket launcher that uses micro rockets
+
 ## Changed
-* The calculator (default hotkey N) now acts as a browser for QMAW manual entries
-  * The calculator can be switched between calculator mode and browser mode by pressing tab
-* Added compatibility recipes allowing the sculk blocks from the sift backport mod (`io.github.derexxd.sift_backport`) to be processed in the rock mill
+* Updated russian localization
 
 ## Fixed
-* Fixed various dupes regarding the pneumatic storage network
-* Fixed an exploit regarding the balefire bomb
-* Fixed the fuel port being missing on the rotary furnace
-* Fixed the redstone detection on the turbofan being offset outwards
-* Fixed a crash caused by constructing a PWR with no working ports
-* Fixed missing soyuz launch pad localization
-* Fixed reasim RBMK auto control rods being unobtainable in 528 mode due to needing regular non-reasim control rods
-* Fixed an issue where the recipe template files were almost never written with the icon stack
+* Fixed crashes caused by the QMAW browser
+* Fixed a game breaking bug where one of the oil QMAW entries has a word misseplled
