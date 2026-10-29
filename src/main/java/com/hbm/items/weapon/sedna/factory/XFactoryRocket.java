@@ -211,7 +211,7 @@ public class XFactoryRocket {
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(GUN_PANZERSCHRECK_DAMAGE).delay(5).reload(85).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_PANZERSCHRECK_DAMAGE).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
