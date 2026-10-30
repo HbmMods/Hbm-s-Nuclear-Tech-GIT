@@ -1243,8 +1243,8 @@ public class ModEventHandler {
 		}
 
 		x = event.x;
-		y = event.z;
-		z = event.y;
+		y = event.y;
+		z = event.z;
 
 		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getTileEntity(x, y, z) instanceof TileEntitySign) {
 
