@@ -40,6 +40,7 @@ public class ItemPoolsC130 {
 					weighted(ModItems.gun_carbine, 0, 1, 1, 50),
 					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 50),
 					weighted(ModItems.gun_panzerschreck, 0, 1, 1, 20),
+					weighted(ModItems.gun_fliegerfaust, 0, 1, 1, 20),
 					weighted(ModItems.gun_double_barrel, 0, 1, 1, 10),
 					weighted(ModItems.gun_n_i_4_n_i, 0, 1, 1, 1),
 			};
