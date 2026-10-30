@@ -52,7 +52,7 @@ public class XFactoryRocket {
 	public static ConfigWrapper<Float> GUN_PANZERSCHRECK_DAMAGE =		new ConfigWrapper(25F);
 	public static ConfigWrapper<Float> GUN_STINGER_DAMAGE =				new ConfigWrapper(35F);
 	public static ConfigWrapper<Float> GUN_QUADRO_DAMAGE =				new ConfigWrapper(40F);
-	public static ConfigWrapper<Float> GUN_FLIEGERFAUST_DAMAGE =		new ConfigWrapper(50F);
+	public static ConfigWrapper<Float> GUN_FLIEGERFAUST_DAMAGE =		new ConfigWrapper(15F);
 	public static ConfigWrapper<Float> GUN_MISSILE_LAUNCHER_DAMAGE =	new ConfigWrapper(50F);
 
 	public static BulletConfig[] rocket_template;
@@ -244,12 +244,12 @@ public class XFactoryRocket {
 		ModItems.gun_fliegerfaust = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(9 * 25).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(GUN_FLIEGERFAUST_DAMAGE).spreadHipfire(0F).auto(true).delay(4).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_FLIEGERFAUST_DAMAGE).spread(0.015F).spreadHipfire(0.015F).auto(true).delay(4).reload(85).jam(60).sound(NTMSounds.GUN_ROCKET_FLAME, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 9).addConfigs(rocket_ff))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration().ps(LAMBDA_FLIEGERFAUST_SECONDARY)
-				.anim(LAMBDA_FLIEGERFAUST_ANIMS).orchestra(Orchestras.ORCHESTRA_PANERSCHRECK)
+				.anim(LAMBDA_FLIEGERFAUST_ANIMS).orchestra(Orchestras.ORCHESTRA_FLIEGERFAUST)
 				).setDefaultAmmo(EnumAmmo.ROCKET_MICRO, 9).setUnlocalizedName("gun_fliegerfaust");
 
 		ModItems.gun_missile_launcher = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
@@ -363,9 +363,16 @@ public class XFactoryRocket {
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, -0.125, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL));
 		case RELOAD: return new BusAnimation()
-				.addBus("RELOAD", new BusAnimationSequence().addPos(75, 0, 0, 750, IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 750, IType.SIN_FULL))
-				.addBus("ROCKET", new BusAnimationSequence().addPos(0, -3, -6, 0).addPos(0, -3, -6, 750).addPos(0, 0, -6.5, 500, IType.SIN_DOWN).addPos(0, 0, 0, 350, IType.SIN_UP));
-		case JAMMED: empty = false;
+				.addBus("RELOAD", new BusAnimationSequence().addPos(75, 0, 0, 750, IType.SIN_FULL).hold(2750).addPos(0, 0, 0, 750, IType.SIN_FULL))
+				.addBus("DRUM", new BusAnimationSequence().hold(1000).addPos(0, 0, -1, 500, IType.SIN_FULL).addPos(0, -4, -1, 500, IType.SIN_UP).hold(500).addPos(0, 0, -1, 500, IType.SIN_DOWN).addPos(0, 0, 0, 250, IType.SIN_UP))
+				.addBus("DRUMROT", new BusAnimationSequence().hold(1500).addPos(-90, 0, 0, 500, IType.SIN_UP).hold(500).addPos(0, 0, 0, 500, IType.SIN_DOWN))
+				.addBus("RECOIL", new BusAnimationSequence().hold(3250).addPos(0, 0, 0.25, 150, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
+				.addBus("UNLOADING", new BusAnimationSequence().setPos(1, 0, 0).hold(2500).setPos(0, 0, 0));
+		case JAMMED: return new BusAnimation()
+				.addBus("RELOAD", new BusAnimationSequence().hold(500).addPos(75, 0, 0, 500, IType.SIN_FULL).hold(1500).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("DRUM", new BusAnimationSequence().hold(1250).addPos(0, 0, -1, 250, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_UP))
+				.addBus("RECOIL", new BusAnimationSequence().hold(1750).addPos(0, 0, 0.25, 150, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
+				.addBus("UNLOADING", new BusAnimationSequence().setPos(1, 0, 0).hold(1750).setPos(0, 0, 0));
 		case INSPECT:
 			return new BusAnimation()
 				.addBus("RELOAD", new BusAnimationSequence().addPos(75, 0, 0, 750, IType.SIN_FULL).hold(500).addPos(0, 0, 0, 750, IType.SIN_FULL))

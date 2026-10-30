@@ -1151,6 +1151,25 @@ public class Orchestras {
 		}
 	};
 
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLIEGERFAUST = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		if(type == GunAnimation.CYCLE) {
+			if(timer == 0) PacketDispatcher.wrapper.sendToAllAround(new MuzzleFlashPacket(entity), new TargetPoint(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 100));
+		}
+		if(type == GunAnimation.RELOAD) {
+			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_BOLT_OPEN, 1F, 0.85F);
+			if(timer == 62) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_CANISTER_INSERT, 1F, 1F);
+			if(timer == 64) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_BOLT_CLOSE, 1F, 0.85F);
+		}
+		if(type == GunAnimation.JAMMED) {
+			if(timer == 25) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_BOLT_OPEN, 1F, 0.85F);
+			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_BOLT_CLOSE, 1F, 0.85F);
+		}
+	};
+
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_MINIGUN = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		if(entity.worldObj.isRemote) return;

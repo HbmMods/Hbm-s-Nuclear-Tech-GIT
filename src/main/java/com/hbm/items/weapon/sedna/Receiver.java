@@ -71,7 +71,6 @@ public class Receiver {
 	protected boolean refireAfterDry_DNA = false;
 	protected boolean doesDryFire_DNA = true;
 	protected boolean doesDryFireAfterAuto_DNA = false;
-	protected boolean ejectOnFire_DNA = true;
 	protected boolean reloadOnEmpty_DNA = false;
 	protected int reloadBeginDuration_DNA;
 	protected int reloadCycleDuration_DNA;
@@ -103,7 +102,6 @@ public class Receiver {
 	public boolean getRefireAfterDry(ItemStack stack) {			return XWeaponModManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this, parent.index); }
 	public boolean getDoesDryFire(ItemStack stack) {			return XWeaponModManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this, parent.index); }
 	public boolean getDoesDryFireAfterAuto(ItemStack stack) {	return XWeaponModManager.eval(this.doesDryFireAfterAuto_DNA, stack, B_DOESDRYFIREAFTERAUTO, this, parent.index); }
-	public boolean getEjectOnFire(ItemStack stack) {			return XWeaponModManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this, parent.index); }
 	public boolean getReloadOnEmpty(ItemStack stack) {			return XWeaponModManager.eval(this.reloadOnEmpty_DNA, stack, B_RELOADONEMPTY, this, parent.index); }
 	public int getReloadBeginDuration(ItemStack stack) {		return XWeaponModManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this, parent.index); }
 	public int getReloadCycleDuration(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this, parent.index); }
@@ -137,7 +135,6 @@ public class Receiver {
 	public Receiver autoAfterDry(boolean auto) {					this.refireAfterDry_DNA = auto;										return this; }
 	public Receiver dryfire(boolean dryfire) {						this.doesDryFire_DNA = dryfire;										return this; }
 	public Receiver dryfireAfterAuto(boolean dryfire) {				this.doesDryFireAfterAuto_DNA = dryfire;							return this; }
-	public Receiver ejectOnFire(boolean eject) {					this.ejectOnFire_DNA = eject;										return this; }
 	public Receiver reloadOnEmpty(boolean reload) {					this.reloadOnEmpty_DNA = reload;									return this; }
 	public Receiver mag(IMagazine magazine) {						this.magazine_DNA = magazine;										return this; }
 	public Receiver offset(double f, double u, double s) {			this.projectileOffset_DNA = Vec3.createVectorHelper(f, u, s); this.projectileOffsetScoped_DNA = Vec3.createVectorHelper(f, u, 0);	return this; }

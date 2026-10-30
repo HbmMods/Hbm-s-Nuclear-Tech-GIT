@@ -12,6 +12,7 @@ import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
@@ -304,7 +305,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			if(this.hasAmmo() && this.tPos != null) {
 				this.spawnShell(this.typeLoaded);
 				this.ammo--;
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.rocketFlame", 25.0F, 1.0F);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.GUN_ROCKET_FLAME, 25.0F, 1.0F);
 			}
 			
 			if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {

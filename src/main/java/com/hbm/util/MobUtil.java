@@ -41,20 +41,20 @@ public class MobUtil {
 		slotPoolCommonS.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
 			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
 			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1},
 			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
 		}));
 		slotPoolCommonS.put(3, createSlotPool(7000, new Object[][]{
 			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
-			{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
+			{ModItems.jackt, 32}, {ModItems.jackt2, 32},
 			{ModItems.steel_plate, 2}
 		}));
 		slotPoolCommonS.put(2, createSlotPool(7000, new Object[][]{
 			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}
 		}));
 		slotPoolCommonS.put(1, createSlotPool(7000, new Object[][]{
-			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}
 		}));
 		slotPoolCommonS.put(0, createSlotPool(10000, new Object[][]{
 			{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
@@ -67,19 +67,19 @@ public class MobUtil {
 		slotPoolRangedS.put(4, createSlotPool(8000, new Object[][]{
 			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
 			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-			{ModItems.rag_piss, 1}, {ModItems.goggles, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.rag_piss, 1}, {ModItems.goggles, 1},
 			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
 		}));
 		slotPoolRangedS.put(3, createSlotPool(7000, new Object[][]{
-			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
+			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2},
 			{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
 		}));
 		slotPoolRangedS.put(2, createSlotPool(7000, new Object[][]{
 			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}
 		}));
 		slotPoolRangedS.put(1, createSlotPool(10000, new Object[][]{
-			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2},
 			{ModItems.titanium_boots, 6}
 		}));
 
@@ -88,20 +88,20 @@ public class MobUtil {
 		slotPoolCommon.put(4, createSlotPool(0, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
 			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
 			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1},
 			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
 		}));
 		slotPoolCommon.put(3, createSlotPool(10, new Object[][]{
 			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
-			{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
+			{ModItems.jackt, 32}, {ModItems.jackt2, 32},
 			{ModItems.steel_plate, 2}
 		}));
 		slotPoolCommon.put(2, createSlotPool(20, new Object[][]{
 			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}
 		}));
 		slotPoolCommon.put(1, createSlotPool(10, new Object[][]{
-			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}
 		}));
 		slotPoolCommon.put(0, createSlotPool(1000, new Object[][]{
 			{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
@@ -114,19 +114,19 @@ public class MobUtil {
 		slotPoolRanged.put(4, createSlotPool(0, new Object[][]{
 			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
 			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-			{ModItems.rag_piss, 1}, {ModItems.goggles, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.rag_piss, 1}, {ModItems.goggles, 1},
 			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
 		}));
 		slotPoolRanged.put(3, createSlotPool(10, new Object[][]{
-			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
+			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2},
 			{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
 		}));
 		slotPoolRanged.put(2, createSlotPool(10, new Object[][]{
 			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32},
 		}));
 		slotPoolRanged.put(1, createSlotPool(10, new Object[][]{
-			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2},
 			{ModItems.titanium_boots, 6}
 		}));
 
