@@ -1,0 +1,11 @@
+{
+	"name": "Arc Furnace",
+	"icon": ["hbm:tile.machine_arc_furnace", 1, 0],
+	"trigger": [["hbm:tile.machine_arc_furnace"]],
+	"title": {
+		"en_US": "Arc Furnace"
+	},
+	"content": {
+		"en_US": "The arc furnace is a machine that can be used to roast or melt ores and other materials to get a solid or liquid output. The output type can be controlled by a button above the fluid bar. It is first used to produce [[silicon|Silicon]] from materials such as sand, however it may be used for a variety of processes including [[bedrock ore processing|Bedrock Ore Processing]]."
+    }
+}
