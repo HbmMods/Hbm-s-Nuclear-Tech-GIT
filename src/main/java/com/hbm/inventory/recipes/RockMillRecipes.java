@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import static com.hbm.inventory.OreDictManager.*;
 
+import com.hbm.blocks.BlockEnums.DirtType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -9,6 +10,8 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
+import com.hbm.items.ItemEnums.EnumBacteriaType;
+import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ModItems;
 import com.hbm.util.Compat;
 
@@ -133,6 +136,14 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 						new ChanceOutput(new ItemStack(Items.clay_ball), 25),
 						new ChanceOutput(new ItemStack(ModBlocks.stone_resource, 1, 2), 25),
 						new ChanceOutput(new ItemStack(ModBlocks.ore_titanium), 25)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.swamp").setup(duraShort, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new ComparableStack(ModBlocks.dirt, 1, DirtType.SWAMP))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(ModItems.briquette, 4, EnumBriquetteType.PEAT.ordinal()), 150),
+						new ChanceOutput(new ItemStack(Blocks.dirt), 49),
+						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_INERT.ordinal()), 1)
 				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
 		
 		// lead paint and asbestos world

@@ -37,7 +37,8 @@ public class ItemEnums {
 	public static enum EnumBriquetteType {
 		COAL,
 		LIGNITE,
-		WOOD
+		WOOD,
+		PEAT
 	}
 
 	public static enum EnumLegendaryType {
@@ -50,6 +51,13 @@ public class ItemEnums {
 		TOBACCO,
 		ROPE,
 		MUSTARDWILLOW
+	}
+
+	public static enum EnumBacteriaType {
+		AGAR,
+		ANTHRAX_INERT,
+		ANTHRAX_DEAD,
+		ANTHRAX_MUTATED
 	}
 
 	public static enum EnumChunkType implements IOrderedEnum {
