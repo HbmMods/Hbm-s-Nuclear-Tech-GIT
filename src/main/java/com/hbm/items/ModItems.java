@@ -550,6 +550,7 @@ public class ModItems {
 	public static Item biomass_compressed;
 	public static Item bio_wafer;
 	public static Item plant_item;
+	public static Item bacteria;
 
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
@@ -2553,6 +2554,7 @@ public class ModItems {
 		biomass_compressed = new Item().setUnlocalizedName("biomass_compressed").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass_compressed");
 		bio_wafer = new ItemLemon(4, 2F, false).setUnlocalizedName("bio_wafer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bio_wafer");
 		plant_item = new ItemEnumMulti(EnumPlantType.class, true, true).setUnlocalizedName("plant_item").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plant_item");
+		bacteria = new ItemEnumMulti(EnumBacteriaType.class, true, true).setUnlocalizedName("bacteria").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bacteria");
 
 		coil_copper = new Item().setUnlocalizedName("coil_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_copper");
 		coil_copper_torus = new Item().setUnlocalizedName("coil_copper_torus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_copper_torus");
@@ -4957,8 +4959,9 @@ public class ModItems {
 			GameRegistry.registerItem(customShape, customShape.getUnlocalizedName());
 		}
 
-		//Plant Products
+		//Biological
 		GameRegistry.registerItem(plant_item, plant_item.getUnlocalizedName());
+		GameRegistry.registerItem(bacteria, bacteria.getUnlocalizedName());
 
 		//Teleporter Parts
 		GameRegistry.registerItem(entanglement_kit, entanglement_kit.getUnlocalizedName());

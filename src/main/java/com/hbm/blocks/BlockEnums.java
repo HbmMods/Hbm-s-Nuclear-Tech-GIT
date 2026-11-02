@@ -63,6 +63,10 @@ public class BlockEnums {
 		SMALL
 	}
 
+	public static enum DirtType {
+		SWAMP
+	}
+
 	public static enum LightstoneType {
 		UNREFINED,
 		TILE,
