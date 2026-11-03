@@ -9,6 +9,7 @@ import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 import com.hbm.util.BufferUtil;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
@@ -110,7 +111,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			
 			// always accept new signals
 			if(chan != null && chan.signal != null) {
-				try { sigVal = Long.parseLong(chan.signal.toString()); } catch(Exception ex) { }
+				try { sigVal = IRORInteractive.parseLong(chan.signal.toString()); } catch(Exception ex) { }
 				pushValue(sigVal);
 			} else {
 				// if there's no new signal and we're polling, set to 0

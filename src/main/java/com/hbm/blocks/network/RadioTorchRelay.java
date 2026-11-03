@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.gui.GUIScreenRadioTorchRelay;
 import com.hbm.tileentity.network.TileEntityRadioTorchRelay;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -42,6 +43,6 @@ public class RadioTorchRelay extends RadioTorchBase {
 
 	@Override
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new GUIScreenRadioTorchRelay((TileEntityRadioTorchRelay) world.getTileEntity(x, y, z));
 	}
 }

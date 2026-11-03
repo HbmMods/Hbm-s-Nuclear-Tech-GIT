@@ -1,5 +1,11 @@
+## Added
+* Redstone-over-radio calculation relay
+  * A simple RoR component that receives signals and uses them as variables in mathematical expressions
+  * Allows basic automated calculation without needing an AUTOCAL
+
 ## Changed
 * The press and anvil recipes for turning ingots into plates now use autogen, meaning that plates from other mod materials can now be made, if they exist
+* RoR panels can now receive non-integer number signals, in which case the numer is rounded to the nearest integer
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended
