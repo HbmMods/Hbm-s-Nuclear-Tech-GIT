@@ -520,7 +520,7 @@ chem.lightconstruction=Облегчённый авиационный компо�
 chem.carboncarbon=Авиационный композит из углеволокна
 chem.growinertanthrax=Репликация инертной сибирской язвы
 chem.growmutatedanthrax=Репликация мутировавшей сибирской язвы
-chem.mutateanthrax=Мутация сибирской язв
+chem.mutateanthrax=Мутация сибирской язвы
 
 com.copy=Копирование данных: %s
 
