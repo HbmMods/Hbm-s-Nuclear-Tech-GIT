@@ -249,4 +249,9 @@ public class ItemStackUtil {
 			
 		} catch(NBTException e) { }
 	}
+	
+	/** Checks the ore dictionary if that name truly exists, i.e. if there's at least one item assigned to it. */
+	public static boolean doesOreDictNameExist(String name) {
+		return OreDictionary.doesOreNameExist(name) && !OreDictionary.getOres(name).isEmpty();
+	}
 }

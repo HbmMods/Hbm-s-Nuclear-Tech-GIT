@@ -7,11 +7,11 @@ import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.main.CraftingManager;
+import com.hbm.util.ItemStackUtil;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
@@ -153,8 +153,8 @@ public class RodRecipes {
 
 	public static void registerInit() {
 		/* GT6 */
-		if(OreDictionary.doesOreNameExist("ingotNaquadahEnriched"))		addPellet(new DictFrame("NaquadahEnriched"),	EnumWatzType.NQD);
-		if(OreDictionary.doesOreNameExist("ingotNaquadria"))			addPellet(new DictFrame("Naquadria"),			EnumWatzType.NQR);
+		if(ItemStackUtil.doesOreDictNameExist("ingotNaquadahEnriched"))	addPellet(new DictFrame("NaquadahEnriched"),	EnumWatzType.NQD);
+		if(ItemStackUtil.doesOreDictNameExist("ingotNaquadria"))		addPellet(new DictFrame("Naquadria"),			EnumWatzType.NQR);
 	}
 
 	//Fill rods with one billet. For fuels only, therefore no unloading or ore dict

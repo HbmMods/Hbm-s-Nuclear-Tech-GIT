@@ -57,12 +57,12 @@ public class Compat {
 	public static ItemStack getPreferredOreOutput(List<ItemStack> oreList) {
 		int lowestPref = -1;
 		ItemStack preferredStack = null;
-		
+
 		for(ItemStack item : oreList) {
 			String modid = ItemStackUtil.getModIdFromItemStack(item);
 			for(int i = 0; i < GeneralConfig.preferredOutputMod.length; i++) {
-				if (modid.equals(GeneralConfig.preferredOutputMod[i])){
-					if (lowestPref<0 || i <lowestPref) {
+				if(modid.equals(GeneralConfig.preferredOutputMod[i])) {
+					if(lowestPref < 0 || i < lowestPref) {
 						preferredStack = item;
 						lowestPref = i;
 					}
@@ -70,7 +70,7 @@ public class Compat {
 				}
 			}
 		}
-		if (preferredStack != null) {
+		if(preferredStack != null) {
 			return preferredStack.copy();
 		}
 		return oreList.get(0).copy();

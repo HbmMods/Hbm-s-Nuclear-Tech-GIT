@@ -24,6 +24,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemStamp.StampType;
+import com.hbm.util.Compat;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.init.Blocks;
@@ -71,19 +73,14 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.FLAT, new OreDictStack(LIGNITE.dust()),						DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE));
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_sawdust),			DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD));
 
-		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),			ModItems.plate_iron);
-		makeRecipe(StampType.PLATE, new OreDictStack(GOLD.ingot()),			ModItems.plate_gold);
-		makeRecipe(StampType.PLATE, new OreDictStack(TI.ingot()),			ModItems.plate_titanium);
-		makeRecipe(StampType.PLATE, new OreDictStack(AL.ingot()),			ModItems.plate_aluminium);
-		makeRecipe(StampType.PLATE, new OreDictStack(STEEL.ingot()),		ModItems.plate_steel);
-		makeRecipe(StampType.PLATE, new OreDictStack(PB.ingot()),			ModItems.plate_lead);
-		makeRecipe(StampType.PLATE, new OreDictStack(CU.ingot()),			ModItems.plate_copper);
-		makeRecipe(StampType.PLATE, new OreDictStack(SA326.ingot()),		ModItems.plate_schrabidium);
-		makeRecipe(StampType.PLATE, new OreDictStack(CMB.ingot()),			ModItems.plate_combine_steel);
-		makeRecipe(StampType.PLATE, new OreDictStack(GUNMETAL.ingot()),		ModItems.plate_gunmetal);
-		makeRecipe(StampType.PLATE, new OreDictStack(WEAPONSTEEL.ingot()),	ModItems.plate_weaponsteel);
-		makeRecipe(StampType.PLATE, new OreDictStack(BIGMT.ingot()),		ModItems.plate_saturnite);
-		makeRecipe(StampType.PLATE, new OreDictStack(DURA.ingot()),			ModItems.plate_dura_steel);
+		for(NTMMaterial mat : Mats.orderedList) {
+			String ingot = MaterialShapes.INGOT.make(mat);
+			String plate = MaterialShapes.PLATE.make(mat);
+			
+			if(ItemStackUtil.doesOreDictNameExist(ingot) && ItemStackUtil.doesOreDictNameExist(plate)) {
+				makeRecipe(StampType.PLATE, new OreDictStack(ingot), Compat.getPreferredOreOutput(OreDictionary.getOres(plate)));
+			}
+		}
 
 		makeRecipe(StampType.C9, 	new OreDictStack(GUNMETAL.plate()),		DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL, 4));
 		makeRecipe(StampType.C50, 	new OreDictStack(GUNMETAL.plate()),		DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE, 2));
@@ -91,7 +88,7 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.C50, 	new OreDictStack(WEAPONSTEEL.plate()),	DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL, 2));
 
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.autogen.contains(MaterialShapes.WIRE) && OreDictionary.doesOreNameExist(MaterialShapes.INGOT.make(mat))) {
+			if(mat.autogen.contains(MaterialShapes.WIRE) && ItemStackUtil.doesOreDictNameExist(MaterialShapes.INGOT.make(mat))) {
 				makeRecipe(StampType.WIRE, new OreDictStack(MaterialShapes.INGOT.make(mat)), new ItemStack(ModItems.wire_fine, 8, mat.id));
 			}
 		}
