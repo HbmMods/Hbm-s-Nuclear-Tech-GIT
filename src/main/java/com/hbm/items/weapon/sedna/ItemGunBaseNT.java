@@ -16,6 +16,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIWeaponTable;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -46,6 +47,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -53,7 +55,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, IEquipReceiver {
+public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, IEquipReceiver, IProtectiveItem {
 
 	/** Timestamp for rendering smoke nodes and muzzle flashes */
 	public long[] lastShot;
@@ -455,7 +457,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, config.getCrosshair(stack));
 		}
 
-		int confNo = this.configs_DNA.length;
+		int confNo = this.getConfigCount();
 
 		for(int i = 0; i < confNo; i++) {
 			IHUDComponent[] components = gun.getConfig(stack, i).getHUDComponents(stack);
@@ -470,8 +472,28 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 
-	/*@Override
-	public boolean getShareTag() { return false; }*/ // nbt sync dupe fix, didn't work
+	@Override
+	public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		float dt = 0F;
+		float dr = 0F;
+
+		int confNo = this.getConfigCount();
+
+		for(int i = 0; i < confNo; i++) {
+			IProtectiveItem[] handlers = gun.getConfig(stack, i).getResistanceHandlers(stack);
+			if(handlers == null) continue;
+			
+			for(IProtectiveItem handler : handlers) {
+				float[] vals = handler.getCurrentDTDR(stack, entity, damage, amount, pierceDT, pierce);
+				dt += vals[0];
+				dr += vals[1];
+			}
+		}
+		
+		return new float[] {dt, dr};
+	}
 
 	public static class SmokeNode {
 

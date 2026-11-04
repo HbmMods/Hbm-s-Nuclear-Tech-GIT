@@ -10,6 +10,7 @@ import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -37,6 +38,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -122,6 +124,20 @@ public class XFactoryFlamer {
 			bullet.setDead();
 		}
 	}
+	
+	public static IProtectiveItem FLAMER_PROTECTION_MODULE = new IProtectiveItem() {
+		@Override public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+			if(damage.isFireDamage()) return new float[] {0.5F, 0.5F};
+			return new float[] {0F, 0F};
+		}
+	};
+	
+	public static IProtectiveItem EXPLOSIVE_PROTECTION_MODULE = new IProtectiveItem() {
+		@Override public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+			if(damage.isExplosion()) return new float[] {5F, 0.25F};
+			return new float[] {0F, 0F};
+		}
+	};
 
 	public static void init() {
 		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
@@ -158,6 +174,7 @@ public class XFactoryFlamer {
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
 				.setupStandardConfiguration()
+				.resistance(FLAMER_PROTECTION_MODULE)
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
 				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer");
 		ModItems.gun_flamer_topaz = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
@@ -168,6 +185,7 @@ public class XFactoryFlamer {
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
 				.setupStandardConfiguration()
+				.resistance(FLAMER_PROTECTION_MODULE, EXPLOSIVE_PROTECTION_MODULE)
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
 				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer_topaz");
 		ModItems.gun_flamer_daybreaker = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
@@ -178,6 +196,7 @@ public class XFactoryFlamer {
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
 				.setupStandardConfiguration()
+				.resistance(FLAMER_PROTECTION_MODULE, EXPLOSIVE_PROTECTION_MODULE)
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER_DAYBREAKER)
 				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer_daybreaker");
 

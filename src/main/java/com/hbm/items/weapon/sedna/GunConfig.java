@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.factory.GunStateDecider;
@@ -51,6 +52,7 @@ public class GunConfig {
 	public static final String CON_DECIDER =					"CON_DECIDER";
 	public static final String FUN_ANIMNATIONS =				"FUN_ANIMNATIONS";
 	public static final String O_HUDCOMPONENTS =				"O_HUDCOMPONENTS";
+	public static final String O_RESISTANCEHANDLER =			"O_RESISTANCEHANDLER";
 
 	/* FIELDS */
 
@@ -86,6 +88,7 @@ public class GunConfig {
 	/** Lambda that returns the relevant animation for the given params */
 	protected BiFunction<ItemStack, GunAnimation, BusAnimation> animations_DNA;
 	protected IHUDComponent[] hudComponents_DNA;
+	protected IProtectiveItem[] resistanceHandler_DNA;
 
 	/* GETTERS */
 
@@ -117,6 +120,7 @@ public class GunConfig {
 
 	public BiFunction<ItemStack, GunAnimation, BusAnimation> getAnims(ItemStack stack) {	return XWeaponModManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this, this.index); }
 	public IHUDComponent[] getHUDComponents(ItemStack stack) {								return XWeaponModManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this, this.index); }
+	public IProtectiveItem[] getResistanceHandlers(ItemStack stack) {						return XWeaponModManager.eval(this.resistanceHandler_DNA, stack, O_RESISTANCEHANDLER, this, this.index); }
 
 	/* SETTERS */
 
@@ -153,6 +157,7 @@ public class GunConfig {
 	//client
 	public GunConfig anim(BiFunction<ItemStack, GunAnimation, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
 	public GunConfig hud(IHUDComponent... components) {									this.hudComponents_DNA = components;	return this; }
+	public GunConfig resistance(IProtectiveItem... handlers) {							this.resistanceHandler_DNA = handlers;	return this; }
 
 	/** Standard package for keybind handling and decider using LEGO prefabs: Primary fire on LMB,
 	 * reload on R, aiming on MMB and the standard decider which includes jamming and auto fire handling*/

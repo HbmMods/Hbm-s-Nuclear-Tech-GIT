@@ -1,12 +1,14 @@
 ## Added
-* Hilariously impractical multiple rocket anti air launcher
-  * Nine-barrel rocket launcher that uses micro rockets
+* Redstone-over-radio calculation relay
+  * A simple RoR component that receives signals and uses them as variables in mathematical expressions
+  * Allows basic automated calculation without needing an AUTOCAL
 
 ## Changed
-* Updated russian localization
+* The press and anvil recipes for turning ingots into plates now use autogen, meaning that plates from other mod materials can now be made, if they exist
+* RoR panels can now receive non-integer number signals, in which case the numer is rounded to the nearest integer
+* All flamer variants grant a small amount of fire resistance when equipped
+* All flamer variants with a shield now grant a moderate resistance to explosion damage when equipped
 
 ## Fixed
-* Fixed crashes caused by the QMAW browser
-* Fixed a game breaking bug where one of the oil QMAW entries has a word misseplled
-* Fixed pumpjack's ports using the wrong metadata value for the rotations, causing ports to be concentrated on the core block on relog
-* Fixed mobs still being able to spawn with legacy alloy gear
+* Fixed panzerschreck reload taking 1.5 seconds longer than intended
+* Fixed an issue where empty ore dictionary names could cause recipes with nonexistant ingredients to be generated

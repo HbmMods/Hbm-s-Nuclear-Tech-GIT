@@ -9,6 +9,7 @@ import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 import com.hbm.util.BufferUtil;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
@@ -127,7 +128,7 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			
 			// always accept new signals
 			if(chan != null && chan.signal != null) {
-				try { sigVal = Integer.parseInt(chan.signal.toString()); } catch(Exception ex) { }
+				try { sigVal = IRORInteractive.parseInt(chan.signal.toString()); } catch(Exception ex) { }
 				this.value = sigVal;
 			} else {
 				// if there's no new signal and we're polling, set to 0

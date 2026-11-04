@@ -47,6 +47,10 @@ public interface IRORInteractive extends IRORInfo {
 		return result;
 	}
 	
+	public static long parseLong(String val) {
+		return parseLong(val, Long.MIN_VALUE, Long.MAX_VALUE);
+	}
+	
 	public static long parseLong(String val, long min, long max) {
 		long result = 0;
 		try { result = Long.parseLong(val); } catch(Exception x) {

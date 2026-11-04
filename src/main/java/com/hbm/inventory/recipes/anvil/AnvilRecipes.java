@@ -26,6 +26,8 @@ import com.hbm.items.food.ItemFlask.EnumInfusion;
 import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
+import com.hbm.util.Compat;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.block.Block;
@@ -138,6 +140,15 @@ public class AnvilRecipes extends SerializableRecipe {
 	 */
 	public static void registerConstruction() {
 
+		for(NTMMaterial mat : Mats.orderedList) {
+			String ingot = MaterialShapes.INGOT.make(mat);
+			String plate = MaterialShapes.PLATE.make(mat);
+			
+			if(ItemStackUtil.doesOreDictNameExist(ingot) && ItemStackUtil.doesOreDictNameExist(plate)) {
+				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(ingot), new AnvilOutput(Compat.getPreferredOreOutput(OreDictionary.getOres(plate)))).setTier(3));
+			}
+		}
+
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(IRON.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_iron))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(GOLD.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_gold))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(TI.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_titanium))).setTier(3));
@@ -153,7 +164,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CMB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_combine_steel))).setTier(3));
 
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.autogen.contains(MaterialShapes.WIRE) && OreDictionary.doesOreNameExist(MaterialShapes.INGOT.make(mat))) {
+			if(mat.autogen.contains(MaterialShapes.WIRE) && ItemStackUtil.doesOreDictNameExist(MaterialShapes.INGOT.make(mat))) {
 				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MaterialShapes.INGOT.name() + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
 			}
 		}
@@ -195,7 +206,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				new OreDictStack(MaterialShapes.PLATE.name() + mat.names[0], 4),
 				new AnvilOutput(new ItemStack(ModItems.shell, 1, mat.id))).setTier(1));
 		for(NTMMaterial mat : Mats.orderedList) if(mat.autogen.contains(MaterialShapes.PIPE)) {
-			String key = (OreDictionary.doesOreNameExist(MaterialShapes.PLATE.name() + mat.names[0]) ?
+			String key = (ItemStackUtil.doesOreDictNameExist(MaterialShapes.PLATE.name() + mat.names[0]) ?
 					MaterialShapes.PLATE.name() + mat.names[0] : MaterialShapes.INGOT.name() + mat.names[0]);
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new OreDictStack(key, 3),

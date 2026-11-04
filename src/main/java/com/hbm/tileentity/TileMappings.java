@@ -496,6 +496,7 @@ public class TileMappings {
 		put(TileEntityRadioTorchLogic.class, "tileentity_rtty_logic");
 		put(TileEntityRadioTorchReader.class, "tileentity_rtty_reader");
 		put(TileEntityRadioTorchController.class, "tileentity_rtty_controller");
+		put(TileEntityRadioTorchRelay.class, "tileentity_rtty_relay");
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		put(TileEntityRadioAUTOCAL.class, "tileentity_rtty_autocal");
 
