@@ -17,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.entity.mob.EntityCreeperNuclear;
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.lib.ModDamageSource;
@@ -511,6 +512,15 @@ public class DamageResistanceHandler {
 		if(entity instanceof IResistanceProvider) {
 			IResistanceProvider irp = (IResistanceProvider) entity;
 			float[] res = irp.getCurrentDTDR(damage, amount, pierceDT, pierce);
+			dt += res[0];
+			dr += res[1];
+		}
+		
+		ItemStack held = entity.getHeldItem();
+		
+		if(held != null && held.getItem() instanceof IProtectiveItem) {
+			IProtectiveItem ipi = (IProtectiveItem) held.getItem();
+			float[] res = ipi.getCurrentDTDR(held, entity, damage, amount, pierceDT, pierce);
 			dt += res[0];
 			dr += res[1];
 		}

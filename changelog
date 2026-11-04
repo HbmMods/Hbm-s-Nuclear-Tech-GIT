@@ -6,6 +6,8 @@
 ## Changed
 * The press and anvil recipes for turning ingots into plates now use autogen, meaning that plates from other mod materials can now be made, if they exist
 * RoR panels can now receive non-integer number signals, in which case the numer is rounded to the nearest integer
+* All flamer variants grant a small amount of fire resistance when equipped
+* All flamer variants with a shield now grant a moderate resistance to explosion damage when equipped
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended
