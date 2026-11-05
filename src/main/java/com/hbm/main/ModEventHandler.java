@@ -705,8 +705,8 @@ public class ModEventHandler {
 			props.lastDamage = player.ticksExisted;
 		}
 
-		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
-			event.ammount *= 2F;
+		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100) event.ammount *= 2F;
+		if(HbmLivingProps.hasAnthrax(e)) event.ammount *= 1.5F;
 
 		/// ARMOR MODS ///
 		for(int i = 1; i < 5; i++) {

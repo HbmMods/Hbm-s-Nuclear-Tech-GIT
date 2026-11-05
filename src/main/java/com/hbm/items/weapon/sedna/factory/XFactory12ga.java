@@ -53,6 +53,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
@@ -72,7 +74,7 @@ public class XFactory12ga {
 	public static BulletConfig g12_magnum;
 	public static BulletConfig g12_explosive;
 	public static BulletConfig g12_phosphorus;
-	//public static BulletConfig g12_anthrax;
+	public static BulletConfig g12_anthrax;
 	public static BulletConfig g12_equestrian_bj;
 	public static BulletConfig g12_equestrian_tkr;
 
@@ -82,6 +84,7 @@ public class XFactory12ga {
 	public static BulletConfig g12_shredder_magnum;
 	public static BulletConfig g12_shredder_explosive;
 	public static BulletConfig g12_shredder_phosphorus;
+	public static BulletConfig g12_shredder_anthrax;
 
 	public static BulletConfig g12_sub;
 	public static BulletConfig g12_sub_slug;
@@ -89,6 +92,7 @@ public class XFactory12ga {
 	public static BulletConfig g12_sub_magnum;
 	public static BulletConfig g12_sub_explosive;
 	public static BulletConfig g12_sub_phosphorus;
+	public static BulletConfig g12_sub_anthrax;
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		Lego.standardExplode(bullet, mop, 2F); bullet.setDead();
@@ -295,11 +299,12 @@ public class XFactory12ga {
 		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setDamage(2.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
 		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(8).setDamage(1F/8F).setSpread(magnumSpread).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"))
 				.setOnImpact((bullet, mop) -> { if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) { HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit); if(data.phosphorus < 300) data.phosphorus = 300; } });
-		//g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"));
+		g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(8).setDamage(0.5F/8F).setSpread(magnumSpread).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"))
+				.setOnImpact((bullet, mop) -> { if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) { EntityLivingBase entity = (EntityLivingBase) mop.entityHit; HbmLivingProps.applyAnthrax(entity); entity.addPotionEffect(new PotionEffect(Potion.poison.id, 15 * 20, 1)); } });
 		g12_equestrian_bj = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOAT).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianBJ"));
 		g12_equestrian_tkr = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianTKR"));
 
-		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus};
+		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_anthrax};
 
 		g12_sub =					makeShredderSubmunition(g12);
 		g12_sub_slug =				makeShredderSubmunition(g12_slug);
@@ -307,12 +312,14 @@ public class XFactory12ga {
 		g12_sub_magnum =			makeShredderSubmunition(g12_magnum);
 		g12_sub_explosive =			makeShredderSubmunition(g12_explosive);
 		g12_sub_phosphorus =		makeShredderSubmunition(g12_phosphorus);
+		g12_sub_anthrax =			makeShredderSubmunition(g12_anthrax);
 		g12_shredder =				makeShredderConfig(g12, g12_sub);
 		g12_shredder_slug =			makeShredderConfig(g12_slug, g12_sub_slug);
 		g12_shredder_flechette =	makeShredderConfig(g12_flechette, g12_sub_flechette);
 		g12_shredder_magnum =		makeShredderConfig(g12_magnum, g12_sub_magnum);
 		g12_shredder_explosive =	makeShredderConfig(g12_explosive, g12_sub_explosive);
 		g12_shredder_phosphorus =	makeShredderConfig(g12_phosphorus, g12_sub_phosphorus);
+		g12_shredder_anthrax =		makeShredderConfig(g12_anthrax, g12_sub_anthrax);
 
 		ModItems.gun_maresleg = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(10).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -392,7 +399,7 @@ public class XFactory12ga {
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(GUN_SHREDDER_DAMAGE).delay(10).auto(true).autoAfterDry(true).dryfireAfterAuto(true).reload(44).jam(19).sound(NTMSounds.GUN_SHREDDER_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineBelt().addConfigs(g12_shredder, g12_shredder_slug, g12_shredder_flechette, g12_shredder_magnum, g12_shredder_explosive, g12_shredder_phosphorus))
+						.mag(new MagazineBelt().addConfigs(g12_shredder, g12_shredder_slug, g12_shredder_flechette, g12_shredder_magnum, g12_shredder_explosive, g12_shredder_phosphorus, g12_shredder_anthrax))
 						.offset(0.75, -0.125, -0.25)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AUTOSHOTGUN))
 				.setupStandardConfiguration()

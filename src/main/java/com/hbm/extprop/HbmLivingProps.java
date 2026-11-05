@@ -52,6 +52,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public int phosphorus;
 	public int balefire;
 	public int blackFire;
+	private int anthraxTimer;
+	private float anthraxLastHealth;
 	private List<ContaminationEffect> contamination = new ArrayList();
 
 	public HbmLivingProps(EntityLivingBase entity) {
@@ -263,6 +265,32 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	/// OIL ///
 	public static int getOil(EntityLivingBase entity) { return getData(entity).oil; }
 	public static void setOil(EntityLivingBase entity, int oil) { getData(entity).oil = oil; }
+	
+	public static void applyAnthrax(EntityLivingBase entity) {
+		HbmLivingProps data = HbmLivingProps.getData(entity);
+		if(data.anthraxTimer < 300) data.anthraxTimer = 300;
+		data.anthraxLastHealth = entity.getHealth();
+	}
+	
+	public static void decrementAnthrax(EntityLivingBase entity) {
+		HbmLivingProps data = HbmLivingProps.getData(entity);
+		if(data.anthraxTimer > 0) data.anthraxTimer--;
+	}
+	
+	public static boolean hasAnthrax(EntityLivingBase entity) {
+		HbmLivingProps data = HbmLivingProps.getData(entity);
+		return data.anthraxTimer > 0;
+	}
+	
+	public static float getAnthraxLastHealth(EntityLivingBase entity) {
+		HbmLivingProps data = HbmLivingProps.getData(entity);
+		return data.anthraxLastHealth;
+	}
+	
+	public static void setAnthraxLastHealth(EntityLivingBase entity, float health) {
+		HbmLivingProps data = HbmLivingProps.getData(entity);
+		data.anthraxLastHealth = health;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
@@ -311,6 +339,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_phosphorus", phosphorus);
 		props.setInteger("hfr_balefire", balefire);
 		props.setInteger("hfr_blackfire", blackFire);
+		props.setInteger("hfr_anthrax", anthraxTimer);
+		props.setFloat("hfr_anthraxLast", anthraxLastHealth);
 
 		props.setInteger("hfr_cont_count", this.contamination.size());
 
@@ -338,6 +368,8 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			phosphorus = props.getInteger("hfr_phosphorus");
 			balefire = props.getInteger("hfr_balefire");
 			blackFire = props.getInteger("hfr_blackfire");
+			anthraxTimer = props.getInteger("hfr_anthrax");
+			anthraxLastHealth = props.getFloat("hfr_anthraxLast");
 
 			int cont = props.getInteger("hfr_cont_count");
 

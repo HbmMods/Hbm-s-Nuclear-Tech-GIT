@@ -37,6 +37,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
@@ -139,6 +141,10 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
 
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 16, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
+			
+			if(BiomeDictionary.isBiomeOfType(biome, Type.SWAMP)) {
+				DungeonToolbox.generateOre(world, rand, i, j, 1, 8, 55, 10, ModBlocks.dirt, Blocks.dirt);
+			}
 
 			if(rand.nextInt(10) == 0) {
 				int randPosX = i + rand.nextInt(2) + 8;
