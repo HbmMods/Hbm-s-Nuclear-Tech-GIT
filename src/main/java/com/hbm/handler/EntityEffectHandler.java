@@ -181,7 +181,9 @@ public class EntityEffectHandler {
 			float health = entity.getHealth();
 			
 			if(lastHealth > health || lastHealth == 0) HbmLivingProps.setAnthraxLastHealth(entity, health);
-			if(health < lastHealth) entity.setHealth(lastHealth);
+			if(lastHealth < health) entity.setHealth(lastHealth);
+			
+			HbmLivingProps.decrementAnthrax(entity);
 		}
 	}
 

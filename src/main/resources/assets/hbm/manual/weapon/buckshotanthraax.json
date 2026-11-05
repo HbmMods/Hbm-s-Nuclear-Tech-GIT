@@ -1,0 +1,13 @@
+{
+	"name": "Anthrax Buckshot",
+	"icon": ["hbm:item.ammo_standard", 1, 96],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 96]
+	],
+	"title": {
+		"en_US": "Anthrax Buckshot"
+	},
+	"content": {
+		"en_US": "A specialized variant of standard buckshot, coated in anthrax bacteria. While the initial damage is lower than on standard buckshot, it comes with two additional effects:<br>* Poison II for 15 seconds<br>* The anthrax effect for 15 seconds, a hidden, otherwise uncurable effect that causes all damage taken to be 50% higher and prevents (or undoes) healing of any kind<br><br>The use of biological weapons is considered a war crime under the 1925 Geneva Protocol.<br><br>{{Template:Shotshells}}"
+	}
+}

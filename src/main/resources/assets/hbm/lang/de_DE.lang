@@ -220,6 +220,10 @@ chem.lubeelectrodes=Instant-Elektroden (Schmiermittel)
 chem.deshcracked=Desh aus Cracköl
 chem.lightconstruction=Luftfahrt-Leichtbau
 chem.carboncarbon=Luftfahrt-KFV-Kohlenstoff
+chem.anthraxrecycling=Recyclen von toten Milzbrandbakterien
+chem.growinertanthrax=Züchten von inaktiven Milzbrandbakterien
+chem.growmutatedanthrax=Züchten von mutierten Milzbrandbakterien
+chem.mutateanthrax=Milzbrandbakterien mutieren
 
 com.copy=Kopieren von %s
 
@@ -1105,7 +1109,7 @@ item.ammo_standard.g10_explosive.name=Kaliber 10 Explosivschrot
 item.ammo_standard.g10_shrapnel.name=Kaliber 10 Schrapnell-Schrot
 item.ammo_standard.g10_slug.name=Kaliber 10 Laufgeschoss
 item.ammo_standard.g12.name=Kaliber 12 Schrot
-item.ammo_standard.g12_anthrax.name=Kaliber 12 Anthrax
+item.ammo_standard.g12_anthrax.name=Kaliber 12 Milzbrand
 item.ammo_standard.g12_bp.name=Kaliber 12 Schwarzpulver
 item.ammo_standard.g12_bp_magnum.name=Kaliber 12 Schwarzpulver Magnum
 item.ammo_standard.g12_bp_slug.name=Kaliber 12 Schwarzpulver Laufgeschoss
@@ -4244,6 +4248,7 @@ tile.dfc_emitter.name=DFC-Emitter
 tile.dfc_injector.name=DFC-Brennstoffinjektor
 tile.dfc_receiver.name=DFC-Receiver
 tile.dfc_stabilizer.name=DFC-Stabilisator
+tile.dirt.swamp.name=Moorerde
 tile.dirt_dead.name=Tote Erde
 tile.dirt_oily.name=Ölige Erde
 tile.drill_pipe.name=Bohrgestänge

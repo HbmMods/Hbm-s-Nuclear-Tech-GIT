@@ -143,7 +143,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 16, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
 			
 			if(BiomeDictionary.isBiomeOfType(biome, Type.SWAMP)) {
-				DungeonToolbox.generateOre(world, rand, i, j, 1, 8, 55, 10, ModBlocks.dirt, Blocks.dirt);
+				DungeonToolbox.generateOre(world, rand, i, j, 3, 16, 55, 10, ModBlocks.dirt, Blocks.dirt);
 			}
 
 			if(rand.nextInt(10) == 0) {
