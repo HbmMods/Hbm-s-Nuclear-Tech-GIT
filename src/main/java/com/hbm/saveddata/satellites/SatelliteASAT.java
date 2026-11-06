@@ -2,6 +2,7 @@ package com.hbm.saveddata.satellites;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemSatellite.EnumSatType;
+import com.hbm.particle.helper.ASATCreator;
 import com.hbm.saveddata.SatelliteSavedData;
 
 import net.minecraft.item.ItemStack;
@@ -73,6 +74,7 @@ public class SatelliteASAT extends SatelliteBase {
 			if(data.isFreqTaken(freq) && rand.nextBoolean()) {
 				data.sats.remove(freq);
 				data.markDirty();
+				ASATCreator.composeEffect(world);
 				this.tx = "TARGET DESTROYED";
 			} else {
 				this.tx = "TARGET MISSED";
