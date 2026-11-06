@@ -609,6 +609,7 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
+		CommandClientDbg.register();
 		CommandWikiRender.register();
 
 		//ExplosionTests.runTest();

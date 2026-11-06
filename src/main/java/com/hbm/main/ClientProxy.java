@@ -73,6 +73,7 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
+import com.hbm.render.world.RenderSkyEffects;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -159,6 +160,7 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(new ModEventHandlerClient());
 		registerClientEventHandler(new ModEventHandlerRenderer());
 		registerClientEventHandler(new EventHandlerParticleEngine());
+		registerClientEventHandler(RenderSkyEffects.RENDER_INSTANCE);
 		registerClientEventHandler(theInfoSystem);
 
 		registerTileEntitySpecialRenderer();

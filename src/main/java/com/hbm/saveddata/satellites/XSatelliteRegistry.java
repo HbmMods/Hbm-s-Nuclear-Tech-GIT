@@ -33,6 +33,7 @@ public class XSatelliteRegistry {
 		idToClass.put(10, SatelliteDetector.class);
 		idToClass.put(11, SatelliteRayScan.class);
 		idToClass.put(12, SatelliteScience.class);
+		idToClass.put(13, SatelliteASAT.class);
 
 		// item to sat type mapping
 		registerSatellite(SatelliteMapper.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SPY));

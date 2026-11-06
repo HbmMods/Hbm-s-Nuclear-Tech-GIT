@@ -26,7 +26,7 @@ public class RenderInfoSystem {
 	private static HashMap<Integer, InfoEntry> messages = new HashMap();
 	
 	@SubscribeEvent
-	public void clentTick(ClientTickEvent event) {
+	public void clientTick(ClientTickEvent event) {
 		messages.putAll(inbox);
 		inbox.clear();
 		
