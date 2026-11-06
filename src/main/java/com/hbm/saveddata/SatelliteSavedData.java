@@ -6,12 +6,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 public class SatelliteSavedData extends WorldSavedData {
 	
-	public final HashMap<Integer, SatelliteBase> sats = new HashMap<>();
+	public final LinkedHashMap<Integer, SatelliteBase> sats = new LinkedHashMap();
 
 	/**
 	 * Constructor used for deserialization

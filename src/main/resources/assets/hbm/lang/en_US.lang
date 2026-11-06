@@ -5050,6 +5050,7 @@ satellite.assemblers=Assemblers installed: %s
 satellite.cooldown=Cooldown: %s
 satellite.data=DATA AVAILABLE
 satellite.minerprogress=Mining progress: %s
+satellite.missilesLoaded=Missiles loaded: %s
 satellite.pending=Measurements pending: %s
 satellite.progress=Assembly progress: %s
 satellite.queue=Recipes queued: %s
