@@ -117,6 +117,7 @@ public class EntityEffectHandler {
 		}
 
 		handleContamination(entity);
+		handleAnthrax(entity);
 		handleContagion(entity);
 		handleRadiationEffect(entity);
 		handleRadiationFX(entity);
@@ -171,6 +172,19 @@ public class EntityEffectHandler {
 		}
 
 		contamination.removeAll(rem);
+	}
+
+	/** Ensures the entity cannot regenerate */
+	private static void handleAnthrax(EntityLivingBase entity) {
+		if(HbmLivingProps.hasAnthrax(entity) && entity.isEntityAlive()) {
+			float lastHealth = HbmLivingProps.getAnthraxLastHealth(entity);
+			float health = entity.getHealth();
+			
+			if(lastHealth > health || lastHealth == 0) HbmLivingProps.setAnthraxLastHealth(entity, health);
+			if(lastHealth < health) entity.setHealth(lastHealth);
+			
+			HbmLivingProps.decrementAnthrax(entity);
+		}
 	}
 
 	/** Handles entity transformation via radiation and applied potion effects */

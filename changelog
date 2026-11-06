@@ -2,6 +2,12 @@
 * Redstone-over-radio calculation relay
   * A simple RoR component that receives signals and uses them as variables in mathematical expressions
   * Allows basic automated calculation without needing an AUTOCAL
+* Bog dirt
+  * Type of dirt that spawns occasionally in swamps
+  * Can be milled into dirt, peat briquettes (furnace fuel) or rarely inert anthrax
+* Anthrax
+  * Inert anthrax can either be duplicated or irradiated into mutated anthrax with a small chance
+  * Mutated anthrax can be used to make a brand new type of shotgun shell
 
 ## Changed
 * The press and anvil recipes for turning ingots into plates now use autogen, meaning that plates from other mod materials can now be made, if they exist

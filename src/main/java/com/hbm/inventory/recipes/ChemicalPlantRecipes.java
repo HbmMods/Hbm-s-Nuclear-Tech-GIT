@@ -413,6 +413,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.SALIENT, 1_000))
 				.inputItems(new ComparableStack(Items.sugar), new ComparableStack(ModItems.powder_sawdust))
 				.outputItems(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.AGAR.ordinal())));
+		
+		this.register(new GenericRecipe("chem.anthraxrecycling").setupNamed(100, 250)
+				.inputFluids(new FluidStack(Fluids.SALIENT, 250))
+				.inputItems(new ComparableStack(ModItems.bacteria, 4, EnumBacteriaType.ANTHRAX_DEAD))
+				.outputItems(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.AGAR.ordinal())));
 
 		this.register(new GenericRecipe("chem.growinertanthrax").setupNamed(600, 500)
 				.inputFluids(new FluidStack(Fluids.WATER, 4_000))
@@ -430,9 +435,9 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.bacteria, 1, EnumBacteriaType.AGAR),
 						new OreDictStack(CO60.nugget()))
 				.outputItems(new ChanceOutputMulti(
-						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_MUTATED.ordinal()), 1)),
+						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_MUTATED.ordinal()), 1),
 						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_DEAD.ordinal()), 79),
-						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_INERT.ordinal()), 20),
+						new ChanceOutput(new ItemStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_INERT.ordinal()), 20)),
 						new ChanceOutput(new ItemStack(ModItems.nuclear_waste_tiny))));
 		
 		/// OSMIRIDIUM ///

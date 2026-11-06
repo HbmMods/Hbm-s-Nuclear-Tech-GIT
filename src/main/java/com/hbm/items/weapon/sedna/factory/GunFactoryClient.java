@@ -189,6 +189,7 @@ public class GunFactoryClient {
 		g12_magnum.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_explosive.setRenderer(LegoClient.RENDER_EXPRESS_BULLET);
 		g12_phosphorus.setRenderer(LegoClient.RENDER_AP_BULLET);
+		g12_anthrax.setRenderer(LegoClient.RENDER_DU_BULLET);
 		g12_equestrian_bj.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
 		g12_equestrian_tkr.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
 

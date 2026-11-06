@@ -17,6 +17,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums.EnumBacteriaType;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -49,6 +50,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack gunmetal = new OreDictStack(GUNMETAL.plate());
 		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
+		ComparableStack atx = new ComparableStack(ModItems.bacteria, 1, EnumBacteriaType.ANTHRAX_MUTATED);
 		ComparableStack cSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL);
 		ComparableStack cBig = new ComparableStack(ModItems.casing, 1, EnumCasingType.LARGE);
 		ComparableStack sSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL_STEEL);
@@ -264,6 +266,10 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	sShell,		null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_PHOSPHORUS, 6),
 				null,	wp,			null,
+				null,	smokeless,	null,
+				null,	sShell,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_ANTHRAX, 6),
+				null,	atx,			null,
 				null,	smokeless,	null,
 				null,	sShell,		null));
 
