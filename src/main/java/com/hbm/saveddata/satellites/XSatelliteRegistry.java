@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class XSatelliteRegistry {
 	
@@ -47,6 +48,7 @@ public class XSatelliteRegistry {
 		registerSatellite(SatelliteDetector.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DETECTOR));
 		registerSatellite(SatelliteRayScan.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.RAY_SCAN));
 		registerSatellite(SatelliteScience.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SCIENCE));
+		registerSatellite(SatelliteASAT.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.ASAT));
 		
 		// and all the legacy crap
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
@@ -95,6 +97,20 @@ public class XSatelliteRegistry {
 				data.markDirty();
 			}
 		}
+	}
+	
+	public static int getFreqFromTargetId(World world, String targetId) {
+		if(targetId == null || targetId.isEmpty()) return -1;
+		
+		SatelliteSavedData data = SatelliteSavedData.getData(world);
+		
+		for(Entry<Integer, SatelliteBase> sat : data.sats.entrySet()) {
+			if(targetId.equals(sat.getValue().getPositionData())) {
+				return sat.getKey();
+			}
+		}
+		
+		return -1;
 	}
 	
 	public static SatelliteBase createFromId(int i) {

@@ -1,5 +1,7 @@
 package com.hbm.saveddata.satellites;
 
+import java.util.Random;
+
 import com.hbm.entity.missile.EntitySatellitePod;
 import com.hbm.items.machine.ItemDrive.EnumDriveType;
 import com.hbm.tileentity.network.RTTYSystem;
@@ -15,12 +17,15 @@ import net.minecraft.world.World;
 
 public abstract class SatelliteBase {
 	
+	public static Random rand = new Random();
+	
 	public static final String CHAN_SATLINK = "SAT_LINK";
 
 	public static final String CMD_SETTARGET = "settarget";
 	public static final String CMD_GETTARGET = "gettarget";
 	public static final String CMD_GETTARGETX = "gettargetx";
 	public static final String CMD_GETTARGETZ = "gettargetz";
+	public static final String CMD_GETPOSITIONDATA = "getpositiondata";
 	
 	public int targetX;
 	public int targetZ;
@@ -28,6 +33,10 @@ public abstract class SatelliteBase {
 	public boolean isDirty = false;
 	
 	public String tx = "";
+	/* Positional data for intercepts */
+	public int posX;
+	public int posY;
+	public int posZ;
 
 	public EnumDriveType driveInput = null;
 	public EnumDriveType driveOutput = null;
@@ -38,6 +47,11 @@ public abstract class SatelliteBase {
 		return XSatelliteRegistry.idToClass.inverse().get(this.getClass());
 	}
 	
+	/** If this satellite can be detected by tracking radar and targetable by ASAT weapons */
+	public boolean isTrackable() {
+		return true;
+	}
+	
 	public abstract String getType();
 	
 	public abstract IChatComponent[] getInfo(World world);
@@ -46,6 +60,9 @@ public abstract class SatelliteBase {
 		nbt.setInteger("targetX", targetX);
 		nbt.setInteger("targetZ", targetZ);
 		nbt.setString("tx", tx);
+		nbt.setInteger("posX", posX);
+		nbt.setInteger("posY", posY);
+		nbt.setInteger("posZ", posZ);
 
 		if(driveInput != null) nbt.setInteger("driveInput", driveInput.ordinal());
 		if(driveOutput != null) nbt.setInteger("driveOutput", driveOutput.ordinal());
@@ -66,6 +83,14 @@ public abstract class SatelliteBase {
 		this.targetX = nbt.getInteger("targetX");
 		this.targetZ = nbt.getInteger("targetZ");
 		this.tx = nbt.getString("tx");
+		
+		if(nbt.hasKey("posX")) {
+			this.posX = nbt.getInteger("posX");
+			this.posY = nbt.getInteger("posY");
+			this.posZ = nbt.getInteger("posZ");
+		} else {
+			this.generateNewPositionInfo();
+		}
 
 		if(nbt.hasKey("driveInput")) this.driveInput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveInput")); else this.driveInput = null;
 		if(nbt.hasKey("driveOutput")) this.driveOutput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveOutput")); else this.driveOutput = null;
@@ -102,7 +127,8 @@ public abstract class SatelliteBase {
 	
 	/** When a satellite is created, i.e. this frequency is occupied for the first time */
 	public void onOrbit(World world, double x, double y, double z) {
-		setTarget((int) Math.floor(x), (int) Math.floor(z));
+		this.setTarget((int) Math.floor(x), (int) Math.floor(z));
+		this.generateNewPositionInfo();
 		
 		RTTYSystem.broadcast(world, CHAN_SATLINK, "Established connection to " + getType() + " at " + targetX + " / " + targetZ);
 	}
@@ -162,6 +188,11 @@ public abstract class SatelliteBase {
 			this.tx = "" + targetZ;
 			return;
 		}
+		
+		if(cmd[0].equals(CMD_GETPOSITIONDATA)) {
+			this.tx = this.getPositionData();
+			return;
+		}
 	}
 	
 	public void setTarget(int x, int z) {
@@ -175,5 +206,15 @@ public abstract class SatelliteBase {
 	
 	public void markDirty() {
 		this.isDirty = true;
+	}
+	
+	protected void generateNewPositionInfo() {
+		this.posX = rand.nextInt(100_000);
+		this.posY = rand.nextInt(100_000);
+		this.posZ = rand.nextInt(100_000);
+	}
+	
+	public String getPositionData() {
+		return this.posX + "-" + this.posY + "-" + this.posZ;
 	}
 }

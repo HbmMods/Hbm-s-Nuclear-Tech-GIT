@@ -31,6 +31,8 @@ public class ItemSatellite extends ItemEnumMulti implements ISatChip {
 		SCIENCE,
 		SCIENCE_ASSEMBLER,
 		SCIENCE_SENSOR,
+		ASAT,
+		ASAT_AMMO,
 	}
 
 	@Override
