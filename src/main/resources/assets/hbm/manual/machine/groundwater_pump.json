@@ -1,0 +1,11 @@
+{
+	"name": "Groundwater Pump",
+	"icon": ["hbm:tile.pump_steam", 1, 0],
+	"trigger": [["hbm:tile.pump_steam"], ["hbm:tile.pump_electric"]],
+	"title": {
+		"en_US": "Groundwater Pump"
+	},
+	"content": {
+		"en_US": "The groundwater pump is a machine that can be used as a source of [[water|Water]]. It can be powered by either [[steam|Steam]] or electricity depending on the variant. To use, it must be placed below Y:70 and have a 3x3x3 cube of dirt below the pump."
+    }
+}
