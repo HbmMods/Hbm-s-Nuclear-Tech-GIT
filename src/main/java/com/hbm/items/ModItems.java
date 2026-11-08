@@ -1737,6 +1737,7 @@ public class ModItems {
 	public static Item robes_legs;
 	public static Item robes_boots;
 
+	public static Item jetpack_modular;
 	public static Item jetpack_boost;
 	public static Item jetpack_break;
 	public static Item jetpack_fly;
@@ -4282,6 +4283,7 @@ public class ModItems {
 		liquidator_legs = new ArmorLiquidator(aMatLiquidator, 2, RefStrings.MODID + ":textures/armor/liquidator_2.png").cloneStats((ArmorFSB) liquidator_helmet).setUnlocalizedName("liquidator_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":liquidator_legs");
 		liquidator_boots = new ArmorLiquidator(aMatLiquidator, 3, RefStrings.MODID + ":textures/armor/liquidator_1.png").cloneStats((ArmorFSB) liquidator_helmet).setUnlocalizedName("liquidator_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":liquidator_boots");
 
+		jetpack_modular = new JetpackModular().setUnlocalizedName("jetpack_modular").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_modular");
 		jetpack_boost = new JetpackBooster(Fluids.BALEFIRE, 32000).setUnlocalizedName("jetpack_boost").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_boost");
 		jetpack_break = new JetpackBreak(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_break").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
 		jetpack_fly = new JetpackRegular(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_fly").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
@@ -6368,6 +6370,7 @@ public class ModItems {
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());
 		GameRegistry.registerItem(jackt, jackt.getUnlocalizedName());
 		GameRegistry.registerItem(jackt2, jackt2.getUnlocalizedName());
+		GameRegistry.registerItem(jetpack_modular, jetpack_modular.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_fly, jetpack_fly.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_break, jetpack_break.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_vector, jetpack_vector.getUnlocalizedName());

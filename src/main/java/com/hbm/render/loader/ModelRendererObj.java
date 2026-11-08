@@ -24,8 +24,8 @@ public class ModelRendererObj {
 	
 	public boolean doRender = true;
 
-	String[] parts;
-	IModelCustom model;
+	protected String[] parts;
+	protected IModelCustom model;
 
 	public ModelRendererObj(IModelCustom model, String... parts) {
 		this.model = model;
@@ -73,10 +73,6 @@ public class ModelRendererObj {
 
 	@SideOnly(Side.CLIENT)
 	public void render(float scale) {
-
-		if(parts == null)
-			return;
-
 		GL11.glPushMatrix();
 
 		GL11.glTranslatef(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
@@ -90,15 +86,19 @@ public class ModelRendererObj {
 
 		GL11.glScalef(scale, scale, scale);
 
-		if(doRender) {
-			if(parts.length > 0)
-				for(String part : parts)
-					model.renderPart(part);
-			else
-				model.renderAll();
-		}
+		if(doRender) renderComponents();
 
 		GL11.glPopMatrix();
+	}
+	
+	public void renderComponents() {
+		if(parts == null) return;
+		
+		if(parts.length > 0)
+			for(String part : parts)
+				model.renderPart(part);
+		else
+			model.renderAll();
 	}
 
 	@SideOnly(Side.CLIENT)
