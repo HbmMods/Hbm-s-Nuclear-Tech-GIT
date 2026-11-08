@@ -12,63 +12,67 @@ public class ModelJetpackModular extends ModelArmorBase {
 	
 	public static final ModelJetpackModular INSTANCE = new ModelJetpackModular();
 
-	ModelRendererObj thrusters;
-	ModelRendererObj thrusterLarge;
-	ModelRendererObj tank;
-	ModelRendererObj extensionTanks;
-	ModelRendererObj stabilizer;
-	ModelRendererObj wingLeft;
-	ModelRendererObj wingRight;
-
 	public ModelJetpackModular() {
 		super(1);
-		this.body = new ModelRendererObj(ResourceManager.jetpack_universal, "Base");
-		this.thrusters = new ModelRendererObj(ResourceManager.jetpack_universal, "Thrusters");
-		this.thrusterLarge = new ModelRendererObj(ResourceManager.jetpack_universal, "ThrusterLarge");
-		this.tank = new ModelRendererObj(ResourceManager.jetpack_universal, "Tank");
-		this.extensionTanks = new ModelRendererObj(ResourceManager.jetpack_universal, "ExtensionTanks");
-		this.stabilizer = new ModelRendererObj(ResourceManager.jetpack_universal, "Stabilizer");
-		this.wingLeft = new ModelRendererObj(ResourceManager.jetpack_universal, "WingLeft");
-		this.wingRight = new ModelRendererObj(ResourceManager.jetpack_universal, "WingRight");
+		this.body = new ModelRendererJetpack();
 	}
 
 
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
-		body.copyTo(thrusters);
-		body.copyTo(thrusterLarge);
-		body.copyTo(tank);
-		body.copyTo(extensionTanks);
-		body.copyTo(stabilizer);
-		body.copyTo(wingLeft);
-		body.copyTo(wingRight);
-		renderFromItem(null, false, scaleFactor);
+		this.body.render(scaleFactor);
 	}
 	
-	public void renderFromItem(ItemStack stack, boolean inSlot, float scaleFactor) {
+	public static class ModelRendererJetpack extends ModelRendererObj {
+		
+		protected ItemStack stackCtx;
+
+		public ModelRendererJetpack() { super(null); }
+		public void setContext(ItemStack stack) { this.stackCtx = stack; }
+		
+		@Override
+		public void renderComponents() {
+			renderFromItem(stackCtx, false, 0.0625F);
+		}
+	}
+	
+	public static void renderFromItem(ItemStack stack, boolean inSlot, float scaleFactor) {
 
 		GL11.glPushMatrix();
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		if(!inSlot) {
-			
+		if(inSlot) {
+			double scale = 0.5625D;
+			GL11.glRotated(180, 1, 0, 0);
+			GL11.glTranslated(0, -24, 0);
+			GL11.glScaled(scale, scale, scale);
 		}
 
 		bindTexture(ResourceManager.jetpack_base);
-		this.body.render(scaleFactor);
-		
-		if(stack != null) {
-			
-		}
-
-		bindTexture(ResourceManager.jetpack_tank);
-		this.tank.render(scaleFactor);
+		ResourceManager.jetpack_universal.renderPart("Base");
 		bindTexture(ResourceManager.jetpack_thruster);
-		this.thrusters.render(scaleFactor);
+		//ResourceManager.jetpack_universal.renderPart("Thrusters");
+		bindTexture(ResourceManager.jetpack_thruster_large);
+		ResourceManager.jetpack_universal.renderPart("ThrusterLarge");
+		bindTexture(ResourceManager.jetpack_tank);
+		ResourceManager.jetpack_universal.renderPart("Tank");
+		//ResourceManager.jetpack_universal.renderPart("ExtensionTanks");
+		bindTexture(ResourceManager.jetpack_stabilizer);
+		//ResourceManager.jetpack_universal.renderPart("Stabilizer");
 		bindTexture(ResourceManager.jetpack_wings);
-		this.wingLeft.render(scaleFactor);
-		this.wingRight.render(scaleFactor);
+		
+		double extension = 0; //12;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-extension, 0, 0);
+		ResourceManager.jetpack_universal.renderPart("WingLeft");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(extension, 0, 0);
+		ResourceManager.jetpack_universal.renderPart("WingRight");
+		GL11.glPopMatrix();
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();

@@ -66,6 +66,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 			return true;
 		}
 	}
+	
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
@@ -79,6 +80,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 			{-1, 0, -1, ForgeDirection.NORTH.ordinal()}
 		}, dir);
 	}
+	
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
