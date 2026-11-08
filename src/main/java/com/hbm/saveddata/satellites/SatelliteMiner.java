@@ -28,6 +28,8 @@ public class SatelliteMiner extends SatelliteBase {
 
 	@Override public String getType() { return "ASTEROID_MINER"; }
 	
+	@Override public boolean isTrackable() { return false; }
+	
 	@Override
 	public IChatComponent[] getInfo(World world) {
 		

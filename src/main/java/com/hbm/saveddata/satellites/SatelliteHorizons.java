@@ -29,6 +29,8 @@ public class SatelliteHorizons extends SatelliteBase {
 
 	@Override public String getType() { return "PAYLOAD_UNKNOWN"; }
 	
+	@Override public boolean isTrackable() { return false; }
+	
 	@Override
 	public IChatComponent[] getInfo(World world) {
 		return new IChatComponent[] {

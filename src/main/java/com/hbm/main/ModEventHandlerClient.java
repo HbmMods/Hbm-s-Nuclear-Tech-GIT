@@ -614,7 +614,10 @@ public class ModEventHandlerClient {
 
 			//because armor that isn't ItemArmor doesn't render at all
 			if(armor != null && armor.getItem() instanceof JetpackBase) {
-				((ItemArmorMod)armor.getItem()).modRender(event, armor);
+				((ItemArmorMod) armor.getItem()).modRender(event, armor);
+			}
+			if(armor != null && armor.getItem() instanceof JetpackModular) {
+				((ItemArmorMod) armor.getItem()).modRender(event, armor);
 			}
 		}
 

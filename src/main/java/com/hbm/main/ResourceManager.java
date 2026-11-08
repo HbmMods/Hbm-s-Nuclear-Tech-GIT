@@ -1018,6 +1018,8 @@ public class ResourceManager {
 	public static final IModelCustom armor_envsuit = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/envsuit.obj")).asVBO();
 	public static final IModelCustom armor_taurun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/taurun.obj")).asVBO();
 	public static final IModelCustom armor_trenchmaster = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/trenchmaster.obj")).asVBO();
+	
+	public static final IModelCustom jetpack_universal = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/jetpack.obj")).asVBO();
 
 	////Texture Items
 
@@ -1242,6 +1244,13 @@ public class ResourceManager {
 	public static final ResourceLocation goggles = new ResourceLocation(RefStrings.MODID, "textures/armor/goggles.png");
 
 	public static final ResourceLocation player_manly_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/player_fem.png");
+
+	public static final ResourceLocation jetpack_base = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_base.png");
+	public static final ResourceLocation jetpack_tank = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_tank.png");
+	public static final ResourceLocation jetpack_thruster = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_thruster.png");
+	public static final ResourceLocation jetpack_thruster_large = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_thruster_large.png");
+	public static final ResourceLocation jetpack_stabilizer = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_stabilizer.png");
+	public static final ResourceLocation jetpack_wings = new ResourceLocation(RefStrings.MODID, "textures/models/jetpack/jetpack_wings.png");
 
 
 
