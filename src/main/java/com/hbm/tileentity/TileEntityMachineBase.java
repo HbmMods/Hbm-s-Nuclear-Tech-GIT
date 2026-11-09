@@ -3,6 +3,8 @@ package com.hbm.tileentity;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -213,5 +215,15 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(stack.getItem() == ModItems.fluid_barrel_infinite) return true;
 		if(FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0) return true;
 		return stack.getItem() instanceof IFillableItem && ((IFillableItem) stack.getItem()).providesFluid(tank.getTankType(), stack);
+	}
+	
+	public boolean isUpgrade(ItemStack stack) {
+		if(stack == null) return false;
+		return stack.getItem() instanceof ItemMachineUpgrade;
+	}
+	
+	public boolean isFluidID(ItemStack stack) {
+		if(stack == null) return false;
+		return stack.getItem() instanceof IItemFluidIdentifier;
 	}
 }

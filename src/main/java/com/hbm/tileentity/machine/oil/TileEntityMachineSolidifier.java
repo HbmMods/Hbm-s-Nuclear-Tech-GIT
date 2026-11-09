@@ -91,6 +91,14 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+		if(slot == 1) return this.isBattery(itemStack);
+		if(slot == 2 || slot == 3) return this.isUpgrade(itemStack);
+		if(slot == 4) return this.isFluidID(itemStack);
+		return false;
+	}
+
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
 		return slot == 0;
 	}

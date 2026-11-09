@@ -104,8 +104,8 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 						float rad = radiation.get(newCoord);
 						if(rad > RadiationConfig.fogRad && world != null && world.rand.nextInt(RadiationConfig.fogCh) == 0 && world.getChunkProvider().chunkExists(coord.chunkXPos, coord.chunkZPos)) {
 
-							int x = coord.chunkXPos * 16 + world.rand.nextInt(16);
-							int z = coord.chunkZPos * 16 + world.rand.nextInt(16);
+							int x = (coord.chunkXPos << 4) + world.rand.nextInt(16);
+							int z = (coord.chunkZPos << 4) + world.rand.nextInt(16);
 							int y = world.getHeightValue(x, z) + world.rand.nextInt(5);
 
 							NBTTagCompound data = new NBTTagCompound();

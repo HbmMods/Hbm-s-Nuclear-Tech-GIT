@@ -8,12 +8,17 @@
 * Anthrax
   * Inert anthrax can either be duplicated or irradiated into mutated anthrax with a small chance
   * Mutated anthrax can be used to make a brand new type of shotgun shell
+* Orbital anti-satellite platform
+  * A satellite that can fire missiles at other satellites
 
 ## Changed
+* Updated russian localization
 * The press and anvil recipes for turning ingots into plates now use autogen, meaning that plates from other mod materials can now be made, if they exist
 * RoR panels can now receive non-integer number signals, in which case the numer is rounded to the nearest integer
 * All flamer variants grant a small amount of fire resistance when equipped
 * All flamer variants with a shield now grant a moderate resistance to explosion damage when equipped
+* Improved shift-click support for barrels, tanks, the solidifer and the liquefactor
+* The search field on the recipe selector is now focused by default
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended

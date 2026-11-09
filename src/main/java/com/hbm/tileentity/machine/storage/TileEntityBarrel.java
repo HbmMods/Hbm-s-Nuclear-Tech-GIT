@@ -15,6 +15,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
+import com.hbm.items.ModItems;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
@@ -136,17 +137,20 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+	public boolean canInsertItem(int i, ItemStack itemStack, int side) {
 		ItemStack full = FluidContainerRegistry.getFullContainer(itemStack, tank.getTankType());
 		//if fillable and the fill being possible for this tank size
-		if(i == 4 && full != null && FluidContainerRegistry.getFluidContent(full, tank.getTankType()) <= tank.getMaxFill())
-			return true;
+		if(i == 4 && full != null && FluidContainerRegistry.getFluidContent(full, tank.getTankType()) <= tank.getMaxFill()) return true;
 		int content = FluidContainerRegistry.getFluidContent(itemStack, tank.getTankType());
 		//if content is above 0 but still within capacity
-		if(i == 2 && content > 0 && content <= tank.getMaxFill())
-			return true;
-
+		if(i == 2 && content > 0 && content <= tank.getMaxFill()) return true;
 		return false;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		if(i == 0) return itemStack.getItem() == ModItems.fluid_identifier_multi;
+		return true;
 	}
 
 	@Override

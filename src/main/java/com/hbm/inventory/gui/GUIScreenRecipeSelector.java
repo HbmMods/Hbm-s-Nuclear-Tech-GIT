@@ -82,6 +82,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		this.search.setDisabledTextColour(-1);
 		this.search.setEnableBackgroundDrawing(false);
 		this.search.setMaxStringLength(32);
+		this.search.setFocused(true);
 	}
 	
 	private void regenerateRecipes() {
