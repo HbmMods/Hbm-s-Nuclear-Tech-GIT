@@ -1,0 +1,11 @@
+{
+	"name": "Soldering Station",
+	"icon": ["hbm:tile.machine_soldering_station", 1, 0],
+	"trigger": [["hbm:tile.machine_soldering_station"]],
+	"title": {
+		"en_US": "Soldering Station"
+	},
+	"content": {
+		"en_US": "Used for making most types of circuits. Circuits are typically made from a PCB, [[lead wire|Lead]] as solder, and components like vacuum tubes and [[micro chips|Silicon]].<br><br>Features a recipe collision prevention mode, if enabled, recipes that do not use fluid will not be done if any fluid is present. This is useful for the military grade circuit board recipe, as missing some of the inputs would create regular integrated circuits instead. Using recipe collision prevention mode, as long as sulfuric acid is present, the integrated circuit recipe will not run."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Hydrotreater",
+	"icon": ["hbm:tile.machine_hydrotreater", 1, 0],
+	"trigger": [["hbm:tile.machine_hydrotreater"]],
+	"title": {
+		"en_US": "Hydrotreater"
+	},
+	"content": {
+		"en_US": "An advanced oil processing machine available after doing [[vacuum oil processing|Vacuum Oil Processing]]. Allows earlier tier oils to be processed into desulfurized variants, which can be turned into vacuum oil products while using a [[standard refinery|Oil Refinery]]. Recipes require [[liquid hydrogen|Liquid Hydrogen]] which is [[compressed|Compressor]] to 1 PU, while yielding [[sour gas|Sour Gas]] as a byproduct.<br><br>Requires a catalytic converter to operate, which is made from either [[bismuth|Bismuth]] or [[arsenic|Arsenic]]."
+	}
+}

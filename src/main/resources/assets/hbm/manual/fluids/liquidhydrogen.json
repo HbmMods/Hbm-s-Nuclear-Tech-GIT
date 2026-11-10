@@ -1,0 +1,11 @@
+{
+    "name": "Liquid Hydrogen",
+    "icon": ["hbm:item.fluid_icon", 1, 38],
+    "trigger": [["hbm:item.fluid_icon", 1, 38]],
+    "title": {
+        "en_US": "Liquid Hydrogen"
+    },
+    "content": {
+        "en_US": "Extremely cold liquid. Usable as a combustion fuel, as well as in many recipes, such as [[bedrock ore processing|Bedrock Ore Processing]], in the [[hydrotreater|Hydrotreater]] or in the [[particle accelerator|Particle Accelerator]]. Can be made from water, either in a [[chemical plant|Chemical Plant]] or [[electrolyzer|Electrolysis Machine]]."
+    }
+}

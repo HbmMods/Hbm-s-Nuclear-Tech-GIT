@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Irradiation Channel",
+	"icon": ["hbm:tile.rbmk_outgasser", 1, 0],
+	"trigger": [["hbm:tile.rbmk_outgasser"]],
+	"title": {
+		"en_US": "RBMK Irradiation Channel"
+	},
+	"content": {
+		"en_US": "The irradiation channel allows an [[RBMK]] to bomard items with neutrons, performing certain recipes. It has to be placed such that a [[fuel channels|RBMK Fuel Channel]] provides the necessary neutron flux. If the irradiation channel is empty, it becomes transparent to neutrons. Higher reactivity reactors will process recipes faster.<br><br>Irradiation channels can be used as the earliest way of obtaining [[high-performance solvent|High-Performance Solvent]] or as a reliable way of making [[tritium|Tritium]], as well as certain other recipes. All irradiation channel recipes can also be performed by the [[fusion reactor breeding chamber|Fusion Reactor Breeding Chamber]].<br><br>{{Template:RBMK}}"
+	}
+}

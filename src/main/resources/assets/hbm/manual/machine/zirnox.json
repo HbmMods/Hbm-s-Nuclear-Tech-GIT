@@ -1,0 +1,11 @@
+{
+	"name": "ZIRNOX",
+	"icon": ["hbm:tile.machine_zirnox", 1, 0],
+	"trigger": [["hbm:tile.machine_zirnox"]],
+	"title": {
+		"en_US": "ZIRNOX"
+	},
+	"content": {
+		"en_US": "The ZIRNOX is the first available nuclear reactor that can produce [[steam|Steam]], and by extension, power. The reactor core is cooled with an internal [[carbon dioxide|Carbon Dioxide]] loop, which is not used up and does not need to replenished after the initial setup. The outer heat exchangers will turn water into super dense steam, which requires three sets of [[turbines|Steam Turbine]] to be fully processed.<br><br>The ZIRNOX has two major internal values that need to be kept in check: heat and pressure. If either value exceeds the maximum, the reactor vessel will burst.<br><br>Heat is removed from the core using the carbon dioxide. Having more carbon dioxide in the internal cooling loop will speed up the cooling, however it will also increase the pressure maximum. Reactors with little CO2 will likely never exceed the pressure maximum, but they will have inferior cooling performance.<br><br>Fuel inserted into the reactor will react with its neighbors, fuel rods directly adjacent within the cardinal direction grid will accelerate each other.<br><br>On the right side of the GUI, the small red button will start and stop the reactor. The ZIRNOX' control rods are near instant, so hitting the button will immediately shit it off. The large valve is used for releasing CO2, each click of the wheel will remove 1,000mB of CO2.<br><br>While the ideal amount of CO2 in the reactor depends on what fuel is used, common amounts range from 10 to 14 buckets.<br><br>Despite not being a very powerful reactor, it can be still very efficient. The ZIRNOX can use a wide range of fuels, including [[unenriched uranium|Uranium]] while producing various types of [[plutonium|Reactor-Grade Plutonium]]. The ZIRNOX is also often times the first source of [[technetium-99|Technetium]]."
+	}
+}

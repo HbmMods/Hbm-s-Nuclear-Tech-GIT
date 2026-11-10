@@ -1,0 +1,11 @@
+{
+	"name": "Stirling Sawmill",
+	"icon": ["hbm:tile.machine_sawmill", 1, 0],
+	"trigger": [["hbm:tile.machine_sawmill"]],
+	"title": {
+		"en_US": "Stirling Sawmill"
+	},
+	"content": {
+		"en_US": "Requires an [[external heat source|External Heat Source]] to operate. Mainly used to cut logs into planks and plankks into sticks more efficiently, while yielding sawdust as a byproduct.<br><br>Does not have a GUI, items can either be inserted one by one by hand, or via automation, using the ports on the side. The output has to be cleared before another recipe can be performed.<br><br>Can only accept a limited amount of heat, running the sawmill too hot will cause the sawblade to detach."
+	}
+}

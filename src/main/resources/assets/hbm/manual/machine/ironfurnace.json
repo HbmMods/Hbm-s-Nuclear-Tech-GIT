@@ -1,0 +1,11 @@
+{
+	"name": "Iron Furnace",
+	"icon": ["hbm:tile.furnace_iron", 1, 0],
+	"trigger": [["hbm:tile.furnace_iron"]],
+	"title": {
+		"en_US": "Iron Furnace"
+	},
+	"content": {
+		"en_US": "An iron furnace is an upgraded version of the vanilla furnace. It features two fuel slots instead of one, smelts items slightly faster, and doesn't waste fuel when not in use. Many higher-tier fuels like coal and coke also last longer, for example coal will smelt ten items instead of only eight.<br><br>The iron furnace also supports speed upgrades, which increases the smelting speed while leaving fuel consumption static. This means sped up furnaces become even more efficient."
+	}
+}

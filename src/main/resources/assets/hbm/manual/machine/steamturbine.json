@@ -1,0 +1,11 @@
+{
+	"name": "Steam Turbine",
+	"icon": ["hbm:tile.machine_industrial_turbine", 1, 0],
+	"trigger": [["hbm:tile.machine_industrial_turbine"], ["hbm:tile.machine_chungus"]],
+	"title": {
+		"en_US": "Steam Turbine"
+	},
+	"content": {
+		"en_US": "Steam turbines can make usable power out of [[steam|Steam]]. Unlike the [[steam engine|Steam Engine]], steam turbines can be configured to accept higher pressure steams. Standard steam becomes low-pressure steam which can no longer be used by turbines, it has to be condensed back into water using a [[condenser|Condenser]] or vented.<br><br>The smallest and cheapest steam turbine is the industrial steam turbine. It can be conrfigured by clicking the valve on the front. The amount of steam it can handle at once is limited and scales depending on the steam's compression level. It has the best efficiency of all steam processing devices, and features a flywheel that slowly spins up, keeping the generator running for a while even if the steam cuts off.<br><br>The larger variant is the leviathan steam turbine. It can handle an almost infinite amount of steam at once at a slightly lower efficiency. The steam's compression level is configured using a lever on the side."
+	}
+}

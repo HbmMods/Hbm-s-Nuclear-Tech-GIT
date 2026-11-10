@@ -1,0 +1,11 @@
+{
+    "name": "Carbon Dioxide",
+    "icon": ["hbm:item.fluid_icon", 1, 55],
+    "trigger": [["hbm:item.fluid_icon", 1, 55]],
+    "title": {
+        "en_US": "Carbon Dioxide"
+    },
+    "content": {
+        "en_US": "Inert gas, created as a byproduct from some processes, or directly in a chemical plant from [[natural gas|Natural Gas]]. Used primarily as a coolant in the [[ZIRNOX]]."
+    }
+}

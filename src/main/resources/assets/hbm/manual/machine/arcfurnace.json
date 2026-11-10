@@ -1,0 +1,11 @@
+{
+	"name": "Electric Arc Furnace",
+	"icon": ["hbm:tile.machine_arc_furnace", 1, 0],
+	"trigger": [["hbm:tile.machine_arc_furnace"]],
+	"title": {
+		"en_US": "Electric Arc Furnace"
+	},
+	"content": {
+		"en_US": "Powerful bulk-smelting machine with multiple modes. The mode can be switched in the top right corner using the red button. Initially used to smelt sand or [[asbestos|Asbestos]] into [[silicon|Silicon]], which is a necessary ingredient in [[circuits|Soldering Station]].<br><br>To run, the arc furnace requires three electrodes in the marked slots on the top. There are multiple electrode materials with varying durability. Graphite electrodes are the cheapest, but they can only process ten batches.<br><br>In solid mode, it will smelt items into different items. This includes the arc furnace's own recipes, as well as many vanilla furnace recipes, mainly ones involving blocks, ingots, plates and dusts.<br><br>In liquid mode, smelted items turn into molten metal, as shown by the gauge on the right, which can be poured out from the outlet on the front and cast. The molten metal buffer needs to be completely emptied before the furnace can run again.<br><br>The arc furnace can accept speed upgrades, which not only makes the recipes run faster, but it also increases the allowed stack size of the internal slots. With speed III, it can hold 16 items per slot, meaning a batch can be up to 320 items.<br><br>The bottom slots marked \"IO\" are for the input queue. Items stacked in the queue will automatically be moved up to the smelting slots of the arc furnace's lid is currently open. Items cannot be added to the smelting slots if the arc furnace is currently operating, those items need to be added to the queue instead. Automation like hoppers and conveyors will also insert items into the queue."
+	}
+}

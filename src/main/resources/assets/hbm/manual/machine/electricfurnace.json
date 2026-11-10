@@ -1,0 +1,12 @@
+{
+	"name": "Electric Furnace",
+	"icon": ["hbm:tile.machine_electric_furnace_off", 1, 0],
+	"trigger": [["hbm:tile.machine_electric_furnace_off"]],
+	"title": {
+		"en_US": "Electric Furnace"
+	},
+	"content": {
+		"en_US": "It's a furnace, but electric. I don't know what more you want from me."
+	}
+}
+

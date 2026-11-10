@@ -173,6 +173,7 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 
 		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 5;
 		if(b == ModBlocks.volcanic_lava_block)				return 150;
+		if(b == ModBlocks.rad_lava_block)					return 150;
 
 		if(b == ModBlocks.ore_volcano) {
 			this.fissureScanTime = worldObj.getTotalWorldTime();

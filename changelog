@@ -19,6 +19,9 @@
 * All flamer variants with a shield now grant a moderate resistance to explosion damage when equipped
 * Improved shift-click support for barrels, tanks, the solidifer and the liquefactor
 * The search field on the recipe selector is now focused by default
+* Removed a few legacy blocks from the creative tab
+* Radioactive lava now also works in the geothermal heat exchanger
+* Added yet more QMAW pages
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended

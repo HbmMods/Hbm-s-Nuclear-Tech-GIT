@@ -1,0 +1,11 @@
+{
+	"name": "Geothermal Heat Exchanger",
+	"icon": ["hbm:tile.machine_hephaestus", 1, 0],
+	"trigger": [["hbm:tile.machine_hephaestus"]],
+	"title": {
+		"en_US": "Geothermal Heat Exchanger"
+	},
+	"content": {
+		"en_US": "The geothermal heat exchanger can heat up fluids using lava. It will scan a 15x15 area, ten blocks deep, and use the heat from the blocks it detects. Both lava and flowing lava have the same heat value. Volcanic lava is substanially hotter, but it is rather volatile as it cools off rapidly. Geothermal vents are even hotter, and also add a bonus to the heat of all other detected lava blocks.<br><br>While being set to boil oil by default, the fluid type can be changed with a fluid identifier. Hot fluids can be used in a [[heat exchanging heater|Heat Exchanging Heater]] to power certain [[machines that require heat|External Heat Source]]."
+	}
+}

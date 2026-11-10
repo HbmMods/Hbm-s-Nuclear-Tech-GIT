@@ -1,0 +1,11 @@
+{
+	"name": "Rock Mill",
+	"icon": ["hbm:tile.machine_rockmill", 1, 0],
+	"trigger": [["hbm:tile.machine_rockmill"]],
+	"title": {
+		"en_US": "Rock Mill"
+	},
+	"content": {
+		"en_US": "Simple earlygame machine for grinding various types of rocks and stones into dust. Recipes typically need water and produce colloid as a byproduct. Using a cobblestone generator or other automated source of rock, the rock mill can serve as an early source of a small number of materials, such as quartz, flint, [[fluorite||Fluorite]] and [[boron|Boron]], among several other minor byproducts."
+	}
+}

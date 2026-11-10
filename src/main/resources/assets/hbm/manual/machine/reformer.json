@@ -1,0 +1,11 @@
+{
+	"name": "Catalytic Reformer",
+	"icon": ["hbm:tile.machine_catalytic_reformer", 1, 0],
+	"trigger": [["hbm:tile.machine_catalytic_reformer"]],
+	"title": {
+		"en_US": "Catalytic Reformer"
+	},
+	"content": {
+		"en_US": "An advanced oil processing machine available after doing [[vacuum oil processing|Vacuum Oil Processing]]. Allows certain vacuum oil products, like [[reformate|Reformate]], to be made from earlier tier oils.<br><br>Requires a catalytic converter to operate, which is made from either [[bismuth|Bismuth]] or [[arsenic|Arsenic]]."
+	}
+}

@@ -7,7 +7,7 @@
         "ru_RU": "Дейтерий"
     },
     "content": {
-        "en_US": "Deuterium can be made by [[electrolyzing|Electrolysis Machine]] [[heavy water|Heavy Water]]. It is primarily used to produce various plasmas inside the [[fusion reactor|Fusion Reactor]].",
+        "en_US": "Deuterium can be made by [[electrolyzing|Electrolysis Machine]] [[heavy water|Heavy Water]], which comes from regular water in a [[deuterium extractor|Deuterium Extractor]]. It is primarily used to produce various plasmas inside the [[fusion reactor|Fusion Reactor]].<br><br>See also:<br>* [[Tritium]]",
         "ru_RU": "Дейтерий можно получить путём [[электролиза|Electrolysis Machine]] [[тяжёлой воды|Heavy Water]]. В основном он используется для производства различной плазмы внутри [[термоядерного реактора|Fusion Reactor]]."
     }
 }

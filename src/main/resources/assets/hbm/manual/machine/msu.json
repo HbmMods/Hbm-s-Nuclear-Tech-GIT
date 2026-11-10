@@ -1,0 +1,12 @@
+{
+	"name": "Mass Storage Unit",
+	"icon": ["hbm:tile.mass_storage", 2, 0],
+	"trigger": [["hbm:tile.mass_storage", 1, 32767]],
+	"title": {
+		"en_US": "Mass Storage Unit"
+	},
+	"content": {
+		"en_US": "Mass storage units (MSUs) can store a large amount of a single item type. The central slot is a filter, if the MSU is currently empty, it can be set so the MSU accepts that type. The top slot is for adding items, the bottom slot for removing items. Items can be ejected manually using the arrow button, alternatively the output slot can be constantly supplied with a toggle. Wooden MSUs are just small buffers, they only hold 100 items. Titanium ones hold 10,000, desh ones 100,000 and alloy MSUs hold 1,000,000 items.<br><br>Mass storage units have displays on the front, showing the configured type, along with the current number of items buffered."
+	}
+}
+

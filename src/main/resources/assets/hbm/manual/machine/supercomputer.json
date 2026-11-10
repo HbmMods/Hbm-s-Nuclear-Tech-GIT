@@ -1,0 +1,11 @@
+{
+	"name": "Supercomputer",
+	"icon": ["hbm:tile.machine_supercomputer", 1, 0],
+	"trigger": [["hbm:tile.machine_supercomputer"]],
+	"title": {
+		"en_US": "Supercomputer"
+	},
+	"content": {
+		"en_US": "Used to process flight data created by [[space labs|Space Laboratory]], as well as simulate particle data for crafting the [[fusion reactor vessel|Fusion Reactor Vessel]], and flight simulation data for the [[Soyuz]]. Cannot be sped up by upgrades, rather it features alternate recipes with different cooling options which accelerate the recipe, at the cost of lowering the success chance.<br><br>Can also create Klaus, although we still don't know why anyone would want that."
+	}
+}

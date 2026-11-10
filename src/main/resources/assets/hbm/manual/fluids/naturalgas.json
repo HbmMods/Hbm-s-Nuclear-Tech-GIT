@@ -1,0 +1,11 @@
+{
+    "name": "Natural Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 23],
+    "trigger": [["hbm:item.fluid_icon", 1, 23]],
+    "title": {
+        "en_US": "Natural Gas"
+    },
+    "content": {
+        "en_US": "Created by an [[oil derrick|Derrick]] as a byproduct when pumping oil. Commonly burned on-site, but can be processed in a few ways, for example for makking cordite, [[carbon dioxide|Carbon Dioxide]] or as an additional source of [[petroleum gas|Petroleum Gas]].<br><br>{{Template:Oil1}}"
+    }
+}

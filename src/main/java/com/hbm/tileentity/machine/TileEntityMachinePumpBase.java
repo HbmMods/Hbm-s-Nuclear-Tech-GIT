@@ -33,6 +33,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 		validBlocks.add(ModBlocks.dirt_oily);
 		validBlocks.add(ModBlocks.sand_dirty);
 		validBlocks.add(ModBlocks.sand_dirty_red);
+		validBlocks.add(ModBlocks.dirt);
 	}
 
 	public FluidTank water;

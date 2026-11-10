@@ -1,0 +1,12 @@
+{
+	"name": "Ammo Press",
+	"icon": ["hbm:tile.machine_ammo_press", 1, 0],
+	"trigger": [["hbm:tile.machine_ammo_press"]],
+	"title": {
+		"en_US": "Ammo Press"
+	},
+	"content": {
+		"en_US": "Simple machine for making most ammo variants. The selected recipe will persist even if the GUI is closed, meaning that the press can be automated by selecting a recipe and then supplying items via automation. Does not require power to run."
+	}
+}
+

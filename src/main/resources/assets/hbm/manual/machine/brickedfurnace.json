@@ -1,0 +1,11 @@
+{
+	"name": "Bricked Furnace",
+	"icon": ["hbm:tile.machine_furnace_brick_off", 1, 0],
+	"trigger": [["hbm:tile.machine_furnace_brick_off"]],
+	"title": {
+		"en_US": "Bricked Furnace"
+	},
+	"content": {
+		"en_US": "A variant of the vanilla furnace that will smelt certain building materials more quickly. This includes smelting of seveeral brick variants, smooth stone, glass and char coal.<br><br>Similarly to the [[wood-burning generator|Wood-Burning Generator]], it will collect ashes of the fuel it uses, which can either be burned again or recycled in various ways, making it somewhat more efficient compared to a standard furnace."
+	}
+}
