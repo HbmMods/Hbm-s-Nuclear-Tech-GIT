@@ -1064,6 +1064,7 @@ public class ResourceManager {
 	public static final ResourceLocation dani_lunar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/dani_lunar.png");
 	public static final ResourceLocation henry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/henry.png");
 	public static final ResourceLocation henry_lincoln_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/henry_lincoln.png");
+	public static final ResourceLocation henry_counter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/henry_counter.png");
 	public static final ResourceLocation greasegun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/greasegun.png");
 	public static final ResourceLocation greasegun_clean_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/greasegun_clean.png");
 	public static final ResourceLocation maresleg_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/maresleg.png");

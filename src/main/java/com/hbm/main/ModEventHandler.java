@@ -35,6 +35,7 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
+import com.hbm.items.IStatTrack;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -383,6 +384,14 @@ public class ModEventHandler {
 						player.inventory.setInventorySlotContents(i, null);
 					}
 				}
+			}
+		}
+		
+		if(event.source.getEntity() instanceof EntityLivingBase) {
+			EntityLivingBase source = (EntityLivingBase) event.source.getEntity();
+			if(source.getHeldItem() != null && source.getHeldItem().getItem() instanceof IStatTrack) {
+				IStatTrack weapon = (IStatTrack) source.getHeldItem().getItem();
+				weapon.tickUp(source.getHeldItem(), event.entityLiving);
 			}
 		}
 	}

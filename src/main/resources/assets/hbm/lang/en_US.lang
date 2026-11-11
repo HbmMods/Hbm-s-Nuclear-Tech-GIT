@@ -1249,6 +1249,7 @@ gui.weapon.condition=Condition
 gui.weapon.accepts=Accepts
 gui.weapon.quality.aside=Standard Arsenal
 gui.weapon.quality.bside=B-Side
+gui.weapon.quality.corrupted=Corrupted
 gui.weapon.quality.legendary=Legendary Weapon
 gui.weapon.quality.special=Special Weapon
 gui.weapon.quality.utility=Utility

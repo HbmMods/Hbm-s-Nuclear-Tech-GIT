@@ -136,7 +136,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		this.lastShot = new long[cfg.length];
 		for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
 		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL || quality == WeaponQuality.UTILITY) this.setCreativeTab(MainRegistry.weaponTab);
-		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
+		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET || quality == WeaponQuality.CORRUPTED) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 
@@ -146,6 +146,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		LEGENDARY,
 		SPECIAL,
 		UTILITY,
+		CORRUPTED,
 		SECRET,
 		DEBUG
 	}
@@ -221,6 +222,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 			case LEGENDARY: list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.weapon.quality.legendary")); break;
 			case SPECIAL: list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("gui.weapon.quality.special")); break;
 			case UTILITY: list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("gui.weapon.quality.utility")); break;
+			case CORRUPTED: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.LIGHT_PURPLE) + I18nUtil.resolveKey("gui.weapon.quality.corrupted")); break;
 			case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + I18nUtil.resolveKey("gui.weapon.quality.secret")); break;
 			case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + I18nUtil.resolveKey("gui.weapon.quality.debug")); break;
 		}

@@ -9,6 +9,8 @@ import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityTorpedo;
+import com.hbm.inventory.material.Mats;
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -21,6 +23,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
+import com.hbm.items.weapon.sedna.impl.ItemGunCounter;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
@@ -31,9 +34,12 @@ import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 
@@ -43,6 +49,7 @@ public class XFactory44 {
 
 	public static ConfigWrapper<Float> GUN_HENRY_DAMAGE =			new ConfigWrapper(10F);
 	public static ConfigWrapper<Float> GUN_LINCOLN_DAMAGE =			new ConfigWrapper(20F);
+	public static ConfigWrapper<Float> GUN_COUNTER_DAMAGE =			new ConfigWrapper(50F);
 	public static ConfigWrapper<Float> GUN_HEAVY_REVOLVER_DAMAGE =	new ConfigWrapper(15F);
 	public static ConfigWrapper<Float> GUN_LILMAC_DAMAGE =			new ConfigWrapper(30F);
 	public static ConfigWrapper<Float> GUN_PROTEGE_DAMAGE =			new ConfigWrapper(30F);
@@ -57,10 +64,12 @@ public class XFactory44 {
 	public static BulletConfig m44_express;
 	public static BulletConfig m44_equestrian_pip;
 	public static BulletConfig m44_equestrian_mn7;
+	public static BulletConfig rebar;
 	
 	public static void initConfig() {
 		ServerConfig.configMap.put("GUN_HENRY_DAMAGE", GUN_HENRY_DAMAGE);
 		ServerConfig.configMap.put("GUN_LINCOLN_DAMAGE", GUN_LINCOLN_DAMAGE);
+		ServerConfig.configMap.put("GUN_COUNTER_DAMAGE", GUN_COUNTER_DAMAGE);
 		ServerConfig.configMap.put("GUN_HEAVY_REVOLVER_DAMAGE", GUN_HEAVY_REVOLVER_DAMAGE);
 		ServerConfig.configMap.put("GUN_LILMAC_DAMAGE", GUN_LILMAC_DAMAGE);
 		ServerConfig.configMap.put("GUN_PROTEGE_DAMAGE", GUN_PROTEGE_DAMAGE);
@@ -86,6 +95,13 @@ public class XFactory44 {
 		bullet.worldObj.spawnEntityInWorld(murky);
 		bullet.setDead();
 	};
+	
+	public static IProtectiveItem COUNTER_PROTECTION_MODULE = new IProtectiveItem() {
+		@Override public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+			if(damage.isFireDamage()) return new float[] {30F, 0F};
+			return new float[] {0F, 0F};
+		}
+	};
 
 	public static void init() {
 		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
@@ -105,6 +121,8 @@ public class XFactory44 {
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianPip"));
 		m44_equestrian_mn7 = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_TORPEDO)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianMn7"));
+		rebar = new BulletConfig().setItem(new ItemStack(ModItems.bolt, 1, Mats.MAT_STEEL.id)).setupDamageClass(DamageClass.EXPLOSIVE)
+				.setThresholdNegation(35F).setArmorPiercing(0.5F).setHeadshot(2.5F).setCasing(casing44.clone().register("rebar"));
 
 		ModItems.gun_henry = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -126,6 +144,16 @@ public class XFactory44 {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
 				).setDefaultAmmo(EnumAmmo.M44_JHP, 14).setUnlocalizedName("gun_henry_lincoln");
+		ModItems.gun_henry_counter = new ItemGunCounter(WeaponQuality.CORRUPTED, new GunConfig()
+				.dura(30_000).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(GUN_LINCOLN_DAMAGE).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 0.75F)
+						.mag(new MagazineSingleReload(0, 14).addConfigs(rebar))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
+				).setUnlocalizedName("gun_henry_counter");
 
 		ModItems.gun_heavy_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE)
