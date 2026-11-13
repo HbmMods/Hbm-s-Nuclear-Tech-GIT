@@ -147,7 +147,7 @@ public class XFactory44 {
 		ModItems.gun_henry_counter = new ItemGunCounter(WeaponQuality.CORRUPTED, new GunConfig()
 				.dura(30_000).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(GUN_LINCOLN_DAMAGE).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 0.75F)
+						.dmg(GUN_COUNTER_DAMAGE).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 0.75F)
 						.mag(new MagazineSingleReload(0, 14).addConfigs(rebar))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))

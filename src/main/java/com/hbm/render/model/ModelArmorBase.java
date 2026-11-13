@@ -9,8 +9,11 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ModelArmorBase extends ModelBiped {
 
@@ -171,5 +174,22 @@ public class ModelArmorBase extends ModelBiped {
 		this.aimedBow = modelBiped.aimedBow;
 		this.isSneak = modelBiped.isSneak;
 		this.isRiding = modelBiped.isRiding;
+	}
+	
+	public void renderFromEvent(RenderPlayerEvent.SetArmorModel event, ItemStack armor) {
+
+		RenderPlayer renderer = event.renderer;
+		ModelBiped model = renderer.modelArmor;
+		EntityPlayer player = event.entityPlayer;
+		
+		float interp = event.partialRenderTick;
+		float yawHead = player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * interp;
+		float yawOffset = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * interp;
+		float yaw = yawHead - yawOffset;
+		float yawWrapped = MathHelper.wrapAngleTo180_float(yawHead - yawOffset);
+		float pitch = player.rotationPitch;
+
+		this.isSneak = model.isSneak;
+		this.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
 	}
 }

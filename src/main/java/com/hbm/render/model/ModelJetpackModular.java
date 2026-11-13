@@ -2,6 +2,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.armor.JetpackModular;
+import com.hbm.items.armor.JetpackPart.EnumJetpackPart;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.ModelRendererObj;
 
@@ -51,28 +53,43 @@ public class ModelJetpackModular extends ModelArmorBase {
 
 		bindTexture(ResourceManager.jetpack_base);
 		ResourceManager.jetpack_universal.renderPart("Base");
-		bindTexture(ResourceManager.jetpack_thruster);
-		//ResourceManager.jetpack_universal.renderPart("Thrusters");
-		bindTexture(ResourceManager.jetpack_thruster_large);
-		ResourceManager.jetpack_universal.renderPart("ThrusterLarge");
-		bindTexture(ResourceManager.jetpack_tank);
-		ResourceManager.jetpack_universal.renderPart("Tank");
-		//ResourceManager.jetpack_universal.renderPart("ExtensionTanks");
-		bindTexture(ResourceManager.jetpack_stabilizer);
-		//ResourceManager.jetpack_universal.renderPart("Stabilizer");
-		bindTexture(ResourceManager.jetpack_wings);
-		
-		double extension = 0; //12;
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(-extension, 0, 0);
-		ResourceManager.jetpack_universal.renderPart("WingLeft");
-		GL11.glPopMatrix();
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(extension, 0, 0);
-		ResourceManager.jetpack_universal.renderPart("WingRight");
-		GL11.glPopMatrix();
+
+		EnumJetpackPart thruster = JetpackModular.getInstalledThruster(stack);
+		EnumJetpackPart tank = JetpackModular.getInstalledTank(stack);
+		EnumJetpackPart flightModel = JetpackModular.getInstalledFlightModel(stack);
+
+		if(thruster == EnumJetpackPart.THRUSTERS) {
+			bindTexture(ResourceManager.jetpack_thruster); ResourceManager.jetpack_universal.renderPart("Thrusters");
+		}
+		if(thruster == EnumJetpackPart.THRUSTER_LARGE) {
+			bindTexture(ResourceManager.jetpack_thruster_large); ResourceManager.jetpack_universal.renderPart("ThrusterLarge");
+		}
+		if(tank != null) {
+			bindTexture(ResourceManager.jetpack_tank);
+			ResourceManager.jetpack_universal.renderPart("Tank");
+			if(JetpackModular.isPartInstalled(stack, EnumJetpackPart.EXTENSION_TANKS)) {
+				ResourceManager.jetpack_universal.renderPart("ExtensionTanks");
+			}
+		}
+		if(flightModel == EnumJetpackPart.STABILIZER) {
+			bindTexture(ResourceManager.jetpack_stabilizer);
+			ResourceManager.jetpack_universal.renderPart("Stabilizer");
+		}
+		if(flightModel == EnumJetpackPart.WINGS) {
+			
+			bindTexture(ResourceManager.jetpack_wings);
+			double extension = inSlot ? 12 : 0;
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(-extension, 0, 0);
+			ResourceManager.jetpack_universal.renderPart("WingLeft");
+			GL11.glPopMatrix();
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(extension, 0, 0);
+			ResourceManager.jetpack_universal.renderPart("WingRight");
+			GL11.glPopMatrix();
+		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
