@@ -1,6 +1,8 @@
 package com.hbm.inventory.gui;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
@@ -11,6 +13,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.storage.TileEntityBatteryREDD;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -32,9 +35,25 @@ public class GUIBatteryREDD extends GuiInfoContainer {
 		this.ySize = 181;
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+
+		String lang = null;
+		switch(battery.priority) {
+		case LOW: lang = "low"; break;
+		case NORMAL: lang = "normal"; break;
+		case HIGH: lang = "high"; break;
+		}
+
+		List<String> priority = new ArrayList();
+		priority.add(I18nUtil.resolveKey("battery.priority." + lang));
+		priority.add(I18nUtil.resolveKey("battery.priority.recommended"));
+		String[] desc = I18nUtil.resolveKeyArray("battery.priority." + lang + ".desc");
+		for(String s : desc) priority.add(s);
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 152, guiTop + 35, 16, 16, mouseX, mouseY, priority);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
