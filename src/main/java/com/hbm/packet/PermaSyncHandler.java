@@ -39,7 +39,7 @@ public class PermaSyncHandler {
 		List<Integer> ids = new ArrayList();
 		for(Object o : world.playerEntities) {
 			EntityPlayer p = (EntityPlayer) o;
-			if(p.isPotionActive(HbmPotion.death.id)) {
+			if(p.isPotionActive(HbmPotion.femboy.id)) {
 				ids.add(p.getEntityId());
 			}
 		}
