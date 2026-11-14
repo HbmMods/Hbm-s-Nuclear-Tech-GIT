@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityMachineTrackingRadar;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -21,9 +22,11 @@ public class RenderTrackingRadar extends TileEntitySpecialRenderer implements II
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(90, 0F, 1F, 0F);
+		
+		TileEntityMachineTrackingRadar radar = (TileEntityMachineTrackingRadar) tile;
 
-		float r = -15;
-		float l = 45;
+		float r = radar.prevRot + (radar.rot - radar.prevRot) * interp;
+		float l = radar.prevLift + (radar.lift - radar.prevLift) * interp;
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.tracking_radar_tex);
@@ -31,7 +34,7 @@ public class RenderTrackingRadar extends TileEntitySpecialRenderer implements II
 		GL11.glRotated(r, 0, 1, 0);
 		ResourceManager.tracking_radar.renderPart("Mount");
 		GL11.glTranslated(0, 9.375, 0);
-		GL11.glRotated(l, 1, 0, 0);
+		GL11.glRotated(l + 90, 1, 0, 0);
 		GL11.glTranslated(0, -9.375, 0);
 		ResourceManager.tracking_radar.renderPart("Dish");
 		GL11.glShadeModel(GL11.GL_FLAT);

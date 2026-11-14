@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineTrackingRadar;
 
 import net.minecraft.block.material.Material;
@@ -17,6 +18,7 @@ public class MachineTrackingRadar extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineTrackingRadar();
+		if(meta >= 6) return new TileEntityProxyCombo().power();
 		return null;
 	}
 

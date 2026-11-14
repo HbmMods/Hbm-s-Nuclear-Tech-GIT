@@ -98,8 +98,7 @@ public class XFactory44 {
 	
 	public static IProtectiveItem COUNTER_PROTECTION_MODULE = new IProtectiveItem() {
 		@Override public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
-			if(damage.isFireDamage()) return new float[] {30F, 0F};
-			return new float[] {0F, 0F};
+			return new float[] {30F, 0F};
 		}
 	};
 
@@ -151,7 +150,7 @@ public class XFactory44 {
 						.mag(new MagazineSingleReload(0, 14).addConfigs(rebar))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))
-				.setupStandardConfiguration()
+				.setupStandardConfiguration().resistance(COUNTER_PROTECTION_MODULE)
 				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
 				).setUnlocalizedName("gun_henry_counter");
 
