@@ -1085,6 +1085,18 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.part_generic, 16, EnumPartType.LDE),
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CONTROLLER_ADVANCED)));
 
+		this.register(new GenericRecipe("ass.asat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.ASAT.ordinal()))
+				.inputItems(new OreDictStack(BIGMT.shell(), 24),
+						new OreDictStack(PURG.billet(), 12),
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.ATOMIC_CLOCK),
+						new ComparableStack(ModItems.part_generic, 16, EnumPartType.LDE),
+						new ComparableStack(ModItems.circuit, 5, EnumCircuitType.CONTROLLER_ADVANCED)));
+		this.register(new GenericRecipe("ass.asatmissile").setup(600, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.ASAT_AMMO.ordinal()))
+				.inputItems(new OreDictStack(WEAPONSTEEL.shell(), 12),
+						new ComparableStack(ModItems.rocket_fuel, 32),
+						new ComparableStack(ModItems.part_generic, 16, EnumPartType.ALCLAD),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER)));
+
 		this.register(new GenericRecipe("ass.satlink").setup(100, 1_000).outputItems(new ItemStack(ModBlocks.machine_satlink))
 				.inputItems(new ComparableStack(ModBlocks.steel_scaffold, 16),
 						new OreDictStack(AL.plate(), 16),

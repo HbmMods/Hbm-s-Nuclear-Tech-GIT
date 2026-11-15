@@ -8,6 +8,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.ModelRendererObj;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ModelJetpackModular extends ModelArmorBase {
@@ -23,7 +24,12 @@ public class ModelJetpackModular extends ModelArmorBase {
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
-		this.body.render(scaleFactor);
+		
+		if(entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) entity;
+			((ModelRendererJetpack) this.body).setContext(living.getEquipmentInSlot(3));
+			this.body.render(scaleFactor);
+		}
 	}
 	
 	public static class ModelRendererJetpack extends ModelRendererObj {
