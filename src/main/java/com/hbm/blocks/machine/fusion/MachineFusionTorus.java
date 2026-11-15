@@ -6,6 +6,9 @@ import static com.hbm.lib.Library.*;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.config.GeneralConfig;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_SuperHeavy;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 
@@ -233,6 +236,14 @@ public class MachineFusionTorus extends BlockDummyable implements ITooltipProvid
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		addStandardInfo(stack, player, list, ext);
+		this.addStandardInfo(stack, player, list, ext);
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		if(GeneralConfig.enableMachineGravity || GeneralConfig.enable528MachineGravity) {
+			return new MachineTrait[] {new MT_SuperHeavy()};
+		}
+		return new MachineTrait[0];
 	}
 }

@@ -5,9 +5,13 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IPersistentInfoProvider;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_LiquidStorage;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_SuperHeavy;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
@@ -27,7 +31,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvider {
+public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvider, ITooltipProvider {
 
 	public MachineOrbus(Material mat) {
 		super(mat);
@@ -120,5 +124,17 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 		FluidTank tank = new FluidTank(Fluids.NONE, 0);
 		tank.readFromNBT(persistentTag, "tank");
 		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + tank.getTankType().getLocalizedName());
+	}
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.AQUA + "Capacity: 512,000mB");
+		list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+		list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
+		list.add(EnumChatFormatting.GREEN + "Can store antimatter");
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_LiquidStorage(), new MT_SuperHeavy()};
 	}
 }

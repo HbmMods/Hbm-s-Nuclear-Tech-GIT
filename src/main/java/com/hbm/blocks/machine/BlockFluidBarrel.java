@@ -10,6 +10,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_LiquidStorage;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
@@ -227,5 +229,10 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
 			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_LiquidStorage()};
 	}
 }

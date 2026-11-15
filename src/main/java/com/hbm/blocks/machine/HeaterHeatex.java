@@ -8,6 +8,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_HeatSource;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -129,5 +131,10 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_HeatSource()};
 	}
 }

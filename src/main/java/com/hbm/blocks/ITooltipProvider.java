@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.inventory.machinetraits.MachineTrait;
 import com.hbm.util.i18n.I18nUtil;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public interface ITooltipProvider {
 		this.addStandardInfo(stack, ((Block) this).getUnlocalizedName() + ".desc", player, list, ext);
 	}
 
+	public default MachineTrait[] getTraits() {
+		return new MachineTrait[0];
+	}
+
 	public default void addStandardInfo(ItemStack stack, String name, EntityPlayer player, List list, boolean ext) {
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -27,6 +32,16 @@ public interface ITooltipProvider {
 			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
 					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
 					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
+		}
+	}
+
+	public default void addTraits(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		for(MachineTrait trait : this.getTraits()) {
+			trait.addInfo(list);
+
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+				trait.addInfoHidden(list);
+			}
 		}
 	}
 
