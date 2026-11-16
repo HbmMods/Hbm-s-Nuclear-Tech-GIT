@@ -158,6 +158,8 @@ public class BlockRedBrickKeyhole extends Block {
 		//Clear dropped items
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x + 0.5, y, z + 0.5, x + 0.5, y + height, z + 0.5).expand(size / 2D, 0, size / 2D));
 		for(EntityItem item : items) item.setDead();
+		
+		world.setBlock(x - width * dir.offsetX, y + 2, z - width * dir.offsetZ, ModBlocks.brick_red, 15, 3);
 	}
 	
 	public static void spawnPedestalItem(World world, int x, int y, int z, WeightedRandomChestContent[] pool) {

@@ -26,3 +26,4 @@
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended
 * Fixed an issue where empty ore dictionary names could cause recipes with nonexistant ingredients to be generated
+* Fixed incorrect port offsets for fluids on the chemical factory
