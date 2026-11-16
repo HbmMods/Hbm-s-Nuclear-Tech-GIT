@@ -18,6 +18,8 @@ import com.hbm.util.BufferUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -59,8 +61,14 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		
 		if(!worldObj.isRemote) {
 
-			this.setupFluidInPorts(this.getAllTanks(), getPorts()[0]);
-			this.updatePortPIFIFO();
+			this.setupFluidPorts(getPorts());
+			this.updateAllPorts();
+			
+			if(this.sendingMode) {
+				this.provideFluid(((IFluidStandardSenderMK2) this).getSendingTanks());
+			} else {
+				this.receiveFluid(((IFluidStandardReceiverMK2) this).getReceivingTanks());
+			}
 			
 			BlockPos pos = getCoord();
 			this.tank.setType(18, slots);
@@ -268,6 +276,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		
 		if(data.hasKey("mode")) {
 			this.sendingMode = !this.sendingMode;
+			this.destroyAllPorts();
 			this.markChanged();
 		}
 		
@@ -277,18 +286,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		}
 	}
 
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return !sendingMode && !itemType ? new FluidTank[] { tank } : FluidTank.EMPTY_ARRAY;
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return sendingMode && !itemType ? new FluidTank[] { tank } : FluidTank.EMPTY_ARRAY;
-	}
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] { tank }; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tank }; }
 }
