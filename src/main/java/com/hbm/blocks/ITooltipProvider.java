@@ -37,10 +37,11 @@ public interface ITooltipProvider {
 
 	public default void addTraits(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		for(MachineTrait trait : this.getTraits()) {
-			trait.addInfo(list);
 
 			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 				trait.addInfoHidden(list);
+			} else {
+				trait.addInfo(list);
 			}
 		}
 	}
