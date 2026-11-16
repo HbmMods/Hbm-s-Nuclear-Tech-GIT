@@ -83,6 +83,7 @@ public class BulletConfig implements Cloneable {
 	public int selfDamageDelay = 2;
 	
 	public boolean blackPowder = false;
+	public boolean corrupted = false;
 	public boolean renderRotations = true;
 	public SpentCasing casing;
 	public BiConsumer<EntityBulletBaseMK4, Float> renderer;
@@ -131,6 +132,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setSpectral(boolean spectral) {									this.isSpectral = spectral; return this; }
 	public BulletConfig setSelfDamageDelay(int delay) {									this.selfDamageDelay = delay; return this; }
 	public BulletConfig setBlackPowder(boolean bp) {									this.blackPowder = bp; return this; }
+	public BulletConfig setCorrupted(boolean c) {										this.corrupted = c; return this; }
 	public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
 	public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
 	

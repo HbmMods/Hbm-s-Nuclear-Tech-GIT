@@ -124,6 +124,7 @@ public class EntityMappings {
 		addEntity(EntityWastePearl.class, "entity_waste_pearl", 1000);
 		addEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron",  1000);
 		addEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 1000);
+		addEntity(EntityMass.class, "entity_mass", 1000);
 		addEntity(EntityBlockSpider.class, "entity_taintcrawler", 1000);
 		addEntity(EntityRBMKDebris.class, "entity_rbmk_debris", 1000);
 		addEntity(EntityUFO.class, "entity_ntm_ufo", 1000);

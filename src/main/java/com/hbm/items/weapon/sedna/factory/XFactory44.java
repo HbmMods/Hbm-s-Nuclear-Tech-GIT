@@ -121,7 +121,7 @@ public class XFactory44 {
 		m44_equestrian_mn7 = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_TORPEDO)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianMn7"));
 		rebar = new BulletConfig().setItem(new ItemStack(ModItems.bolt, 1, Mats.MAT_STEEL.id)).setupDamageClass(DamageClass.EXPLOSIVE)
-				.setThresholdNegation(35F).setArmorPiercing(0.5F).setHeadshot(2.5F).setCasing(casing44.clone().register("rebar"));
+				.setThresholdNegation(35F).setArmorPiercing(0.5F).setHeadshot(2.5F).setCorrupted(true).setCasing(casing44.clone().register("rebar"));
 
 		ModItems.gun_henry = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)

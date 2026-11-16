@@ -413,6 +413,7 @@ public class ResourceManager {
 	public static final IModelCustom siege_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/siege_ufo.obj"));
 	public static final IModelCustom glyphid = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/glyphid.obj"));
 	public static final IModelCustom drone = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/quadcopter.obj"));
+	public static final IModelCustom mass = new HFRWavefrontObject("models/mobs/mass.obj").asVBO();
 	
 	//PILE
 	public static final IModelCustom pile_loader = new HFRWavefrontObject("models/pile/pile_loader.obj").asVBO();
