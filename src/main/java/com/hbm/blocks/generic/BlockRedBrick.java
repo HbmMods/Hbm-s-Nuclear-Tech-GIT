@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRedBrick extends Block {
 
@@ -48,5 +49,9 @@ public class BlockRedBrick extends Block {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
+	}
+	
+	public static void buildShaft(World world, int x, int y, int z, ForgeDirection dir) {
+		
 	}
 }

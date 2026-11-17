@@ -1,5 +1,7 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockRedBrick;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryTool;
 import com.hbm.util.BobMathUtil;
@@ -10,6 +12,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -18,6 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntityAdditionalSpawnData {
 	
@@ -186,6 +190,13 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
+			
+			if(this.config.corrupted && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				Block b = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+				if(b == ModBlocks.brick_red && worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ) == 15) {
+					BlockRedBrick.buildShaft(worldObj, mop.blockX, mop.blockY, mop.blockZ, ForgeDirection.getOrientation(mop.sideHit).getOpposite());
+				}
+			}
 			
 			if(this.config.onImpact != null) this.config.onImpact.accept(this, mop);
 			if(this.isDead || this.inGround) return;
