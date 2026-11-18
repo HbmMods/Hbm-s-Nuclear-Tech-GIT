@@ -1655,6 +1655,31 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.dummy_plate_cargo");
 		ignoreMappings.add("hbm:tile.machine_turbine");
 		ignoreMappings.add("hbm:tile.machine_fensu");
+		ignoreMappings.add("hbm:item.plate_fuel_u233");
+		ignoreMappings.add("hbm:item.plate_fuel_u235");
+		ignoreMappings.add("hbm:item.plate_fuel_mox");
+		ignoreMappings.add("hbm:item.plate_fuel_pu239");
+		ignoreMappings.add("hbm:item.plate_fuel_sa326");
+		ignoreMappings.add("hbm:item.plate_fuel_ra226be");
+		ignoreMappings.add("hbm:item.plate_fuel_pu238be");
+		ignoreMappings.add("hbm:item.ore_byproduct");
+		ignoreMappings.add("hbm:item.ore_bedrock");
+		ignoreMappings.add("hbm:item.ore_centrifuged");
+		ignoreMappings.add("hbm:item.ore_cleaned");
+		ignoreMappings.add("hbm:item.ore_separated");
+		ignoreMappings.add("hbm:item.ore_purified");
+		ignoreMappings.add("hbm:item.ore_nitrated");
+		ignoreMappings.add("hbm:item.ore_nitrocrystalline");
+		ignoreMappings.add("hbm:item.ore_deepcleaned");
+		ignoreMappings.add("hbm:item.ore_seared");
+		ignoreMappings.add("hbm:item.ore_enriched");
+		ignoreMappings.add("hbm:item.waste_plate_u233");
+		ignoreMappings.add("hbm:item.waste_plate_u235");
+		ignoreMappings.add("hbm:item.waste_plate_mox");
+		ignoreMappings.add("hbm:item.waste_plate_pu239");
+		ignoreMappings.add("hbm:item.waste_plate_sa326");
+		ignoreMappings.add("hbm:item.waste_plate_ra226be");
+		ignoreMappings.add("hbm:item.waste_plate_pu238be");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

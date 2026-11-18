@@ -21,7 +21,6 @@ import com.hbm.items.food.*;
 import com.hbm.items.machine.*;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
-import com.hbm.items.machine.ItemPlateFuel.FunctionEnum;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemRBMKRod.EnumBurnFunc;
 import com.hbm.items.machine.ItemRBMKRod.EnumDepleteFunc;
@@ -189,19 +188,6 @@ public class ModItems {
 	public static Item nugget_mercury;
 	public static Item ingot_mercury; //It's to prevent any ambiguity, as it was treated as a full ingot in the past anyway
 	public static Item bottle_mercury;
-
-	@Deprecated public static Item ore_byproduct;
-
-	@Deprecated public static Item ore_bedrock;
-	@Deprecated public static Item ore_centrifuged;
-	@Deprecated public static Item ore_cleaned;
-	@Deprecated public static Item ore_separated;
-	@Deprecated public static Item ore_purified;
-	@Deprecated public static Item ore_nitrated;
-	@Deprecated public static Item ore_nitrocrystalline;
-	@Deprecated public static Item ore_deepcleaned;
-	@Deprecated public static Item ore_seared;
-	@Deprecated public static Item ore_enriched; //final stage
 
 	public static Item bedrock_ore_base;
 	public static Item bedrock_ore;
@@ -963,14 +949,6 @@ public class ModItems {
 	public static Item waste_schrabidium;
 	public static Item waste_zfb_mox;
 
-	@Deprecated public static Item waste_plate_u233;
-	@Deprecated public static Item waste_plate_u235;
-	@Deprecated public static Item waste_plate_mox;
-	@Deprecated public static Item waste_plate_pu239;
-	@Deprecated public static Item waste_plate_sa326;
-	@Deprecated public static Item waste_plate_ra226be;
-	@Deprecated public static Item waste_plate_pu238be;
-
 	@Deprecated public static Item pile_rod_uranium;
 	@Deprecated public static Item pile_rod_pu239;
 	@Deprecated public static Item pile_rod_plutonium;
@@ -980,14 +958,6 @@ public class ModItems {
 	@Deprecated public static Item pile_rod_detector;
 
 	public static Item pile_rod;
-
-	@Deprecated public static Item plate_fuel_u233;
-	@Deprecated public static Item plate_fuel_u235;
-	@Deprecated public static Item plate_fuel_mox;
-	@Deprecated public static Item plate_fuel_pu239;
-	@Deprecated public static Item plate_fuel_sa326;
-	@Deprecated public static Item plate_fuel_ra226be;
-	@Deprecated public static Item plate_fuel_pu238be;
 
 	public static Item pwr_fuel;
 	public static Item pwr_fuel_hot;
@@ -2294,18 +2264,6 @@ public class ModItems {
 		ingot_mud = new Item().setUnlocalizedName("ingot_mud").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_mud");
 		ingot_cft = new Item().setUnlocalizedName("ingot_cft").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cft");
 
-		ore_byproduct = new ItemByproduct().setUnlocalizedName("ore_byproduct").setCreativeTab(null).setTextureName(RefStrings.MODID + ":byproduct");
-
-		ore_bedrock = new ItemBedrockOre().setUnlocalizedName("ore_bedrock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_bedrock");
-		ore_centrifuged = new ItemBedrockOre().setUnlocalizedName("ore_centrifuged").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_centrifuged");
-		ore_cleaned = new ItemBedrockOre().setUnlocalizedName("ore_cleaned").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_cleaned");
-		ore_separated = new ItemBedrockOre().setUnlocalizedName("ore_separated").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_separated");
-		ore_purified = new ItemBedrockOre().setUnlocalizedName("ore_purified").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_purified");
-		ore_nitrated = new ItemBedrockOre().setUnlocalizedName("ore_nitrated").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_nitrated");
-		ore_nitrocrystalline = new ItemBedrockOre().setUnlocalizedName("ore_nitrocrystalline").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_nitrocrystalline");
-		ore_deepcleaned = new ItemBedrockOre().setUnlocalizedName("ore_deepcleaned").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_deepcleaned");
-		ore_seared = new ItemBedrockOre().setUnlocalizedName("ore_seared").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_seared");
-		ore_enriched = new ItemBedrockOre().setUnlocalizedName("ore_enriched").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_enriched");
 		bedrock_ore_base = new ItemBedrockOreBase().setUnlocalizedName("bedrock_ore_base").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
 		bedrock_ore = new ItemBedrockOreNew().setUnlocalizedName("bedrock_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
 		bedrock_ore_fragment = new ItemAutogen(MaterialShapes.FRAGMENT).aot(Mats.MAT_BISMUTH, "bedrock_ore_fragment_bismuth").setUnlocalizedName("bedrock_ore_fragment").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_fragment");
@@ -2997,14 +2955,6 @@ public class ModItems {
 		waste_schrabidium = new ItemDepletedFuel().setUnlocalizedName("waste_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_schrabidium");
 		waste_zfb_mox = new ItemDepletedFuel().setUnlocalizedName("waste_zfb_mox").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_zfb_mox");
 
-		waste_plate_u233 = new ItemDepletedFuel().setUnlocalizedName("waste_plate_u233").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_uranium");
-		waste_plate_u235 = new ItemDepletedFuel().setUnlocalizedName("waste_plate_u235").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_uranium");
-		waste_plate_mox = new ItemDepletedFuel().setUnlocalizedName("waste_plate_mox").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_mox");
-		waste_plate_pu239 = new ItemDepletedFuel().setUnlocalizedName("waste_plate_pu239").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_mox");
-		waste_plate_sa326 = new ItemDepletedFuel().setUnlocalizedName("waste_plate_sa326").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_sa326");
-		waste_plate_ra226be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_ra226be").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_ra226be");
-		waste_plate_pu238be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_pu238be").setCreativeTab(null).setTextureName(RefStrings.MODID + ":waste_plate_pu238be");
-
 		pile_rod_uranium = new ItemPileRod().setUnlocalizedName("pile_rod_uranium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_uranium");
 		pile_rod_pu239 = new ItemPileRod().setUnlocalizedName("pile_rod_pu239").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_pu239");
 		pile_rod_plutonium = new ItemPileRod().setUnlocalizedName("pile_rod_plutonium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_plutonium");
@@ -3014,14 +2964,6 @@ public class ModItems {
 		pile_rod_detector = new ItemPileRod().setUnlocalizedName("pile_rod_detector").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_detector");
 		
 		pile_rod = new ItemPileRodMK2().setUnlocalizedName("pile_rod").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod");
-
-		plate_fuel_u233 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 50).setUnlocalizedName("plate_fuel_u233").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_u233");
-		plate_fuel_u235 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 40).setUnlocalizedName("plate_fuel_u235").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_u235");
-		plate_fuel_mox = new ItemPlateFuel(2400000).setFunction(FunctionEnum.LOGARITHM, 50).setUnlocalizedName("plate_fuel_mox").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_mox");
-		plate_fuel_pu239 = new ItemPlateFuel(2000000).setFunction(FunctionEnum.NEGATIVE_QUADRATIC, 50).setUnlocalizedName("plate_fuel_pu239").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_pu239");
-		plate_fuel_sa326 = new ItemPlateFuel(2000000).setFunction(FunctionEnum.LINEAR, 80).setUnlocalizedName("plate_fuel_sa326").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_sa326");
-		plate_fuel_ra226be = new ItemPlateFuel(1300000).setFunction(FunctionEnum.PASSIVE, 30).setUnlocalizedName("plate_fuel_ra226be").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_ra226be");
-		plate_fuel_pu238be = new ItemPlateFuel(1000000).setFunction(FunctionEnum.PASSIVE, 50).setUnlocalizedName("plate_fuel_pu238be").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_fuel_pu238be");
 
 		pwr_fuel = new ItemPWRFuel().setUnlocalizedName("pwr_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel");
 		pwr_fuel_hot = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_hot").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_hot");
@@ -4745,17 +4687,6 @@ public class ModItems {
 		GameRegistry.registerItem(ball_fireclay, ball_fireclay.getUnlocalizedName());
 
 		//Ores
-		GameRegistry.registerItem(ore_bedrock, ore_bedrock.getUnlocalizedName());
-		GameRegistry.registerItem(ore_centrifuged, ore_centrifuged.getUnlocalizedName());
-		GameRegistry.registerItem(ore_cleaned, ore_cleaned.getUnlocalizedName());
-		GameRegistry.registerItem(ore_separated, ore_separated.getUnlocalizedName());
-		GameRegistry.registerItem(ore_purified, ore_purified.getUnlocalizedName());
-		GameRegistry.registerItem(ore_nitrated, ore_nitrated.getUnlocalizedName());
-		GameRegistry.registerItem(ore_nitrocrystalline, ore_nitrocrystalline.getUnlocalizedName());
-		GameRegistry.registerItem(ore_deepcleaned, ore_deepcleaned.getUnlocalizedName());
-		GameRegistry.registerItem(ore_seared, ore_seared.getUnlocalizedName());
-		GameRegistry.registerItem(ore_enriched, ore_enriched.getUnlocalizedName());
-		GameRegistry.registerItem(ore_byproduct, ore_byproduct.getUnlocalizedName());
 		GameRegistry.registerItem(bedrock_ore_base, bedrock_ore_base.getUnlocalizedName());
 		GameRegistry.registerItem(bedrock_ore, bedrock_ore.getUnlocalizedName());
 		GameRegistry.registerItem(bedrock_ore_fragment, bedrock_ore_fragment.getUnlocalizedName());
@@ -5357,14 +5288,6 @@ public class ModItems {
 		GameRegistry.registerItem(waste_schrabidium, waste_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(waste_zfb_mox, waste_zfb_mox.getUnlocalizedName());
 
-		GameRegistry.registerItem(waste_plate_u233, waste_plate_u233.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_u235, waste_plate_u235.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_mox, waste_plate_mox.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_pu239, waste_plate_pu239.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_ra226be, waste_plate_ra226be.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_sa326, waste_plate_sa326.getUnlocalizedName());
-		GameRegistry.registerItem(waste_plate_pu238be, waste_plate_pu238be.getUnlocalizedName());
-
 		//Pile parts
 		GameRegistry.registerItem(pile_rod_uranium, pile_rod_uranium.getUnlocalizedName());
 		GameRegistry.registerItem(pile_rod_pu239, pile_rod_pu239.getUnlocalizedName());
@@ -5375,15 +5298,6 @@ public class ModItems {
 		GameRegistry.registerItem(pile_rod_detector, pile_rod_detector.getUnlocalizedName());
 		
 		GameRegistry.registerItem(pile_rod, pile_rod.getUnlocalizedName());
-
-		//Plate Fuels
-		GameRegistry.registerItem(plate_fuel_u233, plate_fuel_u233.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_u235, plate_fuel_u235.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_mox, plate_fuel_mox.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_pu239, plate_fuel_pu239.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_sa326, plate_fuel_sa326.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_ra226be, plate_fuel_ra226be.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_pu238be, plate_fuel_pu238be.getUnlocalizedName());
 
 		//PWR Parts
 		GameRegistry.registerItem(pwr_fuel, pwr_fuel.getUnlocalizedName());

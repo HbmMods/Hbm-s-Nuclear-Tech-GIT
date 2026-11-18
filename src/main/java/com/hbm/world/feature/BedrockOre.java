@@ -7,11 +7,9 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.config.WorldConfig;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOreBase;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.util.WeightedRandomGeneric;
 
@@ -126,18 +124,6 @@ public class BedrockOre {
 			this.id = stack.toString();
 			this.tier = tier;
 			this.color = color;
-			this.acid = acid;
-		}
-		
-		public BedrockOreDefinition(EnumBedrockOre type, int tier) {
-			this(type, tier, null);
-		}
-		
-		public BedrockOreDefinition(EnumBedrockOre type, int tier, FluidStack acid) {
-			this.stack = DictFrame.fromOne(ModItems.ore_bedrock, type);
-			this.id = "ore" + type.oreName;
-			this.color = type.color;
-			this.tier = tier;
 			this.acid = acid;
 		}
 	}

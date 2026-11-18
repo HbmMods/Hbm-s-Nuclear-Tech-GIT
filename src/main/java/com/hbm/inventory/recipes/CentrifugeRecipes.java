@@ -24,12 +24,9 @@ import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOreNew;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
-import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -217,52 +214,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_coal_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 1),
 				new ItemStack(ModItems.dust_tiny, 6)});
-
-		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
-			int i = ore.ordinal();
-
-			recipes.put(new ComparableStack(ModItems.ore_bedrock, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_centrifuged, 1, i),
-					new ItemStack(ModItems.ore_centrifuged, 1, i),
-					new ItemStack(ModItems.ore_centrifuged, 1, i),
-					new ItemStack(ModItems.ore_centrifuged, 1, i) });
-
-			recipes.put(new ComparableStack(ModItems.ore_cleaned, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_separated, 1, i),
-					new ItemStack(ModItems.ore_separated, 1, i),
-					new ItemStack(ModItems.ore_separated, 1, i),
-					new ItemStack(ModItems.ore_separated, 1, i) });
-
-			recipes.put(new ComparableStack(ModItems.ore_purified, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					new ItemStack(ModItems.ore_enriched, 1, i) });
-
-			EnumByproduct tier1 = ore.byproducts[0];
-			ItemStack by1 = tier1 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier1, 1);
-			recipes.put(new ComparableStack(ModItems.ore_nitrated, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
-					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
-					ItemStackUtil.carefulCopy(by1),
-					ItemStackUtil.carefulCopy(by1) });
-
-			EnumByproduct tier2 = ore.byproducts[1];
-			ItemStack by2 = tier2 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier2, 1);
-			recipes.put(new ComparableStack(ModItems.ore_deepcleaned, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					ItemStackUtil.carefulCopy(by2),
-					ItemStackUtil.carefulCopy(by2) });
-
-			EnumByproduct tier3 = ore.byproducts[2];
-			ItemStack by3 = tier3 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier3, 1);
-			recipes.put(new ComparableStack(ModItems.ore_seared, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					new ItemStack(ModItems.ore_enriched, 1, i),
-					ItemStackUtil.carefulCopy(by3),
-					ItemStackUtil.carefulCopy(by3) });
-		}
 
 		for(BedrockOreType type : BedrockOreType.values()) {
 

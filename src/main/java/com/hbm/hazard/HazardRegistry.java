@@ -262,22 +262,6 @@ public class HazardRegistry {
 		registerOtherWaste(waste_schrabidium, wst * billet * 15F);
 		registerOtherWaste(waste_zfb_mox, wst * billet * 5F);
 
-		registerOtherFuel(plate_fuel_u233, u233 * ingot, wst * ingot * 13F, false);
-		registerOtherFuel(plate_fuel_u235, u235 * ingot, wst * ingot * 10F, false);
-		registerOtherFuel(plate_fuel_mox, mox * ingot, wst * ingot * 16F, false);
-		registerOtherFuel(plate_fuel_pu239, pu239 * ingot, wst * ingot * 13.5F, false);
-		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, wst * ingot * 10F, true);
-		registerOtherFuel(plate_fuel_ra226be, rabe * billet, pobe * nugget * 3, false);
-		registerOtherFuel(plate_fuel_pu238be, pube * billet, pube * nugget * 1, false);
-
-		registerOtherWaste(waste_plate_u233, wst * ingot * 13F);
-		registerOtherWaste(waste_plate_u235, wst * ingot * 10F);
-		registerOtherWaste(waste_plate_mox, wst * ingot * 16F);
-		registerOtherWaste(waste_plate_pu239, wst * ingot * 13.5F);
-		registerOtherWaste(waste_plate_sa326, wst * ingot * 10F);
-		registerRadSourceWaste(waste_plate_ra226be, pobe * nugget * 3);
-		registerRadSourceWaste(waste_plate_pu238be, pube * nugget * 1);
-
 		HazardSystem.register(debris_graphite, makeData().addEntry(RADIATION, 70F).addEntry(HOT, 5F));
 		HazardSystem.register(debris_metal, makeData(RADIATION, 5F));
 		HazardSystem.register(debris_fuel, makeData().addEntry(RADIATION, 500F).addEntry(HOT, 5F));

@@ -1,16 +1,12 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityReactorControl;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -75,46 +71,10 @@ public class MachineReactorControl extends BlockContainer {
 		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
-
-		if(itemStack.hasDisplayName()) {
-			((TileEntityReactorControl) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
-		}
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityReactorControl();
+		return null;
 	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			TileEntityReactorControl entity = (TileEntityReactorControl) world.getTileEntity(x, y, z);
-			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean hasComparatorInputOverride() {
-		return true;
-	}
-
-	@Override
-	public int getComparatorInputOverride(World world, int x, int y, int z, int p_149736_5_) {
-		TileEntityReactorControl entity = (TileEntityReactorControl) world.getTileEntity(x, y, z);
-
-		if(entity != null) {
-			return (int) Math.ceil((double) entity.heat * 15D / 50000D);
-		}
-
-		return 0;
-	}
-
 }

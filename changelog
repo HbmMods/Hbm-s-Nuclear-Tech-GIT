@@ -20,11 +20,14 @@
 * Improved shift-click support for barrels, tanks, the solidifer and the liquefactor
 * The search field on the recipe selector is now focused by default
 * Removed a few legacy blocks from the creative tab
-* Radioactive lava now also works in the geothermal heat exchanger
+* Radioactive lava now also works for the geothermal heat exchanger
 * Added yet more QMAW pages
+* Removed the research reactor remote control block and the deprecated plate fuel items
+* Removed legacy bedrock ore items
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended
 * Fixed an issue where empty ore dictionary names could cause recipes with nonexistant ingredients to be generated
 * Fixed incorrect port offsets for fluids on the chemical factory
 * Fixed drone crates having bad disease and not working with fluids
+* Fixed zirconium pile rod recipe being inconsistent in the anvil and assembly machine

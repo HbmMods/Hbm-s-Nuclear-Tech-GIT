@@ -868,8 +868,8 @@ public class AnvilRecipes extends SerializableRecipe {
 						new AnvilOutput(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.PO210BE.ordinal())),
 						}).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack(ZR.billet(), 3), new AnvilOutput[] {
-						new AnvilOutput(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.ZR.ordinal())),
+				new OreDictStack(ZR.billet(), 1), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.pile_rod, 3, EnumPileRod.ZR.ordinal())),
 						}).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack(U.billet(), 3), new AnvilOutput[] {

@@ -19,7 +19,6 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemDrive.EnumDriveType;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
@@ -222,19 +221,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 		for(ItemStack dust : lapis) ShredderRecipes.setRecipe(dust, new ItemStack(ModItems.powder_cobalt_tiny, 1));
-		
-		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
-			int i = ore.ordinal();
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_bedrock, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_centrifuged, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_cleaned, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_separated, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_purified, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_nitrated, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_nitrocrystalline, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_seared, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
-		}
 
 		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass, 4));
 
