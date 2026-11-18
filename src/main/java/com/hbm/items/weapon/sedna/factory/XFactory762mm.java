@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import com.hbm.config.ServerConfig;
 import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -29,7 +30,9 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory762mm {
@@ -40,6 +43,7 @@ public class XFactory762mm {
 	public static ConfigWrapper<Float> GUN_LACUNAE_DAMAGE =				new ConfigWrapper(12F);
 	public static ConfigWrapper<Float> GUN_MINIGUN_DUAL_LEFT_DAMAGE =	new ConfigWrapper(6F);
 	public static ConfigWrapper<Float> GUN_MINIGUN_DUAL_RIGHT_DAMAGE =	new ConfigWrapper(6F);
+	public static ConfigWrapper<Float> GUN_MINIGUN_HELL_DAMAGE =		new ConfigWrapper(25F);
 	public static ConfigWrapper<Float> GUN_SOUTH_STAR_DAMAGE =			new ConfigWrapper(30F);
 	public static ConfigWrapper<Float> GUN_SOUTH_STAR_BAYONET_DAMAGE =	new ConfigWrapper(15F);
 
@@ -54,6 +58,8 @@ public class XFactory762mm {
 	public static BulletConfig energy_lacunae_overcharge;
 	public static BulletConfig energy_lacunae_ir;
 	
+	public static BulletConfig hell_pellet;
+	
 	public static void initConfig() {
 		ServerConfig.configMap.put("GUN_CARBINE_DAMAGE", GUN_CARBINE_DAMAGE);
 		ServerConfig.configMap.put("GUN_CARBINE_BAYONET_DAMAGE", GUN_CARBINE_BAYONET_DAMAGE);
@@ -61,6 +67,7 @@ public class XFactory762mm {
 		ServerConfig.configMap.put("GUN_LACUNAE_DAMAGE", GUN_LACUNAE_DAMAGE);
 		ServerConfig.configMap.put("GUN_MINIGUN_DUAL_LEFT_DAMAGE", GUN_MINIGUN_DUAL_LEFT_DAMAGE);
 		ServerConfig.configMap.put("GUN_MINIGUN_DUAL_RIGHT_DAMAGE", GUN_MINIGUN_DUAL_RIGHT_DAMAGE);
+		ServerConfig.configMap.put("GUN_MINIGUN_HELL_DAMAGE", GUN_MINIGUN_HELL_DAMAGE);
 		ServerConfig.configMap.put("GUN_SOUTH_STAR_DAMAGE", GUN_SOUTH_STAR_DAMAGE);
 		ServerConfig.configMap.put("GUN_SOUTH_STAR_BAYONET_DAMAGE", GUN_SOUTH_STAR_BAYONET_DAMAGE);
 	}
@@ -68,6 +75,12 @@ public class XFactory762mm {
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		Lego.tinyExplode(bullet, mop, 1.5F); bullet.setDead();
+	};
+	
+	public static IProtectiveItem HELL_PROTECTION_MODULE = new IProtectiveItem() {
+		@Override public float[] getCurrentDTDR(ItemStack stack, EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+			return new float[] {30F, 0F};
+		}
 	};
 
 	public static void init() {
@@ -84,6 +97,9 @@ public class XFactory762mm {
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
 		r762_he = new BulletConfig().setItem(EnumAmmo.R762_HE).setCasing(EnumCasingType.SMALL_STEEL, 6).setWear(3F).setDamage(1.75F).setOnImpact(LAMBDA_TINY_EXPLODE)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762he"));
+
+		hell_pellet = new BulletConfig().setItem(new ItemStack(ModItems.nugget_lead)).setupDamageClass(DamageClass.ELECTRIC).setCasing(EnumCasingType.SMALL_STEEL, 6).setVel(0.5F).setSpread(0.02F).setThresholdNegation(25F).setArmorPiercing(0.5F)
+				.setCorrupted(true).setLife(200).setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762hell"));
 
 		energy_lacunae = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 		energy_lacunae_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
@@ -142,6 +158,16 @@ public class XFactory762mm {
 				.decider(LAMBDA_SECOND_MINIGUN)
 				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN_DUAL)
 				).setDefaultAmmo(EnumAmmo.R762_SP, 50).setUnlocalizedName("gun_minigun_dual");
+		ModItems.gun_minigun_hell = new ItemGunBaseNT(WeaponQuality.CORRUPTED, new GunConfig()
+				.dura(500_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(GUN_MINIGUN_HELL_DAMAGE).delay(2).auto(true).dry(15).spread(0.01F).sound(NTMSounds.GUN_MINIGUN_FIRE, 1.0F, 1.5F)
+						.mag(new MagazineBelt().addConfigs(hell_pellet))
+						.offset(1, -0.0625 * 2.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
+				.setupStandardConfiguration().resistance(HELL_PROTECTION_MODULE)
+				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN)
+				).setUnlocalizedName("gun_minigun_hell");
 
 		ModItems.gun_mas36 = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)

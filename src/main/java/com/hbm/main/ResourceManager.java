@@ -1108,6 +1108,7 @@ public class ResourceManager {
 	public static final ResourceLocation fliegerfaust_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fliegerfaust.png");
 	public static final ResourceLocation minigun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun.png");
 	public static final ResourceLocation minigun_lacunae_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_lacunae.png");
+	public static final ResourceLocation minigun_hell_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_hell.png");
 	public static final ResourceLocation minigun_dual_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_dual.png");
 	public static final ResourceLocation missile_launcher_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/missile_launcher.png");
 	public static final ResourceLocation tesla_cannon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tesla_cannon.png");

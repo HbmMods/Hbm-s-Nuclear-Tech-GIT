@@ -4,26 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
+import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.Vec3NT;
 
+import api.hbm.entity.IResistanceProvider;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class EntityMass extends EntityCreature implements IMob {
+public class EntityMass extends EntityCreature implements IMob, IResistanceProvider {
+	
+	public int homeX;
+	public int homeY = -1;
+	public int homeZ;
+	
+	public int moveTimer;
+	public ForgeDirection moveDir = ForgeDirection.UNKNOWN;
 	
 	public List<MassFragment> frags = new ArrayList();
 
 	public EntityMass(World world) {
 		super(world);
-		this.setSize(2F, 2F);
+		this.setSize(3F, 3F);
+		this.noClip = true;
 		
-		for(int i = 0; i < 50; i++) {
+		for(int i = 0; i < 250; i++) {
 			MassFragmentType type = EnumUtil.grabEnumSafely(MassFragmentType.class, rand.nextInt(MassFragmentType.values().length));
 			frags.add(new MassFragment(type, rand));
 		}
@@ -39,21 +58,34 @@ public class EntityMass extends EntityCreature implements IMob {
 	@Override protected boolean isAIEnabled() { return false; }
 	@Override protected boolean canDespawn() { return false; }
 
+	@Override public void onDeath(DamageSource source) { }
+
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward) {
+
+		//moveFlying(strafe, forward, 0.02F);
+		moveEntity(this.motionX, this.motionY, this.motionZ);
 
 		this.motionX *= 0.9;
 		this.motionY *= 0.9;
 		this.motionZ *= 0.9;
-
-		moveFlying(strafe, forward, 0.02F);
-		moveEntity(this.motionX, this.motionY, this.motionZ);
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		this.setDead();
-		return super.attackEntityFrom(source, amount);
+		if(source.getEntity() instanceof EntityPlayer && !worldObj.isRemote) this.setDead(); // debug
+		return false;
+	}
+
+	@Override
+	protected void collideWithEntity(Entity touching) {
+		touching.applyEntityCollision(this);
+		
+		if(touching instanceof EntityLivingBase && touching.isEntityAlive()) {
+			EntityLivingBase living = (EntityLivingBase) touching;
+			EntityDamageUtil.attackEntityFromNT(living, ModDamageSource.turbofan, 1_000F, true, false, 0F, 1000F, 2F);
+			if(!touching.isEntityAlive()) ConfettiUtil.gib(living);
+		}
 	}
 	
 	@Override
@@ -63,8 +95,19 @@ public class EntityMass extends EntityCreature implements IMob {
 		if(worldObj.isRemote) {
 			for(MassFragment frag : this.frags) frag.updateMovement();
 			
+			if(rand.nextInt(40) == 0) {
+				NBTTagCompound vdat = new NBTTagCompound();
+				vdat.setString("type", "sweat");
+				vdat.setInteger("count", 5);
+				vdat.setInteger("entity", getEntityId());
+				vdat.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+				MainRegistry.proxy.effectNT(vdat);
+			}
+			
 		} else {
-			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(50, 50, 50));
+			
+			// targeting
+			/*List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(150, 150, 150));
 			if(!players.isEmpty()) {
 				EntityPlayer player = players.get(0);
 				Vec3NT vec = new Vec3NT(player.posX - posX, player.posY - posY, player.posZ - posZ);
@@ -74,8 +117,65 @@ public class EntityMass extends EntityCreature implements IMob {
 					this.motionY = vec.yCoord;
 					this.motionZ = vec.zCoord;
 				}
+			}*/
+			
+			this.moveTimer--;
+			
+			if(this.moveTimer <= 0) {
+				ForgeDirection newDir = EnumUtil.grabEnumSafely(ForgeDirection.class, rand.nextInt(6));
+				if(newDir != moveDir.getOpposite()) {
+					this.moveDir = newDir;
+					this.moveTimer = 100 + rand.nextInt(200);
+				}
+				
+				if(rand.nextInt(3) == 0 && worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ)) < posY - 2) {
+					this.moveDir = ForgeDirection.DOWN;
+				}
+			}
+			
+			if(homeY < 0) {
+				this.homeX = (int) Math.floor(posX);
+				this.homeY = (int) Math.floor(posY);
+				this.homeZ = (int) Math.floor(posZ);
+			}
+			
+			int range = 50;
+
+			if(posY > homeY + range) this.moveDir = Library.NEG_Y;
+			else if(posY < homeY - range) this.moveDir = Library.POS_Y;
+			else if(posX > homeX + range) this.moveDir = Library.NEG_X;
+			else if(posX < homeX - range) this.moveDir = Library.POS_X;
+			else if(posZ > homeZ + range) this.moveDir = Library.NEG_Z;
+			else if(posZ < homeZ - range) this.moveDir = Library.POS_Z;
+			
+			if(this.posY < 0) this.moveDir = ForgeDirection.UP;
+
+			this.motionX = moveDir.offsetX * 0.2;
+			this.motionY = moveDir.offsetY * 0.2;
+			this.motionZ = moveDir.offsetZ * 0.2;
+			
+			// break intersecting blocks
+			if((this.ticksExisted + this.getEntityId()) % 10 == 0) {
+				int x = (int) Math.floor(posX);
+				int y = (int) Math.floor(posY + 1.5);
+				int z = (int) Math.floor(posZ);
+				
+				for(int i = x - 1; i <= x + 1; i++) {
+					for(int j = y - 1; j <= y + 1; j++) {
+						for(int k = z - 1; k <= z + 1; k++) {
+							if(j > 0) worldObj.func_147480_a(i, j, k, false);
+						}
+					}
+				}
 			}
 		}
+		
+		if((this.ticksExisted + this.getEntityId()) % 100 == 0)
+			worldObj.playSoundEffect(posX, posY, posZ, NTMSounds.MASS_SCREAM, 10F, 0.5F);
+		if(rand.nextInt(2) == 0)
+			worldObj.playSoundEffect(posX, posY, posZ, NTMSounds.ASSEMBLER_STRIKE, 1F, 0.5F + rand.nextFloat() * 0.25F);
+		if(rand.nextInt(20) == 0)
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:block.crateBreak", 1F, 0.5F + rand.nextFloat() * 0.25F);
 	}
 
 	@Override
@@ -107,7 +207,7 @@ public class EntityMass extends EntityCreature implements IMob {
 		public double rollSpeed;
 
 		public static final double SPEED = 0.05D; // per-axis speed of parts moving
-		public static final double LIMIT = 0.75D; // size limit (radius)
+		public static final double LIMIT = 1.25D; // size limit (radius)
 		
 		public MassFragment(MassFragmentType type, Random rand) {
 			this.type = type;
@@ -210,4 +310,11 @@ public class EntityMass extends EntityCreature implements IMob {
 			this.model = model;
 		}
 	}
+
+	@Override
+	public float[] getCurrentDTDR(DamageSource damage, float amount, float pierceDT, float pierce) {
+		return new float[] {10_000F, 5F};
+	}
+
+	@Override public void onDamageDealt(DamageSource damage, float amount) { }
 }

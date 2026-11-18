@@ -17,7 +17,7 @@ public class RenderMass extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float f0, float interp) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y + 1D, z);
+		GL11.glTranslated(x, y + 1.5D, z);
 		
 		this.bindTexture(getEntityTexture(entity));
 		EntityMass mass = (EntityMass) entity;

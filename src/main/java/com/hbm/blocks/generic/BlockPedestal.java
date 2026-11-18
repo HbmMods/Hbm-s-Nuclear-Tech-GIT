@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.entity.mob.EntityMass;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.recipes.PedestalRecipes;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
@@ -88,7 +89,14 @@ public class BlockPedestal extends BlockContainer {
 			player.inventory.mainInventory[player.inventory.currentItem] = pedestal.item.copy();
 			pedestal.item = null;
 			pedestal.markDirty();
-			world.markBlockForUpdate(x, y, z);
+			if(world.getBlockMetadata(x, y, z) == 1) {
+				world.func_147480_a(x, y, z, false);
+				EntityMass mass = new EntityMass(world);
+				mass.setPosition(x + 0.5, y - 10, z + 0.5);
+				world.spawnEntityInWorld(mass);
+			} else {
+				world.markBlockForUpdate(x, y, z);
+			}
 			return true;
 		}
 		

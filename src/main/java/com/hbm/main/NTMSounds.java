@@ -101,6 +101,9 @@ public class NTMSounds {
 	public static final String PLAYER_GULP = "hbm:player.gulp";
 	public static final String PLAYER_GROAN = "hbm:player.groan";
 	
+	/// ENTITIES ///
+	public static final String MASS_SCREAM = "hbm:entity.massScream";
+	
 	/// BLOCKS ///
 	public static final String BLOCK_PLUSHY = "hbm:block.squeakyToy"; // squee
 	public static final String BLOCK_HUNDUNS_MAGNIFICENT_HOWL = "hbm:block.hunduns_magnificent_howl"; // tragic yuri

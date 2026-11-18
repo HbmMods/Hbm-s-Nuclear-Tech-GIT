@@ -43,6 +43,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		boolean shortened = isShort(stack);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
@@ -64,6 +65,11 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		
 		GL11.glPushMatrix();
 		GL11.glRotated(rotate[2], 0, 0, 1);
+		if(shortened) {
+			GL11.glTranslated(0, 0, -2);
+			GL11.glScaled(1, 1, 0.5);
+			GL11.glTranslated(0, 0, 2);
+		}
 		ResourceManager.minigun.renderPart("Barrels");
 		GL11.glPopMatrix();
 
@@ -79,7 +85,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 12);
+		GL11.glTranslated(0, 0, shortened ? 5 : 12);
 		GL11.glRotated(90, 0, 1, 0);
 		
 		if(stack.getItem() == ModItems.gun_minigun_lacunae) {
@@ -107,11 +113,19 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 	@Override
 	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
-		double scale = 0.875D;
-		GL11.glScaled(scale, scale, scale);
-		GL11.glRotated(25, 1, 0, 0);
-		GL11.glRotated(45, 0, 1, 0);
-		GL11.glTranslated(-0.25, 0.5, 0);
+		if(isShort(stack)) {
+			double scale = 1.125D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(-3.5, 0, 0);
+		} else {
+			double scale = 0.875D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(-0.25, 0.5, 0);
+		}
 	}
 
 	@Override
@@ -123,13 +137,25 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
+		boolean shortened = isShort(stack);
 		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		if(type == ItemRenderType.ENTITY && shortened) {
+			GL11.glTranslated(0, 0, 2);
+		}
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.minigun.renderPart("Gun");
 		ResourceManager.minigun.renderPart("Grip");
+		GL11.glPushMatrix();
+		if(shortened) {
+			GL11.glTranslated(0, 0, -2);
+			GL11.glScaled(1, 1, 0.5);
+			GL11.glTranslated(0, 0, 2);
+		}
 		ResourceManager.minigun.renderPart("Barrels");
+		GL11.glPopMatrix();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		if(type == ItemRenderType.EQUIPPED) {
@@ -146,7 +172,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 			}
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(0, 0, 12.25);
+			GL11.glTranslated(0, 0, shortened ? 5.125 : 12.25);
 			GL11.glRotated(90, 0, 1, 0);
 			
 			if(stack.getItem() == ModItems.gun_minigun_lacunae) {
@@ -161,5 +187,9 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 			}
 			GL11.glPopMatrix();
 		}
+	}
+	
+	public boolean isShort(ItemStack stack) {
+		return stack.getItem() == ModItems.gun_minigun_hell;
 	}
 }

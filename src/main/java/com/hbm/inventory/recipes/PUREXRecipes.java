@@ -36,7 +36,6 @@ public class PUREXRecipes extends GenericRecipes<PUREXRecipe> {
 
 		long pilePower = 100;
 		long zirnoxPower = 1_000;
-		long platePower = 1_500;
 		long pwrPower = 2_500;
 		long watzPower = 10_000;
 		long vitrification = 1_000;

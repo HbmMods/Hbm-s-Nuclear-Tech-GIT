@@ -126,10 +126,6 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(new ComparableStack(ModItems.scrap_plastic, 1, i), new CrystallizerRecipe(new ItemStack(ModItems.circuit_star_piece, 1, i), baseTime));
 		}
 
-		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
-		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
-		FluidStack hiperf = new FluidStack(Fluids.RADIOSOLVENT, 500);
-
 		int bedrock = 200;
 		int washing = 100;
 		for(BedrockOreType type : BedrockOreType.values()) {
