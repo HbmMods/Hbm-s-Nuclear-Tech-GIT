@@ -5,13 +5,17 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Polluting;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineDrain;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -20,7 +24,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineDrain extends BlockDummyable implements ILookOverlay {
+public class MachineDrain extends BlockDummyable implements ILookOverlay, ITooltipProvider {
 
 	public MachineDrain(Material mat) {
 		super(mat);
@@ -82,5 +86,14 @@ public class MachineDrain extends BlockDummyable implements ILookOverlay {
 		List<String> text = new ArrayList();
 		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + drain.tank.getTankType().getLocalizedName() + ": " + drain.tank.getFill() + "/" + drain.tank.getMaxFill() + "mB");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_Polluting()};
 	}
 }

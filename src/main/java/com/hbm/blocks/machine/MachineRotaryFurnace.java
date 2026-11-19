@@ -2,11 +2,16 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Polluting;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Smoke;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -16,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverlay {
+public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverlay, ITooltipProvider {
 
 	public MachineRotaryFurnace(Material mat) {
 		super(mat);
@@ -114,5 +119,13 @@ public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverla
 
 		return iX == hitX && iZ == hitZ && iY == hitY;
 	}
-
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_Polluting(), new MT_Smoke()};
+	}
 }

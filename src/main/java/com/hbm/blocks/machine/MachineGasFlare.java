@@ -1,9 +1,12 @@
 package com.hbm.blocks.machine;
 
 import java.util.List;
-
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.config.GeneralConfig;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Heavy;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
 
@@ -77,5 +80,8 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
 		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
 		list.add(EnumChatFormatting.YELLOW + "-Flammable Gasses: " + EnumChatFormatting.RED + "20%");
 		list.add(EnumChatFormatting.YELLOW + "-Flammable Liquids: " + EnumChatFormatting.RED + "10%");
+		if(GeneralConfig.enableMachineGravity || GeneralConfig.enable528MachineGravity) {
+			list.add(EnumChatFormatting.DARK_BLUE + "[" + I18nUtil.resolveKey("machine.trait.heavy") + "]");
+		}
 	}
 }

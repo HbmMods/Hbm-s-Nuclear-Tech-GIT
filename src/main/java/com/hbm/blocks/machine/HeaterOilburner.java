@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_HeatSource;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Polluting;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Smoke;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
 
@@ -80,5 +84,10 @@ public class HeaterOilburner extends BlockDummyable implements ITooltipProvider 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
+		this.addTraits(stack, player, list, ext);
+	}
+	@Override
+	public MachineTrait[] getTraits() {
+		return new MachineTrait[] {new MT_HeatSource(), new MT_Polluting(), new MT_Smoke()};
 	}
 }

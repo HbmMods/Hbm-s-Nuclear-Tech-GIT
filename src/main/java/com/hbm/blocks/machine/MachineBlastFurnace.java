@@ -1,16 +1,23 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
+import com.hbm.config.GeneralConfig;
+import com.hbm.inventory.machinetraits.MachineTrait;
+import com.hbm.inventory.machinetraits.MachineTraitSimple.MT_Heavy;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineBlastFurnace;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineBlastFurnace extends BlockDummyable {
+public class MachineBlastFurnace extends BlockDummyable implements ITooltipProvider {
 
 	public MachineBlastFurnace() {
 		super(Material.rock);
@@ -49,5 +56,17 @@ public class MachineBlastFurnace extends BlockDummyable {
 		for(int[] offset : getAllPorts(dir)) {
 			this.makeExtra(world, x + offset[0], y + offset[1], z + offset[2]);
 		}
+	}
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addTraits(stack, player, list, ext);
+	}
+	
+	@Override
+	public MachineTrait[] getTraits() {
+		if(GeneralConfig.enableMachineGravity || GeneralConfig.enable528MachineGravity) {
+			return new MachineTrait[] {new MT_Heavy()};
+		}
+		return new MachineTrait[0];
 	}
 }
