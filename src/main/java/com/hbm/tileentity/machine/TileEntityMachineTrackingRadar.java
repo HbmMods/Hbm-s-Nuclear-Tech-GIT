@@ -1,11 +1,19 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.module.portmanager.ModulePortManPower;
+import com.hbm.tileentity.TileEntityTickingBase;
+import com.hbm.tileentity.TilePort.PortDef;
+import com.hbm.tileentity.TilePortShapes;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineTrackingRadar extends TileEntity {
+public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implements IEnergyReceiverMK2, IRORValueProvider, IRORInteractive {
 
 	public float rot = INACTIVE_ROT;
 	public float prevRot = INACTIVE_ROT;
@@ -17,11 +25,25 @@ public class TileEntityMachineTrackingRadar extends TileEntity {
 	public static final float ACTIVE_LIFT = -45F;
 	public static final float INACTIVE_ROT = 0F;
 	public static final float INACTIVE_LIFT = -85F;
+	
+	public long power;
+	public static final long maxPower = 100_000_000;
+	
+	protected ModulePortManPower portman;
+	
+	public TileEntityMachineTrackingRadar() {
+		portman = new ModulePortManPower(this).onlyInput();
+	}
+
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
+
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.portman.update(getPorts());
 			
 		} else {
 			
@@ -42,6 +64,34 @@ public class TileEntityMachineTrackingRadar extends TileEntity {
 			else if(lift > targetL) lift -= SPEED;
 		}
 	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		portman.destroy();
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		portman.destroy();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.power = nbt.getLong("power");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+	}
+
+	@Override public long getPower() { return power; }
+	@Override public void setPower(long power) { this.power = power; }
+	@Override public long getMaxPower() { return maxPower; }
 
 	AxisAlignedBB bb = null;
 
@@ -66,5 +116,25 @@ public class TileEntityMachineTrackingRadar extends TileEntity {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+			
+		};
+	}
+
+
+	@Override
+	public String provideRORValue(String name) {
+		return null;
+	}
+
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		return null;
 	}
 }
