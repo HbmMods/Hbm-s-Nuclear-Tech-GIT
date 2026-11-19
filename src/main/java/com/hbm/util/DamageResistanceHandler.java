@@ -19,9 +19,11 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.items.IProtectiveItem;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -546,6 +548,10 @@ public class DamageResistanceHandler {
 		for(int i = 1; i <= 4; i++) {
 			ItemStack armor = entity.getEquipmentInSlot(i);
 			if(armor == null) continue;
+			if(i == 3 && armor.getItem() instanceof ArmorFSB && CATEGORY_PHYSICAL.equals(typeToCategory(damage))) {
+				ArmorFSB chestplate = (ArmorFSB) armor.getItem();
+				if(chestplate.reinforcedChest && entity.isPotionActive(HbmPotion.estradiol)) { dt += 5F; dr += 0.05F; }
+			}
 			ResistanceStats stats = itemStats.get(armor.getItem());
 			if(stats == null) continue;
 			Resistance res = stats.getResistance(damage);

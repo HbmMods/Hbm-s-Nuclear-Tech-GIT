@@ -18,6 +18,7 @@ import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -102,6 +103,13 @@ public class LegoClient {
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length <= 0) return;
 		renderBulletStandard(Tessellator.instance, 0x7F006E, 0xFF7FED, length, true);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_SWORD_BEAM = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		boolean blink = Clock.get_ms() % 250 < 125;
+		renderBulletStandard(Tessellator.instance, blink ? 0xff8000 : 0x0080ff, blink ? 0xffd0b0 : 0xb0d0ff, length, 0.0625D, 0.03125D, true);
 	};
 	
 	public static void renderBulletStandard(Tessellator tess, int dark, int light, double length, boolean fullbright) { renderBulletStandard(tess, dark, light, length, 0.03125D, 0.03125D * 0.25D, fullbright); }

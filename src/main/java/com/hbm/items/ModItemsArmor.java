@@ -151,6 +151,7 @@ public class ModItemsArmor {
 		dieselsuit_helmet = new ArmorDiesel(aMatDiesel, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 2))
+				.setReinforcedChest()
 				.enableThermalSight(true)
 				.enableVATS(true)
 				.setUnlocalizedName("dieselsuit_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_helmet");
@@ -207,6 +208,7 @@ public class ModItemsArmor {
 				.enableVATS(true)
 				.setHasGeigerSound(true)
 				.setHasHardLanding(true)
+				.setReinforcedChest()
 				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 3))
 				.setStep("hbm:step.powered")
 				.setJump("hbm:step.powered")
@@ -244,6 +246,7 @@ public class ModItemsArmor {
 		envsuit_helmet = new ArmorEnvsuit(aMatEnv, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 100_000, 1_000, 250, 0)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
+				.setReinforcedChest()
 				.hides(EnumPlayerPart.HAT)
 				.setHazardClass(ArmorUtil.FULL_PACKAGE).setRadResist(1.0D /*90%*/)
 				.setUnlocalizedName("envsuit_helmet").setTextureName(RefStrings.MODID + ":envsuit_helmet");

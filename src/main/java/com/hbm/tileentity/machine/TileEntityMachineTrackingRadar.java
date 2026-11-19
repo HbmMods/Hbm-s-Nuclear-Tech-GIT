@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.lib.Library;
 import com.hbm.module.portmanager.ModulePortManPower;
-import com.hbm.tileentity.TileEntityTickingBase;
+import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.TilePortShapes;
 
@@ -10,10 +12,14 @@ import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
-public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implements IEnergyReceiverMK2, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IRORValueProvider, IRORInteractive {
 
 	public float rot = INACTIVE_ROT;
 	public float prevRot = INACTIVE_ROT;
@@ -32,7 +38,14 @@ public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implem
 	protected ModulePortManPower portman;
 	
 	public TileEntityMachineTrackingRadar() {
+		super(1);
 		portman = new ModulePortManPower(this).onlyInput();
+	}
+
+
+	@Override
+	public String getName() {
+		return "container.machineTrackingRadar";
 	}
 
 	protected PortDef[] cachedPorts;
@@ -44,6 +57,7 @@ public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implem
 
 		if(!worldObj.isRemote) {
 			this.portman.update(getPorts());
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 		} else {
 			
@@ -63,6 +77,11 @@ public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implem
 			else if(lift < targetL) lift += SPEED;
 			else if(lift > targetL) lift -= SPEED;
 		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		return this.isBattery(stack);
 	}
 
 	@Override
@@ -135,6 +154,18 @@ public class TileEntityMachineTrackingRadar extends TileEntityTickingBase implem
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
+		return null;
+	}
+
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+
+	@Override
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
 }

@@ -261,6 +261,8 @@ public class GunFactoryClient {
 		
 		TileEntityPileCore.pile_debris.setRenderer(LegoClient.RENDER_GRAPHITE);
 		
+		bullet_config_swordbeam.setRenderer(LegoClient.RENDER_SWORD_BEAM);
+		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);
 		

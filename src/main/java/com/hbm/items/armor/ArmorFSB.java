@@ -62,6 +62,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public boolean geigerSound = false;
 	public boolean customGeiger = false;
 	public boolean hardLanding = false;
+	public boolean reinforcedChest = false;
 	public int dashCount = 0;
 	public int stepSize = 0;
 	public String step;
@@ -107,6 +108,11 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 	public ArmorFSB setHasHardLanding(boolean hardLanding) {
 		this.hardLanding = hardLanding;
+		return this;
+	}
+
+	public ArmorFSB setReinforcedChest() {
+		this.reinforcedChest = true;
 		return this;
 	}
 	
@@ -166,6 +172,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.geigerSound = original.geigerSound;
 		this.customGeiger = original.customGeiger;
 		this.hardLanding = original.hardLanding;
+		this.reinforcedChest = original.reinforcedChest;
 		this.dashCount = original.dashCount;
 		this.stepSize = original.stepSize;
 		this.step = original.step;

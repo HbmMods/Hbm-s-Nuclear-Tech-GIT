@@ -36,11 +36,11 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radx;
 	public static HbmPotion lead;
 	public static HbmPotion radaway;
-	//public static HbmPotion telekinesis;
 	public static HbmPotion phosphorus;
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
-	public static HbmPotion death;
+	public static HbmPotion astolfization;
+	public static HbmPotion estradiol;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -54,11 +54,11 @@ public class HbmPotion extends Potion {
 		radx = registerPotion(PotionConfig.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 		lead = registerPotion(PotionConfig.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
 		radaway = registerPotion(PotionConfig.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
-		//telekinesis = registerPotion(PotionConfig.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
 		phosphorus = registerPotion(PotionConfig.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
-		death = registerPotion(PotionConfig.deathID, false, 0x111111, "potion.hbm_death", 4, 1);
+		astolfization = registerPotion(PotionConfig.deathID, false, 0x111111, "potion.hbm_death", 4, 1);
+		estradiol = registerPotion(PotionConfig.estradiolID, false, 0xEB2C2C, "potion.hbm_estradiol", 8, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {

@@ -764,11 +764,15 @@ public class ModEventHandler {
 	public void onPlayerPunch(AttackEntityEvent event) {
 
 		EntityPlayer player = event.entityPlayer;
-		ItemStack chestplate = player.inventory.armorInventory[2];
 
-		if(!player.worldObj.isRemote && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
-
-			if(player.getHeldItem() != null && player.getHeldItem().getAttributeModifiers().containsKey(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName())) return;
+		if(!player.worldObj.isRemote) {
+			
+			boolean hasSword = player.getHeldItem() != null && player.getHeldItem().getAttributeModifiers().containsKey(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
+			
+			ItemStack chestplate = player.inventory.armorInventory[2];
+			
+			/// ballistic gauntlet crap ///
+			if(chestplate == null || !ArmorModHandler.hasMods(chestplate) || hasSword) return;
 
 			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
 			ItemStack servo = mods[ArmorModHandler.servos];
@@ -776,14 +780,11 @@ public class ModEventHandler {
 			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
 
 				BulletConfig firedConfig = null;
-				BulletConfig[] gauntletConfigs = new BulletConfig[] {XFactory12ga.g12_bp, XFactory12ga.g12_bp_magnum, XFactory12ga.g12_bp_slug, XFactory12ga.g12, XFactory12ga.g12_slug, XFactory12ga.g12_flechette, XFactory12ga.g12_magnum, XFactory12ga.g12_explosive, XFactory12ga.g12_phosphorus};
+				BulletConfig[] gauntletConfigs = new BulletConfig[] {XFactory12ga.g12_bp, XFactory12ga.g12_bp_magnum, XFactory12ga.g12_bp_slug, XFactory12ga.g12, XFactory12ga.g12_slug, XFactory12ga.g12_flechette, XFactory12ga.g12_magnum, XFactory12ga.g12_explosive, XFactory12ga.g12_phosphorus, XFactory12ga.g12_anthrax};
 
 				for(BulletConfig config : gauntletConfigs) {
 
-					if(InventoryUtil.doesPlayerHaveAStack(player, config.ammo, true, true)) {
-						firedConfig = config;
-						break;
-					}
+					if(InventoryUtil.doesPlayerHaveAStack(player, config.ammo, true, true)) { firedConfig = config; break; }
 				}
 
 				if(firedConfig != null) {
@@ -1357,7 +1358,7 @@ public class ModEventHandler {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
 				}
 				if(stack.getTagCompound().getBoolean("ntmRedPill")) for(int i = 0; i < 10; i++) {
-					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0));
+					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.astolfization.id, 60 * 60 * 20, 0));
 				}
 			}
 		}

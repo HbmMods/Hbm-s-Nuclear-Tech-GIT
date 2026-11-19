@@ -53,6 +53,8 @@ public class XFactoryTurret {
 	public static BulletConfig shell_du;
 	public static BulletConfig shell_w9;
 	
+	public static BulletConfig bullet_config_swordbeam;
+	
 	public static void init() {
 		dgk_normal = new BulletConfig().setItem(new ItemStack(ModItems.ammo_dgk));
 		
@@ -72,5 +74,7 @@ public class XFactoryTurret {
 		shell_ap = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T)).setDamage(2F).setDoesPenetrate(true).setCasing(CASINNG240MM.clone().register("240w"));
 		shell_du = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU)).setDamage(2.5F).setDoesPenetrate(true).setDamageFalloffByPen(false).setCasing(CASINNG240MM.clone().register("240u"));
 		shell_w9 = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9)).setDamage(2.5F).setCasing(CASINNG240MM.clone().register("240n")).setOnImpact(XFactoryCatapult.LAMBDA_NUKE_STANDARD);
+		
+		bullet_config_swordbeam = new BulletConfig().setVel(1.5F).setLife(60);
 	}
 }

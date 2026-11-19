@@ -13,7 +13,7 @@ public class PotionConfig {
 	public static int radxID = 66;
 	public static int leadID = 67;
 	public static int radawayID = 68;
-	public static int telekinesisID = 69;
+	public static int estradiolID = 69;
 	public static int phosphorusID = 70;
 	public static int stabilityID = 71;
 	public static int potionsicknessID = 72;
@@ -31,7 +31,7 @@ public class PotionConfig {
 		radxID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.04_radxPotionID", "What potion ID the Rad-X effect will have", 66);
 		leadID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
 		radawayID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
-		telekinesisID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.07_telekinesisPotionID", "What potion ID the telekinesis effect will have", 69);
+		estradiolID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.07_estradiolPotionID", "What potion ID the estradiol effect will have", 69);
 		phosphorusID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.08_phosphorusPotionID", "What potion ID the phosphorus effect will have", 70);
 		stabilityID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.09_stabilityPotionID", "What potion ID the stability effect will have", 71);
 		potionsicknessID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.10_potionsicknessID", "What potion ID the potion sickness effect will have", 72);

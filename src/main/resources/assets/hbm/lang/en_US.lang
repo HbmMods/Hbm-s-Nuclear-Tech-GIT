@@ -4966,6 +4966,7 @@ pa.crash_underspeed.desc=The particle entered a detector$with insufficient speed
 
 potion.hbm_bang=! ! !
 potion.hbm_death=Astolfization
+potion.hbm_estradiol=Red Pill
 potion.hbm_lead=Lead Poisoning
 potion.hbm_mutation=Tainted Heart
 potion.hbm_phosphorus=Phosphorus Burns
