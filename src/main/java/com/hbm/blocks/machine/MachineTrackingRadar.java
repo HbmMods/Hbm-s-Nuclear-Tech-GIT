@@ -5,6 +5,7 @@ import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineTrackingRadar;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -20,6 +21,11 @@ public class MachineTrackingRadar extends BlockDummyable {
 		if(meta >= 12) return new TileEntityMachineTrackingRadar();
 		if(meta >= 6) return new TileEntityProxyCombo().power();
 		return null;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
 	@Override public int[] getDimensions() { return new int[] {9, 0, 1, 1, 1, 1}; }

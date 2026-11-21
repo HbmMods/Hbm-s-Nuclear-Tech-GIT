@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerTrackingRadar;
+import com.hbm.inventory.gui.GUITrackingRadar;
 import com.hbm.lib.Library;
 import com.hbm.module.portmanager.ModulePortManPower;
 import com.hbm.tileentity.IGUIProvider;
@@ -12,14 +15,16 @@ import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IRORValueProvider, IRORInteractive {
 
 	public float rot = INACTIVE_ROT;
 	public float prevRot = INACTIVE_ROT;
@@ -34,6 +39,8 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	
 	public long power;
 	public static final long maxPower = 100_000_000;
+	
+	public int mode = -1;
 	
 	protected ModulePortManPower portman;
 	
@@ -59,6 +66,8 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 			this.portman.update(getPorts());
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
+			this.networkPackNT(100);
+			
 		} else {
 			
 			boolean isOn = true;
@@ -77,6 +86,18 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 			else if(lift < targetL) lift += SPEED;
 			else if(lift > targetL) lift -= SPEED;
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeByte((byte) mode);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readByte();
 	}
 
 	@Override
@@ -100,17 +121,42 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.power = nbt.getLong("power");
+		this.mode = nbt.getInteger("mode");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
+		nbt.setInteger("mode", mode);
 	}
 
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
+
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerTrackingRadar(player.inventory, this); }
+	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUITrackingRadar(player.inventory, this); }
+
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+		
+		if(data.hasKey("b")) {
+			int mode = MathHelper.clamp_int(data.getByte("b"), 0, 2);
+			if(this.mode == mode) {
+				this.mode = -1;
+			} else {
+				this.mode = mode;
+			}
+			this.markChanged();
+		}
+	}
 
 	AxisAlignedBB bb = null;
 
@@ -137,7 +183,6 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		return 65536.0D;
 	}
 
-
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
@@ -145,27 +190,13 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		};
 	}
 
-
 	@Override
 	public String provideRORValue(String name) {
 		return null;
 	}
 
-
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		return null;
-	}
-
-
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
-
-
-	@Override
-	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
 }

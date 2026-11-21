@@ -30,6 +30,7 @@ public class MachineBlastFurnace extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {6, 0, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 1; }
+	
 	@Override
 	public int[][] getAllPorts(ForgeDirection dir) {
 		return rotatePorts(new int[][] {
@@ -42,6 +43,7 @@ public class MachineBlastFurnace extends BlockDummyable {
 			{0, 6, 0, ForgeDirection.UP.ordinal()}
 		}, dir);
 	}
+	
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
