@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.blocks.BlockTags;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
@@ -160,6 +161,7 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(new ModEventHandlerClient());
 		registerClientEventHandler(new ModEventHandlerRenderer());
 		registerClientEventHandler(new EventHandlerParticleEngine());
+		registerClientEventHandler(new BlockTags());
 		registerClientEventHandler(RenderSkyEffects.RENDER_INSTANCE);
 		registerClientEventHandler(theInfoSystem);
 

@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFluidTank extends BlockDummyable implements IPersistentInfoProvider, IToolable, ILookOverlay {
+public class MachineFluidTank extends BlockDummyable implements ITooltipProvider, IPersistentInfoProvider, IToolable, ILookOverlay {
 
 	public MachineFluidTank(Material mat) {
 		super(mat);
@@ -204,5 +205,14 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		IRepairable.addGenericOverlay(event, world, x, y, z, this);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.AQUA + "Capacity: 256,000mB");
+		list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+		list.add(EnumChatFormatting.GREEN + "Can store corrosive fluids");
+		list.add(EnumChatFormatting.YELLOW + "Cannot store highly corrosive fluids");
+		list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 	}
 }

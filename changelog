@@ -26,6 +26,7 @@
 * Removed legacy bedrock ore items
 * Changed the red key recipe
   * It is now made from eight cracked keys and one alexandrite using pedestal crafting
+* Removed the unused coil strength stats from the legacy coil blocks
 
 ## Fixed
 * Fixed panzerschreck reload taking 1.5 seconds longer than intended

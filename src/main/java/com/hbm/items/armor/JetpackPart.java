@@ -78,7 +78,7 @@ public class JetpackPart extends ItemEnumMulti {
 			return stack;
 		}
 		
-		JetpackModular.togglePart(stack, part, true);
+		JetpackModular.togglePart(jetpack, part, true);
 		stack.stackSize--;
 		return stack;
 	}

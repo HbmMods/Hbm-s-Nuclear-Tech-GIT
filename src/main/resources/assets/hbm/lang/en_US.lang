@@ -218,6 +218,10 @@ battery.priority.recommended=Recommended for:
 battery.redstone.off=Redstone OFF
 battery.redstone.on=Redstone ON
 
+blocktag.exhaust_compatible=[Exhaust Pipe Compatible]
+blocktag.heat_source=[Heat Source]
+blocktag.polluting=[Polluting]
+
 bomb.detonated=Detonated successfully!
 bomb.incompatible=Device can not be triggered!
 bomb.launched=Launched successfully!
@@ -5600,6 +5604,7 @@ tile.flame_war.name=Flame War in a Box
 tile.float_bomb.name=Levitation Bomb
 tile.floodlight.name=Powered Floodlight
 tile.flow_control_pump.name=Flow Control Pump
+tile.flow_control_pump.desc=Unidirectional fluid conductor.$Allows flow to be throttled$and prioritized.
 tile.fluid_duct.name=Universal Fluid Duct (Deprecated)
 tile.fluid_duct_box.name=Universal Fluid Duct (Boxduct)
 tile.fluid_duct_exhaust.name=Exhaust Pipe
@@ -6004,6 +6009,7 @@ tile.mud_block.name=Poisonous Mud
 tile.muffler.name=Muffler
 tile.mush.name=Glowing Mushroom
 tile.network_separator.name=Network Separator
+tile.network_separator.desc=Unidirectional power conductor.$Allows power flow to be throttled$and prioritized.
 tile.nospawn=Mobs cannot spawn on this block!
 tile.ntm_dirt.name=Dirt
 tile.nuke_boy.name=Little Boy

@@ -148,6 +148,10 @@ autoswitch.schrab=Schrabidium-Extraktion
 autoswitch.watz=Wiederaufbereitung Watzpellet
 autoswitch.zirnox=Wiederaufbereitung ZIRNOX-Brennstoff
 
+blocktag.exhaust_compatible=[Kompatibel mit Abgasrohr]
+blocktag.heat_source=[Wärmequelle]
+blocktag.polluting=[Umweltverschmutzend]
+
 bomb.detonated=Erfolgreich gezündet!
 bomb.incompatible=Gerät kann nicht ausgelöst werden!
 bomb.launched=Erfolgreich gestartet!

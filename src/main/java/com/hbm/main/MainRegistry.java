@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
+import com.hbm.blocks.BlockTags;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.*;
@@ -267,6 +268,7 @@ public class MainRegistry {
 		MaterialShapes.customShapesInit();
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
+		BlockTags.init();
 		ModItems.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
