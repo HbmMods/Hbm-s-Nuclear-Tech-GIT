@@ -28,6 +28,7 @@ import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
+import com.hbm.items.armor.JetpackPart.EnumJetpackPart;
 import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
@@ -418,8 +419,15 @@ public class ModEventHandlerClient {
 		if(stack.getItem() instanceof JetpackFueledBase) {
 			JetpackFueledBase jetpack = (JetpackFueledBase) stack.getItem();
 			float fuel = (float) JetpackFueledBase.getFuel(stack) / jetpack.maxFuel;
-
 			bars.add(new Tuple.Pair<Float, Integer>(fuel, jetpack.fuel.getColor()));
+		}
+
+		if(stack.getItem() instanceof JetpackModular) {
+			EnumJetpackPart tank = JetpackModular.getInstalledTank(stack);
+			if(tank != null) {
+				float fuel = (float) JetpackModular.getFuel(stack) / Math.max(JetpackModular.getMaxFuel(stack), 1);
+				bars.add(new Tuple.Pair<Float, Integer>(fuel, tank.tankType.getColor()));
+			}
 		}
 
 		return bars;

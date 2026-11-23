@@ -1,5 +1,7 @@
 package com.hbm.items.armor;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmPlayerProps;
@@ -21,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
@@ -74,7 +77,8 @@ public class JetpackModular extends ItemArmorMod implements IItemRendererProvide
 			Vec3NT vel = new Vec3NT(player.motionX, player.motionY, player.motionZ);
 			Vec3NT heading = new Vec3NT(0, 1, 0).rotateAroundZDeg(-player.rotationPitch - 90).rotateAroundYDeg(-player.rotationYaw + 90);
 			double velocity = vel.lengthVector();
-			double glide = MathHelper.clamp_double((velocity - 0.2) / 2D, 0D, 1D);//0.8D;
+			double glide = MathHelper.clamp_double((velocity - 0.2D) / 2D, 0D, 1D);//0.8D;
+			double speedLimit = Math.max(heading.yCoord, 0);
 			player.motionX *= (1D - glide);
 			player.motionY *= (1D - glide);
 			player.motionZ *= (1D - glide);
@@ -82,7 +86,7 @@ public class JetpackModular extends ItemArmorMod implements IItemRendererProvide
 			player.motionY += heading.yCoord * velocity * glide;
 			player.motionZ += heading.zCoord * velocity * glide;
 			player.motionX /= 0.95D;
-			player.motionY /= 0.95D;
+			player.motionY /= 0.95D + speedLimit * 0.15D;
 			player.motionZ /= 0.95D;
 		}
 	}
@@ -149,8 +153,8 @@ public class JetpackModular extends ItemArmorMod implements IItemRendererProvide
 	@Override
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase( ) {
-			public void renderInventory() { GL11.glTranslated(5, -12, 0); }
-			public void renderNonInv() { GL11.glScaled(0.25, 0.25, 0.25); GL11.glTranslated(0, -12, 5); }
+			public void renderInventory() { GL11.glScaled(1.125, 1.125, 1.125); GL11.glTranslated(3, -13, 0); }
+			public void renderNonInv() { GL11.glTranslated(0, -6, 1); GL11.glScaled(0.375, 0.375, 0.375);  }
 			public void renderCommonWithStack(ItemStack stack) {
 				ModelJetpackModular.INSTANCE.renderFromItem(stack, true, 1F);
 			}};
@@ -181,7 +185,8 @@ public class JetpackModular extends ItemArmorMod implements IItemRendererProvide
 
 	@Override
 	public boolean acceptsFluid(FluidType type, ItemStack stack) {
-		return JetpackModular.getInstalledTank(stack) != null;
+		EnumJetpackPart tank = JetpackModular.getInstalledTank(stack);
+		return tank != null && tank.tankType == type;
 	}
 
 	@Override
@@ -200,4 +205,14 @@ public class JetpackModular extends ItemArmorMod implements IItemRendererProvide
 	@Override public int tryEmpty(FluidType type, int amount, ItemStack stack) { return 0; }
 	@Override public FluidType getFirstFluidType(ItemStack stack) { return null; }
 	@Override public int getFill(ItemStack stack) { return 0; }
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		EnumJetpackPart tank = getInstalledTank(stack);
+		if(tank != null) {
+			list.add(EnumChatFormatting.AQUA + tank.tankType.getLocalizedName() + ": " + this.getFuel(stack) + "mB / " + this.getMaxFuel(stack) + "mB");
+			list.add("");
+		}
+		super.addInformation(stack, player, list, bool);
+	}
 }

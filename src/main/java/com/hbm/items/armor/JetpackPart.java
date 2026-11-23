@@ -55,6 +55,7 @@ public class JetpackPart extends ItemEnumMulti {
 		// tank
 		if(part.tankType != null) {
 			EnumJetpackPart existingTank = JetpackModular.getInstalledTank(jetpack);
+			JetpackModular.setFuel(jetpack, 0);
 			ejectAndReplace(stack, jetpack, player, existingTank, part);
 			return stack;
 		}
@@ -95,6 +96,7 @@ public class JetpackPart extends ItemEnumMulti {
 	
 	/** Tries to give the player that part, if that fails the part is dropped */
 	public static void ejectPart(EntityPlayer player, EnumJetpackPart part) {
+		if(player.capabilities.isCreativeMode) return;
 		ItemStack stack = new ItemStack(ModItems.jetpack_part, 1, part.ordinal());
 		if(!player.inventory.addItemStackToInventory(stack)) {
 			player.entityDropItem(stack, 0F);
