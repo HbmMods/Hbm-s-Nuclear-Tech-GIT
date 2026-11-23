@@ -684,4 +684,14 @@ public class ModEventHandlerRenderer {
 
 		return Vec3.createVectorHelper(r, g, b);
 	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void setJetpackRotationsPre(RenderPlayerEvent.Pre event) {
+		
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void setJetpackRotationsPost(RenderPlayerEvent.Post event) {
+		
+	}
 }

@@ -37,9 +37,9 @@ public class PedestalRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 
 		register(new PedestalRecipe(new ItemStack(ModItems.key_red),
-				new ComparableStack(ModItems.key_red_cracked),	new ComparableStack(ModItems.key_red_cracked),	new ComparableStack(ModItems.key_red_cracked),
-				new ComparableStack(ModItems.key_red_cracked),	new ComparableStack(ModItems.gem_alexandrite),	new ComparableStack(ModItems.key_red_cracked),
-				new ComparableStack(ModItems.key_red_cracked),	new ComparableStack(ModItems.key_red_cracked),	new ComparableStack(ModItems.key_red_cracked)));
+				null,																			new ComparableStack(ModItems.item_secret, 1, EnumSecretType.SELENIUM_STEEL),	null,
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.SELENIUM_STEEL),	new ComparableStack(ModItems.key_red_cracked),									new ComparableStack(ModItems.item_secret, 1, EnumSecretType.SELENIUM_STEEL),
+				null,																			new ComparableStack(ModItems.gem_alexandrite),									null));
 
 		register(new PedestalRecipe(new ItemStack(ModItems.gun_light_revolver_dani),
 				null,							new OreDictStack(PB.plate()),						null,

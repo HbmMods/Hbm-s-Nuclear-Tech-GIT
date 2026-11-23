@@ -17,7 +17,7 @@
 * RoR panels can now receive non-integer number signals, in which case the numer is rounded to the nearest integer
 * All flamer variants grant a small amount of fire resistance when equipped
 * All flamer variants with a shield now grant a moderate resistance to explosion damage when equipped
-* Improved shift-click support for barrels, tanks, the solidifer and the liquefactor
+* Improved shift-click support for barrels, tanks, the mixer, the solidifer and the liquefactor
 * The search field on the recipe selector is now focused by default
 * Removed a few legacy blocks from the creative tab
 * Radioactive lava now also works for the geothermal heat exchanger
@@ -25,7 +25,7 @@
 * Removed the research reactor remote control block and the deprecated plate fuel items
 * Removed legacy bedrock ore items
 * Changed the red key recipe
-  * It is now made from eight cracked keys and one alexandrite using pedestal crafting
+  * It is now made from a cracked key, one alexandrite and three pieces of selenium steel
 * Removed the unused coil strength stats from the legacy coil blocks
 
 ## Fixed

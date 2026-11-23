@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;
 import com.hbm.inventory.recipes.MixerRecipes;
 import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
@@ -216,15 +217,20 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		
+		if(i == 0) return this.isBattery(stack);
+		if(i == 2) return this.isFluidID(stack);
 
-		MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
-		if(recipes == null || recipes.length <= 0) return false;
-
-		MixerRecipe recipe = recipes[this.recipeIndex % recipes.length];
-		if(recipe == null || recipe.solidInput == null) return false;
-
-		return recipe.solidInput.matchesRecipe(itemStack, true);
+		if(i == 1) {
+			MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
+			if(recipes == null || recipes.length <= 0) return false;
+			MixerRecipe recipe = recipes[this.recipeIndex % recipes.length];
+			if(recipe == null || recipe.solidInput == null) return false;
+			return recipe.solidInput.matchesRecipe(stack, true);
+		}
+		
+		return stack.getItem() instanceof ItemMachineUpgrade;
 	}
 
 	@Override
