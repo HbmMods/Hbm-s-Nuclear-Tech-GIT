@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 public abstract class SatelliteBase {
 	
 	public static Random rand = new Random();
+	public int id = -1;
 	
 	public static final String CHAN_SATLINK = "SAT_LINK";
 
@@ -44,7 +45,10 @@ public abstract class SatelliteBase {
 	public ItemStack[] requestableSlots = new ItemStack[0];
 	
 	public int getID() {
-		return XSatelliteRegistry.idToClass.inverse().get(this.getClass());
+		if(id == -1) {
+			id = XSatelliteRegistry.idToClass.inverse().get(this.getClass());
+		}
+		return id;
 	}
 	
 	/** If this satellite can be detected by tracking radar and targetable by ASAT weapons */

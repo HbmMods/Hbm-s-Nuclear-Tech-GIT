@@ -13,69 +13,56 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class XSatelliteRegistry {
-	
+
 	public static final HashBiMap<Integer, Class<? extends SatelliteBase>> idToClass = HashBiMap.create(20);
-	public static final HashMap<ComparableStack, Class<? extends SatelliteBase>> itemToClass = new HashMap<>();
+	// icons for the tracking radar GUI
+	public static final HashMap<Integer, ItemStack> idToIcon = new HashMap();
+	public static final HashMap<ComparableStack, Class<? extends SatelliteBase>> itemToClass = new HashMap();
 	
 	public static void register() {
 
-		// ID mapping
-		idToClass.put(0, SatelliteMapper.class);
-		idToClass.put(1, SatelliteScanner.class);
-		idToClass.put(2, SatelliteRadar.class);
-		idToClass.put(3, SatelliteDeathRay.class);
-		idToClass.put(4, SatelliteResonator.class);
-		idToClass.put(5, SatelliteRelay.class);
-		idToClass.put(6, SatelliteMiner.class);
-		idToClass.put(7, SatelliteLunarMiner.class);
-		idToClass.put(8, SatelliteHorizons.class);
-		idToClass.put(9, SatellitePrecisionLaser.class);
-		idToClass.put(10, SatelliteDetector.class);
-		idToClass.put(11, SatelliteRayScan.class);
-		idToClass.put(12, SatelliteScience.class);
-		idToClass.put(13, SatelliteASAT.class);
-
-		// item to sat type mapping
-		registerSatellite(SatelliteMapper.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SPY));
-		registerSatellite(SatelliteScanner.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SCANNER));
-		registerSatellite(SatelliteRadar.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.RADAR));
-		registerSatellite(SatelliteDeathRay.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DEATH_RAY));
-		registerSatellite(SatelliteResonator.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR));
-		registerSatellite(SatelliteRelay.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.RELAY));
-		registerSatellite(SatelliteMiner.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO));
-		registerSatellite(SatelliteLunarMiner.class,		new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR));
-		registerSatellite(SatelliteHorizons.class,			ModItems.sat_gerald);
-		registerSatellite(SatellitePrecisionLaser.class,	new ComparableStack(ModItems.satellite, 1, EnumSatType.PRECISION_LASER));
-		registerSatellite(SatelliteDetector.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DETECTOR));
-		registerSatellite(SatelliteRayScan.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.RAY_SCAN));
-		registerSatellite(SatelliteScience.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SCIENCE));
-		registerSatellite(SatelliteASAT.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.ASAT));
+		// Maps IDs, registers as launchable and adds sat icon
+		registerLaunchable(0, SatelliteMapper.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.SPY.ordinal()));
+		registerLaunchable(1, SatelliteScanner.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.SCANNER.ordinal()));
+		registerLaunchable(2, SatelliteRadar.class,				new ItemStack(ModItems.satellite, 1, EnumSatType.RADAR.ordinal()));
+		registerLaunchable(3, SatelliteDeathRay.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.DEATH_RAY.ordinal()));
+		registerLaunchable(4, SatelliteResonator.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR.ordinal()));
+		registerLaunchable(5, SatelliteRelay.class,				new ItemStack(ModItems.satellite, 1, EnumSatType.RELAY.ordinal()));
+		registerLaunchable(6, SatelliteMiner.class,				new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal()));
+		registerLaunchable(7, SatelliteLunarMiner.class,		new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR.ordinal()));
+		registerLaunchable(8, SatelliteHorizons.class,			new ItemStack(ModItems.sat_gerald));
+		registerLaunchable(9, SatellitePrecisionLaser.class,	new ItemStack(ModItems.satellite, 1, EnumSatType.PRECISION_LASER.ordinal()));
+		registerLaunchable(10, SatelliteDetector.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.DETECTOR.ordinal()));
+		registerLaunchable(11, SatelliteRayScan.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.RAY_SCAN.ordinal()));
+		registerLaunchable(12, SatelliteScience.class,			new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE.ordinal()));
+		registerLaunchable(13, SatelliteASAT.class,				new ItemStack(ModItems.satellite, 1, EnumSatType.ASAT.ordinal()));
 		
 		// and all the legacy crap
-		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
-		registerSatellite(SatelliteScanner.class, ModItems.sat_scanner);
-		registerSatellite(SatelliteRadar.class, ModItems.sat_radar);
-		registerSatellite(SatelliteDeathRay.class, ModItems.sat_laser);
-		registerSatellite(SatelliteResonator.class, ModItems.sat_resonator);
-		registerSatellite(SatelliteMiner.class, ModItems.sat_miner);
-		registerSatellite(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
+		registerLaunchable(SatelliteMapper.class, ModItems.sat_mapper);
+		registerLaunchable(SatelliteScanner.class, ModItems.sat_scanner);
+		registerLaunchable(SatelliteRadar.class, ModItems.sat_radar);
+		registerLaunchable(SatelliteDeathRay.class, ModItems.sat_laser);
+		registerLaunchable(SatelliteResonator.class, ModItems.sat_resonator);
+		registerLaunchable(SatelliteMiner.class, ModItems.sat_miner);
+		registerLaunchable(SatelliteLunarMiner.class, ModItems.sat_lunar_miner);
+	}
+	
+	public static void registerLaunchable(int id, Class<? extends SatelliteBase> clazz, ItemStack satItem) {
+		idToClass.put(id, clazz);
+		idToIcon.put(id, satItem);
+		registerLaunchable(clazz, new ComparableStack(satItem));
 	}
 
-	/**
-	 * Register satellite.
-	 * @param sat - Satellite class
-	 * @param item - Satellite item (which will be placed in a rocket)
-	 */
-	@Deprecated
-	public static void registerSatellite(Class<? extends SatelliteBase> sat, Item item) {
+	public static void registerLaunchable(Class<? extends SatelliteBase> sat, ComparableStack item) {
 		if(!itemToClass.containsKey(item) && !itemToClass.containsValue(sat)) {
-			itemToClass.put(new ComparableStack(item), sat);
+			itemToClass.put(item, sat);
 		}
 	}
 
-	public static void registerSatellite(Class<? extends SatelliteBase> sat, ComparableStack item) {
+	@Deprecated
+	public static void registerLaunchable(Class<? extends SatelliteBase> sat, Item item) {
 		if(!itemToClass.containsKey(item) && !itemToClass.containsValue(sat)) {
-			itemToClass.put(item, sat);
+			itemToClass.put(new ComparableStack(item), sat);
 		}
 	}
 	
