@@ -37,9 +37,12 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IStatTrack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.armor.*;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.items.weapon.sedna.factory.XFactory12ga;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -115,12 +118,14 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
@@ -1164,6 +1169,54 @@ public class ModEventHandler {
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
+	}
+	
+	@SubscribeEvent
+	public void onItemEntityPickedUp(EntityItemPickupEvent event) {
+		
+		ItemStack stack = event.item.getEntityItem();
+		
+		if(!event.entityPlayer.worldObj.isRemote && stack != null) {
+			
+			if(stack.getItem() == ModItems.item_secret && stack.getItemDamage() == EnumSecretType.GLOB.ordinal()) {
+				
+				HbmPlayerProps data = HbmPlayerProps.getData(event.entityPlayer);
+				int before = data.globsCollected;
+				data.globsCollected += Math.max(0, stack.stackSize);
+				
+				if(before < 10 && data.globsCollected >= 10) {
+					GunFactory.grantCorruptedItem(event.entityPlayer);
+				}
+				
+				event.setCanceled(true);
+				event.item.setDead();
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onExplosion(ExplosionEvent.Detonate event) {
+		
+		if(!event.world.isRemote) {
+			
+			for(Entity e : event.getAffectedEntities()) if(e instanceof EntityItem) {
+				
+				EntityItem entity = (EntityItem) e;
+				ItemStack stack = entity.getEntityItem();
+				
+				if(stack != null && stack.getItem() instanceof ItemGunBaseNT) {
+					ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+					
+					if(gun.quality == WeaponQuality.LEGENDARY) {
+						entity.setDead();
+						EntityItem glob = new EntityItem(event.world);
+						glob.setEntityItemStack(new ItemStack(ModItems.item_secret, 1, EnumSecretType.GLOB.ordinal()));
+						glob.setPosition(entity.posX, entity.posY, entity.posZ);
+						event.world.spawnEntityInWorld(glob);
+					}
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent

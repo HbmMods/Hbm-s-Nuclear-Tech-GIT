@@ -2407,6 +2407,7 @@ item.item_secret.aberrator.name=Aberrator-Teil
 item.item_secret.canister.name=Komposit SB-26
 item.item_secret.controller.name=Proprietäre Steuereinheit
 item.item_secret.folly.name=Folly-Teil
+item.item_secret.glob.name=███████
 item.item_secret.selenium_steel.name=Selen-Stahl
 item.iv_blood.name=Blutbeutel
 item.iv_empty.name=Infusionsbeutel

@@ -102,7 +102,7 @@ public class ItemEnums {
 	}
 
 	public static enum EnumSecretType {
-		CANISTER, CONTROLLER, SELENIUM_STEEL, ABERRATOR, FOLLY
+		CANISTER, CONTROLLER, SELENIUM_STEEL, ABERRATOR, FOLLY, GLOB
 	}
 
 	public static enum EnumCasingType {

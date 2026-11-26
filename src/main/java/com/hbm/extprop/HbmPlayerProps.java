@@ -53,6 +53,9 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 
 	/** Latnern repair/destroy count */
 	public int reputation;
+	
+	/** Secret gun globs collected */
+	public int globsCollected = 0;
 
 	/** Hack for allowing ladders on multiblocks */
 	public boolean isOnLadder = false;
@@ -230,6 +233,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setInteger("reputation", reputation);
 		props.setBoolean("isOnLadder", isOnLadder);
 		props.setInteger("maskManTimer", maskManTimer);
+		props.setInteger("globsCollected", globsCollected);
 
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -249,6 +253,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.reputation = props.getInteger("reputation");
 			this.isOnLadder = props.getBoolean("isOnLadder");
 			this.maskManTimer = props.getInteger("maskManTimer");
+			this.globsCollected = props.getInteger("globsCollected");
 		}
 	}
 }

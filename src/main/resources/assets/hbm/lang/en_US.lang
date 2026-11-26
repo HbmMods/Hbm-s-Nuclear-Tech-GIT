@@ -3257,6 +3257,7 @@ item.item_secret.aberrator.name=Aberrator Part
 item.item_secret.canister.name=Composition SB-26
 item.item_secret.controller.name=Proprietary Control Unit
 item.item_secret.folly.name=Folly Part
+item.item_secret.glob.name=███████
 item.item_secret.selenium_steel.name=Selenium Steel
 item.iv_blood.name=Blood Bag
 item.iv_empty.name=IV Bag
