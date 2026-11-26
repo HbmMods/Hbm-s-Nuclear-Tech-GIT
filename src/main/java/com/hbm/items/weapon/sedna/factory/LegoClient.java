@@ -466,22 +466,25 @@ public class LegoClient {
 	};
 
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_RED = (bullet, interp) -> {
-		renderStandardLaser(bullet, interp, 0x80, 0x15, 0x15);
+		renderStandardLaser(bullet, interp, 0x80, 0x15, 0x15, 4, 0.025F);
 	};
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_EMERALD = (bullet, interp) -> {
-		renderStandardLaser(bullet, interp, 0x15, 0x80, 0x15);
+		renderStandardLaser(bullet, interp, 0x15, 0x80, 0x15, 4, 0.025F);
 	};
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_CYAN = (bullet, interp) -> {
-		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x80);
+		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x80, 4, 0.025F);
 	};
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_PURPLE = (bullet, interp) -> {
-		renderStandardLaser(bullet, interp, 0x60, 0x15, 0x80);
+		renderStandardLaser(bullet, interp, 0x60, 0x15, 0x80, 4, 0.025F);
 	};
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_WHITE = (bullet, interp) -> {
-		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x15);
+		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x15, 4, 0.025F);
+	};
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_ORANGE = (bullet, interp) -> {
+		renderStandardLaser(bullet, interp, 0x20, 0x10, 0x00, 6, 0.05F);
 	};
 	
-	public static void renderStandardLaser(EntityBulletBeamBase bullet, float interp, int r, int g, int b) {
+	public static void renderStandardLaser(EntityBulletBeamBase bullet, float interp, int r, int g, int b, int layers, float thickness) {
 
 		RenderArcFurnace.fullbright(true);
 		GL11.glPushMatrix();
@@ -491,7 +494,7 @@ public class LegoClient {
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
 		int colorInner = ((int)(r * age) << 16) | ((int)(g * age) << 8) | (int) (b * age);
-		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), 0F, 4, 0.025F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), 0F, layers, thickness);
 		GL11.glPopMatrix();
 		RenderArcFurnace.fullbright(false);
 	}

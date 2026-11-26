@@ -1111,6 +1111,7 @@ public class ResourceManager {
 	public static final ResourceLocation minigun_hell_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_hell.png");
 	public static final ResourceLocation minigun_dual_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun_dual.png");
 	public static final ResourceLocation missile_launcher_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/missile_launcher.png");
+	public static final ResourceLocation missile_launcher_laser_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/missile_launcher_laser.png");
 	public static final ResourceLocation tesla_cannon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tesla_cannon.png");
 	public static final ResourceLocation laser_pistol_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_pistol.png");
 	public static final ResourceLocation laser_pistol_pew_pew_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_pistol_pew_pew.png");

@@ -2,6 +2,8 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockRedBrick;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -11,6 +13,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -22,6 +25,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpawnData {
 	
@@ -310,6 +314,14 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 	
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
+			
+			if(this.config.corrupted && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				Block b = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+				if(b == ModBlocks.brick_red && worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ) == 15) {
+					BlockRedBrick.buildShaft(worldObj, mop.blockX, mop.blockY, mop.blockZ, ForgeDirection.getOrientation(mop.sideHit).getOpposite());
+				}
+			}
+			
 			if(this.config.onImpactBeam != null) this.config.onImpactBeam.accept(this, mop);
 		}
 	}

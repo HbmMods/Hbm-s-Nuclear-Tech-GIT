@@ -8,12 +8,14 @@ import com.hbm.config.ServerConfig;
 import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -30,6 +32,7 @@ import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -37,11 +40,14 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -54,6 +60,7 @@ public class XFactoryRocket {
 	public static ConfigWrapper<Float> GUN_QUADRO_DAMAGE =				new ConfigWrapper(40F);
 	public static ConfigWrapper<Float> GUN_FLIEGERFAUST_DAMAGE =		new ConfigWrapper(15F);
 	public static ConfigWrapper<Float> GUN_MISSILE_LAUNCHER_DAMAGE =	new ConfigWrapper(50F);
+	public static ConfigWrapper<Float> GUN_LASER_DAMAGE =				new ConfigWrapper(75F);
 
 	public static BulletConfig[] rocket_template;
 
@@ -62,6 +69,8 @@ public class XFactoryRocket {
 	public static BulletConfig[] rocket_ml;
 	public static BulletConfig[] rocket_ncrpa;
 	public static BulletConfig[] rocket_ncrpa_steer;
+	
+	public static BulletConfig laser;
 
 	public static BulletConfig rocket_ff;
 	
@@ -71,6 +80,7 @@ public class XFactoryRocket {
 		ServerConfig.configMap.put("GUN_QUADRO_DAMAGE", GUN_QUADRO_DAMAGE);
 		ServerConfig.configMap.put("GUN_FLIEGERFAUST_DAMAGE", GUN_FLIEGERFAUST_DAMAGE);
 		ServerConfig.configMap.put("GUN_MISSILE_LAUNCHER_DAMAGE", GUN_MISSILE_LAUNCHER_DAMAGE);
+		ServerConfig.configMap.put("GUN_LASER_DAMAGE", GUN_LASER_DAMAGE);
 	}
 
 	// FLYING
@@ -179,6 +189,37 @@ public class XFactoryRocket {
 	public static BulletConfig makeNCR(BulletConfig original) { return original.clone().setLife(400).setOnUpdate(LAMBDA_NCR_ACCELERATE); }
 	public static BulletConfig makeML(BulletConfig original) { return original.clone(); }
 
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_LASER_HIT = (beam, mop) -> {
+
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+			mop.hitVec.xCoord += dir.offsetX * 0.5;
+			mop.hitVec.yCoord += dir.offsetY * 0.5;
+			mop.hitVec.zCoord += dir.offsetZ * 0.5;
+		}
+
+		ExplosionVNT vnt = new ExplosionVNT(beam.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1F, beam.getThrower());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, beam.damage).setDamageClass(beam.config.dmgClass));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.explode();
+		beam.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, "hbm:entity.ufoBlast", 5.0F, 0.6F + beam.worldObj.rand.nextFloat() * 0.2F);
+		//beam.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, NTMSounds.VANILLA_FIREWORKS_BANG, 5.0F, 0.5F);
+
+		float yaw = beam.worldObj.rand.nextFloat() * 180F;
+		for(int i = 0; i < 3; i++) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "plasmablast");
+			data.setFloat("r", 1.0F);
+			data.setFloat("g", 0.25F);
+			data.setFloat("b", 0.0F);
+			data.setFloat("pitch", -60F + 60F * i);
+			data.setFloat("yaw", yaw);
+			data.setFloat("scale", 2F);
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord),
+					new TargetPoint(beam.worldObj.provider.dimensionId, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100));
+		}
+	};
+
 	//this is starting to get messy but we need to put this crap *somewhere* and fragmenting it into a billion classes with two methods each just isn't gonna help
 	public static void init() {
 
@@ -207,6 +248,9 @@ public class XFactoryRocket {
 		}
 		
 		rocket_ff = baseRocket.clone().setItem(EnumAmmo.ROCKET_MICRO).setOnUpdate(null).setVel(7F).setOnImpact(LAMBDA_MICRO_EXPLODE);
+
+		laser = new BulletConfig().setItem(new ItemStack(Items.redstone)).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
+				.setOnBeamImpact(LAMBDA_LASER_HIT).setCorrupted(true);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
@@ -262,6 +306,16 @@ public class XFactoryRocket {
 				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
 				.anim(LAMBDA_MISSILE_LAUNCHER_ANIMS).orchestra(Orchestras.ORCHESTRA_MISSILE_LAUNCHER)
 				).setDefaultAmmo(EnumAmmo.ROCKET_HEAT, 5).setUnlocalizedName("gun_missile_launcher");
+		ModItems.gun_missile_launcher_laser = new ItemGunBaseNT(WeaponQuality.CORRUPTED, new GunConfig()
+				.dura(50_000).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
+				.rec(new Receiver(0)
+						.dmg(GUN_MISSILE_LAUNCHER_DAMAGE).spreadHipfire(0F).delay(20).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 2.0F)
+						.mag(new MagazineFullReload(0, 20).addConfigs(laser))
+						.offset(1, -0.0625 * 1.5, -0.1875D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
+				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
+				.anim(LAMBDA_MISSILE_LAUNCHER_ANIMS).orchestra(Orchestras.ORCHESTRA_MISSILE_LAUNCHER)
+				).setUnlocalizedName("gun_missile_launcher_laser");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_PRESS = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, true); };

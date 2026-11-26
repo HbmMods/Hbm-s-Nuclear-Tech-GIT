@@ -15,8 +15,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderMissileLauncher extends ItemRenderWeaponBase {
+	
+	protected ResourceLocation texture;
+	
+	public ItemRenderMissileLauncher(ResourceLocation texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
@@ -38,7 +45,7 @@ public class ItemRenderMissileLauncher extends ItemRenderWeaponBase {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.missile_launcher_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		double scale = 0.5D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -145,7 +152,7 @@ public class ItemRenderMissileLauncher extends ItemRenderWeaponBase {
 	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.missile_launcher_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);

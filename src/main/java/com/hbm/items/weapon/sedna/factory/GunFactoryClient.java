@@ -91,7 +91,8 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_lacunae,				new ItemRenderMinigun(ResourceManager.minigun_lacunae_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_dual,				new ItemRenderMinigunDual());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_hell,				new ItemRenderMinigun(ResourceManager.minigun_hell_tex));
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_missile_launcher,			new ItemRenderMissileLauncher());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_missile_launcher,			new ItemRenderMissileLauncher(ResourceManager.missile_launcher_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_missile_launcher_laser,		new ItemRenderMissileLauncher(ResourceManager.missile_launcher_laser_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tesla_cannon,				new ItemRenderTeslaCannon());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_laser_pistol,				new ItemRenderLaserPistol(ResourceManager.laser_pistol_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_laser_pistol_pew_pew,		new ItemRenderLaserPistol(ResourceManager.laser_pistol_pew_pew_tex));
@@ -240,6 +241,8 @@ public class GunFactoryClient {
 		setRendererBulkBeam(LegoClient.RENDER_LASER_PURPLE, energy_lacunae, energy_lacunae_overcharge, energy_lacunae_ir);
 		setRendererBulkBeam(LegoClient.RENDER_LASER_EMERALD, energy_emerald, energy_emerald_overcharge, energy_emerald_ir);
 		
+		laser.setRendererBeam(LegoClient.RENDER_LASER_ORANGE);
+		
 		setRendererBulk(LegoClient.RENDER_AP_BULLET, coil_tungsten, coil_ferrouranium);
 		
 		folly_sm.setRendererBeam(LegoClient.RENDER_FOLLY);
@@ -310,6 +313,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_minigun_lacunae)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_minigun_hell)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_missile_launcher)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_missile_launcher_laser)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_tesla_cannon)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_laser_pistol)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_laser_pistol_pew_pew)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

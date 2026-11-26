@@ -1190,6 +1190,7 @@ public class ModEventHandler {
 				
 				event.setCanceled(true);
 				event.item.setDead();
+				event.entityPlayer.worldObj.playSoundEffect(event.item.posX, event.item.posY, event.item.posZ, "hbm:item.pinUnlock", 1F, 1F);
 			}
 		}
 	}
