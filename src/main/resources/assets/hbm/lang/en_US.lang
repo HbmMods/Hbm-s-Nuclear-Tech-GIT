@@ -2501,6 +2501,7 @@ item.circuit_star_piece.bridge_north.name=SC - North Bridge
 item.circuit_star_piece.bridge_south.name=SC - South Bridge
 item.circuit_star_piece.card_board.name=SC - Extension Card Board
 item.circuit_star_piece.card_processor.name=SC - Extension Card Processor
+item.circuit_star_piece.graphical_card.name= SC - Graphical Card
 item.circuit_star_piece.cpu_cache.name=SC - CPU Cache
 item.circuit_star_piece.cpu_clock.name=SC - CPU Clock
 item.circuit_star_piece.cpu_ext.name=SC - Arsenic Semi Conductor Extension

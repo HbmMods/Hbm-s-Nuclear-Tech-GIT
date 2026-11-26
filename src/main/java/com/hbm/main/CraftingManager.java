@@ -1040,6 +1040,7 @@ public class CraftingManager {
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CPU),
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.RAM),
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CARD),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.GRAPHICAL_CARD),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_TRANSISTOR),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_CONVERTER),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_BLANK)

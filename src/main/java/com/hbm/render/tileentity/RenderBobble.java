@@ -53,6 +53,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_mellow_glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8_glow.png");
 	public static final ResourceLocation bobble_abel = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/abel.png");
 	public static final ResourceLocation bobble_abel_glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/abel_glow.png");
+	public static final ResourceLocation bobble_wolf = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/wolfeclipses.png");
 
 	private long time;
 
@@ -110,6 +111,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case PEEP:		bindTexture(bobble_peep); break;
 		case MELLOW:	bindTexture(bobble_mellow); break;
 		case ABEL:		bindTexture(bobble_abel); break;
+		case WOLF:		bindTexture(bobble_wolf); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
