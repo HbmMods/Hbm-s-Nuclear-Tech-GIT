@@ -44,6 +44,6 @@ public class ItemPlasticScrap extends ItemEnumMulti {
 		CARD_PROCESSOR,
 
 		//GPU
-		GPU_BOARD
+		GRAPHICAL_CARD
 	}
 }
