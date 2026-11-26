@@ -309,7 +309,7 @@ public class XFactoryRocket {
 		ModItems.gun_missile_launcher_laser = new ItemGunBaseNT(WeaponQuality.CORRUPTED, new GunConfig()
 				.dura(50_000).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(GUN_MISSILE_LAUNCHER_DAMAGE).spreadHipfire(0F).delay(20).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 2.0F)
+						.dmg(GUN_LASER_DAMAGE).spreadHipfire(0F).delay(20).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 2.0F)
 						.mag(new MagazineFullReload(0, 20).addConfigs(laser))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
