@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerTrackingRadar;
@@ -10,6 +11,8 @@ import com.hbm.lib.Library;
 import com.hbm.module.portmanager.ModulePortManPower;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort.PortDef;
@@ -42,11 +45,17 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	public static final float INACTIVE_ROT = 0F;
 	public static final float INACTIVE_LIFT = -85F;
 	
+	public boolean wasActive;
+	
 	public long power;
 	public static final long maxPower = 100_000_000;
 	public double progress;
+	public static final long CONSUMPTION = 1_000_000;
 	
 	public int mode = -1;
+	public int dataStream;
+	public int timeSinceLastSecondary;
+	public int timeSinceLastTertiary;
 	
 	/** Integer array of four, [SAT FREQ/TYPE] - X - Y - Z */
 	public List<int[]> knownSats = new ArrayList();
@@ -75,17 +84,44 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 			this.portman.update(getPorts());
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
+			if(mode < 0) {
+				this.wasActive = false;
+				
+			} else {
+				
+				if(this.power < CONSUMPTION) {
+					this.wasActive = false;
+				} else {
+					this.wasActive = true;
+					if(worldObj.getTotalWorldTime() % 20 == 0)
+						SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
+				}
+				
+				if(mode == 0) {
+					
+					this.progress += 1D / 100D;
+					
+					if(progress >= 1D) {
+						progress -= 1D;
+						this.discoverNewSat();
+					}
+				} else {
+					
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						this.dataStream = worldObj.rand.nextInt();
+					}
+				}
+			}
+			
 			this.networkPackNT(100);
 			
 		} else {
 			
-			boolean isOn = true;
-
 			this.prevRot = this.rot;
 			this.prevLift = this.lift;
 
-			float targetR = isOn ? ACTIVE_ROT : INACTIVE_ROT;
-			float targetL = isOn ? ACTIVE_LIFT : INACTIVE_LIFT;
+			float targetR = this.wasActive ? ACTIVE_ROT : INACTIVE_ROT;
+			float targetL = this.wasActive ? ACTIVE_LIFT : INACTIVE_LIFT;
 
 			if(Math.abs(rot - targetR) <= SPEED) rot = targetR;
 			else if(rot < targetR) rot += SPEED;
@@ -100,6 +136,20 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	public void discoverNewSat() {
 		
 		SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+		List<Entry<Integer, SatelliteBase>> sats = new ArrayList(dat.sats.entrySet());
+		
+		if(sats.isEmpty()) return;
+		
+		Entry<Integer, SatelliteBase> randEntry = sats.get(worldObj.rand.nextInt(sats.size()));
+		SatelliteBase sat = randEntry.getValue();
+		
+		if(!sat.isTrackable()) return;
+		
+		for(int[] known : this.knownSats) {
+			int id = known[0];
+			if(id == randEntry.getKey()) return; // if we already have this satellite, skip
+		}
+		this.knownSats.add(new int[] {randEntry.getKey(), sat.posX, sat.posY, sat.posZ});
 	}
 
 	@Override
@@ -107,6 +157,7 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		super.serialize(buf);
 		buf.writeByte((byte) mode);
 		buf.writeFloat((float) progress); // client doesn't need as much precision
+		buf.writeBoolean(wasActive);
 		
 		SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 		
@@ -127,6 +178,13 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		super.deserialize(buf);
 		this.mode = buf.readByte();
 		this.progress = buf.readFloat();
+		this.wasActive = buf.readBoolean();
+		
+		int sats = buf.readInt();
+		knownSats.clear();
+		for(int i = 0; i < sats; i++) {
+			knownSats.add(new int[] {buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt()});
+		}
 	}
 
 	@Override
@@ -151,6 +209,9 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		super.readFromNBT(nbt);
 		this.power = nbt.getLong("power");
 		this.mode = nbt.getInteger("mode");
+		this.dataStream = nbt.getInteger("dataStream");
+		this.timeSinceLastSecondary = nbt.getInteger("timeSinceLastSecondary");
+		this.timeSinceLastTertiary = nbt.getInteger("timeSinceLastTertiary");
 		
 		this.knownSats.clear();
 		int satCount = nbt.getInteger("satCount");
@@ -166,6 +227,9 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
 		nbt.setInteger("mode", mode);
+		nbt.setInteger("dataStream", dataStream);
+		nbt.setInteger("timeSinceLastSecondary", timeSinceLastSecondary);
+		nbt.setInteger("timeSinceLastTertiary", timeSinceLastTertiary);
 		
 		nbt.setInteger("satCount", knownSats.size());
 		for(int i = 0; i < knownSats.size(); i++) {
@@ -228,12 +292,21 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
-			
+				PREFIX_VALUE + "datastream",
+				PREFIX_VALUE + "detectioncount",
+				PREFIX_FUNCTION + "sec" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "y" + PARAM_SEPARATOR + "z" + PARAM_SEPARATOR + "data",
+				PREFIX_FUNCTION + "tert" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "y" + PARAM_SEPARATOR + "z" + PARAM_SEPARATOR + "data",
 		};
 	}
 
 	@Override
 	public String provideRORValue(String name) {
+		if(this.mode > 0) {
+			if((PREFIX_VALUE + "datastream").equals(name)) return (mode == 1 ? "sec" : "tert") + NAME_SEPARATOR + this.xCoord + PARAM_SEPARATOR + this.yCoord + PARAM_SEPARATOR + this.zCoord + PARAM_SEPARATOR + this.dataStream;
+		}
+		if(mode == 0) {
+			if((PREFIX_VALUE + "detectioncount").equals(name)) return "" + this.knownSats.size();
+		}
 		return null;
 	}
 
