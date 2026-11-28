@@ -147,10 +147,11 @@ public class GUITrackingRadar extends GuiInfoContainer {
 			}
 		// secondary
 		} else if(tracking.mode == 1) {
+			this.fontRendererObj.drawString("Secondary tracking radar", 48, 22, 0x00ff00);
 			
 		// tertiary
 		} else if(tracking.mode == 2) {
-			
+			this.fontRendererObj.drawString("Tertiary tracking radar", 48, 22, 0x00ff00);
 		}
 	}
 

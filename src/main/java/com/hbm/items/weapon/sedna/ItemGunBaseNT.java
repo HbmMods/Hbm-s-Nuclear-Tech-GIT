@@ -245,6 +245,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 
 	public void handleKeybind(EntityLivingBase entity, IInventory inventory, ItemStack stack, EnumKeybind keybind, boolean newState) {
 		if(!GeneralConfig.enableGuns) return;
+		if(this.quality == quality.CORRUPTED && stack.getItemDamage() != 666) return;
 
 		int configs = this.configs_DNA.length;
 

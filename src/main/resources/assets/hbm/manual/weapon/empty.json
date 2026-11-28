@@ -1,0 +1,16 @@
+{
+	"name": "█████████ ███████",
+	"icon": ["hbm:item.undefined", 1],
+    "noindex": true,
+	"trigger": [
+		["hbm:item.gun_henry_counter", 1, 666],
+		["hbm:item.gun_minigun_hell", 1, 666],
+		["hbm:item.gun_missile_launcher_laser", 1, 666]
+	],
+	"title": {
+		"en_US": "█████████ ███████"
+	},
+	"content": {
+		"en_US": "███ §k█████████ §k███████ ███ ████████ ██ █ KEY ████ ███████ ███ ████ ████ █████████ █████ ██ ███ BLACK ROOM ███ ████ ██ ██████ ███ ████████ WALL ██ █████ ███ BEYOND §k█████ §k████<br><br>████ ██████ █████████ ███ WRATH ██ §k███"
+	}
+}

@@ -52,6 +52,9 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	@SuppressWarnings("incomplete-switch") //shut the fuck up
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		ItemGunBaseNT gun = (ItemGunBaseNT) item.getItem();
+		if(gun.quality == gun.quality.CORRUPTED && item.getItemDamage() != 666) return;
+		
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		switch(type) {

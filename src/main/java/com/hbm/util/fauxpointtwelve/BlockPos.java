@@ -27,6 +27,15 @@ public class BlockPos implements Cloneable {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
 	}
 	
+	public static BlockPos fromArray(int[] coords) {
+		if(coords == null || coords.length != 3) return null;
+		return new BlockPos(coords[0], coords[1], coords[2]);
+	}
+	
+	public int[] toArray() {
+		return new int[] {x, y, z};
+	}
+	
 	/** Basically a setter for the coords. Violates the "muh unmutability" horseshit I don't care about and
 	 * lets me re-use the same instance for a ton of checks. RAM has priority over stupid religious bullshit. */
 	public BlockPos mutate(int x, int y, int z) {

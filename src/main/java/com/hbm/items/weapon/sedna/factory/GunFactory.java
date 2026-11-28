@@ -100,6 +100,7 @@ public class GunFactory {
 		/// preliminary crap code ///
 		int id = Identity.value % 3;
 		ItemStack stack = id == 0 ? new ItemStack(ModItems.gun_henry_counter) : id == 2 ? new ItemStack(ModItems.gun_minigun_hell) : new ItemStack(ModItems.gun_missile_launcher_laser);
+		stack.setItemDamage(666);
 		if(!player.inventory.addItemStackToInventory(stack)) {
 			player.dropPlayerItemWithRandomChoice(stack, false);
 		} else {

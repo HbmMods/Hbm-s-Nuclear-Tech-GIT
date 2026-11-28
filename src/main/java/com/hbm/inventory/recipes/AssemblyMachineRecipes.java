@@ -1102,6 +1102,13 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new OreDictStack(AL.plate(), 16),
 						new ComparableStack(ModItems.magnetron, 3),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER)));
+		this.register(new GenericRecipe("ass.trackingradar").setup(200, 2_500).outputItems(new ItemStack(ModBlocks.machine_tracking_radar))
+				.inputItems(new OreDictStack(ANY_CONCRETE.any(), 32),
+						new OreDictStack(ANY_RESISTANTALLOY.plateCast(), 8),
+						new OreDictStack(WEAPONSTEEL.mechanism(), 8),
+						new ComparableStack(ModItems.magnetron, 16),
+						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CONTROLLER),
+						new ComparableStack(ModItems.drive, 1, EnumDriveType.DISK_FLIGHTDATA_PROCESSED)));
 
 		this.register(new GenericRecipe("ass.nitra").setupNamed(200, 500)
 				.inputItems(new ComparableStack(ModItems.nitra))

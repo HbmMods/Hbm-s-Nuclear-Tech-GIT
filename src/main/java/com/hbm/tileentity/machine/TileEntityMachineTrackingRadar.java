@@ -11,12 +11,17 @@ import com.hbm.lib.Library;
 import com.hbm.module.portmanager.ModulePortManPower;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
+import com.hbm.saveddata.satellites.SatelliteDetector;
 import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.TilePortShapes;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.Compat;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
@@ -28,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -54,8 +60,10 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	
 	public int mode = -1;
 	public int dataStream;
-	public int timeSinceLastSecondary;
-	public int timeSinceLastTertiary;
+	public int lastSecondaryTimer;
+	public int lastTertiaryTimer;
+	public BlockPos lastSecondary;
+	public BlockPos lastTertiary;
 	
 	/** Integer array of four, [SAT FREQ/TYPE] - X - Y - Z */
 	public List<int[]> knownSats = new ArrayList();
@@ -67,7 +75,6 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		portman = new ModulePortManPower(this).onlyInput();
 	}
 
-
 	@Override
 	public String getName() {
 		return "container.machineTrackingRadar";
@@ -75,7 +82,6 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 
 	protected PortDef[] cachedPorts;
 	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
-
 
 	@Override
 	public void updateEntity() {
@@ -89,28 +95,43 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 				
 			} else {
 				
-				if(this.power < CONSUMPTION) {
+				if(this.power < CONSUMPTION || worldObj.getHeightValue(xCoord, zCoord) > yCoord) {
 					this.wasActive = false;
 				} else {
 					this.wasActive = true;
-					if(worldObj.getTotalWorldTime() % 20 == 0)
+					this.power -= CONSUMPTION;
+					
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
+						SatelliteDetector.reportEvent(worldObj, 60, BurstIntensity.MEDIUM, xCoord, zCoord);
+					}
 				}
 				
 				if(mode == 0) {
 					
-					this.progress += 1D / 100D;
-					
-					if(progress >= 1D) {
-						progress -= 1D;
-						this.discoverNewSat();
+					double speed = this.getProcessingSpeed();
+					if(speed > 0) {
+						this.progress += speed;
+						
+						if(progress >= 1D) {
+							progress -= 1D;
+							this.discoverNewSat();
+						}
 					}
+					
 				} else {
 					
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						this.dataStream = worldObj.rand.nextInt();
 					}
 				}
+			}
+
+			if(lastSecondaryTimer > 0) lastSecondaryTimer--;
+			if(lastTertiaryTimer > 0) lastTertiaryTimer--;
+			
+			if(!this.muffled && this.wasActive && (worldObj.getTotalWorldTime() + xCoord + zCoord) % 60 == 0) {
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 2.0F, 1.25F);
 			}
 			
 			this.networkPackNT(100);
@@ -131,6 +152,21 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 			else if(lift < targetL) lift += SPEED;
 			else if(lift > targetL) lift -= SPEED;
 		}
+	}
+	
+	public double getProcessingSpeed() {
+		if(lastSecondaryTimer <= 0 || lastTertiaryTimer <= 0) return 0D;
+		if(lastSecondary == null || lastTertiary == null) return 0D;
+
+		double p2s = Math.sqrt((xCoord - lastSecondary.getX()) * (xCoord - lastSecondary.getX()) + (zCoord - lastSecondary.getZ()) * (zCoord - lastSecondary.getZ()));
+		double p2t = Math.sqrt((xCoord - lastTertiary.getX()) * (xCoord - lastTertiary.getX()) + (zCoord - lastTertiary.getZ()) * (zCoord - lastTertiary.getZ()));
+		double s2t = Math.sqrt((lastSecondary.getX() - lastTertiary.getX()) * (lastSecondary.getX() - lastTertiary.getX()) + (lastSecondary.getZ() - lastTertiary.getZ()) * (lastSecondary.getZ() - lastTertiary.getZ()));
+		
+		double min = BobMathUtil.min(p2s, p2t, s2t);
+		double maxSpeed = 1D / 300D;
+		
+		// max speed once we reach 1,000m
+		return Math.min(min * maxSpeed / 1_000D, maxSpeed);
 	}
 	
 	public void discoverNewSat() {
@@ -155,6 +191,7 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
+		buf.writeLong(power);
 		buf.writeByte((byte) mode);
 		buf.writeFloat((float) progress); // client doesn't need as much precision
 		buf.writeBoolean(wasActive);
@@ -176,6 +213,7 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
+		this.power = buf.readLong();
 		this.mode = buf.readByte();
 		this.progress = buf.readFloat();
 		this.wasActive = buf.readBoolean();
@@ -210,8 +248,10 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		this.power = nbt.getLong("power");
 		this.mode = nbt.getInteger("mode");
 		this.dataStream = nbt.getInteger("dataStream");
-		this.timeSinceLastSecondary = nbt.getInteger("timeSinceLastSecondary");
-		this.timeSinceLastTertiary = nbt.getInteger("timeSinceLastTertiary");
+		this.lastSecondaryTimer = nbt.getInteger("lastSecondaryTimer");
+		this.lastTertiaryTimer = nbt.getInteger("lastTertiaryTimer");
+		this.lastSecondary = BlockPos.fromArray(nbt.getIntArray("lastSecondary"));
+		this.lastTertiary = BlockPos.fromArray(nbt.getIntArray("lastTertiary"));
 		
 		this.knownSats.clear();
 		int satCount = nbt.getInteger("satCount");
@@ -228,8 +268,10 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 		nbt.setLong("power", power);
 		nbt.setInteger("mode", mode);
 		nbt.setInteger("dataStream", dataStream);
-		nbt.setInteger("timeSinceLastSecondary", timeSinceLastSecondary);
-		nbt.setInteger("timeSinceLastTertiary", timeSinceLastTertiary);
+		nbt.setInteger("lastSecondaryTimer", lastSecondaryTimer);
+		nbt.setInteger("lastTertiaryTimer", lastTertiaryTimer);
+		nbt.setIntArray("lastSecondary", lastSecondary.toArray());
+		nbt.setIntArray("lastTertiary", lastTertiary.toArray());
 		
 		nbt.setInteger("satCount", knownSats.size());
 		for(int i = 0; i < knownSats.size(); i++) {
@@ -312,6 +354,38 @@ public class TileEntityMachineTrackingRadar extends TileEntityMachineBase implem
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
+
+		if(name.equals(PREFIX_FUNCTION + "sec") && params.length == 4) {
+			BlockPos pos = isDataValid(params, 1);
+			if(pos != null) {
+				this.lastSecondary = pos;
+				this.lastSecondaryTimer = 20;
+			}
+		}
+
+		if(name.equals(PREFIX_FUNCTION + "tert") && params.length == 4) {
+			BlockPos pos = isDataValid(params, 2);
+			if(pos != null) {
+				this.lastTertiary = pos;
+				this.lastTertiaryTimer = 20;
+			}
+		}
+		
+		return null;
+	}
+	
+	protected BlockPos isDataValid(String[] params, int requiredMode) {
+		int x = IRORInteractive.parseInt(params[0]);
+		int y = IRORInteractive.parseInt(params[1]);
+		int z = IRORInteractive.parseInt(params[2]);
+		int d = IRORInteractive.parseInt(params[3]);
+		TileEntity tile = Compat.getTileStandard(worldObj, x, y, z);
+		if(tile instanceof TileEntityMachineTrackingRadar) {
+			TileEntityMachineTrackingRadar radar = (TileEntityMachineTrackingRadar) tile;
+			if(radar.dataStream == d && radar.mode == requiredMode && radar.wasActive) {
+				return new BlockPos(x, y, z);
+			}
+		}
 		return null;
 	}
 }
