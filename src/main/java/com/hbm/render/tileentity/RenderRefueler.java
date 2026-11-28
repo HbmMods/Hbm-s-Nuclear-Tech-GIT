@@ -59,7 +59,7 @@ public class RenderRefueler extends TileEntitySpecialRenderer implements IItemRe
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
 			double fillLevel = refueler.prevFillLevel + (refueler.fillLevel - refueler.prevFillLevel) * interp;
-			GL11.glTranslated(0, (1 - fillLevel) * -0.625, 0);
+			GL11.glTranslated(0, (1 - fillLevel) * -0.75, 0);
 			
 			Color color = new Color(refueler.tank.getTankType().getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 0.75F);
